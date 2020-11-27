@@ -1,0 +1,10 @@
+.DS_Store
+tests/__pycache__/
+__pycache__
+logs/
+*.pyc
+/console/static/images/*.jpg
+tmpfile
+.idea
+.coverage
+.python-version

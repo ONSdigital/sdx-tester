@@ -1,0 +1,4 @@
+Flask~=1.1.2
+google-cloud-pubsub
+sdc-cryptography==0.4.0
+PyYAML~=5.3.1
