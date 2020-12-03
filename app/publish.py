@@ -2,7 +2,7 @@ from google.cloud import pubsub_v1
 
 
 project_id = "ons-sdx-sandbox"
-topic_id = "survey-submission-test"
+topic_id = "survey-topic"
 
 publisher = pubsub_v1.PublisherClient()
 # The `topic_path` method creates a fully qualified identifier
