@@ -7,7 +7,7 @@ from flask import request, render_template
 # from sdc.crypto.encrypter import encrypt
 
 from app import app
-# from app.publish import publish_data
+from app.publish import publish_data
 
 
 @app.route('/')
@@ -20,8 +20,8 @@ def index():
 def submit():
     data = request.form.get('post-data')
     submission = json.loads(data)
-    tx_id = '12345'
-    submission['tx_id'] = str(uuid.uuid4())
+    tx_id = str(uuid.uuid4())
+    submission['tx_id'] = tx_id
 
     # with open("./keys.yml") as file:
     #     secrets_from_file = yaml.safe_load(file)
@@ -29,6 +29,7 @@ def submit():
     # key_store = KeyStore(secrets_from_file)
     # payload = encrypt(submission, key_store, 'submission')
     #
-    # result = publish_data(payload)
-    # return render_template('result.html', tx_id=tx_id, result=result)
-    return render_template('result.html', tx_id=tx_id)
+    payload = json.dumps(submission)
+    result = publish_data(payload)
+    return render_template('result.html', tx_id=tx_id, result=result)
+    # return render_template('result.html', tx_id=tx_id)
