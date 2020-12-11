@@ -7,7 +7,7 @@ from flask import request, render_template
 # from sdc.crypto.encrypter import encrypt
 
 from app import app
-from app.publish import publish_data
+from app.tester import run_test
 
 
 @app.route('/')
@@ -30,6 +30,5 @@ def submit():
     # payload = encrypt(submission, key_store, 'submission')
     #
     payload = json.dumps(submission)
-    result = publish_data(payload)
-    return render_template('result.html', tx_id=tx_id, result=result)
-    # return render_template('result.html', tx_id=tx_id)
+    passed = run_test(payload, tx_id)
+    return passed
