@@ -2,7 +2,7 @@ import json
 # import yaml
 import uuid
 
-from flask import request, render_template
+from flask import request, render_template, jsonify
 # from sdc.crypto.key_store import KeyStore
 # from sdc.crypto.encrypter import encrypt
 
@@ -31,4 +31,4 @@ def submit():
     #
     payload = json.dumps(submission)
     passed = run_test(payload, tx_id)
-    return passed
+    return jsonify(passed)

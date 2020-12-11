@@ -3,7 +3,7 @@ from app.subscriber import SurveyListener
 
 
 def run_test(data: str, tx_id: str) -> bool:
-    publish_data(data)
+    publish_data(data, tx_id)
 
     def validate(data_str) -> bool:
         print(f"validating response...")

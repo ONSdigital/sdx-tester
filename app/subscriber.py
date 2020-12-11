@@ -1,5 +1,5 @@
 from concurrent.futures import TimeoutError
-from app import subscription_path, survey_subscriber
+from app import dap_subscription_path, survey_subscriber
 
 timeout = 5
 
@@ -24,8 +24,8 @@ class SurveyListener:
             print(f"continuing to listen ...")
 
     def start(self) -> bool:
-        streaming_pull_future = survey_subscriber.subscribe(subscription_path, callback=self.callback)
-        print(f"Listening for {self.tx_id} message on {subscription_path}..\n")
+        streaming_pull_future = survey_subscriber.subscribe(dap_subscription_path, callback=self.callback)
+        print(f"Listening for {self.tx_id} message on {dap_subscription_path}..\n")
 
         # Wrap subscriber in a 'with' block to automatically call close() when done.
         with survey_subscriber:
