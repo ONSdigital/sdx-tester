@@ -1,10 +1,10 @@
 from concurrent.futures import TimeoutError
-from app import survey_subscriber, subscription_path
+from app import subscription_path, survey_subscriber
 
 timeout = 5
 
 
-class TestSubscriber:
+class SurveyListener:
 
     def __init__(self, tx_id, validate) -> None:
         super().__init__()

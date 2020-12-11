@@ -1,5 +1,5 @@
 from app.publish import publish_data
-from app.subscriber import TestSubscriber
+from app.subscriber import SurveyListener
 
 
 def run_test(data: str, tx_id: str) -> bool:
@@ -9,6 +9,6 @@ def run_test(data: str, tx_id: str) -> bool:
         print(f"validating response...")
         return True
 
-    test_subscriber = TestSubscriber(tx_id, validate)
+    test_subscriber = SurveyListener(tx_id, validate)
     passed = test_subscriber.start()
     return passed

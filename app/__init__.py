@@ -16,6 +16,3 @@ survey_subscriber = pubsub_v1.SubscriberClient()
 # The `subscription_path` method creates a fully qualified identifier
 # in the form `projects/{project_id}/subscriptions/{subscription_id}`
 subscription_path = survey_subscriber.subscription_path(project_id, subscription_id)
-
-
-

@@ -1,9 +1,9 @@
 import unittest
 
-from app import subscriber
+from app import store_reader
 
 
-class TestSubscriber(unittest.TestCase):
+class TestReader(unittest.TestCase):
 
     def test_get_filename(self):
         data = '{"version": "1", "files": [{"name": "c37a3efa-593c-4bab-b49c-bee0613c4fb4.json", ' \
@@ -13,5 +13,5 @@ class TestSubscriber(unittest.TestCase):
                'for period 201605 sample unit 11842491738S", "iterationL1": "201605", "dataset": "283", ' \
                '"schemaversion": "1"} '
         expected = "c37a3efa-593c-4bab-b49c-bee0613c4fb4.json"
-        actual = subscriber.get_filename(data)
+        actual = store_reader.get_filename(data)
         self.assertEqual(expected, actual)
