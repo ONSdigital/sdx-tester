@@ -32,8 +32,3 @@ def submit():
     payload = json.dumps(submission)
     passed = run_test(payload, tx_id)
     return jsonify(passed)
-
-
-@app.route('/test', methods=['POST'])
-def testing():
-    return jsonify(True)
