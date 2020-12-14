@@ -42,8 +42,7 @@ def run_tests():
     submission = json.loads(payload)
     tx_id = str(uuid.uuid4())
     submission['tx_id'] = tx_id
-    payload = json.dumps(submission)
-    passed = run_test(payload, tx_id)
+    passed = run_test(submission, tx_id)
     if passed:
         return True
 
