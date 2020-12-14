@@ -1,5 +1,6 @@
 import json
 # import yaml
+import pprint
 import uuid
 
 from flask import request, render_template
@@ -8,12 +9,16 @@ from flask import request, render_template
 
 from app import app
 from app.publish import publish_data
+from app.read_data import extract_test_data
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    surveys = extract_test_data()
+    # pprint.pprint(surveys)
+    return render_template('index.html',
+                           surveys=surveys)
 
 
 @app.route('/submit', methods=['POST'])
