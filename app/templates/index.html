@@ -10,10 +10,11 @@
             <select name="surveys names" id="survey_names">
                 <li>surveys</li>
                 {% for x in surveys %}
-                    <option value= "{{ x }}">{{ x }}</option>
+                    <option value= "{{ x }}">{{ x['survey_id'] }}.{{ x['collection']['instrument_id'] }}</option>
                 {% endfor %}
             </select>
-
+            <br>
+            <br>
             <br>
             <textarea id="post-data" name="post-data" rows="33" cols="60">
 

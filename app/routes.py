@@ -16,7 +16,6 @@ from app.read_data import extract_test_data
 @app.route('/index')
 def index():
     surveys = extract_test_data()
-    # pprint.pprint(surveys)
     return render_template('index.html',
                            surveys=surveys)
 
@@ -24,9 +23,10 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.form.get('post-data')
+    print(data)
     submission = json.loads(data)
     tx_id = str(uuid.uuid4())
-    submission['tx_id'] = tx_id
+    data['tx_id'] = tx_id
 
     # with open("./keys.yml") as file:
     #     secrets_from_file = yaml.safe_load(file)
