@@ -10,7 +10,7 @@ def run_test(data: dict, tx_id: str) -> bool:
     def validate(data_str) -> bool:
         print(f"validating response...")
         print(decrypt_survey(data_str))
-        # return True
+        return True
 
     test_subscriber = SurveyListener(tx_id, validate)
     passed = test_subscriber.start()
