@@ -9,7 +9,7 @@ def read(filename: str) -> str:
     # get bucket with name
     bucket = storage_client.bucket('sdx-outputs')
     # get bucket data as blob
-    blob = bucket.blob('sdx-output')
+    blob = bucket.blob(path)
     # convert to string
     json_data = blob.download_as_string()
     return json_data
@@ -18,4 +18,4 @@ def read(filename: str) -> str:
 def get_filename(json_str):
     message_dict = json.loads(json_str)
     message_name = message_dict['files'][0]["name"]
-    return message_name
+    return message_name[:-5]

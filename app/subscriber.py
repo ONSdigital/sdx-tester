@@ -17,7 +17,7 @@ class SurveyListener:
         if tx_id == self.tx_id:
             message.ack()
             print(f"acking message with tx_id {tx_id}")
-            self.passed = self.validate(message.data)
+            self.passed = self.validate(tx_id)
         else:
             message.nack()
             print(f"nacking message with tx_id {tx_id}")
