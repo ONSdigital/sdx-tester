@@ -1,4 +1,3 @@
-import json
 import uuid
 
 from flask import request, render_template, jsonify
