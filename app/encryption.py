@@ -8,7 +8,7 @@ KEY_PURPOSE_SUBMISSION = 'submission'
 
 
 def encrypt_survey(submission: dict) -> str:
-    with open("./keys.yml") as file:
+    with open("keys.yml") as file:
         secrets_from_file = yaml.safe_load(file)
     key_store = KeyStore(secrets_from_file)
     payload = encrypt(submission, key_store, 'submission')
@@ -16,7 +16,7 @@ def encrypt_survey(submission: dict) -> str:
 
 
 def decrypt_survey(payload: str) -> dict:
-    with open("./keys2.yml") as file2:
+    with open("keys2.yml") as file2:
         secrets_from_file2 = yaml.safe_load(file2)
     key_store2 = KeyStore(secrets_from_file2)
     decrypted_json = sdc_decrypt(payload, key_store2, KEY_PURPOSE_SUBMISSION)
