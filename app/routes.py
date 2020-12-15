@@ -1,5 +1,4 @@
 import json
-# import yaml
 import pprint
 import uuid
 
@@ -23,18 +22,15 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.form.get('post-data')
-    print(data)
-    submission = json.loads(data)
+    data_string = data.replace("'", '"')
+    data_dict = json.loads(data_string)
     tx_id = str(uuid.uuid4())
-    data['tx_id'] = tx_id
+    data_dict['tx_id'] = tx_id
 
-    # with open("./keys.yml") as file:
-    #     secrets_from_file = yaml.safe_load(file)
-    #
-    # key_store = KeyStore(secrets_from_file)
-    # payload = encrypt(submission, key_store, 'submission')
-    #
-    payload = json.dumps(submission)
+    print('converting to json....')
+    payload = json.dumps(data_dict)
     result = publish_data(payload)
-    return render_template('result.html', tx_id=tx_id, result=result)
-    # return render_template('result.html', tx_id=tx_id)
+    return render_template('result.html',
+                           tx_id=tx_id,
+                           result=result)
+

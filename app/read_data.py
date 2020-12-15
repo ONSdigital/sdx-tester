@@ -11,6 +11,3 @@ def extract_test_data():
             hi = json.loads(data.read())
             list_of_test_surveys.append(hi)
     return list_of_test_surveys
-
-
-extract_test_data()
