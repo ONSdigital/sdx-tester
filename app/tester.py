@@ -6,9 +6,10 @@ from app.subscriber import SurveyListener
 
 def run_test(data: dict, tx_id: str) -> bool:
     encrypted_survey = encrypt_survey(data)
+    print("Publishing data", tx_id)
     publish_data(encrypted_survey, tx_id)
 
-    def validate(tx_id) -> bool:
+    def validate(tx_id: str) -> bool:
         # file_name = store_reader.get_filename(message_str)
         file_data = store_reader.read(tx_id)
         print(f"validating response...")
