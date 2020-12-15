@@ -8,6 +8,6 @@ def extract_test_data():
     for x in os.listdir(path):
         os.chdir(path)
         with open(x) as data:
-            hi = json.loads(data.read())
-            list_of_test_surveys.append(hi)
+            data_dict = json.loads(data.read())
+            list_of_test_surveys.append(data_dict)
     return list_of_test_surveys
