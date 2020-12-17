@@ -1,8 +1,10 @@
+import io
+import zipfile
+
 import yaml
 from sdc.crypto.key_store import KeyStore
 from sdc.crypto.encrypter import encrypt
 from sdc.crypto.decrypter import decrypt as sdc_decrypt
-
 
 KEY_PURPOSE_SUBMISSION = 'submission'
 
@@ -15,6 +17,13 @@ def encrypt_survey(submission: dict) -> str:
     return payload
 
 
+def view_zip_content(zip_file):
+    z = zipfile.ZipFile(io.BytesIO(zip_file))
+    for filename in z.namelist():
+        print(filename)
+    return True
+
+
 def decrypt_survey(payload: str) -> dict:
     with open("./keys2.yml") as file2:
         secrets_from_file2 = yaml.safe_load(file2)
@@ -22,5 +31,3 @@ def decrypt_survey(payload: str) -> dict:
     payload_encoded = payload.decode('utf-8')
     decrypted_json = sdc_decrypt(payload_encoded, key_store2, KEY_PURPOSE_SUBMISSION)
     return decrypted_json
-
-
