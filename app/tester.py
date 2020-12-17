@@ -13,7 +13,8 @@ def run_test(data: dict, tx_id: str) -> bool:
         # file_name = store_reader.get_filename(message_str)
         file_data = store_reader.read(tx_id)
         print(f"validating response...")
-        print(decrypt_survey(file_data))
+        # print(decrypt_survey(file_data))
+        print(file_data)
         return True
 
     test_subscriber = SurveyListener(tx_id, validate)
