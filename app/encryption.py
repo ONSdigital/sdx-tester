@@ -31,3 +31,12 @@ def decrypt_survey(payload: str) -> dict:
     payload_encoded = payload.decode('utf-8')
     decrypted_json = sdc_decrypt(payload_encoded, key_store2, KEY_PURPOSE_SUBMISSION)
     return decrypted_json
+
+
+def decrypt_zip(payload: bytes) -> dict:
+    with open("./keys2.yml") as file2:
+        secrets_from_file2 = yaml.safe_load(file2)
+    key_store2 = KeyStore(secrets_from_file2)
+    data_bytes = payload.decode('UTF8')
+    decrypted_zip = sdc_decrypt(data_bytes, key_store2, KEY_PURPOSE_SUBMISSION)
+    return decrypted_zip
