@@ -3,5 +3,4 @@ google-cloud-pubsub
 sdc-cryptography==0.4.0
 PyYAML~=5.3.1
 google-cloud-storage
-yaml~=0.2.5
 cryptography~=3.2.1
