@@ -5,7 +5,7 @@ from google.cloud import pubsub_v1
 from flask import Flask
 
 LOGGING_LEVEL = logging.getLevelName(os.getenv('LOGGING_LEVEL', 'INFO'))
-LOGGING_FORMAT = "%(asctime)s.%(msecs)06dZ|%(levelname)s: sdx-worker: %(message)s"
+LOGGING_FORMAT = "%(asctime)s.%(msecs)06dZ|%(levelname)s: sdx-tester: %(message)s"
 
 logging.basicConfig(
     format=LOGGING_FORMAT,

@@ -1,7 +1,7 @@
 from concurrent.futures import TimeoutError
 from app import dap_subscription_path, survey_subscriber
 
-timeout = 5
+timeout = 45
 
 
 class SurveyListener:

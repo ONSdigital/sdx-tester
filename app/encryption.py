@@ -21,10 +21,8 @@ def encrypt_survey(submission: dict) -> str:
 
 
 def view_zip_content(zip_file):
-    z = zipfile.ZipFile(io.BytesIO(zip_file))
-    for filename in z.namelist():
-        print(filename)
-        logger.info("survey successfully decrypted")
+    z = zipfile.ZipFile(io.BytesIO(zip_file), "r")
+    print(z.printdir())
     return True
 
 
