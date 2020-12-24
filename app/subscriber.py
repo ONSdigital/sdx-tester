@@ -1,7 +1,9 @@
 from concurrent.futures import TimeoutError
-from app import dap_subscription_path, survey_subscriber
+from google.cloud import pubsub_v1
 
-timeout = 45
+from app import project_id, dap_subscription_id
+
+timeout = 20
 
 
 class SurveyListener:
@@ -19,11 +21,17 @@ class SurveyListener:
             print(f"acking message with tx_id {tx_id}")
             self.passed = self.validate(tx_id)
         else:
-            message.nack()
+            message.ack()
             print(f"nacking message with tx_id {tx_id}")
             print(f"continuing to listen ...")
 
     def start(self) -> bool:
+
+        survey_subscriber = pubsub_v1.SubscriberClient()
+        # The `subscription_path` method creates a fully qualified identifier
+        # in the form `projects/{project_id}/subscriptions/{subscription_id}`
+        dap_subscription_path = survey_subscriber.subscription_path(project_id, dap_subscription_id)
+
         streaming_pull_future = survey_subscriber.subscribe(dap_subscription_path, callback=self.callback)
         print(f"Listening for {self.tx_id} message on {dap_subscription_path}..\n")
 
