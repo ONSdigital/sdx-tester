@@ -1,9 +1,14 @@
+import logging
 import uuid
-
+import json
 from flask import request, render_template, jsonify
+from structlog import wrap_logger
+
 from app import app
 from app.tester import run_test
 from app.read_data import extract_test_data
+
+logger = wrap_logger(logging.getLogger(__name__))
 
 
 @app.route('/')
@@ -22,3 +27,11 @@ def submit():
     data_dict['tx_id'] = tx_id
     passed = run_test(data_dict, tx_id)
     return jsonify(passed)
+
+
+def to_pretty_json(value):
+    return json.dumps(value, sort_keys=True,
+                      indent=4, separators=(',', ': '))
+
+
+app.jinja_env.filters['tojson_pretty'] = to_pretty_json

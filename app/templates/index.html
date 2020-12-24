@@ -20,12 +20,21 @@
 
             </textarea>
             <br>
+            <button type="button" onclick="prettyPrint()">Pretty Print</button>
             <input id="submit" type="submit" value="Submit" style="margin-top: 20px">
 
             <script>
                 document.getElementById("survey_names").addEventListener('change', function(event) {
                     document.getElementById("post-data").value = event.target.value
                 });
+            </script>
+            <script>
+                function prettyPrint() {
+                    var ugly = document.getElementById('post-data').value;
+                    var obj = JSON.parse(ugly);
+                    var pretty = JSON.stringify(obj, undefined, 4);
+                    document.getElementById('post-data').value = pretty;
+                }
             </script>
         </form>
     </div>

@@ -1,5 +1,5 @@
 from app import store_reader
-from app.encryption import encrypt_survey, decrypt_zip
+from app.encryption import encrypt_survey, decrypt_zip, view_zip_content
 from app.publish import publish_data
 from app.subscriber import SurveyListener
 
@@ -15,8 +15,8 @@ def run_test(data: dict, tx_id: str) -> bool:
         print(f"validating response...")
         print(file_data)
         file_data_decrypted = decrypt_zip(file_data)
-        # view_zip_content(file_data_decrypted)
-        return file_data_decrypted
+        view_zip_content(file_data_decrypted)
+        return True
 
     test_subscriber = SurveyListener(tx_id, validate)
     passed = test_subscriber.start()

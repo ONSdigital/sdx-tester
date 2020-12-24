@@ -1,12 +1,15 @@
 import io
+import logging
 import zipfile
-
 import yaml
 from sdc.crypto.key_store import KeyStore
 from sdc.crypto.encrypter import encrypt
 from sdc.crypto.decrypter import decrypt as sdc_decrypt
+from structlog import wrap_logger
 
 KEY_PURPOSE_SUBMISSION = 'submission'
+
+logger = wrap_logger(logging.getLogger(__name__))
 
 
 def encrypt_survey(submission: dict) -> str:
@@ -21,6 +24,7 @@ def view_zip_content(zip_file):
     z = zipfile.ZipFile(io.BytesIO(zip_file))
     for filename in z.namelist():
         print(filename)
+        logger.info("survey successfully decrypted")
     return True
 
 
