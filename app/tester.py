@@ -1,22 +1,22 @@
 from app import store_reader
 from app.encryption import encrypt_survey, view_zip_content
-from app.publish import publish_data
-from app.subscriber import SurveyListener
+from app.messaging.manager import MessageManager, MessageState
 
 
-def run_test(data: dict, tx_id: str) -> bool:
-    encrypted_survey = encrypt_survey(data)
-    print("Publishing data", tx_id)
-    publish_data(encrypted_survey, tx_id)
+def run_test(message_manager: MessageManager, survey_dict: dict) -> bool:
+    tx_id = survey_dict['tx_id']
+    encrypted_survey = encrypt_survey(survey_dict)
 
-    def validate(tx_id: str) -> bool:
-        file_data = store_reader.read(tx_id)
-        print(f"validating response...")
-        # file_data_decrypted = decrypt_zip(file_data)
-        view_zip_content(file_data)
-        return True
+    result = message_manager.submit(tx_id, encrypted_survey)
+    print(result)
 
-    test_subscriber = SurveyListener(tx_id, validate)
-    passed = test_subscriber.start()
-    print(passed)
-    return passed
+    if MessageState.TIMED_OUT in result:
+        return False
+    elif MessageState.FAILED_SEND in result:
+        return False
+
+    file_data = store_reader.read(tx_id)
+    # file_data_decrypted = decrypt_zip(file_data)
+    view_zip_content(file_data)
+
+    return True
