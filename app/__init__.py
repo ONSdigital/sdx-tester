@@ -1,7 +1,6 @@
 import logging
 import os
 
-from google.cloud import pubsub_v1
 from flask import Flask
 
 LOGGING_LEVEL = logging.getLevelName(os.getenv('LOGGING_LEVEL', 'INFO'))
@@ -13,18 +12,15 @@ logging.basicConfig(
     level=LOGGING_LEVEL,
 )
 
-project_id = "ons-sdx-sandbox"
+PROJECT_ID = "ons-sdx-sandbox"
 
 # publishing config
-topic_id = "survey-topic"
-
-publisher = pubsub_v1.PublisherClient()
-# The `topic_path` method creates a fully qualified identifier
-# in the form `projects/{project_id}/topics/{topic_id}`
-topic_path = publisher.topic_path(project_id, topic_id)
+SURVEY_TOPIC = "survey-topic"
 
 # Subscriber config
-dap_subscription_id = "dap-subscription"
+DAP_SUBSCRIPTION = "dap-subscription"
+
+MAX_WAIT_TIME_SECS = 60
 
 
 app = Flask(__name__)

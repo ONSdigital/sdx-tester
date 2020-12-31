@@ -1,6 +1,7 @@
 import json
 import uuid
 
+from app.messaging.manager import MessageManager
 from app.tester import run_test
 
 
@@ -42,9 +43,14 @@ def run_tests():
     submission = json.loads(payload)
     tx_id = str(uuid.uuid4())
     submission['tx_id'] = tx_id
-    passed = run_test(submission, tx_id)
-    if passed:
-        return True
+
+    message_manager = MessageManager()
+    passed = run_test(message_manager, submission)
+    message_manager.shut_down()
+    if not passed:
+        raise Exception("Failed test")
+    else:
+        print("Test passed!")
 
 
 if __name__ == '__main__':

@@ -5,10 +5,13 @@ from flask import request, render_template, jsonify
 from structlog import wrap_logger
 
 from app import app
+from app.messaging.manager import MessageManager
 from app.tester import run_test
 from app.read_data import extract_test_data
 
 logger = wrap_logger(logging.getLogger(__name__))
+
+message_manager = MessageManager()
 
 
 @app.route('/')
@@ -25,7 +28,7 @@ def submit():
     data_dict = eval(data_str)
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
-    passed = run_test(data_dict, tx_id)
+    passed = run_test(message_manager, data_dict)
     return jsonify(passed)
 
 
