@@ -8,12 +8,19 @@ class Listener:
 
     def __init__(self) -> None:
         self.complete = False
+        self._message = None
 
     def is_complete(self):
         return self.complete
 
     def set_complete(self):
         self.complete = True
+
+    def set_message(self, message):
+        self._message = message
+
+    def get_message(self):
+        return self._message
 
 
 class MessageListener:
@@ -32,13 +39,15 @@ class MessageListener:
 
     def on_message(self, message):
         tx_id = message.attributes.get('tx_id')
+        print(f"received tx_id from header {tx_id} on {self.subscription_path}")
         if tx_id in self.listeners.keys():
             message.ack()
             print(f"acking message with tx_id {tx_id}")
             listener = self.listeners[tx_id]
             listener.set_complete()
+            listener.set_message(message)
         else:
-            message.ack()
+            message.nack()
             print(f"nacking message with tx_id {tx_id}")
             print(f"remaining keys: {self.listeners.keys()}")
 

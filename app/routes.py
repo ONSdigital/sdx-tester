@@ -5,13 +5,11 @@ from flask import request, render_template, jsonify
 from structlog import wrap_logger
 
 from app import app
-from app.messaging.manager import MessageManager
+from app.messaging import message_manager
 from app.tester import run_test
 from app.read_data import extract_test_data
 
 logger = wrap_logger(logging.getLogger(__name__))
-
-message_manager = MessageManager()
 
 
 @app.route('/')
