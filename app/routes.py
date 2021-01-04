@@ -1,6 +1,5 @@
 import logging
 import uuid
-import json
 from flask import request, render_template, jsonify
 from structlog import wrap_logger
 
@@ -26,13 +25,6 @@ def submit():
     data_dict = eval(data_str)
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
-    passed = run_test(message_manager, data_dict)
+    result = run_test(message_manager, data_dict)
+    passed = result.dap_message is not None
     return jsonify(passed)
-
-
-def to_pretty_json(value):
-    return json.dumps(value, sort_keys=True,
-                      indent=4, separators=(',', ': '))
-
-
-app.jinja_env.filters['tojson_pretty'] = to_pretty_json

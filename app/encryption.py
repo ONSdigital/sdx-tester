@@ -20,7 +20,7 @@ def encrypt_survey(submission: dict) -> str:
     return payload
 
 
-def view_zip_content(zip_file):
+def view_zip_content(zip_file: str):
     z = zipfile.ZipFile(io.BytesIO(zip_file), "r")
     print(z.printdir())
     return True

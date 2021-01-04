@@ -1,20 +1,10 @@
 import threading
 import time
-from enum import Enum
 
 from app import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data
 from app.messaging.subscriber import MessageListener, Listener
 from app.result import Result
-
-
-class MessageState(Enum):
-    SENT = 1
-    FAILED_SEND = 2
-    RECEIVED_DAP = 3
-    RECEIVED_RECEIPT = 4
-    QUARANTINED = 5
-    TIMED_OUT = 6
 
 
 class MessageManager:

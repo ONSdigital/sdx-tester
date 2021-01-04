@@ -44,9 +44,11 @@ def run_tests():
     tx_id = str(uuid.uuid4())
     submission['tx_id'] = tx_id
 
-    passed = run_test(message_manager, submission)
+    result = run_test(message_manager, submission)
     message_manager.shut_down()
-    if not passed:
+    if result.dap_message is None:
+        raise Exception("Failed test")
+    elif result.receipt is None:
         raise Exception("Failed test")
     else:
         print("Test passed!")

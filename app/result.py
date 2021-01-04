@@ -7,7 +7,7 @@ class Result:
         self.dap_message = None
         self.receipt = None
         self.quarantine = None
-        self.files = None
+        self.files = {}
         self._errors = []
 
     def get_tx_id(self):
@@ -22,8 +22,16 @@ class Result:
     def set_quarantine(self, quarantine):
         self.quarantine = quarantine
 
-    def set_files(self, files):
+    def set_files(self, files: dict):
         self.files = files
 
     def record_error(self, error):
         self._errors.append(error)
+
+    def __str__(self) -> str:
+        return f'''dap_message: {self.dap_message}
+                receipt: {self.receipt}
+                quarantine: {self.quarantine}
+                files: {self.files}
+                errors: {self._errors}
+              '''

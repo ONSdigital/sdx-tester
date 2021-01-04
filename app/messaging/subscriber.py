@@ -47,7 +47,7 @@ class MessageListener:
             listener.set_complete()
             listener.set_message(message)
         else:
-            message.nack()
+            message.ack()
             print(f"nacking message with tx_id {tx_id}")
             print(f"remaining keys: {self.listeners.keys()}")
 

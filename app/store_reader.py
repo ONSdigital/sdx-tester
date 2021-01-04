@@ -1,5 +1,14 @@
+import io
 import json
+import zipfile
+
 from google.cloud import storage
+
+
+def get_files(filename: str) -> list:
+    data_str = read(filename)
+    # decrypt
+    return extract(data_str)
 
 
 def read(filename: str) -> str:
@@ -13,6 +22,18 @@ def read(filename: str) -> str:
     # convert to string
     json_data = blob.download_as_string()
     return json_data
+
+
+def extract(zip_file: str) -> dict:
+    z = zipfile.ZipFile(io.BytesIO(zip_file), "r")
+    files = {}
+    for filename in z.namelist():
+        print(f'File: {filename}')
+        file_bytes = z.read(filename)
+        files[filename] = file_bytes
+
+    z.close()
+    return files
 
 
 def get_filename(json_str):
