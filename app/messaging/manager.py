@@ -44,12 +44,14 @@ class MessageManager:
             if count > MAX_WAIT_TIME_SECS:
                 print("Timed out")
                 result.append(MessageState.TIMED_OUT)
+                self.dap_listener.remove_listener(tx_id)
                 return result
             print("waiting")
             time.sleep(1)
             count += 1
 
         result.append(MessageState.RECEIVED_DAP)
+        self.dap_listener.remove_listener(tx_id)
         return result
 
     def shut_down(self):
