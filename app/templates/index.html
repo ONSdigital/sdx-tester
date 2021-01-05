@@ -10,7 +10,8 @@
 <body>
     <div>
         <form action="/submit" method="post">
-            <select name="surveys names" id="survey_names">
+            <select name="surveys names" id="survey_names"  style="width:300px; border:2px solid #000;
+            border-radius: 5px;">
                 <li>surveys</li>
                 {% for x in surveys %}
                     <option value= "{{ x }}">{{ x['survey_id'] }}.{{ x['collection']['instrument_id'] }}</option>
@@ -18,13 +19,14 @@
             </select>
             <br>
             <br>
-            <br>
-            <textarea id="post-data" name="post-data" rows="33" cols="50">
+            <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
+            border-radius: 5px;">
 
             </textarea>
-            <ul style="float:right; display:inline-block; border:1px solid #000; padding:20px;" id="test">
-                {% for tx_id in tx_list %}
-                <li><a href=""> {{ tx_id }} </a></li>
+            <ul style="float:right; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
+            border-radius: 5px;" id="test">
+                {% for time, tx_id in tx_list.items() %}
+                <li> {{ time }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
                 {% endfor %}
             </ul>
             <br>
