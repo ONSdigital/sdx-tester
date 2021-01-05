@@ -1,5 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+{% import 'partials/section.html' as section %}
+{% extends "layouts/_twocol.html" %}
+
+{% block content %}
+
 <head>
     <meta charset="UTF-8">
     <title>SDX Tester</title>
@@ -16,9 +19,14 @@
             <br>
             <br>
             <br>
-            <textarea id="post-data" name="post-data" rows="33" cols="60">
+            <textarea id="post-data" name="post-data" rows="33" cols="50">
 
             </textarea>
+            <ul style="float:right; display:inline-block; border:1px solid #000; padding:20px;" id="test">
+                {% for tx_id in tx_list %}
+                <li><a href=""> {{ tx_id }} </a></li>
+                {% endfor %}
+            </ul>
             <br>
             <button type="button" onclick="prettyPrint()">Pretty Print</button>
             <input id="submit" type="submit" value="Submit" style="margin-top: 20px">
@@ -31,7 +39,10 @@
             <script>
                 function prettyPrint() {
                     var ugly = document.getElementById('post-data').value;
-                    var obj = JSON.parse(ugly);
+                    var replaceFalse = ugly.replace(/False/g, 'false');
+                    var replaceTrue = replaceFalse.replace(/True/g, 'true');
+                    var replaceSingleLeft = replaceTrue.replace(/'/, '"');
+                    var obj = JSON.parse(replaceSingleLeft);
                     var pretty = JSON.stringify(obj, undefined, 4);
                     document.getElementById('post-data').value = pretty;
                 }
@@ -39,4 +50,5 @@
         </form>
     </div>
 </body>
-</html>
+
+{% endblock content %}
