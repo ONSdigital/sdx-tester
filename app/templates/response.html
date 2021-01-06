@@ -10,18 +10,10 @@
           .loadFiles
             {
                 background-color: #cccccc;
-<!--                margin-top: -175px;-->
                 border:2px solid #000;
                 padding:20px;
-<!--                display:inline-block;-->
                 border-radius: 5px;
-<!--                top: -220px;-->
-
             }
-<!--            .messages button{-->
-<!--                background-color: pink;-->
-<!--                color: red;-->
-<!--                }-->
 
             div button{
                 background-color: yellow;
@@ -68,31 +60,26 @@
               background-color: #f1f1f1;
               width: 100%
             }
-            .container {
-<!--              position: fixed;-->
-<!--              background: lightgray;-->
-              border:2px solid #000;
-}
 
-        </style>
-
+    </style>
 </head>
 <body>
 
  <div class="container">
-     <div class="buttons">
-         <button type="button"  class="collapsible" id="changeColour1">Received DAP</button>
-         <div class="content">
-            {{dap_message | tojson }}
-         </div>
+        <div class="buttons">
+
+        <button type="button"  class="collapsible" id="changeColour1"  onclick="check_messages1()">Received DAP</button>
+        <div class="content">
+          <p> {{dap_message | tojson }} </p>
+        </div>
         <br><br>
-        <button type="button" class="collapsible" id="changeColour">Received Receipts</button>
+
+        <button type="button" class="collapsible" id="changeColour2" onclick="check_messages2()">Received Receipts</button>
         <div class="content">
             {{ receipt | tojson }}
         </div>
         <br><br>
-     </div>
-     <script>prettyPrint();</script>
+
         <div class="loadFiles">
             <div class=""files>
             <p>Select the format:</p>
@@ -106,8 +93,6 @@
             <p id="json"></p>
             </div>
         </div>
- </div>
-<img src="data:image/JPG;base64,{{ test_image }}">
 
 {% for key, value in files.items() %}
     {% if 'JPG' in key %}
@@ -137,15 +122,29 @@
           document.getElementById("json").innerHTML = "Loading PCK file..";
         }
 
-        function check_messages(){
-            if (document.getElementById('changeColour1').value = 'None') {
-            document.getElementById('changeColour1').style.color = "black";
-            document.getElementById('changeColour1').style.background="green";
-<!--            document.getElementById('changeColour1').style.font-weight:"bold";-->
+        function check_messages1(){
+            var myValue1= document.getElementById('changeColour1')
+            if (myValue1.value != null) {
+            myValue1.style.color = "black";
+            myValue1.style.background="green";
+            }
+            else {
+            myValue1.style.color = "white";
+            myValue1.style.background="red";
             }
             }
-        check_messages();
 
+         function check_messages2(){
+            var myValue2= document.getElementById('changeColour2')
+            if (myValue2.value != null) {
+            myValue2.style.color = "black";
+            myValue2.style.background="green";
+            }
+            else {
+            myValue2.style.color = "white";
+            myValue2.style.background="red";
+            }
+            }
 
         var coll = document.getElementsByClassName("collapsible");
         var i;
