@@ -6,20 +6,168 @@
 <head>
     <meta charset="UTF-8">
     <title>SDX Tester</title>
+    <style>
+          .loadFiles
+            {
+                background-color: #cccccc;
+<!--                margin-top: -175px;-->
+                border:2px solid #000;
+                padding:20px;
+<!--                display:inline-block;-->
+                border-radius: 5px;
+<!--                top: -220px;-->
+
+            }
+<!--            .messages button{-->
+<!--                background-color: pink;-->
+<!--                color: red;-->
+<!--                }-->
+
+            div button{
+                background-color: yellow;
+                border:2px solid #000;
+                padding:15px;
+                display:inline-block;
+                border-radius: 5px;
+
+            }
+            .collapsible {
+              background-color: red;
+              color: white;
+              cursor: pointer;
+              padding: 18px;
+              width: 100%;
+              border: none;
+              text-align: left;
+              outline: none;
+              font-size: 15px;
+
+            }
+
+            .active, .collapsible:hover {
+              background-color: #555;
+            }
+
+            .collapsible:after {
+              content: '\002B';
+              color: white;
+              font-weight: bold;
+              float: right;
+              margin-left: 5px;
+            }
+
+            .active:after {
+              content: "\2212";
+            }
+
+            .content {
+              padding: 0 18px;
+              max-height: 0;
+              overflow: hidden;
+              transition: max-height 0.2s ease-out;
+              background-color: #f1f1f1;
+              width: 100%
+            }
+            .container {
+<!--              position: fixed;-->
+<!--              background: lightgray;-->
+              border:2px solid #000;
+}
+
+        </style>
+
 </head>
 <body>
-{{ tx_id }}
-{{ receipt }}
-{{ dap_message }}
-{% for x in files %}
-    {% if x == test_image %}
-        <br>
-        <img style="width:100%;" src="data:image/JPG;base64,{{ files[x] }}">
-    {% else %}
-        <br>
-        {{ x }}
-    {% endif %}
-{% endfor %}
-</body>
+<!--{{ tx_id }}-->
+<!--{{ receipt }}-->
+<!--{{ dap_message }}-->
+<!--{% for x in files %}-->
+<!--    {% if x == test_image %}-->
+<!--        <br>-->
+<!--        <img style="width:100%;" src="data:image/JPG;base64,{{ files[x] }}">-->
+<!--    {% else %}-->
+<!--        <br>-->
+<!--        {{ x }}-->
+<!--    {% endif %}-->
+<!--{% endfor %}-->
+
+
+ <div class="container">
+        <div class="buttons">
+        <button type="button"  class="collapsible" id="changeColour1" value="10">Received DAP</button>
+
+
+
+        <div class="content">
+          <p> {{dap_message }} </p>
+        </div>
+        <br><br>
+        <button type="button" class="collapsible" id="changeColour">Received Receipts</button>
+        <div class="content">
+          <p> {{ receipt }} </p>
+        </div>
+        <br><br>
+        </div>
+
+        <div class="loadFiles">
+            <div class=""files>
+            <p>Select the format:</p>
+            <button onclick="myPCKFunction()">  {{ tx_id }}.PCK</button>
+            <p id="pck"></p>
+            <button onclick="myJPGFunction()">  {{ tx_id }}.JPG</button>
+            <p id="jpg"></p>
+            <button onclick="myCSVFunction()">  {{ tx_id }}.CSV</button>
+            <p id="csv"></p>
+            <button onclick="myJSONFunction()">  {{ tx_id }}.JSON</button>
+            <p id="json"></p>
+            </div>
+        </div>
+    </div>
+<img src="data:image/JPG;base64,{{ test_image }}">
+
+        <script>
+        function myPCKFunction() {
+          document.getElementById("pck").innerHTML = "Loading PCK file..";
+        }
+
+        function myJPGFunction() {
+          document.getElementById("jpg").innerHTML = "Loading JPG file..";
+        }
+
+        function myCSVFunction() {
+          document.getElementById("csv").innerHTML = "Loading CSV file..";
+        }
+
+        function myJSONFunction() {
+          document.getElementById("json").innerHTML = "Loading JSON file..";
+        }
+
+        function check_messages(){
+            if (document.getElementById('changeColour1').value = '10') {
+            document.getElementById('changeColour1').style.color = "black";
+            document.getElementById('changeColour1').style.background="green";
+<!--            document.getElementById('changeColour1').style.font-weight:"bold";-->
+            }
+            }
+        check_messages();
+
+
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          });
+        }
+       </script>
+
+    </body>
 
 {% endblock content %}
