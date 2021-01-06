@@ -6,8 +6,9 @@ import pprint
 import uuid
 from datetime import datetime
 
+import jinja2
 from PIL import Image
-from flask import request, render_template, url_for, jsonify
+from flask import request, render_template, url_for
 from structlog import wrap_logger
 from werkzeug.utils import redirect
 
@@ -60,23 +61,22 @@ def view_response(tx_id):
             else:
                 receipt = str(b_receipt)
 
-            test_image = extract_image(response.files)
-            files = sort_response_files(response.files)
+            files = sort_files_and_images(response.files)
             return render_template('response.html',
                                    tx_id=tx_id,
                                    receipt=receipt,
                                    dap_message=dap_message,
-                                   files=files,
-                                   test_image=test_image)
+                                   files=files)
         else:
             return render_template('response.html')
+    return 'No response has come back yet with that TX_ID'
 
 
-def sort_response_files(response_files: dict):
+def sort_files_and_images(response_files: dict):
     sorted_files = {}
     for key, value in response_files.items():
         if key.lower().endswith(('jpg', 'png')):
-            extension = key.split(".")[-1]
+            # extension = key.split(".")[-1]
             b64_image = base64.b64encode(value).decode()
             sorted_files[key] = b64_image
         else:
@@ -86,10 +86,6 @@ def sort_response_files(response_files: dict):
     return sorted_files
 
 
-def extract_image(files: dict):
-    for key, value in files.items():
-        if key.lower().endswith(('jpg', 'png')):
-            extension = key.split(".")[-1]
-            b64_image = base64.b64encode(value).decode()
-            print(b64_image)
-            return b64_image
+@app.template_filter()
+def pretty_print(data):
+    return json.dumps(data, indent=4)

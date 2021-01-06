@@ -78,37 +78,21 @@
 
 </head>
 <body>
-<!--{{ tx_id }}-->
-<!--{{ receipt }}-->
-<!--{{ dap_message }}-->
-<!--{% for x in files %}-->
-<!--    {% if x == test_image %}-->
-<!--        <br>-->
-<!--        <img style="width:100%;" src="data:image/JPG;base64,{{ files[x] }}">-->
-<!--    {% else %}-->
-<!--        <br>-->
-<!--        {{ x }}-->
-<!--    {% endif %}-->
-<!--{% endfor %}-->
-
 
  <div class="container">
-        <div class="buttons">
-        <button type="button"  class="collapsible" id="changeColour1" value="10">Received DAP</button>
-
-
-
-        <div class="content">
-          <p> {{dap_message }} </p>
-        </div>
+     <div class="buttons">
+         <button type="button"  class="collapsible" id="changeColour1">Received DAP</button>
+         <div class="content">
+            {{dap_message | tojson }}
+         </div>
         <br><br>
         <button type="button" class="collapsible" id="changeColour">Received Receipts</button>
         <div class="content">
-          <p> {{ receipt }} </p>
+            {{ receipt | tojson }}
         </div>
         <br><br>
-        </div>
-
+     </div>
+     <script>prettyPrint();</script>
         <div class="loadFiles">
             <div class=""files>
             <p>Select the format:</p>
@@ -122,8 +106,19 @@
             <p id="json"></p>
             </div>
         </div>
-    </div>
+ </div>
 <img src="data:image/JPG;base64,{{ test_image }}">
+
+{% for key, value in files.items() %}
+    {% if 'JPG' in key %}
+    <img style="width:75%;" src="data:image/JPG;base64,{{ value }}">
+    {% endif %}
+    <br>
+{% endfor %}
+
+
+
+
 
         <script>
         function myPCKFunction() {
@@ -131,7 +126,7 @@
         }
 
         function myJPGFunction() {
-          document.getElementById("jpg").innerHTML = "Loading JPG file..";
+          document.getElementById("jpg").innerHTML = "Loading PCK file..";
         }
 
         function myCSVFunction() {
@@ -139,11 +134,11 @@
         }
 
         function myJSONFunction() {
-          document.getElementById("json").innerHTML = "Loading JSON file..";
+          document.getElementById("json").innerHTML = "Loading PCK file..";
         }
 
         function check_messages(){
-            if (document.getElementById('changeColour1').value = '10') {
+            if (document.getElementById('changeColour1').value = 'None') {
             document.getElementById('changeColour1').style.color = "black";
             document.getElementById('changeColour1').style.background="green";
 <!--            document.getElementById('changeColour1').style.font-weight:"bold";-->
@@ -166,7 +161,7 @@
             }
           });
         }
-       </script>
+        </script>
 
     </body>
 

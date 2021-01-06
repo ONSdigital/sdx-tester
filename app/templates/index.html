@@ -10,11 +10,11 @@
 <body>
     <div>
         <form action="/submit" method="post">
-            <select name="surveys names" id="survey_names"  style="width:300px; border:2px solid #000;
+            <select name="surveys names" id="survey_names"  style="width:46%; border:2px solid #000;
             border-radius: 5px;">
                 <li>surveys</li>
-                {% for x in surveys %}
-                    <option value= "{{ x }}">{{ x['survey_id'] }}.{{ x['collection']['instrument_id'] }}</option>
+                {% for keys, values in surveys.items() %}
+                    <option value= "{{ values | pretty_print }}">{{ keys }}</option>
                 {% endfor %}
             </select>
             <br>
@@ -30,24 +30,11 @@
                 {% endfor %}
             </ul>
             <br>
-            <button type="button" onclick="prettyPrint()">Pretty Print</button>
             <input id="submit" type="submit" value="Submit" style="margin-top: 20px">
-
             <script>
                 document.getElementById("survey_names").addEventListener('change', function(event) {
                     document.getElementById("post-data").value = event.target.value
                 });
-            </script>
-            <script>
-                function prettyPrint() {
-                    var ugly = document.getElementById('post-data').value;
-                    var replaceFalse = ugly.replace(/False/g, 'false');
-                    var replaceTrue = replaceFalse.replace(/True/g, 'true');
-                    var replaceSingleLeft = replaceTrue.replace(/'/, '"');
-                    var obj = JSON.parse(replaceSingleLeft);
-                    var pretty = JSON.stringify(obj, undefined, 4);
-                    document.getElementById('post-data').value = pretty;
-                }
             </script>
         </form>
     </div>

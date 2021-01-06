@@ -24,7 +24,7 @@ QUARANTINE_SUBSCRIPTION = "quarantine-subscription"
 
 RECEIPT_SUBSCRIPTION = "receipt-subscription"
 
-MAX_WAIT_TIME_SECS = 60
+MAX_WAIT_TIME_SECS = 20
 
 
 app = Flask(__name__)
