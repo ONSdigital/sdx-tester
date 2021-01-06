@@ -11,7 +11,15 @@
 {{ tx_id }}
 {{ receipt }}
 {{ dap_message }}
-{{ files }}
+{% for x in files %}
+    {% if x == test_image %}
+        <br>
+        <img style="width:100%;" src="data:image/JPG;base64,{{ files[x] }}">
+    {% else %}
+        <br>
+        {{ x }}
+    {% endif %}
+{% endfor %}
 </body>
 
 {% endblock content %}

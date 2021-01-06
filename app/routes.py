@@ -1,10 +1,13 @@
 import base64
+import io
 import json
 import logging
+import pprint
 import uuid
 from datetime import datetime
 
-from flask import request, render_template, url_for
+from PIL import Image
+from flask import request, render_template, url_for, jsonify
 from structlog import wrap_logger
 from werkzeug.utils import redirect
 
@@ -57,12 +60,14 @@ def view_response(tx_id):
             else:
                 receipt = str(b_receipt)
 
+            test_image = extract_image(response.files)
             files = sort_response_files(response.files)
             return render_template('response.html',
                                    tx_id=tx_id,
                                    receipt=receipt,
                                    dap_message=dap_message,
-                                   files=files)
+                                   files=files,
+                                   test_image=test_image)
         else:
             return render_template('response.html')
 
@@ -71,10 +76,20 @@ def sort_response_files(response_files: dict):
     sorted_files = {}
     for key, value in response_files.items():
         if key.lower().endswith(('jpg', 'png')):
-            new_name = key.split(".")[-1]
+            extension = key.split(".")[-1]
             b64_image = base64.b64encode(value).decode()
-            sorted_files[new_name] = b64_image
+            sorted_files[key] = b64_image
         else:
+            # new_name = key.split(".")[-1]
             sorted_files[key] = value.decode('utf-8')
+    pprint.pprint(sorted_files)
     return sorted_files
 
+
+def extract_image(files: dict):
+    for key, value in files.items():
+        if key.lower().endswith(('jpg', 'png')):
+            extension = key.split(".")[-1]
+            b64_image = base64.b64encode(value).decode()
+            print(b64_image)
+            return b64_image
