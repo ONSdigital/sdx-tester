@@ -8,7 +8,7 @@ class Result:
         self.receipt = None
         self.quarantine = None
         self.files = {}
-        self._errors = []
+        self.errors = []
 
     def get_tx_id(self):
         return self.survey_dict['tx_id']
@@ -26,12 +26,12 @@ class Result:
         self.files = files
 
     def record_error(self, error):
-        self._errors.append(error)
+        self.errors.append(error)
 
     def __str__(self) -> str:
         return f'''dap_message: {self.dap_message}
                 receipt: {self.receipt}
                 quarantine: {self.quarantine}
                 files: {self.files}
-                errors: {self._errors}
+                errors: {self.errors}
               '''

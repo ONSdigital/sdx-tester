@@ -63,92 +63,73 @@
 
     </style>
 </head>
-<body>
+<body onload="check_receipt_and_dap();">
 
  <div class="container">
         <div class="buttons">
 
-        <button type="button"  class="collapsible" id="changeColour1"  onclick="check_messages1()">Received DAP</button>
+        <button type="button" style="colour: white; background: red" class="collapsible" id="dap_message">Received DAP</button>
         <div class="content">
-          <p> {{dap_message | tojson }} </p>
+            <textarea readonly style="width:100%; overflow:auto" rows="30">
+                {{dap_message | pretty_print }}
+            </textarea>
         </div>
         <br><br>
 
-        <button type="button" class="collapsible" id="changeColour2" onclick="check_messages2()">Received Receipts</button>
+        <button type="button" style="colour:white; background:red" class="collapsible" id="receipt">Received Receipts</button>
         <div class="content">
-            {{ receipt | tojson }}
+            <textarea readonly style="width:100%; overflow:auto" rows="15">
+                {{ receipt | pretty_print }}
+            </textarea>
         </div>
         <br><br>
-
         <div class="loadFiles">
-            <div class=""files>
-            <p>Select the format:</p>
-            <button onclick="myPCKFunction()">  {{ tx_id }}.PCK</button>
-            <p id="pck"></p>
-            <button onclick="myJPGFunction()">  {{ tx_id }}.JPG</button>
-            <p id="jpg"></p>
-            <button onclick="myCSVFunction()">  {{ tx_id }}.CSV</button>
-            <p id="csv"></p>
-            <button onclick="myJSONFunction()">  {{ tx_id }}.JSON</button>
-            <p id="json"></p>
+            <div>
+                <p>Select the format:</p>
+                {% for key, value in files.items() %}
+                    {% if 'JPG' in key %}
+                        <button onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <p id="{{ key }}" style="display:none"><img style="width:75%;" src="data:image/JPG;base64,{{ value }}"></p>
+                        <br>
+                    {% else %}
+                        <button onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <textarea readonly id="{{ key }}" style="display:none; width:100%; height:500px">{{ value }}</textarea>
+                        <br>
+                    {% endif %}
+                    <br>
+                {% endfor %}
             </div>
         </div>
-
-{% for key, value in files.items() %}
-    {% if 'JPG' in key %}
-    <img style="width:75%;" src="data:image/JPG;base64,{{ value }}">
-    {% endif %}
-    <br>
-{% endfor %}
-
-
-
-
-
         <script>
-        function myPCKFunction() {
-          document.getElementById("pck").innerHTML = "Loading PCK file..";
+        function showData(id_clicked) {
+            var current_display = document.getElementById(id_clicked).style.display;
+            if (current_display == 'none') {
+                document.getElementById(id_clicked).style.display = 'block';
+                var ugly = document.getElementById(id_clicked).value;
+                var uglyObj = JSON.parse(ugly)
+                pretty = JSON.stringify(uglyObj, null, 4)
+                document.getElementById(id_clicked).value = pretty
+            } else {
+                document.getElementById(id_clicked).style.display = 'none';
+            }
         }
 
-        function myJPGFunction() {
-          document.getElementById("jpg").innerHTML = "Loading PCK file..";
-        }
-
-        function myCSVFunction() {
-          document.getElementById("csv").innerHTML = "Loading CSV file..";
-        }
-
-        function myJSONFunction() {
-          document.getElementById("json").innerHTML = "Loading PCK file..";
-        }
-
-        function check_messages1(){
-            var myValue1= document.getElementById('changeColour1')
-            if (myValue1.value != null) {
-            myValue1.style.color = "black";
-            myValue1.style.background="green";
-            }
-            else {
-            myValue1.style.color = "white";
-            myValue1.style.background="red";
-            }
+        function check_receipt_and_dap(){
+            var dap_message = document.getElementById('dap_message');
+            var receipt = document.getElementById('receipt');
+            if (dap_message.value != "None") {
+                dap_message.style.color = "black";
+                dap_message.style.background="green";
+                }
+            if (receipt.value != "None") {
+                receipt.style.color = "black";
+                receipt.style.background="green";
+                }
             }
 
-         function check_messages2(){
-            var myValue2= document.getElementById('changeColour2')
-            if (myValue2.value != null) {
-            myValue2.style.color = "black";
-            myValue2.style.background="green";
-            }
-            else {
-            myValue2.style.color = "white";
-            myValue2.style.background="red";
-            }
-            }
 
         var coll = document.getElementsByClassName("collapsible");
         var i;
-
         for (i = 0; i < coll.length; i++) {
           coll[i].addEventListener("click", function() {
             this.classList.toggle("active");
@@ -162,6 +143,6 @@
         }
         </script>
 
-    </body>
+ </body>
 
 {% endblock content %}
