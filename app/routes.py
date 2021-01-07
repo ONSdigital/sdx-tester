@@ -1,7 +1,7 @@
 import base64
 import json
 import logging
-import pprint
+import threading
 import uuid
 from datetime import datetime
 
@@ -15,6 +15,9 @@ from app.tester import run_test
 from app.read_data import extract_test_data_dict
 
 logger = wrap_logger(logging.getLogger(__name__))
+
+POOL_TIME = 5  # Seconds
+your_thread = threading.Thread()
 tx_list = {}
 responses = []
 
@@ -37,13 +40,17 @@ def submit():
     time = datetime.now()
     time = time.strftime("%H:%M:%S")
     tx_list[time] = tx_id
-    result = run_test(message_manager, data_dict)
-    responses.append(result)
+    threading.Thread(target=new_thread_for_response, args=(data_dict,), daemon=True).start()
     return redirect(url_for('index'))
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
 def view_response(tx_id):
+    dap_message = None
+    receipt = None
+    quarantine = None
+    files = {}
+    errors = []
     for response in responses:
         if response.get_tx_id() == tx_id:
             dap_message = response.dap_message
@@ -66,8 +73,15 @@ def view_response(tx_id):
                                    receipt=receipt,
                                    dap_message=dap_message,
                                    files=files,
-                                   errors=errors)
-    return redirect(url_for('index'))
+                                   errors=errors,
+                                   quarantine=quarantine)
+    return render_template('response.html',
+                           tx_id=tx_id,
+                           receipt=receipt,
+                           dap_message=dap_message,
+                           files=files,
+                           errors=errors,
+                           quarantine=quarantine)
 
 
 def decode_files_and_images(response_files: dict):
@@ -79,6 +93,11 @@ def decode_files_and_images(response_files: dict):
         else:
             sorted_files[key] = value.decode('utf-8')
     return sorted_files
+
+
+def new_thread_for_response(data_dict: dict):
+    result = run_test(message_manager, data_dict)
+    responses.append(result)
 
 
 @app.template_filter()
