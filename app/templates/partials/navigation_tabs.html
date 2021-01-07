@@ -1,0 +1,66 @@
+
+<ul class="navigation-tabs navigation-tabs--component">
+  <li id="Submit"
+      class="navigation-tabs__item navigation-tabs__item--primary">
+      {% if request.path == '/submit' %}
+       <a href="/submit"
+          class="btn btn--secondary navigation-tabs__tab"> Submit </a>
+      {% else %}
+       <a href="/submit"
+          class="btn btn--secondary btn--border navigation-tabs__tab"> Submit </a>
+      {% endif %}
+  </li>
+
+  <li id="Store"
+      class="navigation-tabs__item navigation-tabs__item--primary">
+      {% if request.path == '/store' %}
+        <a href="/store"
+           class="btn btn--secondary navigation-tabs__tab"> Store </a>
+      {% else %}
+        <a href="/store"
+           class="btn btn--secondary btn--border navigation-tabs__tab"> Store </a>
+      {% endif %}
+  </li>
+
+  {% set ftp_path = ['/FTP', '/FTP/pck', '/FTP/image', '/FTP/index', '/FTP/receipt', '/FTP/json'] %}
+
+  <li id="FTP"
+      class="navigation-tabs__item navigation-tabs__item--primary">
+      {% if request.path in ftp_path %}
+        <a href="/FTP"
+           class="btn btn--secondary navigation-tabs__tab"> FTP </a>
+      {% else %}
+        <a href="/FTP"
+           class="btn btn--secondary btn--border navigation-tabs__tab"> FTP </a>
+      {% endif %}
+  </li>
+
+  <li id="SEFT"
+  class="navigation-tabs__item navigation-tabs__item--primary">
+  {% if request.path == '/SEFT' %}
+    <a href="/SEFT"
+       class="btn btn--secondary navigation-tabs__tab"> SEFT </a>
+  {% else %}
+    <a href="/SEFT"
+       class="btn btn--secondary btn--border navigation-tabs__tab"> SEFT </a>
+  {% endif %}
+</li>
+
+
+  <li id="Add User"
+      class="navigation-tabs__item navigation-tabs__item--primary">
+      {% if request.path == '/add_user' %}
+        <a href="/add_user"
+           class="btn btn--secondary navigation-tabs__tab"> Add User </a>
+      {% else %}
+        <a href="/add_user"
+           class="btn btn--secondary btn--border navigation-tabs__tab"> Add User </a>
+      {% endif %}
+  </li>
+
+  <li id="Logout"
+      class="navigation-tabs__item navigation-tabs__item--primary">
+      <a href="/logout"
+         class="btn btn--secondary btn--border navigation-tabs__tab"> Logout </a>
+  </li>
+</ul>

@@ -13,6 +13,4 @@ def run_test(message_manager: MessageManager, survey_dict: dict) -> Result:
     if result.dap_message is not None:
         file_list = store_reader.get_files(tx_id)
         result.set_files(file_list)
-
-    print(result)
     return result

@@ -1,0 +1,81 @@
+<h3> Receiver </h3>
+<p>Lists of the <strong>most recent 20 files</strong> to hit the FTP server:</p>
+
+<div id="response-data-wrapper">
+  <div id="tabs">
+    <ul class="navigation-tabs navigation-tabs--component" role="tablist">
+
+      <li class="navigation-tabs__item navigation-tabs__item--primary">
+        {% if request.path == '/FTP/pck' %}
+          <a href="/FTP/pck"
+             class="btn btn--secondary navigation-tabs__tab">PCKs</a>
+        {% else %}
+          <a href="/FTP/pck"
+             class="btn btn--secondary btn--border navigation-tabs__tab">PCKs</a>
+        {% endif %}
+      </li>
+
+      <li class="navigation-tabs__item navigation-tabs__item--primary">
+        {% if request.path == '/FTP/image' %}
+          <a href="/FTP/image"
+           class="btn btn--secondary navigation-tabs__tab">Images</a>
+        {% else %}
+          <a href="/FTP/image"
+           class="btn btn--secondary btn--border navigation-tabs__tab">Images</a>
+        {% endif %}
+      </li>
+
+      <li class="navigation-tabs__item navigation-tabs__item--primary">
+        {% if request.path == '/FTP/index' %}
+          <a href="/FTP/index"
+           class="btn btn--secondary navigation-tabs__tab">Indices</a>
+        {% else %}
+          <a href="/FTP/index"
+           class="btn btn--secondary btn--border navigation-tabs__tab">Indices</a>
+        {% endif %}
+      </li>
+
+      <li class="navigation-tabs__item navigation-tabs__item--primary">
+        {% if request.path == '/FTP/receipt' %}
+          <a href="/FTP/receipt"
+           class="btn btn--secondary navigation-tabs__tab">Receipts</a>
+        {% else %}
+          <a href="/FTP/receipt"
+           class="btn btn--secondary btn--border navigation-tabs__tab">Receipts</a>
+        {% endif %}
+      </li>
+
+      <li class="navigation-tabs__item navigation-tabs__item--primary">
+        {% if request.path == '/FTP/json' %}
+          <a href="/FTP/json"
+           class="btn btn--secondary navigation-tabs__tab">Original JSON</a>
+        {% else %}
+          <a href="/FTP/json"
+           class="btn btn--secondary btn--border navigation-tabs__tab">Original JSON </a>
+        {% endif %}
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      {% if request.path=="/FTP/pck" or request.path=="/FTP" %}
+        {% set datatype='pck' %}
+        {% include 'partials/data_table.html' %}
+      {% elif request.path=="/FTP/image" %}
+        {% set datatype='image' %}
+        {% include 'partials/data_table.html' %}
+      {% elif request.path=="/FTP/index" %}
+        {% set datatype='index' %}
+        {% include 'partials/data_table.html' %}
+      {% elif request.path=="/FTP/receipt" %}
+        {% set datatype='receipt' %}
+        {% include 'partials/data_table.html' %}
+      {% elif request.path=="/FTP/json" %}
+        {% set datatype='json' %}
+        {% include 'partials/data_table.html' %}
+      {% endif %}
+    </div>
+
+    <br>
+    <button id="refresh-ftp" class="btn btn-default">Refresh FTP</button>
+  </div>
+</div>
