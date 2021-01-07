@@ -9,14 +9,14 @@
     <style>
           .loadFiles
             {
-                background-color: #cccccc;
+                background-color: #033e58;
                 border:2px solid #000;
                 padding:20px;
                 border-radius: 5px;
             }
 
             div button{
-                background-color: yellow;
+                background-color: #fff;
                 border:2px solid #000;
                 padding:15px;
                 display:inline-block;
@@ -65,41 +65,44 @@
 </head>
 <body onload="check_receipt_and_dap();">
 
- <div class="container">
+    <div class="container">
         <div class="buttons">
 
-        <button type="button" style="colour: white; background: red" class="collapsible" id="dap_message">Received DAP</button>
+            <button type="button" style="colour:black; background:green" class="collapsible" id="dap"><strong>Received DAP</strong></button>
         <div class="content">
-            <textarea readonly style="width:100%; overflow:auto" rows="30">
+            <textarea id="dap_text" readonly style="width:100%; overflow:auto" rows="30">
                 {{dap_message | pretty_print }}
             </textarea>
         </div>
         <br><br>
 
-        <button type="button" style="colour:white; background:red" class="collapsible" id="receipt">Received Receipts</button>
+            <button type="button" style="colour:black; background:green" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
         <div class="content">
-            <textarea readonly style="width:100%; overflow:auto" rows="15">
+            <textarea id="receipt_text" readonly style="width:100%; overflow:auto" rows="15">
                 {{ receipt | pretty_print }}
             </textarea>
         </div>
         <br><br>
         <div class="loadFiles">
             <div>
-                <p>Select the format:</p>
+                <p style="color:#fff;"><strong>Select the format:</strong></p>
                 {% for key, value in files.items() %}
                     {% if 'JPG' in key %}
-                        <button onclick="showData( '{{key}}' );"> {{ key }} </button>
-                        <p id="{{ key }}" style="display:none"><img style="width:75%;" src="data:image/JPG;base64,{{ value }}"></p>
-                        <br>
+                        <center><button style="width:100%;" onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <p id="{{ key }}" style="display:none; padding:20px"><img style="width:75%;" src="data:image/JPG;base64,{{ value }}"></p>
+                        </center>
                     {% else %}
-                        <button onclick="showData( '{{key}}' );"> {{ key }} </button>
-                        <textarea readonly id="{{ key }}" style="display:none; width:100%; height:500px">{{ value }}</textarea>
-                        <br>
+                        <center><button style="width:100%;" onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <textarea readonly id="{{ key }}" style="display:none; padding:20px; width:100%; height:500px;
+                        border-radius: 5px;">{{ value }}</textarea>
+                        </center>
                     {% endif %}
                     <br>
                 {% endfor %}
             </div>
         </div>
+        </div>
+    </div>
         <script>
         function showData(id_clicked) {
             var current_display = document.getElementById(id_clicked).style.display;
@@ -115,15 +118,17 @@
         }
 
         function check_receipt_and_dap(){
-            var dap_message = document.getElementById('dap_message');
+            var dap_message = document.getElementById('dap');
             var receipt = document.getElementById('receipt');
-            if (dap_message.value != "None") {
-                dap_message.style.color = "black";
-                dap_message.style.background="green";
+            var dap_checked = document.getElementById('dap_text').value
+            var receipt_checked = document.getElementById('receipt_text').value
+            if (dap_checked.includes('null') ) {
+                dap_message.style.color = "white";
+                dap_message.style.background="red";
                 }
-            if (receipt.value != "None") {
-                receipt.style.color = "black";
-                receipt.style.background="green";
+            if (receipt_checked.includes('null')) {
+                receipt.style.color = "white";
+                receipt.style.background="red";
                 }
             }
 

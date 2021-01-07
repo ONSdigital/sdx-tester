@@ -67,7 +67,7 @@ def view_response(tx_id):
                                    dap_message=dap_message,
                                    files=files,
                                    errors=errors)
-    return 'No response has come back yet with that TX_ID'
+    return redirect(url_for('index'))
 
 
 def decode_files_and_images(response_files: dict):
