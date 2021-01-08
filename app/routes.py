@@ -6,10 +6,11 @@ import uuid
 from datetime import datetime
 
 from flask import request, render_template, url_for
+from flask_socketio import SocketIO, emit
 from structlog import wrap_logger
 from werkzeug.utils import redirect
 
-from app import app
+from app import app, socketio
 from app.messaging import message_manager
 from app.tester import run_test
 from app.read_data import extract_test_data_dict
@@ -38,7 +39,7 @@ def submit():
     time = datetime.now()
     time = time.strftime("%H:%M:%S")
     tx_list[time] = tx_id
-    threading.Thread(target=new_thread_for_response, args=(data_dict,), daemon=True).start()
+    threading.Thread(target=new_thread_for_response, args=(data_dict,)).start()
     return redirect(url_for('index'))
 
 
@@ -82,6 +83,19 @@ def view_response(tx_id):
                            quarantine=quarantine)
 
 
+@socketio.on('connect')
+def make_ws_connection():
+    print('Client Connected')
+
+
+def new_thread_for_response(data_dict: dict):
+    result = run_test(message_manager, data_dict)
+    responses.append(result)
+    response = 'Emitting....'
+    socketio.emit('data received', {'response': response})
+    print('Emitted successfully')
+
+
 def decode_files_and_images(response_files: dict):
     sorted_files = {}
     for key, value in response_files.items():
@@ -91,11 +105,6 @@ def decode_files_and_images(response_files: dict):
         else:
             sorted_files[key] = value.decode('utf-8')
     return sorted_files
-
-
-def new_thread_for_response(data_dict: dict):
-    result = run_test(message_manager, data_dict)
-    responses.append(result)
 
 
 @app.template_filter()

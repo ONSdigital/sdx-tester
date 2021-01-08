@@ -2,6 +2,17 @@
 {% extends "layouts/_twocol.html" %}
 
 {% block content %}
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var socket = io.connect('http://' + document.domain + ':' + location.port);
+                socket.on('data received', function(msg) {
+                    console.log('data received' + msg);
+                    location.reload(true);
+                });
+            });
+        </script>
 
 <head>
     <meta charset="UTF-8">

@@ -1,7 +1,9 @@
 import logging
 import os
 
+
 from flask import Flask
+from flask_socketio import SocketIO
 
 LOGGING_LEVEL = logging.getLevelName(os.getenv('LOGGING_LEVEL', 'INFO'))
 LOGGING_FORMAT = "%(asctime)s.%(msecs)06dZ|%(levelname)s: sdx-tester: %(message)s"
@@ -28,4 +30,6 @@ MAX_WAIT_TIME_SECS = 20
 
 
 app = Flask(__name__)
+socketio = SocketIO(app)
+
 from app import routes
