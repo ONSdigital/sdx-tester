@@ -91,6 +91,8 @@ def new_thread_for_response(data_dict: dict):
     result = run_test(message_manager, data_dict)
     responses.append(result)
     response = 'Emitting....'
+    socketio.emit('data received', {'response': response})
+    print('Emitted successfully')
 
 
 def decode_files_and_images(response_files: dict):
