@@ -16,8 +16,6 @@ from app.read_data import extract_test_data_dict
 
 logger = wrap_logger(logging.getLogger(__name__))
 
-POOL_TIME = 5  # Seconds
-your_thread = threading.Thread()
 tx_list = {}
 responses = []
 
