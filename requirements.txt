@@ -7,4 +7,4 @@ cryptography~=3.2.1
 structlog==20.1.0
 Flask-SocketIO
 python-engineio==3.13.2
-python-socketio==4.
+python-socketio==4.6.0
