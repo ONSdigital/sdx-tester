@@ -9,6 +9,7 @@ class Result:
         self.quarantine = None
         self.files = {}
         self.errors = []
+        self.timeout = False
 
     def get_tx_id(self):
         return self.survey_dict['tx_id']
@@ -22,6 +23,9 @@ class Result:
     def set_quarantine(self, quarantine):
         self.quarantine = quarantine
 
+    def set_timeout(self, timeout):
+        self.timeout = timeout
+
     def set_files(self, files: dict):
         self.files = files
 
@@ -34,4 +38,5 @@ class Result:
                 quarantine: {self.quarantine}
                 files: {self.files}
                 errors: {self.errors}
+                errors: {self.timeout}
               '''

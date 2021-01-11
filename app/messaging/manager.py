@@ -1,3 +1,4 @@
+import logging
 import threading
 import time
 
@@ -5,6 +6,8 @@ from app import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUAR
 from app.messaging.publisher import publish_data
 from app.messaging.subscriber import MessageListener, Listener
 from app.result import Result
+
+logger = logging.getLogger(__name__)
 
 
 class MessageManager:
@@ -49,13 +52,14 @@ class MessageManager:
         while listening:
             if count > MAX_WAIT_TIME_SECS:
                 print("Timed out")
+                result.set_timeout(True)
                 self.remove_listeners(tx_id)
                 return result
 
             if q_listener.is_complete():
                 print("Quarantined")
                 result.set_quarantine(q_listener.get_message())
-                self.remove_listeners(tx_id)
+                # self.remove_listeners(tx_id)
                 return result
 
             if listener.is_complete():

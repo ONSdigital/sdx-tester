@@ -72,14 +72,43 @@
               width: 100%
             }
 
+            .timeout {
+                background-color: #EF9A9A;
+                color: black;
+                padding: 18px 18px;
+                border-radius: 5px
+            }
+
     </style>
 </head>
-<body onload="check_receipt_and_dap();">
-
+<body onload="checkReceiptAndDap();">
+    <div class="container">
+    {% if timeout or quarantine %}
+        {% for flash in get_flashed_messages() %}
+            <div class="timeout">
+                <h2>ERROR</h2>
+                <p>{{ flash }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <br>
+    {% if quarantine %}
     <div class="container">
         <div class="buttons">
-
-            <button type="button" style="colour:black; background:green" class="collapsible" id="dap"><strong>Received DAP</strong></button>
+            <button type="button" style="colour:white; background:#033e58" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
+        <div class="content">
+            <textarea id="quarantine_text" readonly style="width:100%; overflow:auto" rows="30">
+                 {{ quarantine | pretty_print }}
+            </textarea>
+        </div>
+        </div>
+        <br>
+    </div>
+    {% else %}
+    <div class="container">
+        <div class="buttons">
+            <button type="button" style="colour:white; background:#033e58" class="collapsible" id="dap"><strong>Received DAP</strong></button>
         <div class="content">
             <textarea id="dap_text" readonly style="width:100%; overflow:auto" rows="30">
                 {{dap_message | pretty_print }}
@@ -87,7 +116,7 @@
         </div>
         <br><br>
 
-            <button type="button" style="colour:black; background:green" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
+            <button type="button" style="colour:white; background:#033e58" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
         <div class="content">
             <textarea id="receipt_text" readonly style="width:100%; overflow:auto" rows="15">
                 {{ receipt | pretty_print }}
@@ -114,6 +143,7 @@
         </div>
         </div>
     </div>
+    {% endif %}
         <script>
         function showData(id_clicked) {
             var current_display = document.getElementById(id_clicked).style.display;
@@ -128,18 +158,24 @@
             }
         }
 
-        function check_receipt_and_dap(){
-            var dap_message = document.getElementById('dap');
-            var receipt = document.getElementById('receipt');
-            var dap_checked = document.getElementById('dap_text').value
-            var receipt_checked = document.getElementById('receipt_text').value
-            if (dap_checked.includes('null') ) {
-                dap_message.style.color = "white";
-                dap_message.style.background="red";
+        function checkReceiptAndDap(){
+            var dap = document.getElementById('dap_text').value
+            var receipt = document.getElementById('receipt_text').value
+            if (dap.includes('null') ) {
+                document.getElementById('dap').style.color = "white";
+                document.getElementById('dap').style.background="red";
                 }
-            if (receipt_checked.includes('null')) {
-                receipt.style.color = "white";
-                receipt.style.background="red";
+            if (receipt.includes('null')) {
+                document.getElementById('receipt').style.color = "white";
+                document.getElementById('receipt').style.background="red";
+                }
+            if (dap.includes('name')) {
+                document.getElementById('dap').style.color = "white";
+                document.getElementById('dap').style.background="green";
+                }
+            if (receipt.includes('tx_id')) {
+                document.getElementById('receipt').style.color = "white";
+                document.getElementById('receipt').style.background="green";
                 }
             }
 
