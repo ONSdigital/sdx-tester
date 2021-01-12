@@ -1,7 +1,12 @@
+import logging
 from concurrent.futures import TimeoutError
+
 from google.cloud import pubsub_v1
 
 from app import PROJECT_ID
+
+
+logger = logging.getLogger(__name__)
 
 
 class Listener:
@@ -38,21 +43,22 @@ class MessageListener:
         del self.listeners[tx_id]
 
     def on_message(self, message):
+        logger.info(f'{self.listeners.keys()}')
         tx_id = message.attributes.get('tx_id')
-        print(f"received tx_id from header {tx_id} on {self.subscription_path}")
-        if tx_id in self.listeners.keys():
+        logger.info(f"received tx_id from header {tx_id} on {self.subscription_path}")
+        if tx_id in self.listeners:
             message.ack()
-            print(f"acking message with tx_id {tx_id}")
+            logger.info(f"acking message with tx_id {tx_id}")
             listener = self.listeners[tx_id]
             listener.set_complete()
             listener.set_message(message)
         else:
             message.nack()
-            print(f"naacking message with tx_id {tx_id}")
-            print(f"remaining keys: {self.listeners.keys()}")
+            logger.info(f"nacking message with tx_id {tx_id}")
+            logger.info(f"remaining keys: {self.listeners.keys()}")
 
     def start(self):
-        print(f"Listening for messages on {self.subscription_path}..\n")
+        logger.info(f"Listening for messages on {self.subscription_path}..\n")
 
         # Wrap subscriber in a 'with' block to automatically call close() when done.
         with self.subscriber:
