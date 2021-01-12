@@ -59,7 +59,7 @@ class MessageManager:
             if q_listener.is_complete():
                 print("Quarantined")
                 result.set_quarantine(q_listener.get_message())
-                # self.remove_listeners(tx_id)
+                self.remove_listeners(tx_id)
                 return result
 
             if listener.is_complete():
