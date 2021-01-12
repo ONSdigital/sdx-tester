@@ -3,6 +3,7 @@ import json
 import zipfile
 
 from google.cloud import storage
+from app import BUCKET_NAME, PROJECT_ID
 
 
 def get_files(filename: str) -> list:
@@ -14,9 +15,9 @@ def get_files(filename: str) -> list:
 def read(filename: str) -> str:
     path = f"surveys/{filename}"
     # create storage client
-    storage_client = storage.Client("ons-sdx-sandbox")
+    storage_client = storage.Client(PROJECT_ID)
     # get bucket with name
-    bucket = storage_client.bucket('sdx-outputs')
+    bucket = storage_client.bucket(BUCKET_NAME)
     # get bucket data as blob
     blob = bucket.blob(path)
     # convert to string
