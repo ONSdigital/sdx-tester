@@ -5,15 +5,21 @@ import zipfile
 from google.cloud import storage
 from app import BUCKET_NAME, PROJECT_ID
 
-
-def get_files(filename: str) -> list:
-    data_str = read(filename)
-    # decrypt
-    return extract(data_str)
+DAP_SURVEYS = ["023", "134", "147", "281", "283", "lms", "census"]
 
 
-def read(filename: str) -> str:
-    path = f"surveys/{filename}"
+def get_files(file_name: str, file_location) -> list:
+    if file_location not in DAP_SURVEYS:
+        zip_file = read(file_name, 'surveys')
+        return extract_zip(zip_file)
+    else:
+        b_str_data = read(file_name, 'dap')
+        files = {'JSON': b_str_data}
+        return files
+
+
+def read(file_name: str, file_location) -> str:
+    path = f"{file_location}/{file_name}"
     # create storage client
     storage_client = storage.Client(PROJECT_ID)
     # get bucket with name
@@ -25,7 +31,7 @@ def read(filename: str) -> str:
     return json_data
 
 
-def extract(zip_file: str) -> dict:
+def extract_zip(zip_file: str) -> dict:
     z = zipfile.ZipFile(io.BytesIO(zip_file), "r")
     files = {}
     for filename in z.namelist():
