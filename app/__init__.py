@@ -13,7 +13,7 @@ logging.basicConfig(
     level=LOGGING_LEVEL,
 )
 
-PROJECT_ID = "ons-sdx-sandbox"
+PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
 
 # publishing config
 SURVEY_TOPIC = "survey-topic"
