@@ -82,7 +82,7 @@
     </style>
 </head>
 <body onload="checkReceiptAndDap();">
-    <div class="container">
+    <button style="display:inline-block;margin-left:-250px; color:white; background:#033e58" onclick="goBack()">Go Back</button>
     {% if timeout or quarantine %}
         {% for flash in get_flashed_messages() %}
             <div class="timeout">
@@ -91,12 +91,10 @@
             </div>
         {% endfor %}
     {% endif %}
-    </div>
     <br>
     {% if quarantine %}
-    <div class="container">
         <div class="buttons">
-            <button type="button" style="colour:white; background:#033e58" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
+            <button type="button" style=" display:inline-block; colour:white; background:#033e58" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
         <div class="content">
             <textarea id="quarantine_text" readonly style="width:100%; overflow:auto" rows="30">
                  {{ quarantine | pretty_print }}
@@ -104,22 +102,19 @@
         </div>
         </div>
         <br>
-    </div>
     {% else %}
     <div class="container">
         <div class="buttons">
             <button type="button" style="colour:white; background:#033e58" class="collapsible" id="dap"><strong>Received DAP</strong></button>
         <div class="content">
-            <textarea id="dap_text" readonly style="width:100%; overflow:auto" rows="30">
-                {{dap_message | pretty_print }}
+            <textarea id="dap_text" readonly style="width:100%; overflow:auto; padding:20px;" rows="30">{{dap_message | pretty_print }}
             </textarea>
         </div>
         <br><br>
 
             <button type="button" style="colour:white; background:#033e58" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
         <div class="content">
-            <textarea id="receipt_text" readonly style="width:100%; overflow:auto" rows="15">
-                {{ receipt | pretty_print }}
+            <textarea id="receipt_text" readonly style="width:100%; overflow:auto; padding:20px;" rows="15">{{ receipt | pretty_print }}
             </textarea>
         </div>
         <br><br>
@@ -134,7 +129,7 @@
                     {% else %}
                         <center><button style="width:100%;" onclick="showData( '{{key}}' );"> {{ key }} </button>
                         <textarea readonly id="{{ key }}" style="display:none; padding:20px; width:100%; height:500px;
-                        border-radius: 5px;">{{ value }}</textarea>
+                        border-radius: 5px; resize:none;">{{ value }}</textarea>
                         </center>
                     {% endif %}
                     <br>
@@ -192,6 +187,9 @@
               content.style.maxHeight = content.scrollHeight + "px";
             }
           });
+        }
+        function goBack() {
+          window.history.back();
         }
         </script>
 
