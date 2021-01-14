@@ -43,6 +43,7 @@ def make_ws_connection():
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    surveys = extract_test_data_dict()
     data_str = request.form.get('post-data')
     data_dict = json.loads(data_str)
     tx_id = str(uuid.uuid4())
@@ -50,7 +51,10 @@ def submit():
     time_and_survey = f'({data_dict["survey_id"]})  {datetime.now().strftime("%H:%M")}'
     tx_list[time_and_survey] = tx_id
     threading.Thread(target=downstream_process, args=(data_dict,)).start()
-    return redirect(url_for('index'))
+    return render_template('index.html',
+                           surveys=surveys,
+                           tx_list=tx_list,
+                           current_survey=data_str)
 
 
 @app.route('/response/<tx_id>', methods=['GET'])

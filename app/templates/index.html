@@ -19,13 +19,19 @@
             </select>
             <br>
             <br>
-            <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
-            border-radius: 5px;">
-            </textarea>
+            {% if current_survey %}
+                <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
+                border-radius: 5px;">{{ current_survey }}
+                </textarea>
+            {% else %}
+                <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
+                border-radius: 5px;">{{surveys['009']|pretty_print }}
+                </textarea>
+            {% endif %}
                 <ul style="float:right; width:50%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
                 border-radius: 5px;" id="test">
                     {% for time, tx_id in tx_list.items() %}
-                    <li> {{ time }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
+                    <li>{{ time }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
                     {% endfor %}
                 </ul>
             <br>
