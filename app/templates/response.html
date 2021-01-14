@@ -1,130 +1,130 @@
 {% import 'partials/section.html' as section %}
 {% extends "layouts/_twocol.html" %}
-
 {% block content %}
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            var socket = io.connect('http://' + document.domain + ':' + location.port);
-            socket.on('data received', function(msg) {
-                console.log('data received' + msg);
-                location.reload(true);
-            });
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.on('data received', function(msg) {
+            console.log('data received' + msg);
+            location.reload(true);
         });
-    </script>
+    })
+</script>
 
-    <head>
-        <meta charset="UTF-8">
-        <title>SDX Tester</title>
-        <link rel="stylesheet" type="text/css" href="../static/css/fixed.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>SDX Tester</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/fixed.css">
+</head>
 
-    <body onload="checkReceiptAndDap();">
-        <div class="container">
-        {% if timeout or quarantine %}
-            {% for flash in get_flashed_messages() %}
-                <div class="timeout">
-                    <h2>ERROR</h2>
-                    <p>{{ flash }}</p>
-                </div>
-            {% endfor %}
-        {% endif %}
+<body onload="checkReceiptAndDap();">
+    <div class="container">
+    {% if timeout or quarantine %}
+        {% for flash in get_flashed_messages() %}
+            <div class="timeout">
+                <h2>ERROR</h2>
+                <p>{{ flash }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <br>
+   {% if quarantine %}
+    <div class="container">
+        <div class="buttons">
+            <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
+        <div class="content">
+            <textarea id="quarantine_text" readonly rows="30">
+                 {{ quarantine | pretty_print }}
+            </textarea>
+        </div>
         </div>
         <br>
-        {% if quarantine %}
-        <div class="container">
-            <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
-            <div class="content">
-                <textarea id="quarantine_text" readonly rows="30">
-                     {{ quarantine | pretty_print }}
-                </textarea>
-            </div>
-            <br>
-        </div>
-        {% else %}
-        <div class="container">
+    </div>
+    {% else %}
+    <div class="container">
+        <div class="buttons">
             <button type="button" class="collapsible" id="dap"><strong>Received DAP</strong></button>
-            <div class="content">
-                <textarea id="dap_text" readonly rows="30">{{dap_message | pretty_print }}</textarea>
-            </div>
-            <br><br>
-
+        <div class="content">
+            <textarea id="dap_text" readonly rows="30">{{dap_message | pretty_print }}</textarea>
+        </div>
+        <br><br>
             <button type="button" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
-            <div class="content">
-                <textarea id="receipt_text" readonly rows="15">{{ receipt | pretty_print }}</textarea>
-            </div>
-            <br><br>
-
-            <div class="loadFiles">
-                <p><strong>Select the format:</strong></p>
+        <div class="content">
+            <textarea id="receipt_text" readonly rows="15">{{ receipt | pretty_print }}</textarea>
+        </div>
+        <br><br>
+        <div class="loadFiles">
+            <div>
+                <p class="loadFiles"><strong>Select the format:</strong></p>
                 {% for key, value in files.items() %}
                     {% if 'JPG' in key %}
-                        <center><button onclick="showData( '{{key}}' );"> {{ key }} </button>
-                        <p id="{{ key }}"><img src="data:image/JPG;base64,{{ value }}"></p>
+                        <center><button class="showData" onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <p id="{{ key }}" class="loadImage"><img src="data:image/JPG;base64,{{ value }}"></p>
                         </center>
                     {% else %}
-                        <center><button onclick="showData( '{{key}}' );"> {{ key }} </button>
-                        <textarea readonly id="{{ key }}">{{ value }}</textarea>
+                        <center><button class="showData" onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <textarea readonly class= "files" id="{{ key }}">{{ value }}</textarea>
                         </center>
                     {% endif %}
                     <br>
                 {% endfor %}
             </div>
         </div>
-        {% endif %}
+        </div>
+    </div>
+    {% endif %}
 
     <script>
-    function showData(id_clicked) {
-        var current_display = document.getElementById(id_clicked).style.display;
-        if (current_display == 'none') {
-            document.getElementById(id_clicked).style.display = 'block';
-            var ugly = document.getElementById(id_clicked).value;
-            var uglyObj = JSON.parse(ugly)
-            pretty = JSON.stringify(uglyObj, null, 4)
-            document.getElementById(id_clicked).value = pretty
-        } else {
-            document.getElementById(id_clicked).style.display = 'none';
-        }
-    }
-
-    function checkReceiptAndDap(){
-        var dap = document.getElementById('dap_text').value
-        var receipt = document.getElementById('receipt_text').value
-        if (dap.includes('null') ) {
-            document.getElementById('dap').style.color = "white";
-            document.getElementById('dap').style.background="red";
-            }
-        if (receipt.includes('null')) {
-            document.getElementById('receipt').style.color = "white";
-            document.getElementById('receipt').style.background="red";
-            }
-        if (dap.includes('name')) {
-            document.getElementById('dap').style.color = "white";
-            document.getElementById('dap').style.background="green";
-            }
-        if (receipt.includes('tx_id')) {
-            document.getElementById('receipt').style.color = "white";
-            document.getElementById('receipt').style.background="green";
+        function showData(id_clicked) {
+            var current_display = document.getElementById(id_clicked).style.display;
+            if (current_display == 'none') {
+                document.getElementById(id_clicked).style.display = 'block';
+                var ugly = document.getElementById(id_clicked).value;
+                var uglyObj = JSON.parse(ugly)
+                pretty = JSON.stringify(uglyObj, null, 4)
+                document.getElementById(id_clicked).value = pretty
+            } else {
+                document.getElementById(id_clicked).style.display = 'none';
             }
         }
-
-
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight){
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "px";
+        function checkReceiptAndDap(){
+            var dap = document.getElementById('dap_text').value
+            var receipt = document.getElementById('receipt_text').value
+            if (dap.includes('null') ) {
+                document.getElementById('dap').style.color = "white";
+                document.getElementById('dap').style.background="red";
+                }
+            if (receipt.includes('null')) {
+                document.getElementById('receipt').style.color = "white";
+                document.getElementById('receipt').style.background="red";
+                }
+            if (dap.includes('name')) {
+                document.getElementById('dap').style.color = "white";
+                document.getElementById('dap').style.background="green";
+                }
+            if (receipt.includes('tx_id')) {
+                document.getElementById('receipt').style.color = "white";
+                document.getElementById('receipt').style.background="green";
+                }
+            }
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          });
         }
-      });
-    }
     </script>
-
-    </body>
+ </body>
 
 {% endblock content %}
