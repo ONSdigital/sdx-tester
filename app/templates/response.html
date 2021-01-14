@@ -87,14 +87,12 @@
         <div class="buttons">
             <button type="button" style=" display:inline-block; colour:white; background:#033e58" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
         <div class="content">
-            <textarea id="quarantine_text" readonly style="width:100%; overflow:auto" rows="30">
-                 {{ quarantine | pretty_print }}
+            <textarea id="quarantine_text" readonly style="width:100%; overflow:auto" rows="30">{{ quarantine | pretty_print }}
             </textarea>
         </div>
         </div>
         <br>
     {% else %}
-    <div class="container">
         <div class="buttons">
             <button type="button" style="colour:white; background:#033e58" class="collapsible" id="dap"><strong>Received DAP</strong></button>
         <div class="content">
@@ -128,7 +126,6 @@
             </div>
         </div>
         </div>
-    </div>
     {% endif %}
         <script>
         function showData(id_clicked) {
