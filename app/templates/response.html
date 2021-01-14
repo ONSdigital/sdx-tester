@@ -1,5 +1,6 @@
 {% import 'partials/section.html' as section %}
 {% extends "layouts/_twocol.html" %}
+
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="/static/js/tester.js"></script>
@@ -71,7 +72,6 @@
 
     </style>
 </head>
-
 <body onload="checkReceiptAndDap();">
     <button style="display:inline-block;margin-left:-250px; color:white; background:#033e58" onclick="goBack()">Go Back</button>
     {% if timeout or quarantine %}
@@ -94,13 +94,14 @@
         <br>
     {% else %}
         <div class="buttons">
-            <button type="button" class="collapsible" id="dap"><strong>Received DAP</strong></button>
+            <button type="button" style="colour:white; background:#033e58" class="collapsible" id="dap"><strong>Received DAP</strong></button>
         <div class="content">
             <textarea id="dap_text" readonly style="width:100%; overflow:auto; padding:20px;" rows="20">{{dap_message | pretty_print }}
             </textarea>
         </div>
         <br><br>
-            <button type="button" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
+
+            <button type="button" style="colour:white; background:#033e58" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
         <div class="content">
             <textarea id="receipt_text" readonly style="width:100%; overflow:auto; padding:20px;" rows="15">{{ receipt | pretty_print }}
             </textarea>
@@ -108,11 +109,11 @@
         <br><br>
         <div class="loadFiles">
             <div>
-                <p class="loadFiles"><strong>Select the format:</strong></p>
+                <p style="color:#fff;"><strong>Select the format:</strong></p>
                 {% for key, value in files.items() %}
                     {% if 'JPG' in key %}
-                        <center><button class="showData" onclick="showData( '{{key}}' );"> {{ key }} </button>
-                        <p id="{{ key }}" class="loadImage"><img src="data:image/JPG;base64,{{ value }}"></p>
+                        <center><button style="width:100%;" onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <p id="{{ key }}" style="display:none; padding:20px"><img style="width:75%;" src="data:image/JPG;base64,{{ value }}"></p>
                         </center>
                     {% else %}
                         <center><button style="width:100%;" onclick="showData( '{{key}}' );"> {{ key }} </button>
@@ -126,8 +127,7 @@
         </div>
         </div>
     {% endif %}
-
-    <script>
+        <script>
         function showData(id_clicked) {
             var current_display = document.getElementById(id_clicked).style.display;
             if (current_display == 'none') {
@@ -140,6 +140,7 @@
                 document.getElementById(id_clicked).style.display = 'none';
             }
         }
+
         function checkReceiptAndDap(){
             var dap = document.getElementById('dap_text').value
             var receipt = document.getElementById('receipt_text').value
@@ -160,6 +161,8 @@
                 document.getElementById('receipt').style.background="green";
                 }
             }
+
+
         var coll = document.getElementsByClassName("collapsible");
         var i;
         for (i = 0; i < coll.length; i++) {
@@ -184,6 +187,7 @@
             });
         });
         </script>
+
  </body>
 
 {% endblock content %}
