@@ -10,7 +10,7 @@ job_name = 'test'
 cron_job_name = 'sdx-collate'
 namespace = 'default'
 
-config.load_kube_config()
+config.load_incluster_config()
 batch_v1 = client.BatchV1Api()
 batch_v1beta1 = client.BatchV1beta1Api()
 
