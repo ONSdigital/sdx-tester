@@ -8,7 +8,6 @@ from datetime import datetime
 
 from flask import request, render_template, flash
 from structlog import wrap_logger
-from werkzeug.utils import redirect
 
 from app import app, socketio
 from app.encryption import decrypt_survey
@@ -28,7 +27,7 @@ class Messages(enum.Enum):
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET'])
 def index():
     surveys = extract_test_data_dict()
     return render_template('index.html',
