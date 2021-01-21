@@ -1,5 +1,6 @@
 import io
 import logging
+import os
 import zipfile
 import yaml
 from sdc.crypto.key_store import KeyStore
@@ -13,6 +14,7 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def encrypt_survey(submission: dict) -> str:
+    print(os.getcwd())
     with open("./keys.yml") as file:
         secrets_from_file = yaml.safe_load(file)
     key_store = KeyStore(secrets_from_file)

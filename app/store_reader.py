@@ -26,8 +26,9 @@ def read(file_name: str, file_location) -> str:
     bucket = storage_client.bucket(BUCKET_NAME)
     # get bucket data as blob
     blob = bucket.blob(path)
-    # convert to string
-    json_data = blob.download_as_string()
+    # convert to bytes
+    json_data = blob.download_as_bytes()
+
     return json_data
 
 
@@ -45,5 +46,5 @@ def extract_zip(zip_file: str) -> dict:
 
 def get_filename(json_str):
     message_dict = json.loads(json_str)
-    message_name = message_dict['files'][0]["name"]
+    message_name = message_dict['files'][0]['name']
     return message_name[:-5]

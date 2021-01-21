@@ -6,7 +6,7 @@ import threading
 import uuid
 from datetime import datetime
 
-from flask import request, render_template, url_for, flash
+from flask import request, render_template, flash
 from structlog import wrap_logger
 from werkzeug.utils import redirect
 
