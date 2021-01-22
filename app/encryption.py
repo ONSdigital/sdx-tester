@@ -43,5 +43,5 @@ def test_decrypt():
         decoded = base64.b64decode(data_decrypted['zip'])
         view_zip_content(decoded)
 
-test_decrypt()
 
+print(test_decrypt())

@@ -19,8 +19,18 @@ def run_tests_all(data_location: str):
     return survey_results
 
 
+def run_test_helper(submission: dict):
+    tx_id = str(uuid.uuid4())
+    submission['tx_id'] = tx_id
+    return downstream(submission)
+
+
 def downstream(submission: dict):
-    survey_id = f"{submission['survey_id']}.{submission['collection']['instrument_id']}"
+    try:
+        survey_id = f"{submission['survey_id']}.{submission['collection']['instrument_id']}"
+    except KeyError as e:
+        survey_id = "Error finding survey_id"
+        # print(e)
     survey_result = {'survey_id': survey_id,
                      'Dap': None,
                      'Receipt': None,
@@ -39,10 +49,3 @@ def downstream(submission: dict):
         survey_result['Timeout'] = True
 
     return survey_result
-
-
-def submit_quarantine(message_manager: MessageManager, survey_dict: dict):
-    encrypted_survey = encrypt_survey(survey_dict)
-    result = Result(survey_dict)
-    result = message_manager.submit(result, encrypted_survey)
-    return result

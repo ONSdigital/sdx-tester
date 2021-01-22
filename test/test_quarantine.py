@@ -1,8 +1,7 @@
 import unittest
 
 from app.messaging import message_manager
-from test.helper import submit_quarantine
-
+from test.helper import run_test_helper
 
 """
 Flesh out test_bad_surveys where we individually know what is wrong with each 'bad' survey
@@ -50,9 +49,10 @@ class TestAllSurveys(unittest.TestCase):
             'Quarantined': True,
             'Timeout': False
         }
-        actual = submit_quarantine(message_manager, survey)
+        actual = run_test_helper(survey)
         self.assertEqual(expected, actual)
 
     def test_missing_survey_id(self):
         self.data.pop('survey_id')
         self.test_bad_survey(self.data)
+

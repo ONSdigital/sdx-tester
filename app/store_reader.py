@@ -9,7 +9,7 @@ from app.encryption import decrypt_survey, view_zip_content
 
 
 def get_files(bucket_location, bucket_key) -> list:
-    if bucket_location is not 'dap':
+    if bucket_location != 'dap':
         encrypted_zip = read(bucket_key, bucket_location)
         encoded_zip = decrypt_survey(encrypted_zip)
         decoded = base64.b64decode(encoded_zip['zip'])
