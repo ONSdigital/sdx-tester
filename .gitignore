@@ -1,5 +1,5 @@
 .DS_Store
-tests/__pycache__/
+test/__pycache__/
 __pycache__
 logs/
 *.pyc
@@ -10,3 +10,4 @@ tmpfile
 .python-version
 /Pipfile
 /Pipfile.lock
+.coverage

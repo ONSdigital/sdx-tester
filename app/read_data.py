@@ -19,10 +19,11 @@ def extract_test_data_dict():
     return sorted_dict
 
 
-# This method extracts data for test.py which gives an automated way of testing all surveys
-def extract_test_data_list():
+# This method extracts data for helper.py which gives an automated way of testing all surveys
+# path used for all Data 'app/Data/surveys'
+def extract_test_data_list(path: str):
     list_of_test_surveys = []
-    path = 'app/Data/surveys'
+    print(os.getcwd())
     for x in os.listdir(path):
         with open(f'{path}/{x}', 'r') as data:
             survey = json.load(data)

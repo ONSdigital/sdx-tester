@@ -1,0 +1,227 @@
+{
+  "started_at": "2018-05-15T22:19:40.953654+00:00",
+  "submitted_at": "2018-06-01T13:31:39.953654+00:00",
+  "survey_id": "lms",
+  "case_ref": "1000000000000001",
+  "data": [
+    {
+      "answer_instance": 0,
+      "value": "Yes",
+      "answer_id": "address-check-answer",
+      "block_id": "address-check-block",
+      "group_id": "about-household-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "Jimmy",
+      "answer_id": "first-name",
+      "block_id": null,
+      "group_id": null,
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "",
+      "answer_id": "middle-names",
+      "block_id": null,
+      "group_id": null,
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "Bob",
+      "answer_id": "last-name",
+      "block_id": null,
+      "group_id": null,
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "Yes",
+      "answer_id": "everyone-at-address-confirmation-answer",
+      "block_id": "everyone-at-address-confirmation",
+      "group_id": "about-household-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "no proxy",
+      "answer_id": "proxy-check-answer",
+      "block_id": "proxy-check",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "1990-03-31",
+      "answer_id": "date-of-birth-answer-np",
+      "block_id": "date-of-birth-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "Male",
+      "answer_id": "sex-answer-np",
+      "block_id": "sex-np",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "Never married",
+      "answer_id": "marital-status-answer-np",
+      "block_id": "marital-status-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "Polish",
+      "answer_id": "nationality-answer-np",
+      "block_id": "nationality-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "",
+      "answer_id": "nationality-answer-other-np",
+      "block_id": "nationality-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "",
+      "answer_id": "country-of-birth-answer-other-np",
+      "block_id": "country-of-birth-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "England",
+      "answer_id": "country-of-birth-answer-np",
+      "block_id": "country-of-birth-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": [
+        "English"
+      ],
+      "answer_id": "national-identity-england-answer-np",
+      "block_id": "national-identity-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "",
+      "answer_id": "national-identity-england-answer-other-np",
+      "block_id": "national-identity-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": [],
+      "answer_id": "national-identity-wales-answer-np",
+      "block_id": "national-identity-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "",
+      "answer_id": "national-identity-wales-answer-other-np",
+      "block_id": "national-identity-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "White",
+      "answer_id": "ethnic-group-answer-np",
+      "block_id": "ethnic-group-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "",
+      "answer_id": "white-ethnic-group-answer-other-np",
+      "block_id": "white-ethnic-group-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "English, Welsh, Scottish, Northern Irish or British",
+      "answer_id": "white-ethnic-group-answer-np",
+      "block_id": "white-ethnic-group-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "",
+      "answer_id": "religion-answer-other-np",
+      "block_id": "religion-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "No religion",
+      "answer_id": "religion-answer-np",
+      "block_id": "religion-no-proxy",
+      "group_id": "household-member-group",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "example@example.com",
+      "answer_id": "confirm-email",
+      "block_id": "thank-you-block",
+      "group_id": "questionnaire-completed",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "example@example.com",
+      "answer_id": "email",
+      "block_id": "thank-you-block",
+      "group_id": "questionnaire-completed",
+      "group_instance": 0
+    },
+    {
+      "answer_instance": 0,
+      "value": "123154",
+      "answer_id": "phone-number",
+      "block_id": "thank-you-block",
+      "group_id": "questionnaire-completed",
+      "group_instance": 0
+    }
+  ],
+  "version": "0.0.2",
+  "metadata": {
+    "ref_period_end_date": "2016-05-31",
+    "ru_ref": "12346789012A",
+    "ref_period_start_date": "2016-05-01",
+    "user_id": "UNKNOWN"
+  },
+  "origin": "uk.gov.ons.edc.eq",
+  "collection": {
+    "instrument_id": "1",
+    "period": "201605",
+    "exercise_sid": "789"
+  },
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "tx_id": "9660044e-b756-4afd-bb23-a3cf39957ba1",
+  "flushed": false,
+  "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3"
+}
