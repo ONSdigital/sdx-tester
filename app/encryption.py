@@ -23,10 +23,11 @@ def encrypt_survey(submission: dict) -> str:
     return payload
 
 
-def decrypt_survey(payload: str) -> dict:
+def decrypt_survey(payload: bytes) -> dict:
     with open("./keys2.yml") as file2:
         secrets_from_file2 = yaml.safe_load(file2)
     key_store2 = KeyStore(secrets_from_file2)
+    payload.decode()
     decrypted_json = sdc_decrypt(payload, key_store2, KEY_PURPOSE_SUBMISSION)
     return decrypted_json
 
@@ -37,11 +38,10 @@ def view_zip_content(zip_file: str):
     return True
 
 
-def test_decrypt():
-    with open('app/Data/my-jwe') as data:
-        data_decrypted = decrypt_survey(data.read())
-        decoded = base64.b64decode(data_decrypted['zip'])
-        view_zip_content(decoded)
-
-
-print(test_decrypt())
+# def test_decrypt():
+#     with open('app/Data/my-jwe') as data:
+#         data_decrypted = decrypt_survey(data.read())
+#         decoded = base64.b64decode(data_decrypted['zip'])
+#         view_zip_content(decoded)
+#
+# print(test_decrypt())

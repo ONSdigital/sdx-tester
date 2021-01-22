@@ -8,28 +8,27 @@ from app import BUCKET_NAME, PROJECT_ID
 from app.encryption import decrypt_survey, view_zip_content
 
 
-def get_files(bucket_location, bucket_key) -> list:
-    if bucket_location != 'dap':
-        encrypted_zip = read(bucket_key, bucket_location)
+def get_files(file_path) -> list:
+    if file_path.split("/")[0] != 'dap':
+        encrypted_zip = read(file_path)
         encoded_zip = decrypt_survey(encrypted_zip)
         decoded = base64.b64decode(encoded_zip['zip'])
         return extract_zip(decoded)
         # return extract_zip(decoded)
     else:
-        e_json = read(bucket_key, bucket_location)
+        e_json = read(file_path)
         d_json = decrypt_survey(e_json)
         files = {'JSON': d_json}
         return files
 
 
-def read(file_name: str, file_location) -> str:
-    path = f"{file_location}/{file_name}"
+def read(file_path) -> str:
     # create storage client
     storage_client = storage.Client(PROJECT_ID)
     # get bucket with name
     bucket = storage_client.bucket(BUCKET_NAME)
     # get bucket data as blob
-    blob = bucket.blob(path)
+    blob = bucket.blob(file_path)
     # convert to bytes
     json_data = blob.download_as_bytes()
 

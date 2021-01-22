@@ -9,9 +9,8 @@ def run_test(message_manager: MessageManager, survey_dict: dict) -> Result:
     result = Result(survey_dict)
     result = message_manager.submit(result, encrypted_survey)
     if result.dap_message:
-        bucket_location = result.dap_message.attributes.get('gcs.bucket')
-        file_name = result.dap_message.attributes.get('gcs.key')
-        file_list = store_reader.get_files(bucket_location, file_name)
+        file_path = result.dap_message.attributes.get('gcs.key')
+        file_list = store_reader.get_files(file_path)
         result.set_files(file_list)
     print(result)
     return result
