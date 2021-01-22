@@ -1,20 +1,24 @@
+import base64
 import io
 import json
 import zipfile
 
 from google.cloud import storage
 from app import BUCKET_NAME, PROJECT_ID
+from app.encryption import decrypt_survey, view_zip_content
 
-DAP_SURVEYS = ["023", "134", "147", "281", "283", "lms", "census"]
 
-
-def get_files(file_name: str, file_location) -> list:
-    if file_location not in DAP_SURVEYS:
-        zip_file = read(file_name, 'surveys')
-        return extract_zip(zip_file)
+def get_files(bucket_location, bucket_key) -> list:
+    if bucket_location is not 'dap':
+        encrypted_zip = read(bucket_key, bucket_location)
+        encoded_zip = decrypt_survey(encrypted_zip)
+        decoded = base64.b64decode(encoded_zip['zip'])
+        return extract_zip(decoded)
+        # return extract_zip(decoded)
     else:
-        b_str_data = read(file_name, 'dap')
-        files = {'JSON': b_str_data}
+        e_json = read(bucket_key, bucket_location)
+        d_json = decrypt_survey(e_json)
+        files = {'JSON': d_json}
         return files
 
 
