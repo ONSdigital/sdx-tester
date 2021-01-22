@@ -64,7 +64,6 @@ class MessageManager:
 
             if listener.is_complete():
                 result.set_dap(listener.get_message())
-                result.set_bucket_location(listener.get_message())
                 dap_completed = True
 
             if r_listener.is_complete():
