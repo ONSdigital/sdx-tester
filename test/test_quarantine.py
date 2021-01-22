@@ -1,9 +1,8 @@
 import unittest
-import uuid
 
 from app.messaging import message_manager
-from test.helper import run_tests_all
-from app.tester import run_test
+from test.helper import submit_quarantine
+
 
 """
 Flesh out test_bad_surveys where we individually know what is wrong with each 'bad' survey
@@ -13,7 +12,7 @@ Flesh out test_bad_surveys where we individually know what is wrong with each 'b
 class TestAllSurveys(unittest.TestCase):
 
     def setUp(self):
-        data = {
+        self.data = {
             "collection": {
                 "exercise_sid": "478d806c-f7e2-4fc5-bcde-82148bab029a",
                 "instrument_id": "0201",
@@ -51,11 +50,9 @@ class TestAllSurveys(unittest.TestCase):
             'Quarantined': True,
             'Timeout': False
         }
-        actual = run_test(message_manager, survey)
+        actual = submit_quarantine(message_manager, survey)
         self.assertEqual(expected, actual)
 
     def test_missing_survey_id(self):
-        tx_id = str(uuid.uuid4())
-        self.data['tx_id'] = tx_id
         self.data.pop('survey_id')
         self.test_bad_survey(self.data)

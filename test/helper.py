@@ -1,5 +1,9 @@
 import uuid
-from app.messaging import message_manager
+
+from app import store_reader
+from app.encryption import encrypt_survey
+from app.messaging import message_manager, MessageManager
+from app.result import Result
 from app.tester import run_test
 from app.read_data import extract_test_data_list
 
@@ -35,3 +39,10 @@ def downstream(submission: dict):
         survey_result['Timeout'] = True
 
     return survey_result
+
+
+def submit_quarantine(message_manager: MessageManager, survey_dict: dict):
+    encrypted_survey = encrypt_survey(survey_dict)
+    result = Result(survey_dict)
+    result = message_manager.submit(result, encrypted_survey)
+    return result
