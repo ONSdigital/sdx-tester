@@ -12,4 +12,5 @@ def run_test(message_manager: MessageManager, survey_dict: dict) -> Result:
         file_path = result.dap_message.attributes.get('gcs.key')
         file_list = store_reader.get_files(file_path)
         result.set_files(file_list)
+    print(result)
     return result

@@ -11,14 +11,11 @@ from app.encryption import decrypt_survey
 def get_files(file_path) -> list:
     if file_path.split("/")[0] != 'dap':
         encrypted_zip = read(file_path)
-        print(encrypted_zip)
         encoded_zip = decrypt_survey(encrypted_zip)
         decoded = base64.b64decode(encoded_zip['zip'])
         return extract_zip(decoded)
     else:
         e_json = read(file_path)
-        print('dap file')
-        print(e_json)
         d_json = decrypt_survey(e_json)
         files = {'JSON': d_json}
         print(files)

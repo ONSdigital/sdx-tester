@@ -119,7 +119,7 @@ def decode_files_and_images(response_files: dict):
             b64_image = base64.b64encode(value).decode()
             sorted_files[key] = b64_image
         else:
-            sorted_files[key] = value
+            sorted_files[key] = value.decode('utf-8')
     return sorted_files
 
 
