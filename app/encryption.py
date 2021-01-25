@@ -1,4 +1,3 @@
-import base64
 import io
 import logging
 import os
@@ -36,12 +35,3 @@ def view_zip_content(zip_file: str):
     z = zipfile.ZipFile(io.BytesIO(zip_file), "r")
     print(z.printdir())
     return True
-
-
-# def test_decrypt():
-#     with open('app/Data/my-jwe') as data:
-#         data_decrypted = decrypt_survey(data.read())
-#         decoded = base64.b64decode(data_decrypted['zip'])
-#         view_zip_content(decoded)
-#
-# print(test_decrypt())
