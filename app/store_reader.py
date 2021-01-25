@@ -1,33 +1,40 @@
+import base64
 import io
 import json
 import zipfile
 
 from google.cloud import storage
 from app import BUCKET_NAME, PROJECT_ID
+from app.encryption import decrypt_survey
 
-DAP_SURVEYS = ["023", "134", "147", "281", "283", "lms", "census"]
 
-
-def get_files(file_name: str, file_location) -> list:
-    if file_location not in DAP_SURVEYS:
-        zip_file = read(file_name, 'surveys')
-        return extract_zip(zip_file)
+def get_files(file_path) -> list:
+    if file_path.split("/")[0] != 'dap':
+        encrypted_zip = read(file_path)
+        print(encrypted_zip)
+        encoded_zip = decrypt_survey(encrypted_zip)
+        decoded = base64.b64decode(encoded_zip['zip'])
+        return extract_zip(decoded)
     else:
-        b_str_data = read(file_name, 'dap')
-        files = {'JSON': b_str_data}
+        e_json = read(file_path)
+        print('dap file')
+        print(e_json)
+        d_json = decrypt_survey(e_json)
+        files = {'JSON': d_json}
+        print(files)
         return files
 
 
-def read(file_name: str, file_location) -> str:
-    path = f"{file_location}/{file_name}"
+def read(file_path) -> str:
     # create storage client
     storage_client = storage.Client(PROJECT_ID)
     # get bucket with name
     bucket = storage_client.bucket(BUCKET_NAME)
     # get bucket data as blob
-    blob = bucket.blob(path)
-    # convert to string
-    json_data = blob.download_as_string()
+    blob = bucket.blob(file_path)
+    # convert to bytes
+    json_data = blob.download_as_bytes()
+
     return json_data
 
 
@@ -45,5 +52,5 @@ def extract_zip(zip_file: str) -> dict:
 
 def get_filename(json_str):
     message_dict = json.loads(json_str)
-    message_name = message_dict['files'][0]["name"]
+    message_name = message_dict['files'][0]['name']
     return message_name[:-5]

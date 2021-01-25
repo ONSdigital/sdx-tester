@@ -1,0 +1,349 @@
+{
+    "case_id": "d6693984-6bb6-4e77-aed1-cb1cf34c0b63",
+    "collection": {
+      "exercise_sid": "5987ab86-599e-4bb6-820c-eff25c5703f1",
+      "instrument_id": "2",
+      "period": "201605"
+    },
+    "data": [
+      {
+        "answer_id": "address-check-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": null,
+        "value": "Yes"
+      },
+      {
+        "answer_id": "first-name",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "Firstname"
+      },
+      {
+        "answer_id": "middle-names",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "last-name",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "Lastname"
+      },
+      {
+        "answer_id": "everyone-at-address-confirmation-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": null,
+        "value": "Yes"
+      },
+      {
+        "answer_id": "proxy-check-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "no proxy"
+      },
+      {
+        "answer_id": "alternative-address-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "No"
+      },
+      {
+        "answer_id": "sex-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "Male"
+      },
+      {
+        "answer_id": "date-of-birth-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "1980-04-15"
+      },
+      {
+        "answer_id": "marital-status-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "Never married"
+      },
+      {
+        "answer_id": "nationality-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "British"
+      },
+      {
+        "answer_id": "nationality-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "country-of-birth-england-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "England"
+      },
+      {
+        "answer_id": "country-of-birth-england-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "national-identity-scotland-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "national-identity-wales-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": [
+          
+        ]
+      },
+      {
+        "answer_id": "national-identity-scotland-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": [
+          
+        ]
+      },
+      {
+        "answer_id": "national-identity-england-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": [
+          "English"
+        ]
+      },
+      {
+        "answer_id": "national-identity-england-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "national-identity-wales-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "ethnic-group-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "White"
+      },
+      {
+        "answer_id": "white-ethnic-group-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "white-ethnic-group-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "English, Welsh, Scottish, Northern Irish or British"
+      },
+      {
+        "answer_id": "religion-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "No religion"
+      },
+      {
+        "answer_id": "religion-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "paid-job-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "Yes"
+      },
+      {
+        "answer_id": "second-job-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "No"
+      },
+      {
+        "answer_id": "one-job-emp-status-full-or-part-time-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "Full-time"
+      },
+      {
+        "answer_id": "one-job-emp-status-emp-or-self-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "employee"
+      },
+      {
+        "answer_id": "working-hours-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": [
+          "Flexi-time"
+        ]
+      },
+      {
+        "answer_id": "working-hours-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "working-days-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": [
+          "Monday",
+          "Tuesday",
+          "Wednesday"
+        ]
+      },
+      {
+        "answer_id": "overtime-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "Paid overtime"
+      },
+      {
+        "answer_id": "paid-overtime-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": 10
+      },
+      {
+        "answer_id": "one-job-usual-hours-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": 100
+      },
+      {
+        "answer_id": "one-job-actual-hours-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": 99
+      },
+      {
+        "answer_id": "reason-why-fewer-hours-than-usual-employee-answer-other",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": ""
+      },
+      {
+        "answer_id": "reason-why-fewer-hours-than-usual-employee-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "On leave"
+      },
+      {
+        "answer_id": "main-job-when-start-working-current-business-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "1990-02"
+      },
+      {
+        "answer_id": "made-redundant-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "No"
+      },
+      {
+        "answer_id": "enrolled-education-course-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": "cb2aac04-7640-463e-8d7c-a15f4d3d4f61",
+        "value": "No"
+      },
+      {
+        "answer_id": "confirm-email",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": null,
+        "value": ""
+      },
+      {
+        "answer_id": "email",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": null,
+        "value": ""
+      },
+      {
+        "answer_id": "phone-number",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": null,
+        "value": ""
+      },
+      {
+        "answer_id": "feedback-answer",
+        "answer_instance": 0,
+        "group_instance": 0,
+        "group_instance_id": null,
+        "value": ""
+      }
+    ],
+    "flushed": false,
+    "metadata": {
+      "ru_ref": "39178871991b",
+      "user_id": "UNKNOWN"
+    },
+    "origin": "uk.gov.ons.edc.eq",
+    "started_at": "2018-10-08T09:32:03.467310",
+    "submitted_at": "2018-10-08T09:34:50.517987",
+    "survey_id": "lms",
+    "tx_id": "7272f57c-ba36-4fc0-92cb-06348cf7af99",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "version": "0.0.2"
+  }

@@ -1,0 +1,38 @@
+{
+	"case_id": "73a71e71-da3b-41fc-81ae-9d000238f93f",
+	"collection": {
+		"exercise_sid": "664dbdf4-02fb-4d68-b0cf-7f7402df00e5",
+		"instrument_id": "0005",
+		"period": "201904"
+	},
+	"data": {
+		"11": "1/2/2019",
+		"12": "5/4/2019",
+		"15": "No",
+		"146": "This is a comment!",
+		"174": "48400",
+		"175": "50501",
+		"179": "5000",
+		"180": "5500",
+		"184": "1350",
+		"185": "1300",
+		"189": "22800",
+		"190": "21000",
+		"191": "87100",
+		"192": "89125"
+	},
+	"flushed": false,
+	"metadata": {
+		"ref_period_end_date": "2018-11-29",
+		"ref_period_start_date": "2019-04-01",
+		"ru_ref": "15162882666F",
+		"user_id": "UNKNOWN"
+	},
+	"origin": "uk.gov.ons.edc.eq",
+	"started_at": "2019-04-12T14:00:24.224709",
+	"submitted_at": "2019-04-12T14:10:26.933601",
+	"survey_id": "017",
+	"tx_id": "b7f78b30-1814-45ac-963d-8c997c091f90",
+	"type": "uk.gov.ons.edc.eq:surveyresponse",
+	"version": "0.0.1"
+}

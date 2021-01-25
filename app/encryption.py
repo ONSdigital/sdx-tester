@@ -1,5 +1,6 @@
 import io
 import logging
+import os
 import zipfile
 import yaml
 from sdc.crypto.key_store import KeyStore
@@ -13,6 +14,7 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def encrypt_survey(submission: dict) -> str:
+    print(os.getcwd())
     with open("./keys.yml") as file:
         secrets_from_file = yaml.safe_load(file)
     key_store = KeyStore(secrets_from_file)
@@ -20,25 +22,16 @@ def encrypt_survey(submission: dict) -> str:
     return payload
 
 
+def decrypt_survey(payload: bytes) -> dict:
+    with open("./keys2.yml") as file2:
+        secrets_from_file2 = yaml.safe_load(file2)
+    key_store2 = KeyStore(secrets_from_file2)
+    b_payload = payload.decode('utf-8')
+    decrypted_json = sdc_decrypt(b_payload, key_store2, KEY_PURPOSE_SUBMISSION)
+    return decrypted_json
+
+
 def view_zip_content(zip_file: str):
     z = zipfile.ZipFile(io.BytesIO(zip_file), "r")
     print(z.printdir())
     return True
-
-
-def decrypt_survey(payload: str) -> dict:
-    with open("./keys2.yml") as file2:
-        secrets_from_file2 = yaml.safe_load(file2)
-    key_store2 = KeyStore(secrets_from_file2)
-    payload_encoded = payload.decode('utf-8')
-    decrypted_json = sdc_decrypt(payload_encoded, key_store2, KEY_PURPOSE_SUBMISSION)
-    return decrypted_json
-
-
-def decrypt_zip(payload: bytes) -> dict:
-    with open("./keys2.yml") as file2:
-        secrets_from_file2 = yaml.safe_load(file2)
-    key_store2 = KeyStore(secrets_from_file2)
-    data_bytes = payload.decode('UTF8')
-    decrypted_zip = sdc_decrypt(data_bytes, key_store2, KEY_PURPOSE_SUBMISSION)
-    return decrypted_zip
