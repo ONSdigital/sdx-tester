@@ -56,3 +56,7 @@ class TestAllSurveys(unittest.TestCase):
         self.data.pop('survey_id')
         self.test_bad_survey(self.data)
 
+    def test_missing_ru_ref(self):
+        self.data.pop('survey_id')
+        self.test_bad_survey(self.data)
+

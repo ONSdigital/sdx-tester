@@ -27,8 +27,8 @@ def decrypt_survey(payload: bytes) -> dict:
     with open("./keys2.yml") as file2:
         secrets_from_file2 = yaml.safe_load(file2)
     key_store2 = KeyStore(secrets_from_file2)
-    payload.decode()
-    decrypted_json = sdc_decrypt(payload, key_store2, KEY_PURPOSE_SUBMISSION)
+    b_payload = payload.decode('utf-8')
+    decrypted_json = sdc_decrypt(b_payload, key_store2, KEY_PURPOSE_SUBMISSION)
     return decrypted_json
 
 
