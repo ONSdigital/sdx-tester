@@ -13,7 +13,7 @@ logging.basicConfig(
     level=LOGGING_LEVEL,
 )
 
-PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-tom')
+PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
 BUCKET_NAME = f'{PROJECT_ID}-outputs'
 
 # publishing config

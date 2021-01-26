@@ -1,11 +1,5 @@
 import unittest
-
-from app.messaging import message_manager
-from test.helper import run_test_helper
-
-"""
-Flesh out test_bad_surveys where we individually know what is wrong with each 'bad' survey
-"""
+from test.helper import downstream
 
 
 class TestAllSurveys(unittest.TestCase):
@@ -40,23 +34,48 @@ class TestAllSurveys(unittest.TestCase):
             "type": "uk.gov.ons.edc.eq:surveyresponse",
             "version": "0.0.1"
         }
-
-    def test_bad_survey(self, survey):
-        expected = {
-            'survey_id': '',
+        self.expected = {
+            'survey_id': '009.0201',
             'Dap': None,
             'Receipt': None,
             'Quarantined': True,
             'Timeout': False
         }
-        actual = run_test_helper(survey)
-        self.assertEqual(expected, actual)
 
     def test_missing_survey_id(self):
+        expected = {
+            'survey_id': 'Error finding survey_id',
+            'Dap': None,
+            'Receipt': None,
+            'Quarantined': True,
+            'Timeout': False
+        }
         self.data.pop('survey_id')
-        self.test_bad_survey(self.data)
+        actual = downstream(self.data)
+        self.assertEqual(expected, actual)
 
     def test_missing_ru_ref(self):
-        self.data.pop('survey_id')
-        self.test_bad_survey(self.data)
+        self.data.get('metadata').pop('ru_ref')
+        actual = downstream(self.data)
+        self.assertEqual(self.expected, actual)
+
+    def test_data_field_missing(self):
+        self.data.pop('data')
+        actual = downstream(self.data)
+        self.assertEqual(self.expected, actual)
+
+    def test_missing_tx_id(self):
+        self.data.pop('tx_id')
+        actual = downstream(self.data)
+        self.assertEqual(self.expected, actual)
+
+    def test_missing_metadata(self):
+        self.data.pop('metadata')
+        actual = downstream(self.data)
+        self.assertEqual(self.expected, actual)
+
+    def test_missing_type(self):
+        self.data.pop('type')
+        actual = downstream(self.data)
+        self.assertEqual(self.expected, actual)
 
