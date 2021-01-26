@@ -45,15 +45,17 @@ def submit():
     surveys = extract_test_data_dict()
     data_str = request.form.get('post-data')
     data_dict = json.loads(data_str)
+    number = data_dict["survey_id"]
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
-    time_and_survey = f'({data_dict["survey_id"]})  {datetime.now().strftime("%H:%M")}'
+    time_and_survey = f'({number})  {datetime.now().strftime("%H:%M")}'
     tx_list[time_and_survey] = tx_id
     threading.Thread(target=downstream_process, args=(data_dict,)).start()
     return render_template('index.html',
                            surveys=surveys,
                            tx_list=tx_list,
-                           current_survey=data_str)
+                           current_survey=data_str,
+                           number=number)
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
