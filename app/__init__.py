@@ -1,6 +1,7 @@
 import logging
 import os
 
+import gnupg
 from flask import Flask
 from flask_socketio import SocketIO
 
@@ -27,6 +28,12 @@ QUARANTINE_SUBSCRIPTION = "quarantine-subscription"
 RECEIPT_SUBSCRIPTION = "receipt-subscription"
 
 MAX_WAIT_TIME_SECS = 30
+
+gpg = gnupg.GPG()
+
+with open('dap_private_key.asc') as f:
+    key_data = f.read()
+import_result = gpg.import_keys(key_data)
 
 
 app = Flask(__name__)
