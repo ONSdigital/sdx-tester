@@ -1,27 +1,26 @@
-import base64
 import io
 import json
 import zipfile
 
 from google.cloud import storage
 from app import BUCKET_NAME, PROJECT_ID
-from app.encryption import decrypt_survey
+from app.decryption import decrypt_survey
 
 
-def get_files(file_path) -> list:
+def get_files(file_path) -> dict:
     if file_path.split("/")[0] != 'dap':
         encrypted_zip = read(file_path)
-        zip_str = decrypt_survey(encrypted_zip)
+        zip_str = decrypt_survey(encrypted_zip.decode())
         return extract_zip(zip_str)
     else:
         e_json = read(file_path)
-        d_json = decrypt_survey(e_json)
+        d_json = decrypt_survey(e_json.decode())
         files = {'JSON': d_json}
         print(files)
         return files
 
 
-def read(file_path) -> str:
+def read(file_path) -> bytes:
     # create storage client
     storage_client = storage.Client(PROJECT_ID)
     # get bucket with name

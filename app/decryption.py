@@ -6,9 +6,9 @@ from app import gpg
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def decrypt_survey(data_bytes: bytes) -> str:
+def decrypt_survey(data: str) -> str:
 
-    decrypted_data = gpg.decrypt_file(data_bytes, passphrase='passphrase')
+    decrypted_data = gpg.decrypt_file(data, passphrase='passphrase')
 
     if decrypted_data.ok:
         logger.info("successfully decrypted output")
