@@ -4,18 +4,20 @@ import zipfile
 
 from google.cloud import storage
 from app import BUCKET_NAME, PROJECT_ID
-from app.decryption import decrypt_survey
+from app.decryption import decrypt_output
 
 
 def get_files(file_path) -> dict:
-    if file_path.split("/")[0] != 'dap':
+    dir = file_path.split("/")[0]
+    filename = file_path.split("/")[1]
+    if dir == 'survey' or dir == 'comments':
         encrypted_zip = read(file_path)
-        zip_str = decrypt_survey(encrypted_zip.decode())
-        return extract_zip(zip_str)
+        zip_bytes = decrypt_output(encrypted_zip, filename)
+        return extract_zip(zip_bytes)
     else:
-        e_json = read(file_path)
-        d_json = decrypt_survey(e_json.decode())
-        files = {'JSON': d_json}
+        encrypted_data = read(file_path)
+        data_bytes = decrypt_output(encrypted_data, filename)
+        files = {'JSON': data_bytes.decode()}
         print(files)
         return files
 
@@ -33,8 +35,8 @@ def read(file_path) -> bytes:
     return json_data
 
 
-def extract_zip(zip_file: str) -> dict:
-    z = zipfile.ZipFile(io.BytesIO(zip_file), "r")
+def extract_zip(zip_bytes: bytes) -> dict:
+    z = zipfile.ZipFile(io.BytesIO(zip_bytes), "r")
     files = {}
     for filename in z.namelist():
         print(f'File: {filename}')
@@ -47,5 +49,5 @@ def extract_zip(zip_file: str) -> dict:
 
 def get_filename(json_str):
     message_dict = json.loads(json_str)
-    message_name = message_dict['files'][0]['name']
+    message_name = message_dict['temp_files'][0]['name']
     return message_name[:-5]
