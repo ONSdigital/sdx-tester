@@ -17,13 +17,8 @@ from app.read_data import extract_test_data_dict
 
 logger = wrap_logger(logging.getLogger(__name__))
 
-tx_list = {}
+submissions = []
 responses = []
-
-
-class Messages(enum.Enum):
-    In_progress = 0
-    Unsuccessful = 1
 
 
 @app.route('/')
@@ -32,7 +27,7 @@ def index():
     surveys = extract_test_data_dict()
     return render_template('index.html',
                            surveys=surveys,
-                           tx_list=tx_list)
+                           submissions=submissions)
 
 
 @socketio.on('connect')
@@ -48,20 +43,20 @@ def submit():
     number = data_dict["survey_id"]
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
-    time_and_survey = f'({number})  {datetime.now().strftime("%H:%M")}'
-    tx_list[time_and_survey] = tx_id
+    time_and_survey = {f'({number})  {datetime.now().strftime("%H:%M")}': tx_id}
+    submissions.insert(0, time_and_survey)
     threading.Thread(target=downstream_process, args=(data_dict,)).start()
     return render_template('index.html',
                            surveys=surveys,
-                           tx_list=tx_list,
+                           submissions=submissions,
                            current_survey=data_str,
                            number=number)
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
 def view_response(tx_id):
-    dap_message = Messages['In_progress'].value
-    receipt = Messages['In_progress'].value
+    dap_message = "In Progress"
+    receipt = "In Progress"
     timeout = False
     quarantine = None
     files = {}
@@ -73,7 +68,11 @@ def view_response(tx_id):
             receipt = response.receipt
             quarantine = response.quarantine
             errors = response.errors
-            files = decode_files_and_images(response.files)
+            if not timeout:
+                if 'survey' in response.dap_message.attributes.get('gcs.key'):
+                    files = decode_files_and_images(response.files)
+                else:
+                    files = response.files
 
             if dap_message:
                 dap_message = json.loads(dap_message.data.decode('utf-8'))
@@ -121,7 +120,7 @@ def decode_files_and_images(response_files: dict):
             b64_image = base64.b64encode(value).decode()
             sorted_files[key] = b64_image
         else:
-            sorted_files[key] = value
+            sorted_files[key] = value.decode('utf-8')
     return sorted_files
 
 

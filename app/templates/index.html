@@ -12,9 +12,9 @@
             <select name="surveys_names" id="survey_names"  style="width:46%; border:2px solid #000;
             border-radius: 5px;">
                 <li>surveys</li>
-                    <option selected="selected">{{number}}</option>
+                <option selected="selected">{{number}}</option>
                 {% for keys, values in surveys.items() %}
-                    <option value= "{{ values | pretty_print }}">{{ keys }}</option>
+                <option value= "{{ values | pretty_print }}">{{ keys }}</option>
                 {% endfor %}
             </select>
             <br>
@@ -30,8 +30,10 @@
             {% endif %}
                 <ul style="float:right; width:50%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
                 border-radius: 5px;" id="test">
-                    {% for time, tx_id in tx_list|dictsort(by="value")|reverse %}
-                    <li>{{ time }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
+                    {% for submission in submissions %}
+                        {% for survey_id, tx_id in submission.items() %}
+                        <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
+                        {% endfor %}
                     {% endfor %}
                 </ul>
             <br>
