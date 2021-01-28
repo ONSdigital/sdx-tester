@@ -33,7 +33,8 @@ gpg = gnupg.GPG()
 
 with open('dap_private_key.asc') as f:
     key_data = f.read()
-import_result = gpg.import_keys(key_data)
+    f.close()
+gpg.import_keys(key_data)
 
 
 app = Flask(__name__)

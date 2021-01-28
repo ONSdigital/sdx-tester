@@ -68,11 +68,7 @@ def view_response(tx_id):
             receipt = response.receipt
             quarantine = response.quarantine
             errors = response.errors
-            if not timeout:
-                if 'survey' in response.dap_message.attributes.get('gcs.key'):
-                    files = decode_files_and_images(response.files)
-                else:
-                    files = response.files
+            files = decode_files_and_images(response.files)
 
             if dap_message:
                 dap_message = json.loads(dap_message.data.decode('utf-8'))
@@ -116,11 +112,15 @@ def downstream_process(data_dict: dict):
 def decode_files_and_images(response_files: dict):
     sorted_files = {}
     for key, value in response_files.items():
-        if key.lower().endswith(('jpg', 'png')):
+        if value is None:
+            return response_files
+        elif key.lower().endswith(('jpg', 'png')):
             b64_image = base64.b64encode(value).decode()
             sorted_files[key] = b64_image
-        else:
+        elif type(value) is bytes:
             sorted_files[key] = value.decode('utf-8')
+        else:
+            sorted_files[key] = value
     return sorted_files
 
 

@@ -1,6 +1,5 @@
 import io
 import logging
-import os
 import zipfile
 import yaml
 from sdc.crypto.key_store import KeyStore

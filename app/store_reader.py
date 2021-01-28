@@ -18,7 +18,6 @@ def get_files(file_path) -> dict:
         encrypted_data = read(file_path)
         data_bytes = decrypt_output(encrypted_data, filename)
         files = {'JSON': data_bytes.decode()}
-        print(files)
         return files
 
 
