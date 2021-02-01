@@ -2,8 +2,8 @@ import time
 
 from google.api_core.exceptions import NotFound
 from datetime import datetime
-
-from app.store_reader import read, extract_zip
+import app.store_reader
+from app.store_reader import read
 
 
 def check_bucket_for_comments():
@@ -12,7 +12,7 @@ def check_bucket_for_comments():
     date_time = datetime.utcnow()
     file_name = f"{date_time.strftime('%Y-%m-%d')}.zip"
     try:
-        extract_zip(read(file_name, 'comments'))
+        app.extract_zip(read(file_name, 'comments'))
     except NotFound as err:
         print(err)
         return err
