@@ -3,7 +3,7 @@ import os
 
 from structlog import wrap_logger
 
-from app import gpg
+from app.gpg import gpg
 
 logger = wrap_logger(logging.getLogger(__name__))
 

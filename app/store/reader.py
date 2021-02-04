@@ -1,23 +1,25 @@
 import io
-import json
 import zipfile
 
 from google.cloud import storage
 from app import BUCKET_NAME, PROJECT_ID
-from app.decryption import decrypt_output
+from app.gpg.decryption import decrypt_output
 
 
 def get_files(file_path) -> dict:
-    dir = file_path.split("/")[0]
+    file_dir = file_path.split("/")[0]
     filename = file_path.split("/")[1]
-    if dir == 'survey' or dir == 'comments':
+    if file_dir == 'survey' or file_dir == 'comments':
         encrypted_zip = read(file_path)
         zip_bytes = decrypt_output(encrypted_zip, filename)
         return extract_zip(zip_bytes)
     else:
         encrypted_data = read(file_path)
         data_bytes = decrypt_output(encrypted_data, filename)
-        files = {'JSON': data_bytes.decode()}
+        if file_dir == 'seft':
+            files = {'SEFT': data_bytes.decode()}
+        else:
+            files = {'JSON': data_bytes.decode()}
         return files
 
 
@@ -29,9 +31,9 @@ def read(file_path) -> bytes:
     # get bucket data as blob
     blob = bucket.blob(file_path)
     # convert to bytes
-    json_data = blob.download_as_bytes()
+    file = blob.download_as_bytes()
 
-    return json_data
+    return file
 
 
 def extract_zip(zip_bytes: bytes) -> dict:
@@ -44,9 +46,3 @@ def extract_zip(zip_bytes: bytes) -> dict:
 
     z.close()
     return files
-
-
-def get_filename(json_str):
-    message_dict = json.loads(json_str)
-    message_name = message_dict['temp_files'][0]['name']
-    return message_name[:-5]

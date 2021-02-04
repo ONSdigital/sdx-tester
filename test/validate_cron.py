@@ -2,8 +2,8 @@ import time
 
 from google.api_core.exceptions import NotFound
 from datetime import datetime
-import app.store_reader
-from app.store_reader import read
+import app.store.reader
+from app.store.reader import read
 
 
 def check_bucket_for_comments():

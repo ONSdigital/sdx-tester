@@ -7,7 +7,7 @@ from sdc.crypto.encrypter import encrypt
 from sdc.crypto.decrypter import decrypt as sdc_decrypt
 from structlog import wrap_logger
 
-KEY_PURPOSE_SUBMISSION = 'submission'
+from app.jwt import KEY_PURPOSE_SUBMISSION
 
 logger = wrap_logger(logging.getLogger(__name__))
 
