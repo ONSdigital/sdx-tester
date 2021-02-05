@@ -1,7 +1,6 @@
 import logging
 import os
 
-import gnupg
 from flask import Flask
 from flask_socketio import SocketIO
 
@@ -15,27 +14,6 @@ logging.basicConfig(
 )
 
 PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
-BUCKET_NAME = f'{PROJECT_ID}-outputs'
-
-# publishing config
-SURVEY_TOPIC = "survey-topic"
-
-# Subscriber config
-DAP_SUBSCRIPTION = "dap-subscription"
-
-QUARANTINE_SUBSCRIPTION = "quarantine-subscription"
-
-RECEIPT_SUBSCRIPTION = "receipt-subscription"
-
-MAX_WAIT_TIME_SECS = 30
-
-gpg = gnupg.GPG()
-
-with open('dap_private_key.asc') as f:
-    key_data = f.read()
-    f.close()
-gpg.import_keys(key_data)
-
 
 app = Flask(__name__)
 socketio = SocketIO(app)

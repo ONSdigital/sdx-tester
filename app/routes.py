@@ -1,5 +1,4 @@
 import base64
-import enum
 import json
 import logging
 import threading
@@ -10,7 +9,7 @@ from flask import request, render_template, flash
 from structlog import wrap_logger
 
 from app import app, socketio
-from app.encryption import decrypt_survey
+from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
 from app.tester import run_test
 from app.read_data import extract_test_data_dict

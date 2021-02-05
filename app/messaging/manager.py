@@ -2,8 +2,9 @@ import logging
 import threading
 import time
 
-from app import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUARANTINE_SUBSCRIPTION
-from app.messaging.publisher import publish_data
+from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUARANTINE_SUBSCRIPTION, \
+    SEFT_QUARANTINE_SUBSCRIPTION
+from app.messaging.publisher import publish_data, publish_seft
 from app.messaging.subscriber import MessageListener, Listener
 from app.result import Result
 
@@ -25,21 +26,37 @@ class MessageManager:
         self.quarantine_listener = MessageListener(QUARANTINE_SUBSCRIPTION)
         self.q = threading.Thread(target=self.quarantine_listener.start, daemon=True)
         self.q.start()
+
+        self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
+        self.sq = threading.Thread(target=self.seft_quarantine_listener.start, daemon=True)
+        self.sq.start()
         print("ready")
 
-    def submit(self, result: Result, data):
+    def submit(self, result: Result, data: str, is_seft: bool = False):
 
         tx_id = result.get_tx_id()
         listener = Listener()
         self.dap_listener.add_listener(tx_id, listener)
+
         r_listener = Listener()
-        self.receipt_listener.add_listener(tx_id, r_listener)
+        if is_seft:
+            # SEFTs don't require a receipt
+            r_listener.set_complete()
+        else:
+            self.receipt_listener.add_listener(tx_id, r_listener)
+
         q_listener = Listener()
-        self.quarantine_listener.add_listener(tx_id, q_listener)
+        if is_seft:
+            self.seft_quarantine_listener.add_listener(tx_id, q_listener)
+        else:
+            self.quarantine_listener.add_listener(tx_id, q_listener)
 
         try:
             print("Publishing data", tx_id)
-            publish_data(data, tx_id)
+            if is_seft:
+                publish_seft(data, tx_id)
+            else:
+                publish_data(data, tx_id)
         except Exception as e:
             print(e)
             result.record_error(e)
@@ -83,7 +100,14 @@ class MessageManager:
         self.dap_listener.remove_listener(tx_id)
         self.receipt_listener.remove_listener(tx_id)
         self.quarantine_listener.remove_listener(tx_id)
+        self.seft_quarantine_listener.remove_listener(tx_id)
 
     def shut_down(self):
         self.dap_listener.stop()
         self.t.join()
+        self.receipt_listener.stop()
+        self.r.join()
+        self.quarantine_listener.stop()
+        self.q.join()
+        self.seft_quarantine_listener.stop()
+        self.sq.join()
