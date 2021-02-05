@@ -17,7 +17,7 @@ def get_files(file_path) -> dict:
         encrypted_data = read(file_path)
         data_bytes = decrypt_output(encrypted_data, filename)
         if file_dir == 'seft':
-            files = {'SEFT': data_bytes.decode()}
+            files = {'SEFT': data_bytes}
         else:
             files = {'JSON': data_bytes.decode()}
         return files

@@ -1,3 +1,5 @@
+from app import PROJECT_ID
+
 # publishing config
 SURVEY_TOPIC = "survey-topic"
 

@@ -4,14 +4,17 @@ import uuid
 from app.tester import run_seft
 from app.messaging import message_manager
 
+SEFT_DIR = "app/Data/sefts"
+
 
 class TestSefts(unittest.TestCase):
 
     def test_sefts(self):
-        seft_dir = "app/Data/sefts"
-        filename = "11110000014H_202009_057_20210121143526.xlsx"
+
+        filename = "11110000014H_202009_057_20210121143526"
 
         message = {
+            'filename': filename,
             'tx_id': str(uuid.uuid4()),
             'survey_id': '057',
             'period': '202009',
@@ -20,12 +23,12 @@ class TestSefts(unittest.TestCase):
             'sizeBytes': 42
         }
 
-        with open(f"{seft_dir}/{filename}") as seft_file:
+        with open(f"{SEFT_DIR}/{filename}.xlsx", 'rb') as seft_file:
             data_bytes = seft_file.read()
 
         result = run_seft(message_manager, message, data_bytes)
 
-        self.assertTrue(result.dap_message)
+        self.assertIsNotNone(result.dap_message)
         self.assertTrue(len(result.files) == 1)
         self.assertIsNone(result.receipt)
         self.assertIsNone(result.quarantine)

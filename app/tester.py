@@ -1,3 +1,5 @@
+import json
+
 from app.gpg.encryption import encrypt_seft
 from app.store import reader
 from app.jwt.encryption import encrypt_survey
@@ -19,9 +21,10 @@ def run_test(message_manager: MessageManager, survey_dict: dict) -> Result:
 
 def run_seft(message_manager: MessageManager, message: dict, seft_data: bytes) -> Result:
     encrypted_seft = encrypt_seft(seft_data)
-    write_seft(encrypted_seft)
+    write_seft(encrypted_seft, message['filename'])
     result = Result(message['tx_id'])
-    result = message_manager.submit(result, encrypted_seft, is_seft=True)
+    message_str = json.dumps(message)
+    result = message_manager.submit(result, message_str, is_seft=True)
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
         file_list = reader.get_files(file_path)

@@ -3,7 +3,7 @@ from concurrent.futures import TimeoutError
 
 from google.cloud import pubsub_v1
 
-from app import PROJECT_ID
+from app.messaging import PROJECT_ID
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,8 @@ class MessageListener:
         self.listeners[tx_id] = listener
 
     def remove_listener(self, tx_id):
-        del self.listeners[tx_id]
+        if tx_id in self.listeners:
+            del self.listeners[tx_id]
 
     def on_message(self, message):
         logger.info(f'{self.listeners.keys()}')

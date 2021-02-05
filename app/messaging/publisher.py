@@ -1,7 +1,6 @@
 from google.cloud import pubsub_v1
 
-from app import PROJECT_ID
-from app.messaging import SURVEY_TOPIC, SEFT_TOPIC
+from app.messaging import PROJECT_ID, SURVEY_TOPIC, SEFT_TOPIC
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(PROJECT_ID, SURVEY_TOPIC)
