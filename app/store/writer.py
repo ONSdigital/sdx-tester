@@ -1,5 +1,5 @@
 from google.cloud import storage
-from app import SEFT_BUCKET, PROJECT_ID
+from app.store import SEFT_BUCKET, PROJECT_ID
 
 
 def write_seft(data, filename: str):

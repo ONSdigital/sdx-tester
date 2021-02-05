@@ -2,7 +2,7 @@ import io
 import zipfile
 
 from google.cloud import storage
-from app import BUCKET_NAME, PROJECT_ID
+from app.store import BUCKET_NAME, PROJECT_ID
 from app.gpg.decryption import decrypt_output
 
 
