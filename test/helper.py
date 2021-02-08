@@ -1,7 +1,7 @@
 import uuid
 from app.messaging import message_manager
 from app.tester import run_test
-from app.read_data import extract_test_data_list
+from app.survey_loader import extract_test_data_list
 
 
 def run_tests_all(data_location: str):
