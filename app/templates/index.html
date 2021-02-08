@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
+=======
+{% extends "layouts/_twocol.html" %}
+
+{% block content %}
+
+>>>>>>> 293fd61ac542830d321cd1f06843d6c0b51306bf
 <head>
     <meta charset="UTF-8">
     <title>SDX Tester</title>
@@ -7,6 +14,7 @@
 <body>
     <div>
         <form action="/submit" method="post">
+<<<<<<< HEAD
             <textarea id="post-data" name="post-data" rows="33" cols="60">
 {
     "collection": {
@@ -48,3 +56,44 @@
     </div>
 </body>
 </html>
+=======
+            <select name="surveys_names" id="survey_names"  style="width:46%; border:2px solid #000;
+            border-radius: 5px;">
+                <li>surveys</li>
+                <option selected="selected">{{number}}</option>
+                {% for keys, values in surveys.items() %}
+                <option value= "{{ values | pretty_print }}">{{ keys }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            {% if current_survey %}
+                <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
+                border-radius: 5px;">{{ current_survey }}
+                </textarea>
+            {% else %}
+                <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
+                border-radius: 5px;">{{surveys['009']|pretty_print }}
+                </textarea>
+            {% endif %}
+                <ul style="float:right; width:50%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
+                border-radius: 5px;" id="test">
+                    {% for submission in submissions %}
+                        {% for survey_id, tx_id in submission.items() %}
+                        <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            <br>
+            <input id="submit" type="submit" value="Submit" style="margin-top: 20px">
+            <script>
+                document.getElementById("survey_names").addEventListener('change', function(event) {
+                    document.getElementById("post-data").value = event.target.value
+                });
+            </script>
+        </form>
+    </div>
+</body>
+
+{% endblock content %}
+>>>>>>> 293fd61ac542830d321cd1f06843d6c0b51306bf
