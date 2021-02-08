@@ -12,7 +12,7 @@ from app import app, socketio
 from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
 from app.tester import run_test
-from app.read_data import extract_test_data_dict
+from app.survey_loader import extract_test_data_dict
 
 logger = wrap_logger(logging.getLogger(__name__))
 
