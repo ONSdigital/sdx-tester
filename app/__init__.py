@@ -13,9 +13,9 @@ logging.basicConfig(
     level=LOGGING_LEVEL,
 )
 
-PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
+PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-jon')
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-from app import routes
+from app.ui import routes

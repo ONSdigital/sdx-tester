@@ -54,7 +54,7 @@ class MessageListener:
             listener.set_complete()
             listener.set_message(message)
         else:
-            message.nack()
+            message.ack()
             logger.info(f"NOT CORRECT nacking message with tx_id {tx_id}")
             logger.info(f"remaining keys: {self.listeners.keys()}")
 

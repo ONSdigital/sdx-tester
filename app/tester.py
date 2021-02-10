@@ -8,7 +8,7 @@ from app.result import Result
 from app.store.writer import write_seft
 
 
-def run_test(message_manager: MessageManager, survey_dict: dict) -> Result:
+def run_survey(message_manager: MessageManager, survey_dict: dict) -> Result:
     encrypted_survey = encrypt_survey(survey_dict)
     result = Result(survey_dict['tx_id'])
     result = message_manager.submit(result, encrypted_survey)

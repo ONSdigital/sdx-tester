@@ -1,11 +1,22 @@
 import unittest
-from test.helper import downstream
+import uuid
+
+from app.messaging import MessageManager
+from app.tester import run_survey
 
 
-class TestAllSurveys(unittest.TestCase):
+class TestQuarantine(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.message_manager = MessageManager()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.message_manager.shut_down()
 
     def setUp(self):
-        self.data = {
+        self.survey = {
             "collection": {
                 "exercise_sid": "478d806c-f7e2-4fc5-bcde-82148bab029a",
                 "instrument_id": "0201",
@@ -34,48 +45,39 @@ class TestAllSurveys(unittest.TestCase):
             "type": "uk.gov.ons.edc.eq:surveyresponse",
             "version": "0.0.1"
         }
-        self.expected = {
-            'survey_id': '009.0201',
-            'Dap': None,
-            'Receipt': None,
-            'Quarantined': True,
-            'Timeout': False
-        }
+
+    def tearDown(self):
+        print('-----------------------------------------------------')
+
+    def run_with_survey(self, survey: dict):
+        key = f"009.0201"
+        tx_id = str(uuid.uuid4())
+        survey['tx_id'] = tx_id
+        print('---------------------------------------------------------')
+        print(f'testing {key} with tx_id: {tx_id}')
+        result = run_survey(self.message_manager, survey)
+        print(str(result))
+        self.assertFalse(result.timeout, f'{key} has timed out!')
+        self.assertIsNotNone(result.quarantine, f'{key} should have been quarantined!')
+        self.assertIsNone(result.dap_message, f'{key} should not post dap message!')
+        self.assertIsNone(result.receipt, f'{key} should not produce a receipt!')
 
     def test_missing_survey_id(self):
-        expected = {
-            'survey_id': 'Error finding survey_id',
-            'Dap': None,
-            'Receipt': None,
-            'Quarantined': True,
-            'Timeout': False
-        }
-        self.data.pop('survey_id')
-        actual = downstream(self.data)
-        self.assertEqual(expected, actual)
+        self.survey.pop('survey_id')
+        self.run_with_survey(self.survey)
 
     def test_missing_ru_ref(self):
-        self.data.get('metadata').pop('ru_ref')
-        actual = downstream(self.data)
-        self.assertEqual(self.expected, actual)
+        self.survey.get('metadata').pop('ru_ref')
+        self.run_with_survey(self.survey)
 
     def test_data_field_missing(self):
-        self.data.pop('data')
-        actual = downstream(self.data)
-        self.assertEqual(self.expected, actual)
-
-    def test_missing_tx_id(self):
-        self.data.pop('tx_id')
-        actual = downstream(self.data)
-        self.assertEqual(self.expected, actual)
+        self.survey.pop('data')
+        self.run_with_survey(self.survey)
 
     def test_missing_metadata(self):
-        self.data.pop('metadata')
-        actual = downstream(self.data)
-        self.assertEqual(self.expected, actual)
+        self.survey.pop('metadata')
+        self.run_with_survey(self.survey)
 
     def test_missing_type(self):
-        self.data.pop('type')
-        actual = downstream(self.data)
-        self.assertEqual(self.expected, actual)
-
+        self.survey.pop('type')
+        self.run_with_survey(self.survey)
