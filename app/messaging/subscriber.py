@@ -37,14 +37,16 @@ class MessageListener:
         self.streaming_pull_future = self.subscriber.subscribe(self.subscription_path, callback=self.on_message)
 
     def add_listener(self, tx_id, listener: Listener):
+        logger.info(f"added {tx_id} to listeners on {self.subscription_path}")
         self.listeners[tx_id] = listener
 
     def remove_listener(self, tx_id):
         if tx_id in self.listeners:
+            logger.info(f"removed {tx_id} to listeners on {self.subscription_path}")
             del self.listeners[tx_id]
 
     def on_message(self, message):
-        logger.info(f'{self.listeners.keys()}')
+        logger.info(f'current tx_ids: {self.listeners.keys()}')
         tx_id = message.attributes.get('tx_id')
         logger.info(f"received tx_id from header {tx_id} on {self.subscription_path}")
         if tx_id in self.listeners:

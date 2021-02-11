@@ -33,7 +33,7 @@ class MessageManager:
         print("ready")
 
     def submit(self, result: Result, data: str, is_seft: bool = False):
-
+        print("calling submit")
         tx_id = result.get_tx_id()
         listener = Listener()
         self.dap_listener.add_listener(tx_id, listener)
@@ -97,12 +97,14 @@ class MessageManager:
                 count += 1
 
     def remove_listeners(self, tx_id):
+        print("removing listeners")
         self.dap_listener.remove_listener(tx_id)
         self.receipt_listener.remove_listener(tx_id)
         self.quarantine_listener.remove_listener(tx_id)
         self.seft_quarantine_listener.remove_listener(tx_id)
 
     def shut_down(self):
+        print("message manager shutting down")
         self.dap_listener.stop()
         self.t.join()
         self.receipt_listener.stop()

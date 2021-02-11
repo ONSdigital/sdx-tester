@@ -38,5 +38,5 @@ class Result:
                 quarantine: {self.quarantine}
                 files: {self.files}
                 errors: {self.errors}
-                errors: {self.timeout}
+                timeout: {self.timeout}
               '''

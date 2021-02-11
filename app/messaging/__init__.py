@@ -18,5 +18,3 @@ MAX_WAIT_TIME_SECS = 30
 
 
 from app.messaging.manager import MessageManager
-
-message_manager = MessageManager()

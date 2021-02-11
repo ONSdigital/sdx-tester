@@ -21,9 +21,9 @@ class TestSurveys(unittest.TestCase):
 
     def run_with_survey(self, surveys: dict, receipt: bool, multiple_files: bool):
         for key, survey in surveys.items():
-            with self.subTest():
-                tx_id = str(uuid.uuid4())
-                survey['tx_id'] = tx_id
+            tx_id = str(uuid.uuid4())
+            survey['tx_id'] = tx_id
+            with self.subTest(msg=f'test {key} with tx_id: {tx_id}'):
                 print('---------------------------------------------------------')
                 print(f'testing {key} with tx_id: {tx_id}')
                 result = run_survey(self.message_manager, survey)

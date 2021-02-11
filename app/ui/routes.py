@@ -8,22 +8,22 @@ from datetime import datetime
 from flask import request, render_template, flash
 from structlog import wrap_logger
 
-from app import app, socketio
+from app import app, socketio, survey_loader
 from app.jwt.encryption import decrypt_survey
-from app.messaging import message_manager
+from app.messaging import MessageManager
 from app.tester import run_survey
-from app.survey_loader import read_data
 
 logger = wrap_logger(logging.getLogger(__name__))
 
 submissions = []
 responses = []
+message_manager = MessageManager()
 
 
 @app.route('/')
 @app.route('/index', methods=['GET'])
 def index():
-    surveys = read_data()
+    surveys = survey_loader.read_all()
     return render_template('index.html',
                            surveys=surveys,
                            submissions=submissions)
@@ -36,7 +36,7 @@ def make_ws_connection():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    surveys = read_data()
+    surveys = survey_loader.read_all()
     data_str = request.form.get('post-data')
     data_dict = json.loads(data_str)
     number = data_dict["survey_id"]
@@ -70,14 +70,14 @@ def view_response(tx_id):
             files = decode_files_and_images(response.files)
 
             if dap_message:
-                dap_message = json.loads(dap_message.survey.decode('utf-8'))
+                dap_message = json.loads(dap_message.data.decode('utf-8'))
 
             if receipt:
-                receipt = json.loads(receipt.survey.decode('utf-8'))
+                receipt = json.loads(receipt.data.decode('utf-8'))
 
             if quarantine:
                 flash(f'Submission with tx_id: {quarantine.attributes["tx_id"]} has been quarantined')
-                quarantine = decrypt_survey(quarantine.survey)
+                quarantine = decrypt_survey(quarantine.data)
 
             if timeout:
                 flash('PubSub subscriber in sdx-tester timed out before receiving a response')

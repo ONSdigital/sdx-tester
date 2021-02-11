@@ -9,11 +9,13 @@ SEFT_DIR = "app/Data/sefts"
 
 class TestSefts(unittest.TestCase):
 
-    def setUpClass(self):
-        self.message_manager = MessageManager()
+    @classmethod
+    def setUpClass(cls):
+        cls.message_manager = MessageManager()
 
-    def tearDownClass(self):
-        self.message_manager.shut_down()
+    @classmethod
+    def tearDownClass(cls):
+        cls.message_manager.shut_down()
 
     def test_sefts(self):
 
