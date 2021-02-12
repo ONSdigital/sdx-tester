@@ -30,7 +30,7 @@ class PerformanceManager:
         self.listener = PerformanceListener(DAP_SUBSCRIPTION)
         self.t = threading.Thread(target=self.listener.start, daemon=True)
 
-    def start(self, total: int):
+    def start(self, total: int) -> tuple:
         print("starting performance manager")
         self.t.start()
 
@@ -49,7 +49,7 @@ class PerformanceManager:
                 time.sleep(1)
                 time_in_secs += 1
 
-        print(f'Completed {self.listener.message_count} of {total} submisions in {time_in_secs} seconds')
+        return self.listener.message_count, time_in_secs
 
     def stop(self):
         print("stopping performance manager")
