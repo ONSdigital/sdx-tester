@@ -2,7 +2,7 @@ import unittest
 import uuid
 
 from app.tester import run_seft
-from app.messaging import MessageManager
+from app.messaging import message_manager
 
 SEFT_DIR = "app/Data/sefts"
 
@@ -11,11 +11,11 @@ class TestSefts(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.message_manager = MessageManager()
+        message_manager.start()
 
     @classmethod
     def tearDownClass(cls):
-        cls.message_manager.shut_down()
+        message_manager.stop()
 
     def test_sefts(self):
 
@@ -34,7 +34,7 @@ class TestSefts(unittest.TestCase):
         with open(f"{SEFT_DIR}/{filename}.xlsx", 'rb') as seft_file:
             data_bytes = seft_file.read()
 
-        result = run_seft(self.message_manager, message, data_bytes)
+        result = run_seft(message_manager, message, data_bytes)
 
         self.assertIsNotNone(result.dap_message)
         self.assertTrue(len(result.files) == 1)

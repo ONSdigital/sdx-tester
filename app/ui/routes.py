@@ -10,14 +10,13 @@ from structlog import wrap_logger
 
 from app import app, socketio, survey_loader
 from app.jwt.encryption import decrypt_survey
-from app.messaging import MessageManager
+from app.messaging import message_manager
 from app.tester import run_survey
 
 logger = wrap_logger(logging.getLogger(__name__))
 
 submissions = []
 responses = []
-message_manager = MessageManager()
 
 
 @app.route('/')

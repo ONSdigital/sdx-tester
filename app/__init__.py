@@ -19,3 +19,8 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 from app.ui import routes
+from app.messaging import message_manager
+
+
+def start():
+    message_manager.start()

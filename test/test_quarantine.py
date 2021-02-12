@@ -1,7 +1,7 @@
 import unittest
 import uuid
 
-from app.messaging import MessageManager
+from app.messaging import message_manager
 from app.tester import run_survey
 
 
@@ -9,11 +9,11 @@ class TestQuarantine(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.message_manager = MessageManager()
+        message_manager.start()
 
     @classmethod
     def tearDownClass(cls):
-        cls.message_manager.shut_down()
+        message_manager.stop()
 
     def setUp(self):
         self.survey = {
@@ -55,7 +55,7 @@ class TestQuarantine(unittest.TestCase):
         survey['tx_id'] = tx_id
         print('---------------------------------------------------------')
         print(f'testing {key} with tx_id: {tx_id}')
-        result = run_survey(self.message_manager, survey)
+        result = run_survey(message_manager, survey)
         print(str(result))
         self.assertFalse(result.timeout, f'{key} has timed out!')
         self.assertIsNotNone(result.quarantine, f'{key} should have been quarantined!')
