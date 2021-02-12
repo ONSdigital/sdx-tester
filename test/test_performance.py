@@ -16,8 +16,6 @@ filename = f"11110000014H_202009_057_20210121143526"
 
 def prepare_seft(data_bytes: bytes, i: int) -> dict:
 
-
-
     message = {
         'filename': f'{filename}_{i}',
         'tx_id': str(uuid.uuid4()),
@@ -27,8 +25,6 @@ def prepare_seft(data_bytes: bytes, i: int) -> dict:
         'md5sum': '12345',
         'sizeBytes': 42
     }
-
-
 
     encrypted_seft = encrypt_seft(data_bytes)
     write_seft(encrypted_seft, message['filename'])
