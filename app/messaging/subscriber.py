@@ -60,7 +60,7 @@ class MessageListener:
             listener.set_message(message)
         else:
             message.ack()
-            logger.info(f"NOT CORRECT nacking message with tx_id {tx_id}")
+            logger.info(f"NOT EXPECTED! acking message with tx_id {tx_id}")
             logger.info(f"remaining keys: {self.listeners.keys()}")
 
     def start(self):
