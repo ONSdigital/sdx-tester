@@ -9,6 +9,14 @@ SEFT_DIR = "app/Data/sefts"
 
 class TestSefts(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        message_manager.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        message_manager.stop()
+
     def test_sefts(self):
 
         filename = "11110000014H_202009_057_20210121143526"

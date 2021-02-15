@@ -32,21 +32,26 @@ class MessageListener:
 
     def __init__(self, subscription_id: str) -> None:
         self.listeners = {}
+        self.subscription_id = subscription_id
         self.subscriber = pubsub_v1.SubscriberClient()
-        self.subscription_path = self.subscriber.subscription_path(PROJECT_ID, subscription_id)
-        self.streaming_pull_future = self.subscriber.subscribe(self.subscription_path, callback=self.on_message)
+        self.streaming_pull_future = None
 
     def add_listener(self, tx_id, listener: Listener):
+        logger.info(f"added {tx_id} to listeners on {self.subscription_id}")
         self.listeners[tx_id] = listener
 
     def remove_listener(self, tx_id):
         if tx_id in self.listeners:
+            logger.info(f"removed {tx_id} to listeners on {self.subscription_id}")
             del self.listeners[tx_id]
 
+    def remove_all(self):
+        self.listeners = {}
+
     def on_message(self, message):
-        logger.info(f'{self.listeners.keys()}')
+        logger.info(f'current tx_ids: {self.listeners.keys()}')
         tx_id = message.attributes.get('tx_id')
-        logger.info(f"received tx_id from header {tx_id} on {self.subscription_path}")
+        logger.info(f"received tx_id from header {tx_id} on {self.subscription_id}")
         if tx_id in self.listeners:
             message.ack()
             logger.info(f"acking message with tx_id {tx_id}")
@@ -54,12 +59,15 @@ class MessageListener:
             listener.set_complete()
             listener.set_message(message)
         else:
-            message.nack()
-            logger.info(f"NOT CORRECT nacking message with tx_id {tx_id}")
+            message.ack()
+            logger.info(f"NOT EXPECTED! acking message with tx_id {tx_id}")
             logger.info(f"remaining keys: {self.listeners.keys()}")
 
     def start(self):
-        logger.info(f"Listening for messages on {self.subscription_path}..\n")
+        self.subscriber = pubsub_v1.SubscriberClient()
+        subscription_path = self.subscriber.subscription_path(PROJECT_ID, self.subscription_id)
+        self.streaming_pull_future = self.subscriber.subscribe(subscription_path, callback=self.on_message)
+        logger.info(f"Listening for messages on {subscription_path}..\n")
 
         # Wrap subscriber in a 'with' block to automatically call close() when done.
         with self.subscriber:

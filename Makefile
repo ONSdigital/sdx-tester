@@ -4,7 +4,9 @@ start:
 	python run.py
 test:
 	python -m unittest
-test-good:
-	python -m coverage run -m unittest test/test_all_surveys.py
-test-routes:
-	python -m coverage run -m unittest test/test_routes.py
+integration-test:
+	python -m unittest -v integration_tests
+setup-performance:
+	python -m unittest performance_tests.setup
+performance-test:
+	python -m unittest performance_tests.test_performance

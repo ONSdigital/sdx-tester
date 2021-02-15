@@ -8,11 +8,10 @@ from datetime import datetime
 from flask import request, render_template, flash
 from structlog import wrap_logger
 
-from app import app, socketio
+from app import app, socketio, survey_loader
 from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
-from app.tester import run_test
-from app.survey_loader import extract_test_data_dict
+from app.tester import run_survey
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -23,7 +22,7 @@ responses = []
 @app.route('/')
 @app.route('/index', methods=['GET'])
 def index():
-    surveys = extract_test_data_dict()
+    surveys = survey_loader.read_all()
     return render_template('index.html',
                            surveys=surveys,
                            submissions=submissions)
@@ -36,7 +35,7 @@ def make_ws_connection():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    surveys = extract_test_data_dict()
+    surveys = survey_loader.read_all()
     data_str = request.form.get('post-data')
     data_dict = json.loads(data_str)
     number = data_dict["survey_id"]
@@ -101,7 +100,7 @@ def view_response(tx_id):
 
 
 def downstream_process(data_dict: dict):
-    result = run_test(message_manager, data_dict)
+    result = run_survey(message_manager, data_dict)
     responses.append(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})

@@ -1,7 +1,4 @@
-import json
-
 import flask_unittest
-from mock import patch
 import flask.globals
 from app import app
 
@@ -17,5 +14,3 @@ class TestRoutes(flask_unittest.ClientTestCase):
         client.post('/submit', data={'post-data': '{"hello": "world", "survey_id": "009"}'})
         # check result from server with expected data
         self.assertEqual(flask.request.form.get('post-data'), expected)
-
-

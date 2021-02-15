@@ -36,7 +36,7 @@ class Result:
         return f'''dap_message: {self.dap_message}
                 receipt: {self.receipt}
                 quarantine: {self.quarantine}
-                files: {self.files}
+                files: {self.files.keys()}
                 errors: {self.errors}
-                errors: {self.timeout}
+                timeout: {self.timeout}
               '''

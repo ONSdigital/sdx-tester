@@ -8,6 +8,7 @@ seft_topic_path = publisher.topic_path(PROJECT_ID, SEFT_TOPIC)
 
 
 def publish_data(data: str, tx_id: str) -> None:
+    print(f"publishing data with tx_id: {tx_id}")
     # Data must be a bytestring
     data = data.encode("utf-8")
     # When you publish a message, the client returns a future.
@@ -16,6 +17,7 @@ def publish_data(data: str, tx_id: str) -> None:
 
 
 def publish_seft(message: str, tx_id: str) -> None:
+    print(f"publishing seft with tx_id: {tx_id}")
     # Data must be a bytestring
     message = message.encode("utf-8")
     # When you publish a message, the client returns a future.

@@ -14,26 +14,35 @@ logger = logging.getLogger(__name__)
 class MessageManager:
 
     def __init__(self) -> None:
-        print("starting message manager")
         self.dap_listener = MessageListener(DAP_SUBSCRIPTION)
-        self.t = threading.Thread(target=self.dap_listener.start, daemon=True)
-        self.t.start()
+        self.t = None
 
         self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
-        self.r = threading.Thread(target=self.receipt_listener.start, daemon=True)
-        self.r.start()
+        self.r = None
 
         self.quarantine_listener = MessageListener(QUARANTINE_SUBSCRIPTION)
-        self.q = threading.Thread(target=self.quarantine_listener.start, daemon=True)
-        self.q.start()
+        self.q = None
 
         self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
+        self.sq = None
+
+    def start(self):
+        print("starting message manager")
+
+        self.t = threading.Thread(target=self.dap_listener.start, daemon=True)
+        self.r = threading.Thread(target=self.receipt_listener.start, daemon=True)
+        self.q = threading.Thread(target=self.quarantine_listener.start, daemon=True)
         self.sq = threading.Thread(target=self.seft_quarantine_listener.start, daemon=True)
+
+        self.t.start()
+        self.r.start()
+        self.q.start()
         self.sq.start()
+
         print("ready")
 
     def submit(self, result: Result, data: str, is_seft: bool = False):
-
+        print("calling submit")
         tx_id = result.get_tx_id()
         listener = Listener()
         self.dap_listener.add_listener(tx_id, listener)
@@ -70,13 +79,13 @@ class MessageManager:
             if count > MAX_WAIT_TIME_SECS:
                 print("Timed out")
                 result.set_timeout(True)
-                self.remove_listeners(tx_id)
+                self._remove_listeners(tx_id)
                 return result
 
             if q_listener.is_complete():
                 print("Quarantined")
                 result.set_quarantine(q_listener.get_message())
-                self.remove_listeners(tx_id)
+                self._remove_listeners(tx_id)
                 return result
 
             if listener.is_complete():
@@ -89,25 +98,34 @@ class MessageManager:
 
             if dap_completed and receipt_completed:
                 print("completed")
-                self.remove_listeners(tx_id)
+                self._remove_listeners(tx_id)
                 return result
             else:
                 print("waiting")
                 time.sleep(1)
                 count += 1
 
-    def remove_listeners(self, tx_id):
+    def _remove_listeners(self, tx_id):
+        print("removing listeners")
         self.dap_listener.remove_listener(tx_id)
         self.receipt_listener.remove_listener(tx_id)
         self.quarantine_listener.remove_listener(tx_id)
         self.seft_quarantine_listener.remove_listener(tx_id)
 
-    def shut_down(self):
+    def stop(self):
+        print("stopping message manager")
+        self.dap_listener.remove_all()
         self.dap_listener.stop()
         self.t.join()
+
+        self.receipt_listener.remove_all()
         self.receipt_listener.stop()
         self.r.join()
+
+        self.quarantine_listener.remove_all()
         self.quarantine_listener.stop()
         self.q.join()
+
+        self.seft_quarantine_listener.remove_all()
         self.seft_quarantine_listener.stop()
         self.sq.join()

@@ -1,0 +1,2 @@
+from integration_tests.test_surveys import TestSurveys
+from integration_tests.test_sefts import TestSefts
