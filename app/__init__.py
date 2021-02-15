@@ -18,4 +18,9 @@ PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-from app import routes
+from app.ui import routes
+from app.messaging import message_manager
+
+
+def start():
+    message_manager.start()
