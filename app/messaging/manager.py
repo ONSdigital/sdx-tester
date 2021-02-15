@@ -15,19 +15,24 @@ class MessageManager:
 
     def __init__(self) -> None:
         self.dap_listener = MessageListener(DAP_SUBSCRIPTION)
-        self.t = threading.Thread(target=self.dap_listener.start, daemon=True)
+        self.t = None
 
         self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
-        self.r = threading.Thread(target=self.receipt_listener.start, daemon=True)
+        self.r = None
 
         self.quarantine_listener = MessageListener(QUARANTINE_SUBSCRIPTION)
-        self.q = threading.Thread(target=self.quarantine_listener.start, daemon=True)
+        self.q = None
 
         self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
-        self.sq = threading.Thread(target=self.seft_quarantine_listener.start, daemon=True)
+        self.sq = None
 
     def start(self):
         print("starting message manager")
+
+        self.t = threading.Thread(target=self.dap_listener.start, daemon=True)
+        self.r = threading.Thread(target=self.receipt_listener.start, daemon=True)
+        self.q = threading.Thread(target=self.quarantine_listener.start, daemon=True)
+        self.sq = threading.Thread(target=self.seft_quarantine_listener.start, daemon=True)
 
         self.t.start()
         self.r.start()

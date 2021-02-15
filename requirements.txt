@@ -12,3 +12,4 @@ python-socketio==4.6.0
 kubernetes
 coverage
 mock
+flask-unittest

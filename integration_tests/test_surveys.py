@@ -44,14 +44,14 @@ class TestSurveys(unittest.TestCase):
         surveys = survey_loader.get_dap()
         self.run_with_survey(surveys, receipt=True, multiple_files=False)
 
-    def test_legacy(self):
-        surveys = survey_loader.get_legacy()
-        failing = ["092", "139"]
-        for f in failing:
-            surveys.pop(f)
+    # def test_legacy(self):
+    #     surveys = survey_loader.get_legacy()
+    #     failing = ["092", "139"]
+    #     for f in failing:
+    #         surveys.pop(f)
+    #
+    #     self.run_with_survey(surveys, receipt=True, multiple_files=True)
 
-        self.run_with_survey(surveys, receipt=True, multiple_files=True)
-
-    def test_feedback(self):
-        surveys = survey_loader.get_feedback()
-        self.run_with_survey(surveys, receipt=False, multiple_files=False)
+    # def test_feedback(self):
+    #     surveys = survey_loader.get_feedback()
+    #     self.run_with_survey(surveys, receipt=False, multiple_files=False)

@@ -13,7 +13,7 @@ logging.basicConfig(
     level=LOGGING_LEVEL,
 )
 
-PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-jon')
+PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
 
 app = Flask(__name__)
 socketio = SocketIO(app)
