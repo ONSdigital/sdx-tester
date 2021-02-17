@@ -13,7 +13,6 @@ class Listener:
     def __init__(self) -> None:
         self.complete = False
         self._message = None
-        self._error = None
 
     def is_complete(self):
         return self.complete
@@ -24,14 +23,8 @@ class Listener:
     def set_message(self, message):
         self._message = message
 
-    def set_error(self, error):
-        self._error = error
-
     def get_message(self):
         return self._message
-
-    def get_error(self):
-        return self._error
 
 
 class MessageListener:
@@ -87,22 +80,3 @@ class MessageListener:
     def stop(self):
         self.streaming_pull_future.cancel()
         self.subscriber.close()
-
-
-class QuarantineListener(MessageListener):
-
-    def on_message(self, message):
-        logger.info(f'current tx_ids: {self.listeners.keys()}')
-        tx_id = message.attributes.get('tx_id')
-        logger.info(f"received tx_id from header {tx_id} on {self.subscription_id}")
-        if tx_id in self.listeners:
-            message.ack()
-            logger.info(f"acking message with tx_id {tx_id}")
-            listener = self.listeners[tx_id]
-            listener.set_error(message.attributes.get('error'))
-            listener.set_complete()
-            listener.set_message(message)
-        else:
-            message.ack()
-            logger.info(f"NOT EXPECTED! acking message with tx_id {tx_id}")
-            logger.info(f"remaining keys: {self.listeners.keys()}")

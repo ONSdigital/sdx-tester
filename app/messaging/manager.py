@@ -5,7 +5,7 @@ import time
 from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUARANTINE_SUBSCRIPTION, \
     SEFT_QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data, publish_seft
-from app.messaging.subscriber import MessageListener, Listener, QuarantineListener
+from app.messaging.subscriber import MessageListener, Listener
 from app.result import Result
 
 logger = logging.getLogger(__name__)
@@ -20,10 +20,10 @@ class MessageManager:
         self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
         self.r = None
 
-        self.quarantine_listener = QuarantineListener(QUARANTINE_SUBSCRIPTION)
+        self.quarantine_listener = MessageListener(QUARANTINE_SUBSCRIPTION)
         self.q = None
 
-        self.seft_quarantine_listener = QuarantineListener(SEFT_QUARANTINE_SUBSCRIPTION)
+        self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
         self.sq = None
 
     def start(self):
@@ -83,7 +83,7 @@ class MessageManager:
                 return result
 
             if q_listener.is_complete():
-                print(f"Quarantined")
+                print("Quarantined")
                 result.set_quarantine(q_listener.get_message())
                 self._remove_listeners(tx_id)
                 return result
