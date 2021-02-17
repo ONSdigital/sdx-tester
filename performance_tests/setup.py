@@ -5,7 +5,7 @@ from app.store.writer import write_seft
 
 SEFT_DIR = "app/Data/sefts"
 SEFT_FILENAME = f"11110000014H_202009_057_20210121143526"
-SEFT_COUNT = 50
+SEFT_COUNT = 500
 
 
 class SetupPerformance(unittest.TestCase):
