@@ -7,6 +7,7 @@ class Result:
         self.dap_message = None
         self.receipt = None
         self.quarantine = None
+        self.quarantine_error = None
         self.files = {}
         self.errors = []
         self.timeout = False
@@ -22,6 +23,9 @@ class Result:
 
     def set_quarantine(self, quarantine):
         self.quarantine = quarantine
+
+    def set_quarantine_error(self, quarantine_error):
+        self.quarantine_error = quarantine_error
 
     def set_timeout(self, timeout):
         self.timeout = timeout
