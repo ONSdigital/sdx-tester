@@ -38,7 +38,7 @@ class PerformanceManager:
         time_in_secs = 0
         while listening:
 
-            if self.listener.message_count == total:
+            if self.listener.message_count >= total:
                 listening = False
 
             elif time_in_secs > MAX_WAIT_TIME_SECS:
