@@ -1,7 +1,8 @@
 import json
-from comments_tests import COMMENT_KEY
 
 from cryptography.fernet import Fernet
+
+COMMENT_KEY = "E3rjFT2i9ALcvc99Pe3YqjIGrzm3LdMsCXc8nUaOEbc="
 
 
 def encrypt_comment(data: dict) -> str:

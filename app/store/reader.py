@@ -46,3 +46,9 @@ def extract_zip(zip_bytes: bytes) -> dict:
 
     z.close()
     return files
+
+
+def get_comment_files(file_path) -> bytes:
+    encrypted_zip = read(file_path)
+    zip_bytes = decrypt_output(encrypted_zip, 'comments')
+    return zip_bytes
