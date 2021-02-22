@@ -13,3 +13,6 @@ kubernetes
 coverage
 mock
 flask-unittest
+xls2xlsx
+xlrd
+pandas
