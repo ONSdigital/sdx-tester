@@ -39,7 +39,7 @@ class TestComments(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        files = glob.glob('temp_files/*')
+        files = glob.glob('temp_files/*.xls')
         for f in files:
             os.remove(f)
 
