@@ -5,7 +5,7 @@ start:
 test:
 	python -m unittest
 integration-test:
-	python -m unittest -v integration_tests
+	python -m unittest discover -s integration_tests
 setup-performance:
 	python -m unittest performance_tests.setup
 performance-test:
