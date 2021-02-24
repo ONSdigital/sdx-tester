@@ -1,5 +1,6 @@
 Flask~=1.1.2
 google-cloud-pubsub
+google-cloud-datastore
 sdc-cryptography==0.4.0
 PyYAML~=5.3.1
 google-cloud-storage
@@ -13,3 +14,6 @@ kubernetes
 coverage
 mock
 flask-unittest
+xls2xlsx
+xlrd
+pandas
