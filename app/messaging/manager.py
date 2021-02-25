@@ -2,8 +2,9 @@ import logging
 import threading
 import time
 
-from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUARANTINE_SUBSCRIPTION, \
-    SEFT_QUARANTINE_SUBSCRIPTION
+# from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUARANTINE_SUBSCRIPTION, \
+    # SEFT_QUARANTINE_SUBSCRIPTION
+from app import CONFIG
 from app.messaging.publisher import publish_data, publish_seft
 from app.messaging.subscriber import MessageListener, Listener
 from app.result import Result
@@ -14,16 +15,16 @@ logger = logging.getLogger(__name__)
 class MessageManager:
 
     def __init__(self) -> None:
-        self.dap_listener = MessageListener(DAP_SUBSCRIPTION)
+        self.dap_listener = MessageListener(CONFIG.DAP_SUBSCRIPTION)
         self.t = None
 
-        self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
+        self.receipt_listener = MessageListener(CONFIG.RECEIPT_SUBSCRIPTION)
         self.r = None
 
-        self.quarantine_listener = MessageListener(QUARANTINE_SUBSCRIPTION)
+        self.quarantine_listener = MessageListener(CONFIG.QUARANTINE_SUBSCRIPTION)
         self.q = None
 
-        self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
+        self.seft_quarantine_listener = MessageListener(CONFIG.SEFT_QUARANTINE_SUBSCRIPTION)
         self.sq = None
 
     def start(self):
@@ -76,7 +77,7 @@ class MessageManager:
         receipt_completed = False
         listening = True
         while listening:
-            if count > MAX_WAIT_TIME_SECS:
+            if count > CONFIG.MAX_WAIT_TIME_SECS:
                 print("Timed out")
                 result.set_timeout(True)
                 self._remove_listeners(tx_id)

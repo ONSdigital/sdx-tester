@@ -1,6 +1,8 @@
 from app import app, socketio, start
+from app import cloud_config
 
 if __name__ == '__main__':
+    cloud_config()
     start()
     app.jinja_env.auto_reload = True
     app.secret_key = '12345'  # This is required for python flash cards

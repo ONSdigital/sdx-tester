@@ -8,12 +8,14 @@ from datetime import datetime, date
 import pandas
 
 from app.store.reader import get_comment_files
+from app import cloud_config
 
 d = date.today()
 file_path = f'comments/{datetime(d.year, d.month, d.day).date()}.zip'
 
 
 class TestComments(unittest.TestCase):
+    """Be sure to run the sdx-collate CronJob and test_setup.py before running the tests below"""
     surveys = ['009',
                '017',
                '019',
@@ -33,6 +35,7 @@ class TestComments(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        cloud_config()
         result = get_comment_files(file_path)
         z = zipfile.ZipFile(io.BytesIO(result), "r")
         z.extractall('temp_files')

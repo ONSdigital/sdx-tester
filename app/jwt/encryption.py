@@ -7,8 +7,8 @@ from sdc.crypto.encrypter import encrypt
 from sdc.crypto.decrypter import decrypt as sdc_decrypt
 from structlog import wrap_logger
 
-from app.jwt import KEY_PURPOSE_SUBMISSION
-
+# from app.jwt import KEY_PURPOSE_SUBMISSION
+from app import CONFIG
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -25,7 +25,7 @@ def decrypt_survey(payload: bytes) -> dict:
         secrets_from_file2 = yaml.safe_load(file2)
     key_store2 = KeyStore(secrets_from_file2)
     b_payload = payload.decode('utf-8')
-    decrypted_json = sdc_decrypt(b_payload, key_store2, KEY_PURPOSE_SUBMISSION)
+    decrypted_json = sdc_decrypt(b_payload, key_store2, CONFIG.KEY_PURPOSE_SUBMISSION)
     return decrypted_json
 
 

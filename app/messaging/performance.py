@@ -2,7 +2,8 @@ import logging
 import threading
 import time
 
-from app.messaging import DAP_SUBSCRIPTION
+# from app.messaging import
+from app import CONFIG
 from app.messaging.subscriber import MessageListener
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ class PerformanceListener(MessageListener):
 class PerformanceManager:
 
     def __init__(self):
-        self.listener = PerformanceListener(DAP_SUBSCRIPTION)
+        self.listener = PerformanceListener(CONFIG.DAP_SUBSCRIPTION)
         self.t = threading.Thread(target=self.listener.start, daemon=True)
 
     def start(self, total: int) -> tuple:

@@ -1,14 +1,15 @@
 import unittest
 import uuid
 
-from app.messaging import message_manager
 from app.tester import run_survey
+from app import cloud_config, message_manager
 
 
 class TestQuarantine(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        cloud_config()
         message_manager.start()
 
     @classmethod

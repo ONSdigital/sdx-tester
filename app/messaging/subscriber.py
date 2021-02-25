@@ -3,8 +3,8 @@ from concurrent.futures import TimeoutError
 
 from google.cloud import pubsub_v1
 
-from app.messaging import PROJECT_ID
-
+# from app.messaging import PROJECT_ID
+from app import CONFIG
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ class MessageListener:
 
     def start(self):
         self.subscriber = pubsub_v1.SubscriberClient()
-        subscription_path = self.subscriber.subscription_path(PROJECT_ID, self.subscription_id)
+        subscription_path = self.subscriber.subscription_path(CONFIG.PROJECT_ID, self.subscription_id)
         self.streaming_pull_future = self.subscriber.subscribe(subscription_path, callback=self.on_message)
         logger.info(f"Listening for messages on {subscription_path}..\n")
 

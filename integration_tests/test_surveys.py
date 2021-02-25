@@ -2,8 +2,9 @@ import unittest
 import uuid
 
 from app import survey_loader
-from app.messaging import message_manager
 from app.tester import run_survey
+from app.messaging.manager import MessageManager
+message_manager = MessageManager()
 
 
 class TestSurveys(unittest.TestCase):

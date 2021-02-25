@@ -2,8 +2,11 @@ import io
 import zipfile
 
 from google.cloud import storage
-from app.store import BUCKET_NAME, PROJECT_ID
+# from app.store import BUCKET_NAME, PROJECT_ID
+from app import CONFIG
 from app.gpg.decryption import decrypt_output
+from app.messaging.manager import MessageManager
+message_manager = MessageManager()
 
 
 def get_files(file_path) -> dict:
@@ -25,9 +28,10 @@ def get_files(file_path) -> dict:
 
 def read(file_path) -> bytes:
     # create storage client
-    storage_client = storage.Client(PROJECT_ID)
+    storage_client = storage.Client(CONFIG.PROJECT_ID)
     # get bucket with name
-    bucket = storage_client.bucket(BUCKET_NAME)
+    # bucket = storage_client.bucket(CONFIG.BUCKET_NAME)
+    bucket = CONFIG.BUCKET
     # get bucket data as blob
     blob = bucket.blob(file_path)
     # convert to bytes

@@ -10,7 +10,7 @@ from structlog import wrap_logger
 
 from app import app, socketio, survey_loader
 from app.jwt.encryption import decrypt_survey
-from app.messaging import message_manager
+from app.messaging import manager
 from app.tester import run_survey
 
 logger = wrap_logger(logging.getLogger(__name__))
@@ -100,7 +100,7 @@ def view_response(tx_id):
 
 
 def downstream_process(data_dict: dict):
-    result = run_survey(message_manager, data_dict)
+    result = run_survey(manager, data_dict)
     responses.append(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})

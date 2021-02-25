@@ -3,15 +3,15 @@ import pprint
 import unittest
 import uuid
 from datetime import date, datetime, timedelta
-from google.cloud import datastore, storage, exceptions
+from google.cloud import datastore, exceptions
+from app import CONFIG, cloud_config
 from comment_tests.comment_encrypt import encrypt_comment
 
 COMMENT_KEY = "E3rjFT2i9ALcvc99Pe3YqjIGrzm3LdMsCXc8nUaOEbc="
-PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
-datastore_client = datastore.Client(project=PROJECT_ID)
 
 
 class TestSetup(unittest.TestCase):
+
     unittest.TestLoader.sortTestMethodsUsing = None
     surveys = ['009',
                '017',
@@ -30,11 +30,15 @@ class TestSetup(unittest.TestCase):
                '228',
                '283']
 
+    @classmethod
+    def setUpClass(cls):
+        cloud_config()
+
     def test_datastore_cleanup(self):
         try:
-            query = datastore_client.query(kind='Comment')
+            query = CONFIG.DATASTORE_CLIENT.query(kind='Comment')
             results = list(query.fetch())
-            datastore_client.delete_multi(results)
+            CONFIG.DATASTORE_CLIENT.delete_multi(results)
             print('successfully deleted all comments:')
             pprint.pprint(results)
 
@@ -45,9 +49,7 @@ class TestSetup(unittest.TestCase):
 
     def test_bucket_cleanup(self):
         try:
-            bucket_name = f'{PROJECT_ID}-outputs'
-            storage_client = storage.Client()
-            bucket = storage_client.bucket(bucket_name)
+            bucket = CONFIG.BUCKET
             blob = bucket.blob('comments')
             blob.delete()
             print("Blob {} deleted.".format('comments folder'))
@@ -62,7 +64,7 @@ class TestSetup(unittest.TestCase):
         for survey_id in self.surveys:
             create_entity(survey_id, yesterday)
 
-        survey_134 = datastore.Entity(datastore_client.key("Comment", str(uuid.uuid4())))
+        survey_134 = datastore.Entity(CONFIG.DATASTORE_CLIENT.key("Comment", str(uuid.uuid4())))
 
         survey_134.update(
             {
@@ -79,13 +81,13 @@ class TestSetup(unittest.TestCase):
                 "survey_id": "134",
             }
         )
-        datastore_client.put(survey_134)
+        CONFIG.DATASTORE_CLIENT.put(survey_134)
 
         print(f'Successfully put 134 into Datastore')
 
 
 def create_entity(survey_id, date_stored):
-    survey_entity = datastore.Entity(datastore_client.key("Comment", str(uuid.uuid4())))
+    survey_entity = datastore.Entity(CONFIG.DATASTORE_CLIENT.key("Comment", str(uuid.uuid4())))
 
     survey_entity.update(
         {
@@ -98,5 +100,5 @@ def create_entity(survey_id, date_stored):
             "survey_id": survey_id,
         }
     )
-    datastore_client.put(survey_entity)
+    CONFIG.DATASTORE_CLIENT.put(survey_entity)
     print(f'Successfully put {survey_id} into Datastore')

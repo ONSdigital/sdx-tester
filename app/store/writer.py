@@ -1,15 +1,16 @@
 from google.cloud import storage
-from app.store import SEFT_BUCKET, PROJECT_ID
+# from app.store import SEFT_BUCKET, PROJECT_ID
+from app import CONFIG
 
 
 def write_seft(data, filename: str):
     print("writing seft to bucket")
-    write(data, filename, SEFT_BUCKET)
+    write(data, filename, CONFIG.SEFT_BUCKET)
 
 
 def write(data: str, filename: str, bucket: str, directory: str = '') -> str:
     path = f"{directory}/{filename}"
-    storage_client = storage.Client(PROJECT_ID)
+    storage_client = storage.Client(CONFIG.PROJECT_ID)
     bucket = storage_client.bucket(bucket)
     blob = bucket.blob(path)
     blob.upload_from_string(data)
