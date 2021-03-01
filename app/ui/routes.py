@@ -37,6 +37,7 @@ def make_ws_connection():
 def submit():
     surveys = survey_loader.read_all()
     data_str = request.form.get('post-data')
+    data_name = data_str = request.form.get('surveys_names')
     if '.xml' not in data_str:
         data_dict = json.loads(data_str)
         number = data_dict["survey_id"]
@@ -51,29 +52,27 @@ def submit():
                                current_survey=data_str,
                                number=number)
     else:
-        for key, values in surveys.items():
-            if 'seft' in key:
-                data_bytes = bytes(data_str, 'UTF-8')
-                filename_list = key.split('seft_')[1].split('_')
-                # print(f'before message filename list {filename_list}')
-                message = {
-                    'filename': key.split('seft_')[1],
-                    'tx_id': str(uuid.uuid4()),
-                    'survey_id': filename_list[2],
-                    'period': filename_list[1],
-                    'ru_ref': filename_list[3],
-                    'md5sum': hashlib.md5(data_bytes).hexdigest(),
-                    'sizeBytes': len(data_bytes)
-                }
-                # print(f'filename in submit method after message {(message["filename"])}')
-                time_and_survey = {f'({message["survey_id"]})  {datetime.now().strftime("%H:%M")}': message["tx_id"]}
-                submissions.insert(0, time_and_survey)
-                threading.Thread(target=seft_downstream_process, args=(message, data_bytes,)).start()
-                return render_template('index.html',
-                                       surveys=surveys,
-                                       submissions=submissions,
-                                       current_survey=data_str,
-                                       number=message["survey_id"])
+        data_bytes = bytes(data_str, 'UTF-8')
+        filename_list = data_name.split('seft_')[1].split('_')
+        # print(f'before message filename list {filename_list}')
+        message = {
+            'filename': data_name.split('seft_')[1],
+            'tx_id': str(uuid.uuid4()),
+            'survey_id': filename_list[2],
+            'period': filename_list[1],
+            'ru_ref': filename_list[3],
+            'md5sum': hashlib.md5(data_bytes).hexdigest(),
+            'sizeBytes': len(data_bytes)
+        }
+        # print(f'filename in submit method after message {(message["filename"])}')
+        time_and_survey = {f'({message["survey_id"]})  {datetime.now().strftime("%H:%M")}': message["tx_id"]}
+        submissions.insert(0, time_and_survey)
+        threading.Thread(target=seft_downstream_process, args=(message, data_bytes,)).start()
+        return render_template('index.html',
+                               surveys=surveys,
+                               submissions=submissions,
+                               current_survey=data_str,
+                               number=message["survey_id"])
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
