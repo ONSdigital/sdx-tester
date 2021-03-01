@@ -20,17 +20,13 @@ def run_survey(message_manager: MessageManager, survey_dict: dict) -> Result:
 
 
 def run_seft(message_manager: MessageManager, message: dict, seft_data: bytes) -> Result:
-    print("inside run_seft method")
     encrypted_seft = encrypt_seft(seft_data)
     write_seft(encrypted_seft, message['filename'])
-    # print(f'Filename in run_seft method: ({message["filename"]})')
     result = Result(message['tx_id'])
     message_str = json.dumps(message)
     result = message_manager.submit(result, message_str, is_seft=True)
-    # print(f'This is the result in run_seft: {result}')
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
         file_list = reader.get_files(file_path)
-        print(f'This is the file list {file_list}')
         result.set_files(file_list)
     return result

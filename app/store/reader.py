@@ -7,20 +7,14 @@ from app.gpg.decryption import decrypt_output
 
 
 def get_files(file_path) -> dict:
-    print(f'This is the file path {file_path}')
     file_dir = file_path.split("/")[0]
-    print(f'This is the file dir {file_dir}')
     filename = file_path.split("/")[1]
-    print(f'This is the filename {filename}')
+    print(f'Filename: {filename}')
     if file_dir == 'survey' or file_dir == 'comments':
-        print("we are in if block of get files method")
-        print(filename)
         encrypted_zip = read(file_path)
         zip_bytes = decrypt_output(encrypted_zip, filename)
         return extract_zip(zip_bytes)
     else:
-        print("we are in else block of get files method")
-        print(filename)
         encrypted_data = read(file_path)
         data_bytes = decrypt_output(encrypted_data, filename)
         if file_dir == 'seft':
