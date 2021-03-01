@@ -15,6 +15,12 @@ def read_data(filter_func) -> dict:
                 survey_key = f"{survey['survey_id']}"
                 dict_of_test_surveys[survey_key] = survey
 
+    for filename in os.listdir('app/Data/sefts'):
+        with open(f"app/Data/sefts/{filename}", 'rb') as seft_file:
+            survey_id = filename.split('.')[0]
+            seft_key = f'seft_{survey_id}'
+            dict_of_test_surveys[seft_key] = seft_file.read()
+
     for key in sorted(dict_of_test_surveys.keys()):
         sorted_dict[key] = dict_of_test_surveys[key]
 

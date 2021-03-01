@@ -9,11 +9,10 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def decrypt_output(data: bytes, filename: str) -> bytes:
-
     # we seem to have to write the decrypted data out to a file
     temp_file = f'temp_files/{filename}'
     decrypted_data = gpg.decrypt(data, passphrase='passphrase', output=temp_file)
-
+    # print(f'This is the filename {filename}')
     if decrypted_data.ok:
         logger.info("successfully decrypted output")
 

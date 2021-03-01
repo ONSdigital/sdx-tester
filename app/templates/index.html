@@ -14,7 +14,11 @@
                 <li>surveys</li>
                 <option selected="selected">{{number}}</option>
                 {% for keys, values in surveys.items() %}
-                <option value= "{{ values | pretty_print }}">{{ keys }}</option>
+                    {% if '_' in keys %}
+                        <option value = "{{ values }}">{{ 'seft_' + keys.split('_')[3] }}</option>
+                    {% else %}
+                        <option value= "{{ values | pretty_print }}">{{ keys }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
             <br>
@@ -32,7 +36,7 @@
                 border-radius: 5px;" id="test">
                     {% for submission in submissions %}
                         {% for survey_id, tx_id in submission.items() %}
-                        <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
+                                <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
                         {% endfor %}
                     {% endfor %}
                 </ul>
