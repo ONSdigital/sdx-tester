@@ -36,8 +36,10 @@ def make_ws_connection():
 @app.route('/submit', methods=['POST'])
 def submit():
     surveys = survey_loader.read_all()
-    data_str = request.form.get('post-data')
-    data_name = data_str = request.form.get('surveys_names')
+    data = request.form.get('post-data')
+    name = data.split(' ')[0]
+    data_str = data.split(' ', 1)[1]
+    print(data_str)
     if '.xml' not in data_str:
         data_dict = json.loads(data_str)
         number = data_dict["survey_id"]
@@ -53,10 +55,10 @@ def submit():
                                number=number)
     else:
         data_bytes = bytes(data_str, 'UTF-8')
-        filename_list = data_name.split('seft_')[1].split('_')
+        filename_list = name.split('seft_')[1].split('_')
         # print(f'before message filename list {filename_list}')
         message = {
-            'filename': data_name.split('seft_')[1],
+            'filename': name.split('seft_')[1],
             'tx_id': str(uuid.uuid4()),
             'survey_id': filename_list[2],
             'period': filename_list[1],
