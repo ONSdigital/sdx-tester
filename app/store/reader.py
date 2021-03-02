@@ -9,7 +9,6 @@ from app.gpg.decryption import decrypt_output
 def get_files(file_path) -> dict:
     file_dir = file_path.split("/")[0]
     filename = file_path.split("/")[1]
-    print(f'Filename: {filename}')
     if file_dir == 'survey' or file_dir == 'comments':
         encrypted_zip = read(file_path)
         zip_bytes = decrypt_output(encrypted_zip, filename)

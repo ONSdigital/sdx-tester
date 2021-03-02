@@ -39,9 +39,8 @@ def submit():
     data = request.form.get('post-data')
     name = data.split(' ')[0]
     data_str = data.split(' ', 1)[1]
-    print(data_str)
     if '.xml' not in data_str:
-        data_dict = json.loads(data_str)
+        data_dict = json.loads(data)
         number = data_dict["survey_id"]
         tx_id = str(uuid.uuid4())
         data_dict['tx_id'] = tx_id
@@ -67,14 +66,14 @@ def submit():
             'sizeBytes': len(data_bytes)
         }
         # print(f'filename in submit method after message {(message["filename"])}')
-        time_and_survey = {f'({message["survey_id"]})  {datetime.now().strftime("%H:%M")}': message["tx_id"]}
+        time_and_survey = {f'(seft_{message["survey_id"]})  {datetime.now().strftime("%H:%M")}': message["tx_id"]}
         submissions.insert(0, time_and_survey)
         threading.Thread(target=seft_downstream_process, args=(message, data_bytes,)).start()
         return render_template('index.html',
                                surveys=surveys,
                                submissions=submissions,
                                current_survey=data_str,
-                               number=message["survey_id"])
+                               number='seft_'+message["survey_id"])
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
