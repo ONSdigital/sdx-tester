@@ -1,6 +1,8 @@
 import unittest
 import uuid
 
+from app.messaging.publisher import publish_dap_receipt
+from app.store import SEFT_BUCKET, reader
 from app.tester import run_seft
 from app.messaging import message_manager
 
@@ -18,7 +20,6 @@ class TestSefts(unittest.TestCase):
         message_manager.stop()
 
     def test_sefts(self):
-
         filename = "11110000014H_202009_057_20210121143526"
 
         message = {
@@ -40,3 +41,10 @@ class TestSefts(unittest.TestCase):
         self.assertTrue(len(result.files) == 1)
         self.assertIsNone(result.receipt)
         self.assertIsNone(result.quarantine)
+
+        dap_message = result.dap_message
+        publish_dap_receipt(dap_message, message.get('tx_id'))
+
+        filename = '/' + dap_message.attributes.get('gcs.key').split('/')[1]
+
+        reader.read(filename, SEFT_BUCKET)
