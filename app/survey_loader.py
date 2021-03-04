@@ -6,14 +6,21 @@ import json
 def read_data(filter_func) -> dict:
     dict_of_test_surveys = {}
     sorted_dict = {}
-    path = 'app/Data/surveys'
-    for filename in os.listdir(path):
+    survey_path = 'app/Data/surveys'
+    seft_path = 'app/Data/sefts'
+    for filename in os.listdir(survey_path):
         if filter_func(filename):
-            with open(f'{path}/{filename}', 'r') as data:
+            with open(f'{survey_path}/{filename}', 'r') as data:
                 survey = json.load(data)
                 # survey_key = f"{survey['survey_id']}-{survey['collection']['instrument_id']}"
                 survey_key = f"{survey['survey_id']}"
                 dict_of_test_surveys[survey_key] = survey
+
+    for filename in os.listdir(seft_path):
+        with open(f'{seft_path}/{filename}', 'rb') as seft_file:
+            survey_id = filename.split('.')[0]
+            seft_key = f'seft_{survey_id}'
+            dict_of_test_surveys[seft_key] = seft_file.read()
 
     for key in sorted(dict_of_test_surveys.keys()):
         sorted_dict[key] = dict_of_test_surveys[key]

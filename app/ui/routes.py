@@ -1,4 +1,5 @@
 import base64
+import hashlib
 import json
 import logging
 import threading
@@ -11,7 +12,7 @@ from structlog import wrap_logger
 from app import app, socketio, survey_loader
 from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
-from app.tester import run_survey
+from app.tester import run_survey, run_seft
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -36,19 +37,44 @@ def make_ws_connection():
 @app.route('/submit', methods=['POST'])
 def submit():
     surveys = survey_loader.read_all()
-    data_str = request.form.get('post-data')
-    data_dict = json.loads(data_str)
-    number = data_dict["survey_id"]
-    tx_id = str(uuid.uuid4())
-    data_dict['tx_id'] = tx_id
-    time_and_survey = {f'({number})  {datetime.now().strftime("%H:%M")}': tx_id}
-    submissions.insert(0, time_and_survey)
-    threading.Thread(target=downstream_process, args=(data_dict,)).start()
-    return render_template('index.html',
-                           surveys=surveys,
-                           submissions=submissions,
-                           current_survey=data_str,
-                           number=number)
+    data = request.form.get('post-data')
+    name = data.split(' ')[0]
+    data_str = data.split(' ', 1)[1]
+    if '.xml' not in data_str:
+        data_dict = json.loads(data)
+        number = data_dict["survey_id"]
+        tx_id = str(uuid.uuid4())
+        data_dict['tx_id'] = tx_id
+        time_and_survey = {f'({number})  {datetime.now().strftime("%H:%M")}': tx_id}
+        submissions.insert(0, time_and_survey)
+        threading.Thread(target=survey_downstream_process, args=(data_dict,)).start()
+        return render_template('index.html',
+                               surveys=surveys,
+                               submissions=submissions,
+                               current_survey=data_str,
+                               number=number)
+    else:
+        data_bytes = bytes(data_str, 'UTF-8')
+        filename_list = name.split('seft_')[1].split('_')
+        # print(f'before message filename list {filename_list}')
+        message = {
+            'filename': name.split('seft_')[1],
+            'tx_id': str(uuid.uuid4()),
+            'survey_id': filename_list[2],
+            'period': filename_list[1],
+            'ru_ref': filename_list[3],
+            'md5sum': hashlib.md5(data_bytes).hexdigest(),
+            'sizeBytes': len(data_bytes)
+        }
+        # print(f'filename in submit method after message {(message["filename"])}')
+        time_and_survey = {f'(seft_{message["survey_id"]})  {datetime.now().strftime("%H:%M")}': message["tx_id"]}
+        submissions.insert(0, time_and_survey)
+        threading.Thread(target=seft_downstream_process, args=(message, data_bytes,)).start()
+        return render_template('index.html',
+                               surveys=surveys,
+                               submissions=submissions,
+                               current_survey=data_str,
+                               number='seft_' + message["survey_id"])
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
@@ -99,8 +125,15 @@ def view_response(tx_id):
                            timeout=timeout)
 
 
-def downstream_process(data_dict: dict):
+def survey_downstream_process(data_dict: dict):
     result = run_survey(message_manager, data_dict)
+    responses.append(result)
+    response = 'Emitting....'
+    socketio.emit('data received', {'response': response})
+    print('Emit data (websocket)')
+
+def seft_downstream_process(message, data_bytes):
+    result = run_seft(message_manager, message, data_bytes)
     responses.append(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})

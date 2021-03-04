@@ -13,9 +13,14 @@
             border-radius: 5px;">
                 <li>surveys</li>
                 <option selected="selected">{{number}}</option>
-                {% for keys, values in surveys.items() %}
-                <option value= "{{ values | pretty_print }}">{{ keys }}</option>
+                {% for key, values in surveys.items() %}
+                    {% if '_' in key %}
+                        <option value = "{{ key, values }}">{{ 'seft_' + key.split('_')[3] }}</option>
+                    {% else %}
+                        <option value= "{{ values | pretty_print }}">{{ key }}</option>
+                    {% endif %}
                 {% endfor %}
+
             </select>
             <br>
             <br>
