@@ -14,8 +14,8 @@
                 <li>surveys</li>
                 <option selected="selected">{{number}}</option>
                 {% for key, values in surveys.items() %}
-                    {% if '_' in key %}
-                        <option value = "{{ values | pretty_print }}">{{ 'seft_' + key.split('_')[3] }}</option>
+                    {% if 'seft' in key %}
+                        <option value = "{{ values.get_seft_metadata() | pretty_print }}">{{ key }}</option>
                     {% else %}
                         <option value= "{{ values | pretty_print }}">{{ key }}</option>
                     {% endif %}
@@ -30,17 +30,17 @@
                 </textarea>
             {% else %}
                 <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
-                border-radius: 5px;">{{surveys['009']|pretty_print }}
+                border-radius: 5px;">{{surveys['009'] }}
                 </textarea>
             {% endif %}
-                <ul style="float:right; width:50%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
-                border-radius: 5px;" id="test">
-                    {% for submission in submissions %}
-                        {% for survey_id, tx_id in submission.items() %}
-                        <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
-                        {% endfor %}
+            <ul style="float:right; width:50%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
+            border-radius: 5px;" id="test">
+                {% for submission in submissions %}
+                    {% for survey_id, tx_id in submission.items() %}
+                    <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
                     {% endfor %}
-                </ul>
+                {% endfor %}
+            </ul>
             <br>
             <input id="submit" type="submit" value="Submit" style="margin-top: 20px">
             <script>
