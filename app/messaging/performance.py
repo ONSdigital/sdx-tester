@@ -2,7 +2,7 @@ import logging
 import threading
 import time
 
-from app.messaging import DAP_SUBSCRIPTION
+from app.messaging import DAP_SUBSCRIPTION, RECEIPT_SUBSCRIPTION
 from app.messaging.subscriber import MessageListener
 
 logger = logging.getLogger(__name__)
@@ -24,15 +24,25 @@ class PerformanceListener(MessageListener):
         print(f'received count = {self.message_count}')
 
 
+class ReceiptListener(MessageListener):
+
+    def on_message(self, message):
+        message.ack()
+
+
 class PerformanceManager:
 
     def __init__(self):
         self.listener = PerformanceListener(DAP_SUBSCRIPTION)
         self.t = threading.Thread(target=self.listener.start, daemon=True)
 
+        self.receipt_listener = ReceiptListener(RECEIPT_SUBSCRIPTION)
+        self.r = threading.Thread(target=self.receipt_listener.start, daemon=True)
+
     def start(self, total: int) -> tuple:
         print("starting performance manager")
         self.t.start()
+        self.r.start()
 
         listening = True
         time_in_secs = 0
@@ -55,3 +65,6 @@ class PerformanceManager:
         print("stopping performance manager")
         self.listener.stop()
         self.t.join()
+
+        self.receipt_listener.stop()
+        self.r.join()
