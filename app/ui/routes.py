@@ -1,5 +1,5 @@
 import base64
-import hashlib
+
 import json
 import logging
 import threading
@@ -9,9 +9,10 @@ from datetime import datetime
 from flask import request, render_template, flash
 from structlog import wrap_logger
 
-from app import app, socketio, survey_loader
+from app import app, socketio
 from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
+from app.survey_loader import read_UI
 from app.tester import run_survey, run_seft
 
 logger = wrap_logger(logging.getLogger(__name__))
@@ -23,9 +24,9 @@ responses = []
 @app.route('/')
 @app.route('/index', methods=['GET'])
 def index():
-    surveys = survey_loader.read_all()
+    test_data = read_UI()
     return render_template('index.html',
-                           surveys=surveys,
+                           surveys=test_data,
                            submissions=submissions)
 
 
@@ -36,43 +37,34 @@ def make_ws_connection():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    surveys = survey_loader.read_all()
-    data_str = request.form.get('post-data')
-    print(data_str)
-    print(type(data_str))
-    # name = data.split(' ')[0]
-    # data_str = data.split(' ', 1)[1]
-    # print(data_str)
-    if 'type' in data_str:
-        data_dict = json.loads(data_str)
-        number = data_dict["survey_id"]
-        tx_id = str(uuid.uuid4())
-        data_dict['tx_id'] = tx_id
-        time_and_survey = {f'({number})  {datetime.now().strftime("%H:%M")}': tx_id}
-        submissions.insert(0, time_and_survey)
-        threading.Thread(target=survey_downstream_process, args=(data_dict,)).start()
-        return render_template('index.html',
-                               surveys=surveys,
-                               submissions=submissions,
-                               current_survey=data_str,
-                               number=number)
-    else:
-        # submit_seft(surveys, data_str)
-        data_bytes = bytes(data_str, 'UTF-8')
-        data_dict = json.loads(data_str)
-        print(data_dict)
-        number = data_dict["survey_id"]
-        print(number)
-        tx_id = data_dict["tx_id"]
-        print(tx_id)
-        time_and_survey = {f'(seft_{number})  {datetime.now().strftime("%H:%M")}': tx_id}
-        submissions.insert(0, time_and_survey)
-        threading.Thread(target=seft_downstream_process, args=(data_dict, data_bytes,)).start()
-        return render_template('index.html',
-                               surveys=surveys,
-                               submissions=submissions,
-                               current_survey=data_str,
-                               number='seft_' + number)
+    downstream_data = []
+    surveys = read_UI()
+    survey = request.form.get('post-data')
+
+    data_dict = json.loads(survey)
+    survey_id = data_dict["survey_id"]
+
+    tx_id = str(uuid.uuid4())
+    data_dict['tx_id'] = tx_id
+
+    downstream_data.append(data_dict)
+
+    if 'seft' in data_dict:
+        seft_submission = surveys[f'seft_{survey_id}']
+        data_bytes = seft_submission.get_seft_bytes()
+        downstream_data.append(data_bytes)
+        survey_id = 'seft_' + survey_id
+
+    time_and_survey = {f'({survey_id})  {datetime.now().strftime("%H:%M")}': tx_id}
+    submissions.insert(0, time_and_survey)
+
+    threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
+
+    return render_template('index.html',
+                           surveys=surveys,
+                           submissions=submissions[:20],
+                           current_survey=survey,
+                           number=survey_id)
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
@@ -123,16 +115,11 @@ def view_response(tx_id):
                            timeout=timeout)
 
 
-def survey_downstream_process(data_dict: dict):
-    result = run_survey(message_manager, data_dict)
-    responses.append(result)
-    response = 'Emitting....'
-    socketio.emit('data received', {'response': response})
-    print('Emit data (websocket)')
-
-
-def seft_downstream_process(message, data_bytes):
-    result = run_seft(message_manager, message, data_bytes)
+def downstream_process(*data):
+    if len(data) > 1:
+        result = run_seft(message_manager, data[0], data[1])
+    else:
+        result = run_survey(message_manager, data[0])
     responses.append(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})
@@ -140,10 +127,17 @@ def seft_downstream_process(message, data_bytes):
 
 
 def decode_files_and_images(response_files: dict):
+    """
+    For our tester we want to display the data that has been sent through our system. As SDX produces different
+    file types they require different processing for our HTML page to display them correctly.
+    """
     sorted_files = {}
     for key, value in response_files.items():
+        print(f'I am the key: {key}')
         if value is None:
             return response_files
+        elif key == 'SEFT':
+            return {key: 'Seft recieved'}
         elif key.lower().endswith(('jpg', 'png')):
             b64_image = base64.b64encode(value).decode()
             sorted_files[key] = b64_image
