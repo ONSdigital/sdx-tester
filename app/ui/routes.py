@@ -37,40 +37,33 @@ def make_ws_connection():
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    downstream_data = []
     surveys = read_UI()
     survey = request.form.get('post-data')
 
     data_dict = json.loads(survey)
     survey_id = data_dict["survey_id"]
 
-    if 'type' in survey:
+    tx_id = str(uuid.uuid4())
+    data_dict['tx_id'] = tx_id
 
-
-        tx_id = str(uuid.uuid4())
-        data_dict['tx_id'] = tx_id
-        time_and_survey = {f'({survey_id})  {datetime.now().strftime("%H:%M")}': tx_id}
-        submissions.insert(0, time_and_survey)
-        threading.Thread(target=survey_downstream_process, args=(data_dict,)).start()
-        return render_template('index.html',
-                               surveys=surveys,
-                               submissions=submissions,
-                               current_survey=survey,
-                               number=survey_id)
-    else:
-
+    downstream_data.append(data_dict)
+    if 'seft' in data_dict:
         seft_submission = surveys[f'seft_{survey_id}']
         data_bytes = seft_submission.get_seft_bytes()
+        downstream_data.append(data_bytes)
+        survey_id = 'seft_' + survey_id
 
-        tx_id = data_dict["tx_id"]
+    time_and_survey = {f'({survey_id})  {datetime.now().strftime("%H:%M")}': tx_id}
+    submissions.insert(0, time_and_survey)
 
-        time_and_survey = {f'(seft_{survey_id})  {datetime.now().strftime("%H:%M")}': tx_id}
-        submissions.insert(0, time_and_survey)
-        threading.Thread(target=seft_downstream_process, args=(data_dict, data_bytes,)).start()
-        return render_template('index.html',
-                               surveys=surveys,
-                               submissions=submissions,
-                               current_survey=survey,
-                               number='seft_' + survey_id)
+    threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
+
+    return render_template('index.html',
+                           surveys=surveys,
+                           submissions=submissions[:20],
+                           current_survey=survey,
+                           number=survey_id)
 
 
 @app.route('/response/<tx_id>', methods=['GET'])
@@ -121,16 +114,11 @@ def view_response(tx_id):
                            timeout=timeout)
 
 
-def survey_downstream_process(data_dict: dict):
-    result = run_survey(message_manager, data_dict)
-    responses.append(result)
-    response = 'Emitting....'
-    socketio.emit('data received', {'response': response})
-    print('Emit data (websocket)')
-
-
-def seft_downstream_process(message, data_bytes):
-    result = run_seft(message_manager, message, data_bytes)
+def downstream_process(*data):
+    if len(data) > 1:
+        result = run_seft(message_manager, data[0], data[1])
+    else:
+        result = run_survey(message_manager, data[0])
     responses.append(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})
@@ -138,10 +126,17 @@ def seft_downstream_process(message, data_bytes):
 
 
 def decode_files_and_images(response_files: dict):
+    """
+    For our tester we want to display the data that has been sent through our system. As SDX produces different
+    file types they require different processing for our HTML page to display them correctly.
+    """
     sorted_files = {}
     for key, value in response_files.items():
+        print(key)
         if value is None:
             return response_files
+        elif key == 'SEFT':
+            return {key: 'Seft recieved'}
         elif key.lower().endswith(('jpg', 'png')):
             b64_image = base64.b64encode(value).decode()
             sorted_files[key] = b64_image

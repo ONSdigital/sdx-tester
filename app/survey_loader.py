@@ -49,7 +49,8 @@ def seft_metadata(seft_file, filename):
         'period': period,
         'ru_ref': ru_ref,
         'md5sum': hashlib.md5(data_bytes).hexdigest(),
-        'sizeBytes': len(data_bytes)
+        'sizeBytes': len(data_bytes),
+        'seft': True
     }
     return message
 
