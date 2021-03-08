@@ -132,7 +132,6 @@ def decode_files_and_images(response_files: dict):
     """
     sorted_files = {}
     for key, value in response_files.items():
-        print(f'I am the key: {key}')
         if value is None:
             return response_files
         elif key == 'SEFT':
