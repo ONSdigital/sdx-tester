@@ -8,7 +8,7 @@ SEFT_TOPIC = "seft-topic"
 # Subscriber config
 DAP_SUBSCRIPTION = "dap-subscription"
 
-QUARANTINE_SUBSCRIPTION = "quarantine-survey-subscription"
+SURVEY_QUARANTINE_SUBSCRIPTION = "quarantine-survey-subscription"
 
 SEFT_QUARANTINE_SUBSCRIPTION = "quarantine-seft-subscription"
 

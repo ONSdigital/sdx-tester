@@ -2,7 +2,7 @@ import logging
 import threading
 import time
 
-from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, QUARANTINE_SUBSCRIPTION, \
+from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SURVEY_QUARANTINE_SUBSCRIPTION, \
     SEFT_QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data, publish_seft
 from app.messaging.subscriber import MessageListener, Listener
@@ -20,7 +20,7 @@ class MessageManager:
         self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
         self.r = None
 
-        self.quarantine_listener = MessageListener(QUARANTINE_SUBSCRIPTION)
+        self.quarantine_listener = MessageListener(SURVEY_QUARANTINE_SUBSCRIPTION)
         self.q = None
 
         self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
