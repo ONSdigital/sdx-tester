@@ -7,8 +7,8 @@ def write_seft(data, filename: str):
     write(data, filename, SEFT_BUCKET)
 
 
-def write(data: str, filename: str, bucket: str, directory: str = '') -> str:
-    path = f"{directory}/{filename}"
+def write(data: str, filename: str, bucket: str) -> str:
+    path = filename
     storage_client = storage.Client(PROJECT_ID)
     bucket = storage_client.bucket(bucket)
     blob = bucket.blob(path)
