@@ -1,9 +1,14 @@
+import logging
+
 from google.cloud import storage
 from app.store import SEFT_BUCKET, PROJECT_ID
+from structlog import wrap_logger
+
+logger = wrap_logger(logging.getLogger(__name__))
 
 
 def write_seft(data, filename: str):
-    print("writing seft to bucket")
+    logger.info("Writing SEFT to Storage Bucket")
     write(data, filename, SEFT_BUCKET)
 
 

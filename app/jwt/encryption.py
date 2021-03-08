@@ -13,6 +13,7 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def encrypt_survey(submission: dict) -> str:
+    logger.info("Encrypting survey")
     with open("./keys.yml") as file:
         secrets_from_file = yaml.safe_load(file)
     key_store = KeyStore(secrets_from_file)
@@ -21,6 +22,7 @@ def encrypt_survey(submission: dict) -> str:
 
 
 def decrypt_survey(payload: bytes) -> dict:
+    logger.info("Decrypting survey")
     with open("./keys2.yml") as file2:
         secrets_from_file2 = yaml.safe_load(file2)
     key_store2 = KeyStore(secrets_from_file2)
