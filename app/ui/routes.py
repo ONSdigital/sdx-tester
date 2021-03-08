@@ -46,7 +46,6 @@ def submit():
 
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
-
     downstream_data.append(data_dict)
 
     if 'seft' in data_dict:
