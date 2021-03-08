@@ -48,6 +48,7 @@ def submit():
     data_dict['tx_id'] = tx_id
 
     downstream_data.append(data_dict)
+
     if 'seft' in data_dict:
         seft_submission = surveys[f'seft_{survey_id}']
         data_bytes = seft_submission.get_seft_bytes()
@@ -132,7 +133,7 @@ def decode_files_and_images(response_files: dict):
     """
     sorted_files = {}
     for key, value in response_files.items():
-        print(key)
+        print(f'I am the key: {key}')
         if value is None:
             return response_files
         elif key == 'SEFT':

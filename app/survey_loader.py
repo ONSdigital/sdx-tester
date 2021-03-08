@@ -13,7 +13,8 @@ def read_survey(filter_func) -> dict:
         if filter_func(filename):
             with open(f'{survey_path}/{filename}', 'r') as data:
                 survey = json.load(data)
-                survey_key = f"{survey['survey_id']}-{survey['collection']['instrument_id']}"
+                # survey_key = f"{survey['survey_id']}-{survey['collection']['instrument_id']}"
+                survey_key = f"{survey['survey_id']}"
                 dict_of_test_surveys[survey_key] = survey
 
     return dict_of_test_surveys

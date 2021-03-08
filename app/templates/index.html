@@ -9,10 +9,10 @@
 <body>
     <div>
         <form action="/submit" method="post">
-            <select name="surveys_names" id="survey_names"  style="width:46%; border:2px solid #000;
+            <select  name="surveys_names" id="survey_names"  style="width:46%; border:2px solid #000;
             border-radius: 5px;">
                 <li>surveys</li>
-                <option selected="selected">{{number}}</option>
+                <option name="Current survey_id" selected="selected">{{ number }}</option>
                 {% for key, values in surveys.items() %}
                     {% if 'seft' in key %}
                         <option value = "{{ values.get_seft_metadata() | pretty_print }}">{{ key }}</option>
@@ -24,15 +24,9 @@
             </select>
             <br>
             <br>
-            {% if current_survey %}
-                <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
-                border-radius: 5px;">{{ current_survey }}
-                </textarea>
-            {% else %}
-                <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
-                border-radius: 5px;">{{surveys['009'] }}
-                </textarea>
-            {% endif %}
+            <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
+            border-radius: 5px;">{{ current_survey }}
+            </textarea>
             <ul style="float:right; width:50%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
             border-radius: 5px;" id="test">
                 {% for submission in submissions %}
