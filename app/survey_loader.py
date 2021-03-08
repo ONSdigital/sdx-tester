@@ -4,6 +4,7 @@ import json
 import uuid
 from urllib import request
 
+
 # sorted_survey_dict = {}
 # sorted_seft_dict = {}
 # combined_sorted_dict = {}
@@ -12,9 +13,10 @@ from urllib import request
 # This method produces a dict of surveys with the survey_id as the key. This is used for the UI element of SDX-tester
 def read_survey(filter_func) -> dict:
     dict_of_test_surveys = {}
-    sorted_dict ={}
+    sorted_dict = {}
     survey_path = 'app/Data/surveys'
     seft_path = 'app/Data/sefts'
+    List_of_surveys = []
     for filename in os.listdir(survey_path):
         if filter_func(filename):
             with open(f'{survey_path}/{filename}', 'r') as data:
@@ -27,13 +29,15 @@ def read_survey(filter_func) -> dict:
         with open(f'{seft_path}/{filename}', 'rb') as seft_file:
             filename_without_extension = filename.split('.')[0]
             seft_key = f'seft_{filename_without_extension}'
-            message = seft_message(seft_file, filename_without_extension)
+            # message = seft_message(seft_file, filename_without_extension)
+            seft_obj = seft_message(seft_file, filename_without_extension)
             dict_of_test_surveys[seft_key] = message
 
     for key in sorted(dict_of_test_surveys.keys()):
         sorted_dict[key] = dict_of_test_surveys[key]
 
     return sorted_dict
+
 
 
 # def read_seft():
@@ -55,7 +59,6 @@ def read_survey(filter_func) -> dict:
 # def combine_survey_and_seft_dict(sorted_survey_dict, sorted_seft_dict):
 #     combined_sorted_dict = sorted_survey_dict | sorted_seft_dict
 #     return combined_sorted_dict
-
 
 def seft_message(seft_file, filename_without_extension):
     data_bytes = seft_file.read()

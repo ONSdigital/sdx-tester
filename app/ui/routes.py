@@ -74,25 +74,6 @@ def submit():
                                current_survey=data_str,
                                number='seft_' + number)
 
-        # data_bytes = bytes(data_str, 'UTF-8')
-        # filename_list = name.split('seft_')[1].split('_')
-        # print(f'before message filename list {filename_list}')
-        # message = {
-        #     'filename': name.split('seft_')[1],
-        #     'tx_id': str(uuid.uuid4()),
-        #     'survey_id': filename_list[2],
-        #     'period': filename_list[1],
-        #     'ru_ref': filename_list[3],
-        #     'md5sum': hashlib.md5(data_bytes).hexdigest(),
-        #     'sizeBytes': len(data_bytes)
-        # }
-        # print(f'filename in submit method after message {(message["filename"])}')
-        # time_and_survey = {f'(seft_{message["survey_id"]})  {datetime.now().strftime("%H:%M")}': message["tx_id"]}
-
-# def submit_seft(surveys,data_str):
-#     surveys = survey_loader.read_all()
-#     data_str = request.form.get('post-data')
-
 
 @app.route('/response/<tx_id>', methods=['GET'])
 def view_response(tx_id):
