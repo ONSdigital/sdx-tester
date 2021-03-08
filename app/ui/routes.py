@@ -27,6 +27,7 @@ def index():
     test_data = read_UI()
     return render_template('index.html',
                            surveys=test_data,
+                           number='-- Choose a Survey_ID --',
                            submissions=submissions)
 
 
