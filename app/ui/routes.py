@@ -27,6 +27,7 @@ def index():
     test_data = read_UI()
     return render_template('index.html',
                            surveys=test_data,
+                           number='-- Choose a Survey_ID --',
                            submissions=submissions)
 
 
@@ -46,7 +47,6 @@ def submit():
 
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
-
     downstream_data.append(data_dict)
 
     if 'seft' in data_dict:
@@ -133,7 +133,6 @@ def decode_files_and_images(response_files: dict):
     """
     sorted_files = {}
     for key, value in response_files.items():
-        print(f'I am the key: {key}')
         if value is None:
             return response_files
         elif key == 'SEFT':
