@@ -22,12 +22,12 @@ class TestCleanup(unittest.TestCase):
     """
 
     test_data = {
-        'Silly Survey Data': f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup_function-survey',
-        'Silly SEFT Data': f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup_function-seft',
-        'Silly dap Data': f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup_function-dap',
-        'Silly legacy Data': f'{OUTPUT_BUCKET_NAME}/legacy/testing_cleanup_function-legacy',
-        'Silly seft-input Data': f'{INPUT_SEFT_BUCKET}/seft/testing_cleanup_function-seft',
-        'Silly comment Data': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip'
+        'Survey': f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup_function-survey',
+        'seft': f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup_function-seft',
+        'dap': f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup_function-dap',
+        'legacy': f'{OUTPUT_BUCKET_NAME}/legacy/testing_cleanup_function-legacy',
+        'seft-input': f'{INPUT_SEFT_BUCKET}/seft/testing_cleanup_function-seft',
+        'comment': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip'
     }
 
     def test_setup_output_bucket(self):
@@ -41,7 +41,7 @@ class TestCleanup(unittest.TestCase):
             else:
                 filename = filename.split('/', 1)[1]
             writer.write(data, filename, bucket)
-            print(f'Successfully put: {data} in {bucket}')
+            print(f'Successfully put data in {bucket}/{filename}')
 
     def test_setup_comments(self):
         """
@@ -58,7 +58,7 @@ class TestCleanup(unittest.TestCase):
         """
         Publishes a PuSub message for each element placed within the bucket.
         """
-        self.test_data.pop('Silly seft-input Data')
+        self.test_data.pop('seft-input')
         for data, filename in self.test_data.items():
             print(filename.split('/', 1)[1])
             dap_message = {
