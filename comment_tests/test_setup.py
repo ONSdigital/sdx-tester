@@ -31,17 +31,7 @@ class TestSetup(unittest.TestCase):
                '283']
 
     def test_datastore_cleanup(self):
-        try:
-            query = datastore_client.query(kind='Comment')
-            results = list(query.fetch())
-            datastore_client.delete_multi(results)
-            print('successfully deleted all comments:')
-            pprint.pprint(results)
-
-        except Exception as e:
-            print(e)
-            print('Failed to delete item from Datastore')
-        return True
+        cleanup_datastore()
 
     def test_bucket_cleanup(self):
         try:
@@ -100,3 +90,17 @@ def create_entity(survey_id, date_stored):
     )
     datastore_client.put(survey_entity)
     print(f'Successfully put {survey_id} into Datastore')
+
+
+def cleanup_datastore():
+    try:
+        query = datastore_client.query(kind='Comment')
+        results = list(query.fetch())
+        for entity in results:
+            datastore_client.delete(entity)
+            print(f'successfully deleted {entity} from Datastore')
+
+    except Exception as e:
+        print(e)
+        print('Failed to delete item from Datastore')
+    return True
