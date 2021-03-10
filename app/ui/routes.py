@@ -33,7 +33,7 @@ def index():
 
 @socketio.on('connect')
 def make_ws_connection():
-    print('Client Connected')
+    logging.info('Client Connected')
 
 
 @app.route('/submit', methods=['POST'])
@@ -123,7 +123,7 @@ def downstream_process(*data):
     responses.append(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})
-    print('Emit data (websocket)')
+    logger.info('Emit data (websocket)')
 
 
 def decode_files_and_images(response_files: dict):

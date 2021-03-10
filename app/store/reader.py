@@ -1,9 +1,13 @@
 import io
 import zipfile
+import logging
 
 from google.api_core.exceptions import NotFound
 from app.store import OUTPUT_BUCKET_NAME, storage_client
 from app.gpg.decryption import decrypt_output
+from structlog import wrap_logger
+
+logger = wrap_logger(logging.getLogger(__name__))
 
 
 def get_files(file_path) -> dict:
@@ -41,7 +45,7 @@ def extract_zip(zip_bytes: bytes) -> dict:
     z = zipfile.ZipFile(io.BytesIO(zip_bytes), "r")
     files = {}
     for filename in z.namelist():
-        print(f'File: {filename}')
+        logger.info(f'File: {filename}')
         file_bytes = z.read(filename)
         files[filename] = file_bytes
 

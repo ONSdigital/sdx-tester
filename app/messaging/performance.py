@@ -4,8 +4,9 @@ import time
 
 from app.messaging import DAP_SUBSCRIPTION, RECEIPT_SUBSCRIPTION
 from app.messaging.subscriber import MessageListener
+from structlog import wrap_logger
 
-logger = logging.getLogger(__name__)
+logger = wrap_logger(logging.getLogger(__name__))
 
 MAX_WAIT_TIME_SECS = 300
 
@@ -18,10 +19,10 @@ class PerformanceListener(MessageListener):
 
     def on_message(self, message):
         tx_id = message.attributes.get('tx_id')
-        logger.info(f"received tx_id from header {tx_id} on {self.subscription_id}")
+        logger.info(f"Received tx_id from header {tx_id} on {self.subscription_id}")
         message.ack()
         self.message_count += 1
-        print(f'received count = {self.message_count}')
+        logger.info(f'Received count = {self.message_count}')
 
 
 class ReceiptListener(MessageListener):
@@ -40,7 +41,7 @@ class PerformanceManager:
         self.r = threading.Thread(target=self.receipt_listener.start, daemon=True)
 
     def start(self, total: int) -> tuple:
-        print("starting performance manager")
+        logger.info("Starting Performance Manager")
         self.t.start()
         self.r.start()
 
@@ -52,7 +53,7 @@ class PerformanceManager:
                 listening = False
 
             elif time_in_secs > MAX_WAIT_TIME_SECS:
-                print("Timed out")
+                logger.error("Timed out")
                 listening = False
 
             else:
@@ -62,7 +63,7 @@ class PerformanceManager:
         return self.listener.message_count, time_in_secs
 
     def stop(self):
-        print("stopping performance manager")
+        logger.info("Stopping Performance Manager")
         self.listener.stop()
         self.t.join()
 
