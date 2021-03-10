@@ -2,8 +2,7 @@ import io
 import zipfile
 
 from google.api_core.exceptions import NotFound
-from google.cloud import storage
-from app.store import OUTPUT_BUCKET_NAME, PROJECT_ID
+from app.store import OUTPUT_BUCKET_NAME, storage_client
 from app.gpg.decryption import decrypt_output
 
 
@@ -26,8 +25,6 @@ def get_files(file_path) -> dict:
 
 def read(file_path, bucket) -> bytes:
     try:
-        # create storage client
-        storage_client = storage.Client(PROJECT_ID)
         # get bucket with name
         bucket = storage_client.bucket(bucket)
         # get bucket data as blob
