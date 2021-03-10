@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime, date, timedelta
 from app.store import writer
 from cleanup_tests import test_data, ignore_warnings
-from comment_tests.test_setup import create_entity
+from comment_tests.test_setup import create_entity, cleanup_datastore
 
 
 class TestCleanupSetup(unittest.TestCase):
@@ -12,6 +12,9 @@ class TestCleanupSetup(unittest.TestCase):
     dap-receipt-topic. This should trigger the sdx-cleanup cloud function to then clean up the data we have inserted.
     test_cleanup.py then runs queries to check if the data has in fact been deleted.
     """
+    @classmethod
+    def setUpClass(cls):
+        cleanup_datastore()
 
     @ignore_warnings
     def test_setup_output_bucket(self):
