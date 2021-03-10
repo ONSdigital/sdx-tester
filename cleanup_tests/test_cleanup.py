@@ -3,20 +3,12 @@ from datetime import date, datetime
 
 from google.cloud import storage
 
-from app.store import OUTPUT_BUCKET_NAME, INPUT_SEFT_BUCKET
-from cleanup_tests.test_setup import comment_filename
+from cleanup_tests.test_setup import TestCleanupSetup
 from comment_tests.test_setup import datastore_client
 
 
 class TestCleanup(unittest.TestCase):
-    test_data = {
-        'Silly Survey Data': f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup_function-survey',
-        'Silly SEFT Data': f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup_function-seft',
-        'Silly dap Data': f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup_function-dap',
-        'Silly legacy Data': f'{OUTPUT_BUCKET_NAME}/legacy/testing_cleanup_function-legacy',
-        'Silly seft-input Data': f'{INPUT_SEFT_BUCKET}/seft/testing_cleanup_function-seft',
-        'Silly comment Data': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip'
-    }
+    test_data = TestCleanupSetup.test_data
 
     def test_outputs_bucket(self):
         for data, filename in self.test_data.items():

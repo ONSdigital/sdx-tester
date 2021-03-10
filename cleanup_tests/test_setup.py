@@ -11,7 +11,7 @@ def comment_filename():
     return date_time.strftime('%Y-%m-%d')
 
 
-class TestCleanup(unittest.TestCase):
+class TestCleanupSetup(unittest.TestCase):
     """
     This test class inserts data into both buckets and Datastore and then publishes a message onto
     dap-receipt-topic. This should trigger the sdx-cleanup cloud function to then clean up the data we have inserted.
