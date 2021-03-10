@@ -15,7 +15,7 @@ def decrypt_output(data: bytes, filename: str) -> bytes:
     decrypted_data = gpg.decrypt(data, passphrase='passphrase', output=temp_file)
 
     if decrypted_data.ok:
-        logger.info("successfully decrypted output")
+        logger.info("Successfully decrypted output")
 
         # read the data back in from the created file
         with open(temp_file, 'rb') as f:
@@ -25,8 +25,7 @@ def decrypt_output(data: bytes, filename: str) -> bytes:
         os.remove(temp_file)
 
     else:
-        logger.info("failed to decrypt output")
-        logger.info(decrypted_data.status)
+        logger.error("Failed to decrypt output", status=decrypted_data.status)
         raise
 
     return result_bytes

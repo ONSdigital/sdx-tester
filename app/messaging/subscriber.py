@@ -2,11 +2,11 @@ import logging
 from concurrent.futures import TimeoutError
 
 from google.cloud import pubsub_v1
-
 from app.messaging import PROJECT_ID
+from structlog import wrap_logger
 
 
-logger = logging.getLogger(__name__)
+logger = wrap_logger(logging.getLogger(__name__))
 
 
 class Listener:
@@ -37,31 +37,31 @@ class MessageListener:
         self.streaming_pull_future = None
 
     def add_listener(self, tx_id, listener: Listener):
-        logger.info(f"added {tx_id} to listeners on {self.subscription_id}")
+        logger.info(f"Added {tx_id} to listeners on {self.subscription_id}")
         self.listeners[tx_id] = listener
 
     def remove_listener(self, tx_id):
         if tx_id in self.listeners:
-            logger.info(f"removed {tx_id} to listeners on {self.subscription_id}")
+            logger.info(f"Removed {tx_id} to listeners on {self.subscription_id}")
             del self.listeners[tx_id]
 
     def remove_all(self):
         self.listeners = {}
 
     def on_message(self, message):
-        logger.info(f'current tx_ids: {self.listeners.keys()}')
+        logger.info(f'Current tx_ids: {self.listeners.keys()}')
         tx_id = message.attributes.get('tx_id')
-        logger.info(f"received tx_id from header {tx_id} on {self.subscription_id}")
+        logger.info(f"Received tx_id from header {tx_id} on {self.subscription_id}")
         if tx_id in self.listeners:
             message.ack()
-            logger.info(f"acking message with tx_id {tx_id}")
+            logger.info(f"Acking message with tx_id {tx_id}")
             listener = self.listeners[tx_id]
             listener.set_complete()
             listener.set_message(message)
         else:
             message.ack()
-            logger.info(f"NOT EXPECTED! acking message with tx_id {tx_id}")
-            logger.info(f"remaining keys: {self.listeners.keys()}")
+            logger.error(f"NOT EXPECTED! acking message with tx_id {tx_id}")
+            logger.error(f"Remaining keys: {self.listeners.keys()}")
 
     def start(self):
         self.subscriber = pubsub_v1.SubscriberClient()
