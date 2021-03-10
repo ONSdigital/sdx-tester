@@ -1,7 +1,4 @@
-from google.cloud import storage
-from app.store import INPUT_SEFT_BUCKET, PROJECT_ID
-
-storage_client = storage.Client(PROJECT_ID)
+from app.store import INPUT_SEFT_BUCKET, storage_client
 
 
 def write_seft(data, filename: str):
