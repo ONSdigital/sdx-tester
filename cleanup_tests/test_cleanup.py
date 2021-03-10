@@ -8,6 +8,9 @@ from comment_tests.test_setup import datastore_client
 
 
 class TestCleanup(unittest.TestCase):
+    """
+    Please ensure you have run test_setup.py within this package before running these tests
+    """
     test_data = TestCleanupSetup.test_data
 
     def test_outputs_bucket(self):
