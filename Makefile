@@ -10,5 +10,3 @@ setup-performance:
 	python -m unittest performance_tests.setup
 performance-test:
 	python -m unittest performance_tests.test_performance
-
-
