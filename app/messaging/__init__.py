@@ -14,6 +14,8 @@ SEFT_QUARANTINE_SUBSCRIPTION = "quarantine-seft-subscription"
 
 RECEIPT_SUBSCRIPTION = "receipt-subscription"
 
+DAP_RECEIPT_TOPIC = "dap-receipt-topic"
+
 MAX_WAIT_TIME_SECS = 30
 
 

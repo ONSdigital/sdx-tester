@@ -18,7 +18,6 @@ class TestSefts(unittest.TestCase):
         message_manager.stop()
 
     def test_sefts(self):
-
         filename = "11110000014H_202009_057_20210121143526"
 
         message = {

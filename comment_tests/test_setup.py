@@ -66,7 +66,7 @@ class TestSetup(unittest.TestCase):
 
         survey_134.update(
             {
-                "created": str(yesterday),
+                "created": yesterday,
                 "encrypted_data": encrypt_comment({"ru_ref": "12346789012A",
                                                    "boxes_selected": "91w, 95w, 96w, 97w, 91f, 95f, 96f, 97f, 191m, 195m, 196m, 197m, 191w4, 195w4, 196w4, 197w4, 191w5, 195w5, 196w5, 197w5, ",
                                                    "comment": "flux clean",
@@ -89,7 +89,7 @@ def create_entity(survey_id, date_stored):
 
     survey_entity.update(
         {
-            "created": str(date_stored),
+            "created": date_stored,
             "encrypted_data": encrypt_comment(
                 {'ru_ref': '12346789012A', 'boxes_selected': '', 'comment': f'I am a {survey_id} comment',
                  'additional': []}

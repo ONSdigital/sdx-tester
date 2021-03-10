@@ -2,8 +2,8 @@ import io
 import zipfile
 import logging
 
-from google.cloud import storage
-from app.store import BUCKET_NAME, PROJECT_ID
+from google.api_core.exceptions import NotFound
+from app.store import OUTPUT_BUCKET_NAME, storage_client
 from app.gpg.decryption import decrypt_output
 from structlog import wrap_logger
 
@@ -14,11 +14,11 @@ def get_files(file_path) -> dict:
     file_dir = file_path.split("/")[0]
     filename = file_path.split("/")[1]
     if file_dir == 'survey' or file_dir == 'comments':
-        encrypted_zip = read(file_path)
+        encrypted_zip = read(file_path, OUTPUT_BUCKET_NAME)
         zip_bytes = decrypt_output(encrypted_zip, filename)
         return extract_zip(zip_bytes)
     else:
-        encrypted_data = read(file_path)
+        encrypted_data = read(file_path, OUTPUT_BUCKET_NAME)
         data_bytes = decrypt_output(encrypted_data, filename)
         if file_dir == 'seft':
             files = {'SEFT': data_bytes}
@@ -27,17 +27,18 @@ def get_files(file_path) -> dict:
         return files
 
 
-def read(file_path) -> bytes:
-    # create storage client
-    storage_client = storage.Client(PROJECT_ID)
-    # get bucket with name
-    bucket = storage_client.bucket(BUCKET_NAME)
-    # get bucket data as blob
-    blob = bucket.blob(file_path)
-    # convert to bytes
-    file = blob.download_as_bytes()
+def read(file_path, bucket) -> bytes:
+    try:
+        # get bucket with name
+        bucket = storage_client.bucket(bucket)
+        # get bucket data as blob
+        blob = bucket.blob(file_path)
+        # convert to bytes
+        file = blob.download_as_bytes()
+        return file
 
-    return file
+    except NotFound as e:
+        print(e)
 
 
 def extract_zip(zip_bytes: bytes) -> dict:
@@ -53,6 +54,6 @@ def extract_zip(zip_bytes: bytes) -> dict:
 
 
 def get_comment_files(file_path) -> bytes:
-    encrypted_zip = read(file_path)
+    encrypted_zip = read(file_path, OUTPUT_BUCKET_NAME)
     zip_bytes = decrypt_output(encrypted_zip, 'comments')
     return zip_bytes
