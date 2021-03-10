@@ -33,7 +33,7 @@ jobs:
       run: echo ${{ steps.chart-main.outputs.version }}
     - name: Compare appVersion
       run: |
-        if [ ${{ steps.chart-main.outputs.version }} < ${{ steps.chart.outputs.version }} ]
+        if [ ${{ steps.chart-main.outputs.version }} > ${{ steps.chart.outputs.version }} ]
         then
           echo Version has been incremented
         else
