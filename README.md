@@ -16,7 +16,13 @@ that the SDX project provides to be tested. It is made up of an interactive fron
 | DAP                  | reads data out of `ons-sdx-{{project_id}}-outputs` GCP Bucket                                                                 |
 | DAP                  | Publishes to `dap-receipt-topic`, kicking off cleanup cloud function                                                          |
 
+**Diagram of flow:**
 
+![](./images/sdx-tester.png?raw=true)
+
+NB:
+- Please refer to Key
+- Note that this diagram does not show the interactions with the Quarantine Topics.
 ## Front-end
 
 Tester provides a UI that allows users to select, edit and submit both JSON Surveys and SEFTs.  
