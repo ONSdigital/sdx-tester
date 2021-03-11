@@ -16,7 +16,7 @@ that the SDX project provides to be tested. It is made up of an interactive fron
 | DAP                  | reads data out of `ons-sdx-{{project_id}}-outputs` GCP Bucket                                                                 |
 | DAP                  | Publishes to `dap-receipt-topic`, kicking off cleanup cloud function                                                          |
 
-**Diagram of flow:**
+**Diagram of dataflow:**
 
 ![](./images/sdx-tester.png?raw=true)
 
