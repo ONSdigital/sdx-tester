@@ -34,3 +34,20 @@ Tester provides a UI that allows users to select, edit and submit both JSON Surv
 ## Integation Tests
 
 ## Performance Tests
+
+## Configuration
+| Environment Variable    | Description
+|-------------------------|------------------------------------
+| PROJECT_ID              | Name of project
+| BUCKET_NAME             | Name of the bucket: `{project_id}-outputs`
+| BUCKET                  | Bucket client to GCP
+| DAP_TOPIC_PATH          | Name of the dap topic: `dap-topic`
+| DAP_PUBLISHER           | PubSub publisher client to GCP
+| ENCRYPTION_KEY          | Key to encrypt all data
+| GPG                     | System GPG key import
+
+## License
+
+Copyright © 2016, Office for National Statistics (https://www.ons.gov.uk)
+
+Released under MIT license, see [LICENSE](LICENSE) for details.
