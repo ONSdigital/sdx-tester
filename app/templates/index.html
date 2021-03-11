@@ -31,7 +31,7 @@
             border-radius: 5px;" id="test">
                 {% for submission in submissions %}
                     {% for survey_id, tx_id in submission.items() %}
-                    <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
+                    <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }}<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"></a></li>
                     {% endfor %}
                 {% endfor %}
             </ul>

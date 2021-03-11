@@ -1,7 +1,7 @@
 # sdx-tester
 
 The tester application mimics SDX's interaction with RASRM, EQ and DAP, allowing all the major functionality 
-that the SDX project provides to be tested. It is made up of and interactive front-end, UnitTests and Integration tests.
+that the SDX project provides to be tested. It is made up of an interactive front-end, unittests and Integration tests.
 
 ## Interactions
 
@@ -9,7 +9,7 @@ that the SDX project provides to be tested. It is made up of and interactive fro
 
 | External Interaction | Functionality                                                                                                                 |
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| RAS-RM               | Puts SEFT survey submissions within `ons-sdx-{{project_id}}-sefts` GCP Bucket and publishes to <br>`seft-topic` PubSub Topic. |
+| RAS-RM               | Puts SEFT survey submissions within `ons-sdx-{{project_id}}-sefts` GCP Bucket and publishes to `seft-topic` PubSub Topic.     |
 | RAS-RM               | Acknowledges Receipt sent to RAS-RM via `receipt-topic`                                                                       |
 | EQ                   | Publishes JSON survey submissions to `survey-topic` PubSub Topic                                                              |
 | DAP                  | Subscribes to `dap-topic`, acknowledging processed submissions.                                                               |
