@@ -6,12 +6,13 @@ import threading
 import uuid
 from datetime import datetime
 
-from flask import request, render_template, flash
+from flask import request, render_template, flash, session
 from structlog import wrap_logger
 
 from app import app, socketio
 from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
+from app.messaging.publisher import publish_dap_receipt
 from app.survey_loader import read_UI
 from app.tester import run_survey, run_seft
 
@@ -34,6 +35,12 @@ def index():
 @socketio.on('connect')
 def make_ws_connection():
     logging.info('Client Connected')
+
+
+@socketio.on('dap_receipt')
+def dap_receipt(tx_id):
+    post_dap_message(tx_id)
+    socketio.emit(f"Clean up triggered for {tx_id['tx_id']}")
 
 
 @app.route('/submit', methods=['POST'])
@@ -145,6 +152,20 @@ def decode_files_and_images(response_files: dict):
         else:
             sorted_files[key] = value
     return sorted_files
+
+
+def post_dap_message(tx_id: dict):
+    for response in responses:
+        if response.dap_message and tx_id['tx_id'] == response.dap_message.attributes['tx_id']:
+            dap_message = {
+                'data': response.dap_message.data,
+                'ordering_key': '',
+                'attributes': {
+                    "gcs.bucket": response.dap_message.attributes['gcs.bucket'],
+                    "gcs.key": response.dap_message.attributes['gcs.key']
+                }
+            }
+            publish_dap_receipt(dap_message, tx_id['tx_id'])
 
 
 @app.template_filter()
