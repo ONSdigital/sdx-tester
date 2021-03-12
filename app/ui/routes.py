@@ -6,7 +6,7 @@ import threading
 import uuid
 from datetime import datetime
 
-from flask import request, render_template, flash, session
+from flask import request, render_template, flash
 from structlog import wrap_logger
 
 from app import app, socketio
@@ -39,8 +39,9 @@ def make_ws_connection():
 
 @socketio.on('dap_receipt')
 def dap_receipt(tx_id):
-    post_dap_message(tx_id)
-    socketio.emit(f"Clean up triggered for {tx_id['tx_id']}")
+    if post_dap_message(tx_id):
+        logger.info(f'Removed {tx_id} from Submissions')
+        # socketio.emit('hello', {'response': tx_id['td_id']})
 
 
 @app.route('/submit', methods=['POST'])
@@ -62,7 +63,7 @@ def submit():
         downstream_data.append(data_bytes)
         survey_id = 'seft_' + survey_id
 
-    time_and_survey = {f'({survey_id})  {datetime.now().strftime("%H:%M")}': tx_id}
+    time_and_survey = {tx_id: f'({survey_id})  {datetime.now().strftime("%H:%M")}'}
     submissions.insert(0, time_and_survey)
 
     threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
@@ -166,6 +167,7 @@ def post_dap_message(tx_id: dict):
                 }
             }
             publish_dap_receipt(dap_message, tx_id['tx_id'])
+    return True
 
 
 @app.template_filter()
