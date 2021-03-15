@@ -35,7 +35,7 @@
                 });
             </script>
 
-            <ul style="float:right; width: 53%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
+            <ul style="float:right; width: auto; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
             border-radius: 5px;" id="test">
                 {% for submission in submissions %}
                     {% for tx_id, survey_id in submission.items() %}
@@ -50,22 +50,35 @@
             <br>
             <input id="submit" type="submit" value="Submit" style="margin-top: 20px;">
             <script>
-                function emitTxId(tx_id) {
-                    var socket = io.connect('http://' + document.domain + ':' + location.port);
-                    socket.emit('dap_receipt', {tx_id : tx_id});
-                };
+            function emitTxId(tx_id) {
+                var socket = io.connect('http://' + document.domain + ':' + location.port);
+                socket.emit('dap_receipt', {tx_id : tx_id});
+            };
 
-                function buttonAnimation(tx_id) {
-                    selectedButton = document.getElementById(tx_id)
-                    $(selectedButton).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Cleaning...').attr('disabled', true);
-                };
+            function buttonAnimation(tx_id) {
+                selectedButton = document.getElementById(tx_id);
+                $(selectedButton).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Cleaning...').attr('disabled', true);
+            };
 
-                $(document).ready(function(){
-                    var socket = io.connect('http://' + document.domain + ':' + location.port);
-                    socket.on('data deleted', function(msg) {
-                        console.log('data deleted' + msg[1]);
-                    });
+            function buttonChange(tx_id, color, status) {
+                selectedButton = document.getElementById(tx_id);
+                $(selectedButton).html(status);
+                document.getElementById(tx_id).style.background = color;
+            };
+
+
+            $(document).ready(function(){
+                var socket = io.connect('http://' + document.domain + ':' + location.port);
+                socket.on('data deleted', function(msg) {
+                    if (msg.in_bucket == false) {
+                        console.log(msg.in_bucket);
+                        buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
+                    } else {
+                        console.log(msg.in_bucket);
+                        buttonChange(msg.tx_id, 'Tomato', 'Failed!);
+                    }
                 });
+            });
             </script>
         </form>
     </div>

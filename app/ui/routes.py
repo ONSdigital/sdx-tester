@@ -40,13 +40,14 @@ def make_ws_connection():
 
 @socketio.on('dap_receipt')
 def dap_receipt(tx_id):
+    tx_id = tx_id['tx_id']
     file_path = post_dap_message(tx_id)
     logger.info('Waiting for Cloud Function')
     time.sleep(5)
     in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
     if not in_bucket:
-        remove_submissions(tx_id['tx_id'])
-    socketio.emit('data deleted', {'td_id': tx_id['tx_id'], 'in_bucket': in_bucket})
+        remove_submissions(tx_id)
+    socketio.emit('data deleted', {'tx_id': tx_id, 'in_bucket': in_bucket})
 
 
 @app.route('/submit', methods=['POST'])
@@ -163,7 +164,7 @@ def decode_files_and_images(response_files: dict):
 def post_dap_message(tx_id: dict):
     file_path = None
     for response in responses:
-        if response.dap_message and tx_id['tx_id'] == response.dap_message.attributes['tx_id']:
+        if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
             file_path = response.dap_message.attributes['gcs.key']
             dap_message = {
                 'data': response.dap_message.data,
@@ -173,7 +174,7 @@ def post_dap_message(tx_id: dict):
                     "gcs.key": response.dap_message.attributes['gcs.key']
                 }
             }
-            publish_dap_receipt(dap_message, tx_id['tx_id'])
+            publish_dap_receipt(dap_message, tx_id)
     return file_path
 
 
