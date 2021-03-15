@@ -3,7 +3,6 @@
 {% block content %}
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <meta charset="UTF-8">
@@ -29,14 +28,9 @@
             <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
             border-radius: 5px;">{{ current_survey }}
             </textarea>
-            <script>
-                document.getElementById("survey_names").addEventListener('change', function(event) {
-                    document.getElementById("post-data").value = event.target.value
-                });
-            </script>
 
-            <ul style="float:right; width: auto; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
-            border-radius: 5px;" id="test">
+            {% if submissions %}
+                <ul style="float:right; width: auto; display:inline-block; border:2px solid #000; padding:20px; list-style: none; border-radius: 5px;" id="test">
                 {% for submission in submissions %}
                     {% for tx_id, survey_id in submission.items() %}
                     <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a> |
@@ -46,39 +40,43 @@
                     </li>
                     {% endfor %}
                 {% endfor %}
+            {% endif %}
             </ul>
             <br>
             <input id="submit" type="submit" value="Submit" style="margin-top: 20px;">
             <script>
-            function emitTxId(tx_id) {
-                var socket = io.connect('http://' + document.domain + ':' + location.port);
-                socket.emit('dap_receipt', {tx_id : tx_id});
-            };
-
-            function buttonAnimation(tx_id) {
-                selectedButton = document.getElementById(tx_id);
-                $(selectedButton).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Cleaning...').attr('disabled', true);
-            };
-
-            function buttonChange(tx_id, color, status) {
-                selectedButton = document.getElementById(tx_id);
-                $(selectedButton).html(status);
-                document.getElementById(tx_id).style.background = color;
-            };
-
-
-            $(document).ready(function(){
-                var socket = io.connect('http://' + document.domain + ':' + location.port);
-                socket.on('data deleted', function(msg) {
-                    if (msg.in_bucket == false) {
-                        console.log(msg.in_bucket);
-                        buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
-                    } else {
-                        console.log(msg.in_bucket);
-                        buttonChange(msg.tx_id, 'Tomato', 'Failed!);
-                    }
+                document.getElementById("survey_names").addEventListener('change', function(event) {
+                    document.getElementById("post-data").value = event.target.value;
                 });
-            });
+
+                function emitTxId(tx_id) {
+                    var socket = io.connect('http://' + document.domain + ':' + location.port);
+                    socket.emit('dap_receipt', {tx_id : tx_id});
+                }
+
+                function buttonAnimation(tx_id) {
+                    var selectedButton = document.getElementById(tx_id);
+                    $(selectedButton).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Cleaning...').attr('disabled', true);
+                }
+
+                function buttonChange(tx_id, color, status) {
+                    var selectedButton = document.getElementById(tx_id);
+                    $(selectedButton).html(status);
+                    document.getElementById(tx_id).style.background = color;
+                }
+
+                $(document).ready(function(){
+                    var socket = io.connect('http://' + document.domain + ':' + location.port);
+                    socket.on('data deleted', function(msg) {
+                        if (msg.in_bucket == false) {
+                            console.log(msg.in_bucket);
+                            buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
+                        } else {
+                            console.log(msg.in_bucket);
+                            buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                        }
+                    });
+                });
             </script>
         </form>
     </div>

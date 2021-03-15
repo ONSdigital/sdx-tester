@@ -54,9 +54,9 @@ def dap_receipt(tx_id):
 def submit():
     downstream_data = []
     surveys = read_UI()
-    survey = request.form.get('post-data')
+    current_survey = request.form.get('post-data')
 
-    data_dict = json.loads(survey)
+    data_dict = json.loads(current_survey)
     survey_id = data_dict["survey_id"]
 
     tx_id = str(uuid.uuid4())
@@ -77,7 +77,7 @@ def submit():
     return render_template('index.html',
                            surveys=surveys,
                            submissions=submissions[:20],
-                           current_survey=survey,
+                           current_survey=current_survey,
                            number=survey_id)
 
 
@@ -161,7 +161,7 @@ def decode_files_and_images(response_files: dict):
     return sorted_files
 
 
-def post_dap_message(tx_id: dict):
+def post_dap_message(tx_id: str):
     file_path = None
     for response in responses:
         if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
