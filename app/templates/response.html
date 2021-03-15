@@ -184,7 +184,6 @@
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             socket.on('data received', function(msg) {
                 console.log('data received' + msg);
-                location.reload(true);
             });
         });
         </script>

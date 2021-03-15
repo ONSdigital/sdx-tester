@@ -31,7 +31,7 @@ def publish_seft(message: str, tx_id: str) -> None:
 
 
 def publish_dap_receipt(dap_message, tx_id: str) -> None:
-    print('Publishing to confirm data is stored by DAP')
+    print('Publishing to dap-receipt-topic')
     msg_data = dap_message['data']
     attributes = {
         'gcs.bucket': dap_message['attributes']['gcs.bucket'],

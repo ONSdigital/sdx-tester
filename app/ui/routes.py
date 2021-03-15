@@ -1,18 +1,19 @@
 import base64
-
 import json
 import logging
 import threading
 import uuid
+import time
 from datetime import datetime
 
 from flask import request, render_template, flash
 from structlog import wrap_logger
-
 from app import app, socketio
 from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
 from app.messaging.publisher import publish_dap_receipt
+from app.store import OUTPUT_BUCKET_NAME
+from app.store.reader import bucket_check_if_exists
 from app.survey_loader import read_UI
 from app.tester import run_survey, run_seft
 
@@ -39,9 +40,13 @@ def make_ws_connection():
 
 @socketio.on('dap_receipt')
 def dap_receipt(tx_id):
-    if post_dap_message(tx_id):
-        logger.info(f'Removed {tx_id} from Submissions')
-        # socketio.emit('hello', {'response': tx_id['td_id']})
+    file_path = post_dap_message(tx_id)
+    logger.info('Waiting for Cloud Function')
+    time.sleep(5)
+    in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
+    if not in_bucket:
+        remove_submissions(tx_id['tx_id'])
+    socketio.emit('data deleted', {'td_id': tx_id['tx_id'], 'in_bucket': in_bucket})
 
 
 @app.route('/submit', methods=['POST'])
@@ -156,8 +161,10 @@ def decode_files_and_images(response_files: dict):
 
 
 def post_dap_message(tx_id: dict):
+    file_path = None
     for response in responses:
         if response.dap_message and tx_id['tx_id'] == response.dap_message.attributes['tx_id']:
+            file_path = response.dap_message.attributes['gcs.key']
             dap_message = {
                 'data': response.dap_message.data,
                 'ordering_key': '',
@@ -167,7 +174,14 @@ def post_dap_message(tx_id: dict):
                 }
             }
             publish_dap_receipt(dap_message, tx_id['tx_id'])
-    return True
+    return file_path
+
+
+def remove_submissions(tx_id):
+    for submission in submissions:
+        for key in submission.keys():
+            if tx_id == key:
+                submissions.remove(submission)
 
 
 @app.template_filter()
