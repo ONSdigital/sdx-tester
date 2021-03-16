@@ -40,14 +40,22 @@ def make_ws_connection():
 
 @socketio.on('dap_receipt')
 def dap_receipt(tx_id):
-    tx_id = tx_id['tx_id']
-    file_path = post_dap_message(tx_id)
-    logger.info('Waiting for Cloud Function')
-    time.sleep(5)
-    in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
-    if not in_bucket:
-        remove_submissions(tx_id)
-    socketio.emit('data deleted', {'tx_id': tx_id, 'in_bucket': in_bucket})
+    try:
+        tx_id = tx_id['tx_id']
+        file_path = post_dap_message(tx_id)
+        count = 5
+        while count > 0:
+            logger.info(f'Waiting for Cloud Function: {count}')
+            time.sleep(1)
+            count -= 1
+        if file_path:
+            in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
+            if not in_bucket:
+                remove_submissions(tx_id)
+            socketio.emit('cleaning finished', {'tx_id': tx_id, 'in_bucket': in_bucket})
+    except Exception as err:
+        logger.error(f'Clean up process failed: {err}')
+        socketio.emit('cleanup failed', {'tx_id': tx_id, 'error': err})
 
 
 @app.route('/submit', methods=['POST'])

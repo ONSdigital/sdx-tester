@@ -67,7 +67,7 @@
 
                 $(document).ready(function(){
                     var socket = io.connect('http://' + document.domain + ':' + location.port);
-                    socket.on('data deleted', function(msg) {
+                    socket.on('cleaning finished', function(msg) {
                         if (msg.in_bucket == false) {
                             console.log(msg.in_bucket);
                             buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
@@ -75,6 +75,14 @@
                             console.log(msg.in_bucket);
                             buttonChange(msg.tx_id, 'Tomato', 'Failed!');
                         }
+                    });
+                });
+
+                $(document).ready(function(){
+                    var socket = io.connect('http://' + document.domain + ':' + location.port);
+                    socket.on('cleanup failed', function(msg) {
+                        buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                        alert("Cleanup Failed: " + msg.error);
                     });
                 });
             </script>
