@@ -1,11 +1,16 @@
 import io
 import zipfile
 import logging
+from datetime import date, datetime
 
 from google.api_core.exceptions import NotFound
+from google.cloud import storage
+
 from app.store import OUTPUT_BUCKET_NAME, storage_client
 from app.gpg.decryption import decrypt_output
 from structlog import wrap_logger
+
+from comment_tests.test_setup import datastore_client
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -57,3 +62,17 @@ def get_comment_files(file_path) -> bytes:
     encrypted_zip = read(file_path, OUTPUT_BUCKET_NAME)
     zip_bytes = decrypt_output(encrypted_zip, 'comments')
     return zip_bytes
+
+
+def bucket_check_if_exists(file_name, bucket):
+    logger.info(f'Checking for: {file_name} in {bucket}')
+    bucket = storage_client.bucket(bucket)
+    return storage.Blob(bucket=bucket, name=file_name).exists(storage_client)
+
+
+def datastore_check_if_exists():
+    d = date.today()
+    today = datetime(d.year, d.month, d.day)
+    query = datastore_client.query(kind='Comment')
+    query.add_filter("created", "<", today)
+    return len(list(query.fetch()))

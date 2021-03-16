@@ -3,13 +3,15 @@
 {% block content %}
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <meta charset="UTF-8">
     <title>SDX Tester</title>
 </head>
 <body>
     <div>
         <form action="/submit" method="post">
-            <select  name="surveys_names" id="survey_names"  style="width:46%; border:2px solid #000;
+            <select  name="surveys_names" id="survey_names"  style="width: auto; border:2px solid #000;
             border-radius: 5px;">
                 <li>surveys</li>
                 <option name="Current survey_id" selected="selected">{{ number }}</option>
@@ -20,27 +22,69 @@
                         <option value= "{{ values | pretty_print }}">{{ key }}</option>
                     {% endif %}
                 {% endfor %}
-
             </select>
             <br>
             <br>
             <textarea id="post-data" name="post-data" rows="33" cols="50" style="border:2px solid #000;
             border-radius: 5px;">{{ current_survey }}
             </textarea>
-            <ul style="float:right; width:50%; display:inline-block; border:2px solid #000; padding:20px; list-style: none;
-            border-radius: 5px;" id="test">
+
+            {% if submissions %}
+                <ul style="float:right; width: auto; display:inline-block; border:2px solid #000; padding:20px; list-style: none; border-radius: 5px;" id="test">
                 {% for submission in submissions %}
-                    {% for survey_id, tx_id in submission.items() %}
-                    <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a></li>
+                    {% for tx_id, survey_id in submission.items() %}
+                    <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a> |
+                        <button type="button" class="btn" id="{{ tx_id }}" onclick="emitTxId('{{ tx_id }}'); buttonAnimation('{{ tx_id }}');" value="{{ tx_id }}">
+                            Cleanup
+                        </button>
+                    </li>
                     {% endfor %}
                 {% endfor %}
+            {% endif %}
             </ul>
             <br>
-            <input id="submit" type="submit" value="Submit" style="margin-top: 20px">
+            <input id="submit" type="submit" value="Submit" style="margin-top: 20px;">
             <script>
+                var socket = io.connect('http://' + document.domain + ':' + location.port);
+
                 document.getElementById("survey_names").addEventListener('change', function(event) {
-                    document.getElementById("post-data").value = event.target.value
+                    document.getElementById("post-data").value = event.target.value;
                 });
+
+                function emitTxId(tx_id) {
+                    socket.emit('dap_receipt', {tx_id : tx_id});
+                }
+
+                function buttonAnimation(tx_id) {
+                    var selectedButton = document.getElementById(tx_id);
+                    $(selectedButton).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Cleaning...').attr('disabled', true);
+                }
+
+                function buttonChange(tx_id, color, status) {
+                    var selectedButton = document.getElementById(tx_id);
+                    $(selectedButton).html(status);
+                    document.getElementById(tx_id).style.background = color;
+                }
+
+                $(document).ready(function(){
+                    socket.on('cleaning finished', function(msg) {
+                        if (msg.in_bucket == false) {
+                            console.log(msg.in_bucket);
+                            buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
+                        } else {
+                            console.log(msg.in_bucket);
+                            buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                        }
+                    });
+                });
+
+                $(document).ready(function(){
+                    socket.on('cleanup failed', function(msg) {
+                        buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                        alert("Cleanup Failed: " + msg.error);
+                    });
+                });
+
             </script>
         </form>
     </div>

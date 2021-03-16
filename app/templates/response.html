@@ -71,7 +71,7 @@
     </style>
 </head>
 <body onload="checkDap(), checkReceipt();">
-    <button style="display:inline-block;margin-left:-250px; color:white; background:#033e58" onclick="goBack()">Go Back</button>
+    <button style="display:inline-block;margin-left:-250px; color:white; background:#033e58" onclick="window.location.href='/'">Go Back</button>
     {% if timeout or quarantine %}
         {% for flash in get_flashed_messages() %}
             <div class="timeout">
@@ -177,9 +177,7 @@
             }
           });
         }
-        function goBack() {
-          window.history.back();
-        }
+
         $(document).ready(function(){
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             socket.on('data received', function(msg) {
