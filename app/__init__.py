@@ -10,7 +10,7 @@ LOGGING_FORMAT = "%(asctime)s.%(msecs)06dZ|%(levelname)s: sdx-tester: thread: %(
 logging.basicConfig(
     format=LOGGING_FORMAT,
     datefmt="%Y-%m-%dT%H:%M:%S",
-    level='INFO',
+    level=LOGGING_LEVEL,
 )
 
 PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')

@@ -43,11 +43,8 @@ def dap_receipt(tx_id):
     try:
         tx_id = tx_id['tx_id']
         file_path = post_dap_message(tx_id)
-        count = 5
-        while count > 0:
-            logger.info(f'Waiting for Cloud Function: {count}')
-            time.sleep(1)
-            count -= 1
+        logger.info(f'Waiting for Cloud Function')
+        time.sleep(5)
         if file_path:
             in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
             if not in_bucket:
