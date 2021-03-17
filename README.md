@@ -17,7 +17,7 @@ in SDX-Concourse.
 | RAS-RM               | Acknowledges Receipt sent to RAS-RM via `receipt-topic`                                                                       |
 | EQ                   | Publishes JSON survey submissions to `survey-topic` PubSub Topic                                                              |
 | DAP                  | Subscribes to `dap-topic`, acknowledging processed submissions.                                                               |
-| DAP                  | reads data out of `ons-sdx-{{project_id}}-outputs` GCP Bucket                                                                 |
+| DAP                  | Reads data out of `ons-sdx-{{project_id}}-outputs` GCP Bucket                                                                 |
 | DAP                  | Publishes to `dap-receipt-topic`, kicking off cleanup cloud function                                                          |
 
 **Diagram of dataflow:**
