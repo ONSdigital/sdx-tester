@@ -43,7 +43,7 @@ receive the correct responses.
 
 ## Cleanup Tests
 
-These set of integration tests are used to test SDX's ability to cleanup Datastore and the GCP buckets once DAP have
+This set of integration tests are used to test SDX's ability to cleanup Datastore and the GCP buckets once DAP have
 confirmed the data is stored within the ONS network.
 
 **run locally:**
@@ -70,7 +70,7 @@ Run order:
 1. **test_setup.py** - wipes data within Datastore and the `{project_id}-outputs/comment` bucket/folder. 
 2. Trigger CronJob
 3. **test_comments.py** - verifies the spreadsheet that was generated using pandas and then deletes after verification
-4. Removes triggered CronJob
+4. Remove triggered CronJob
 
 
 ## Performance Tests
