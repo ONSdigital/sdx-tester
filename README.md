@@ -3,6 +3,10 @@
 The tester application mimics SDX's interaction with RASRM, EQ and DAP, allowing all the major functionality 
 that the SDX project provides to be tested. It is made up of an interactive front-end, unittests and Integration tests.
 
+**Important:** Changes made to any SDX service require ALL tests to be run against the branch before being
+merged into main. This can be achieved by deploying the feature-branch to your own kubernetes cluster via the scripts
+in SDX-Concourse.
+
 ## Interactions
 
 **SDX-Tester mimics the following interactions**
@@ -71,18 +75,28 @@ Run order:
 
 ## Performance Tests
 
-The performance_tests module tests the speed of SDX. 
+A set of tests that measure the speed of SDX.
+
+**run locally:**
+`make performance-test:`
+
+Run order:
+1. **setup.py** - puts 500 sefts into ons-sdx-{{project_id}}-sefts GCP Bucket
+2. **test_performance.py** - Runs 500 sefts and surveys through SDX, measuring time taken.
 
 ## Configuration
-| Environment Variable    | Description
-|-------------------------|------------------------------------
-| PROJECT_ID              | Name of project
-| OUTPUT_BUCKET_NAME             | Name of the bucket: `{project_id}-outputs`
-| INPUT_SEFT_BUCKET             | Name of the bucket: `{project_id}-sefts`
-| DAP_SUBSCRIPTION          | Name of the dap topic: `dap-topic`
-| DAP_PUBLISHER           | PubSub publisher client to GCP
-| ENCRYPTION_KEY          | Key to encrypt all data
-| GPG                     | System GPG key import
+| Environment Variable           | Description
+|--------------------------------|------------------------------------
+| PROJECT_ID                     | Name of project
+| OUTPUT_BUCKET_NAME             | Output bucket `{project_id}-outputs`
+| INPUT_SEFT_BUCKET              | SEFT input bucket `{project_id}-sefts`
+| DAP_SUBSCRIPTION               | Subscription to message going to dap
+| SURVEY_QUARANTINE_SUBSCRIPTION | Quarantine queue for JSON submissions
+| SEFT_QUARANTINE_SUBSCRIPTION   | Quarantine queue for SEFT submissions
+| RECEIPT_SUBSCRIPTION           | Subscription to receipt going to RASRM
+| DAP_RECEIPT_TOPIC              | Publishes to topic triggering cleanup cloud function
+| MAX_WAIT_TIME_SECS             | Time until listener times out listening for a submission
+| KEY_PURPOSE_SUBMISSION         | Purpose of encryption key
 
 ## License
 

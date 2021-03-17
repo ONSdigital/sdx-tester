@@ -4,9 +4,8 @@ start:
 	python run.py
 integration-test:
 	python -m unittest discover -s integration_tests
-setup-performance:
-	python -m unittest performance_tests.setup
 performance-test:
+	python -m unittest performance_tests.setup
 	python -m unittest performance_tests.test_performance
 cleanup-test:
 	python -m unittest cleanup_tests.test_setup
