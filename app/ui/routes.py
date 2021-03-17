@@ -1,17 +1,19 @@
 import base64
-
 import json
 import logging
 import threading
 import uuid
+import time
 from datetime import datetime
 
 from flask import request, render_template, flash
 from structlog import wrap_logger
-
 from app import app, socketio
 from app.jwt.encryption import decrypt_survey
 from app.messaging import message_manager
+from app.messaging.publisher import publish_dap_receipt
+from app.store import OUTPUT_BUCKET_NAME
+from app.store.reader import bucket_check_if_exists
 from app.survey_loader import read_UI
 from app.tester import run_survey, run_seft
 
@@ -36,13 +38,30 @@ def make_ws_connection():
     logging.info('Client Connected')
 
 
+@socketio.on('dap_receipt')
+def dap_receipt(tx_id):
+    try:
+        tx_id = tx_id['tx_id']
+        file_path = post_dap_message(tx_id)
+        logger.info(f'Waiting for Cloud Function')
+        time.sleep(5)
+        if file_path:
+            in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
+            if not in_bucket:
+                remove_submissions(tx_id)
+            socketio.emit('cleaning finished', {'tx_id': tx_id, 'in_bucket': in_bucket})
+    except Exception as err:
+        logger.error(f'Clean up process failed: {err}')
+        socketio.emit('cleanup failed', {'tx_id': tx_id, 'error': err})
+
+
 @app.route('/submit', methods=['POST'])
 def submit():
     downstream_data = []
     surveys = read_UI()
-    survey = request.form.get('post-data')
+    current_survey = request.form.get('post-data')
 
-    data_dict = json.loads(survey)
+    data_dict = json.loads(current_survey)
     survey_id = data_dict["survey_id"]
 
     tx_id = str(uuid.uuid4())
@@ -55,7 +74,7 @@ def submit():
         downstream_data.append(data_bytes)
         survey_id = 'seft_' + survey_id
 
-    time_and_survey = {f'({survey_id})  {datetime.now().strftime("%H:%M")}': tx_id}
+    time_and_survey = {tx_id: f'({survey_id})  {datetime.now().strftime("%H:%M")}'}
     submissions.insert(0, time_and_survey)
 
     threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
@@ -63,7 +82,7 @@ def submit():
     return render_template('index.html',
                            surveys=surveys,
                            submissions=submissions[:20],
-                           current_survey=survey,
+                           current_survey=current_survey,
                            number=survey_id)
 
 
@@ -145,6 +164,30 @@ def decode_files_and_images(response_files: dict):
         else:
             sorted_files[key] = value
     return sorted_files
+
+
+def post_dap_message(tx_id: str):
+    file_path = None
+    for response in responses:
+        if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
+            file_path = response.dap_message.attributes['gcs.key']
+            dap_message = {
+                'data': response.dap_message.data,
+                'ordering_key': '',
+                'attributes': {
+                    "gcs.bucket": response.dap_message.attributes['gcs.bucket'],
+                    "gcs.key": response.dap_message.attributes['gcs.key']
+                }
+            }
+            publish_dap_receipt(dap_message, tx_id)
+    return file_path
+
+
+def remove_submissions(tx_id):
+    for submission in submissions:
+        for key in submission.keys():
+            if tx_id == key:
+                submissions.remove(submission)
 
 
 @app.template_filter()

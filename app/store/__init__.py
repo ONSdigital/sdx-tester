@@ -1,5 +1,4 @@
 from google.cloud import storage
-
 from app import PROJECT_ID
 
 OUTPUT_BUCKET_NAME = f'{PROJECT_ID}-outputs'
