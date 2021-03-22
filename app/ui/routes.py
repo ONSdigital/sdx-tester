@@ -41,15 +41,19 @@ def make_ws_connection():
 @socketio.on('dap_receipt')
 def dap_receipt(tx_id):
     try:
+        timeout = 0
         tx_id = tx_id['tx_id']
         file_path = post_dap_message(tx_id)
-        logger.info(f'Waiting for Cloud Function')
-        time.sleep(5)
-        if file_path:
-            in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
-            if not in_bucket:
-                remove_submissions(tx_id)
-            socketio.emit('cleaning finished', {'tx_id': tx_id, 'in_bucket': in_bucket})
+
+        while bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME) or timeout > 5:
+            time.sleep(1)
+            timeout += 1
+
+        in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
+        if not in_bucket:
+            remove_submissions(tx_id)
+        socketio.emit('cleaning finished', {'tx_id': tx_id, 'in_bucket': in_bucket})
+
     except Exception as err:
         logger.error(f'Clean up process failed: {err}')
         socketio.emit('cleanup failed', {'tx_id': tx_id, 'error': err})
@@ -167,20 +171,25 @@ def decode_files_and_images(response_files: dict):
 
 
 def post_dap_message(tx_id: str):
-    file_path = None
-    for response in responses:
-        if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
-            file_path = response.dap_message.attributes['gcs.key']
-            dap_message = {
-                'data': response.dap_message.data,
-                'ordering_key': '',
-                'attributes': {
-                    "gcs.bucket": response.dap_message.attributes['gcs.bucket'],
-                    "gcs.key": response.dap_message.attributes['gcs.key']
+    timeout = 0
+    while timeout < 10:
+        for response in responses:
+            if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
+                file_path = response.dap_message.attributes['gcs.key']
+                dap_message = {
+                    'data': response.dap_message.data,
+                    'ordering_key': '',
+                    'attributes': {
+                        "gcs.bucket": response.dap_message.attributes['gcs.bucket'],
+                        "gcs.key": response.dap_message.attributes['gcs.key']
+                    }
                 }
-            }
-            publish_dap_receipt(dap_message, tx_id)
-    return file_path
+                publish_dap_receipt(dap_message, tx_id)
+                return file_path
+        time.sleep(1)
+        timeout += 1
+    socketio.emit('cleanup failed', {'tx_id': tx_id, 'error': 'No response back from dap-topic'})
+    return None
 
 
 def remove_submissions(tx_id):
