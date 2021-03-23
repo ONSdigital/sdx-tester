@@ -43,8 +43,8 @@
             {% endif %}
             </ul>
             <br>
-            <input id="submit" type="submit" value="Submit" style="margin-top: 20px;">
-            <button type="button" class="btn" id="collate" onclick="triggerCollate()">Trigger Collate</button>
+            <input id="submit" type="submit" value="Submit" style="margin-top: 20px; padding: 10px">
+            <button type="button" class="btn" id="collate" onclick="triggerCollate()" style="padding:10px; margin-left: 20px">Trigger Collate</button>
             <script>
                 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
