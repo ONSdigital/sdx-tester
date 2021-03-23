@@ -44,6 +44,7 @@
             </ul>
             <br>
             <input id="submit" type="submit" value="Submit" style="margin-top: 20px;">
+            <button type="button" class="btn" id="collate" onclick="triggerCollate()">Trigger Collate</button>
             <script>
                 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
@@ -66,23 +67,30 @@
                     document.getElementById(tx_id).style.background = color;
                 }
 
-                $(document).ready(function(){
-                    socket.on('cleaning finished', function(msg) {
-                        if (msg.in_bucket == false) {
-                            console.log(msg.in_bucket);
-                            buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
-                        } else {
-                            console.log(msg.in_bucket);
-                            buttonChange(msg.tx_id, 'Tomato', 'Failed!');
-                        }
-                    });
+                function triggerCollate() {
+                    socket.emit('collate', {data : 'collate triggered'});
+                    document.getElementById('collate').disabled = true;
+                    alert("Triggering sdx-collate cron...");
+                }
+
+                socket.on('cleaning finished', function(msg) {
+                    if (msg.in_bucket == false) {
+                        console.log(msg.in_bucket);
+                        buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
+                    } else {
+                        console.log(msg.in_bucket);
+                        buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                    }
                 });
 
-                $(document).ready(function(){
-                    socket.on('cleanup failed', function(msg) {
-                        buttonChange(msg.tx_id, 'Tomato', 'Failed!');
-                        alert("Cleanup Failed: " + msg.error);
-                    });
+                socket.on('cleanup failed', function(msg) {
+                    buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                    alert("Cleanup Failed: " + msg.error);
+                });
+
+                socket.on('Collate status', function(msg) {
+                    document.getElementById('collate').disabled = false;
+                    alert("Status: " + msg.status);
                 });
 
             </script>

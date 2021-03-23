@@ -1,12 +1,13 @@
 import base64
 import json
 import logging
+import os
 import threading
 import uuid
 import time
 from datetime import datetime
 
-from flask import request, render_template, flash
+from flask import request, render_template, flash, redirect, url_for
 from structlog import wrap_logger
 from app import app, socketio
 from app.jwt.encryption import decrypt_survey
@@ -59,6 +60,18 @@ def dap_receipt(tx_id):
         socketio.emit('cleanup failed', {'tx_id': tx_id, 'error': err})
 
 
+@socketio.on('collate')
+def trigger_collate(data):
+    try:
+        logger.info(data)
+        os.system('kubectl create job --from=cronjob/sdx-collate test-collate')
+        time.sleep(10)
+        os.system('kubectl delete job test-collate')
+        socketio.emit('Collate status', {'status': 'Successfully triggered sdx-collate'})
+    except Exception as err:
+        socketio.emit('Collate status', {'status': f'Collate failed to trigger: {err}'})
+
+
 @app.route('/submit', methods=['POST'])
 def submit():
     downstream_data = []
@@ -85,7 +98,7 @@ def submit():
 
     return render_template('index.html',
                            surveys=surveys,
-                           submissions=submissions[:20],
+                           submissions=submissions[:15],
                            current_survey=current_survey,
                            number=survey_id)
 
@@ -172,7 +185,7 @@ def decode_files_and_images(response_files: dict):
 
 def post_dap_message(tx_id: str):
     timeout = 0
-    while timeout < 10:
+    while timeout < 30:
         for response in responses:
             if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
                 file_path = response.dap_message.attributes['gcs.key']
