@@ -7,7 +7,7 @@ import uuid
 import time
 from datetime import datetime
 
-from flask import request, render_template, flash, redirect, url_for
+from flask import request, render_template, flash
 from structlog import wrap_logger
 from app import app, socketio
 from app.jwt.encryption import decrypt_survey
