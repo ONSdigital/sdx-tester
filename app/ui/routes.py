@@ -128,7 +128,10 @@ def view_response(tx_id):
 
             if quarantine:
                 flash(f'Submission with tx_id: {quarantine.attributes["tx_id"]} has been quarantined')
-                quarantine = decrypt_survey(quarantine.data)
+                if 'seft' not in response.quarantine.data.decode():
+                    quarantine = decrypt_survey(quarantine.data)
+                else:
+                    quarantine = 'SEFT Quarantined'
 
             if timeout:
                 flash('PubSub subscriber in sdx-tester timed out before receiving a response')
