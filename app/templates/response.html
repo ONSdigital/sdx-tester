@@ -68,6 +68,17 @@
                 border-radius: 5px
             }
 
+            #quarantine {
+                display:inline-block;
+                colour:white;
+                background:#033e58
+            }
+
+            #quarantine_text {
+                width:100%;
+                overflow:auto
+            }
+
     </style>
 </head>
 <body onload="checkDap(), checkReceipt();">
@@ -83,9 +94,9 @@
     <br>
     {% if quarantine %}
         <div class="buttons">
-            <button type="button" style=" display:inline-block; colour:white; background:#033e58" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
+            <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
         <div class="content">
-            <textarea id="quarantine_text" readonly style="width:100%; overflow:auto" rows="30">{{ quarantine | pretty_print }}
+            <textarea id="quarantine_text" readonly rows="30">{{ quarantine | pretty_print }}
             </textarea>
         </div>
         </div>
