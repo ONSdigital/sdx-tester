@@ -101,11 +101,14 @@
           }
 
           #receipt_text {
-                width:100%;
-                overflow:auto;
-                padding:20px;
+              width: 100%;
+              overflow: auto;
+              padding: 20px;
           }
 
+          .fileButton {
+              width:100%
+          }
     </style>
 </head>
 <body onload="checkDap(), checkReceipt();">
@@ -149,11 +152,11 @@
                 <p style="color:#fff;"><strong>Select the format:</strong></p>
                 {% for key, value in files.items() %}
                     {% if 'JPG' in key %}
-                        <center><button style="width:100%;" onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <center><button class="fileButton"  onclick="showData( '{{key}}' );"> {{ key }} </button>
                         <p id="{{ key }}" style="display:none; padding:20px"><img style="width:75%;" src="data:image/JPG;base64,{{ value }}"></p>
                         </center>
                     {% else %}
-                        <center><button style="width:100%;" onclick="showData( '{{key}}' );"> {{ key }} </button>
+                        <center><button class="fileButton" onclick="showData( '{{key}}' );"> {{ key }} </button>
                         <textarea readonly id="{{ key }}" style="display:none; padding:20px; width:100%; height:700px;
                         border-radius: 5px; resize:none; overflow:visible;">{{ value }}</textarea>
                         </center>
