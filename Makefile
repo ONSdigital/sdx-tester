@@ -1,7 +1,7 @@
 build:
-	pip install -r requirements.txt
+	pipenv install
 start:
-	python run.py
+	pipenv run python run.py
 integration-test:
 	python -m unittest discover -s integration_tests
 performance-test-setup:
