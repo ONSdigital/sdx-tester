@@ -3,10 +3,9 @@ import os
 import unittest
 import zipfile
 import glob
-from datetime import datetime, date
-
 import pandas
 
+from datetime import datetime, date
 from app.store.reader import get_comment_files
 
 d = date.today()
