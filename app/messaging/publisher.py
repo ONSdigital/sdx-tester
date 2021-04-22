@@ -13,6 +13,9 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def publish_data(data: str, tx_id: str) -> None:
+    """
+    Publishes JSON submission to PubSub Topic: "survey-topic"
+    """
     logger.info(f"Publishing data with tx_id: {tx_id}")
     # Data must be a bytestring
     data = data.encode("utf-8")
@@ -22,6 +25,9 @@ def publish_data(data: str, tx_id: str) -> None:
 
 
 def publish_seft(message: str, tx_id: str) -> None:
+    """
+    Publishes seft metadata onto seft PubSub Topic: "seft-topic"
+    """
     logger.info(f"Publishing seft with tx_id: {tx_id}")
     # Data must be a bytestring
     message = message.encode("utf-8")
@@ -31,7 +37,10 @@ def publish_seft(message: str, tx_id: str) -> None:
 
 
 def publish_dap_receipt(dap_message, tx_id: str) -> None:
-    print('Publishing to dap-receipt-topic')
+    """
+    Publishes dap receipt to PubSub Topic: "dap-receipt-topic". Kicking off the cleanup function
+    """
+    logger.info('Publishing to dap-receipt-topic')
     msg_data = dap_message['data']
     attributes = {
         'gcs.bucket': dap_message['attributes']['gcs.bucket'],
@@ -39,4 +48,4 @@ def publish_dap_receipt(dap_message, tx_id: str) -> None:
         'tx_id': tx_id
     }
     future = publisher.publish(dap_receipt_topic_path, msg_data, **attributes)
-    print(future.result())
+    logger.info(future.result())
