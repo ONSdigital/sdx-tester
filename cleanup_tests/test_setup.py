@@ -24,7 +24,7 @@ class TestCleanupSetup(unittest.TestCase):
         """
         for data, filename in test_data.items():
             bucket = filename.split('/', 1)[0]
-            if 'sefts' in bucket:
+            if data == "seft-input":
                 filename = filename.split('/')[2]
             else:
                 filename = filename.split('/', 1)[1]

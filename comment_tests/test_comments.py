@@ -3,14 +3,13 @@ import os
 import unittest
 import zipfile
 import glob
-from datetime import datetime, date
-
 import pandas
 
+from datetime import datetime, date
 from app.store.reader import get_comment_files
 
 d = date.today()
-file_path = f'comments/{datetime(d.year, d.month, d.day).date()}.zip'
+file_path = f'comments/{datetime(d.year, d.month, d.day).date()}.zip:ftp'
 
 
 class TestComments(unittest.TestCase):
