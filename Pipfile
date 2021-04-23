@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+google-cloud-pubsub = "==2.4.1"
+google-cloud-datastore = "==2.1.0"
+sdc-cryptography = "==1.0.0"
+google-cloud-storage = "==1.37.1"
+cryptography = "==3.4.7"
+python-gnupg = "==0.4.7"
+structlog = "==21.1.0"
+python-engineio = "==3.13.2"
+python-socketio = "==4.6.0"
+coverage = "==5.3.1"
+xls2xlsx = "==0.1.5"
+xlrd = "==2.0.1"
+pandas = "==1.2.4"
+pytest-cov = "==2.11.1"
+Flask = "==1.1.2"
+PyYAML = "==5.3.1"
+Flask-SocketIO = "==4.3.2"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

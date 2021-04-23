@@ -8,7 +8,5 @@ tmpfile
 .idea
 .coverage
 .python-version
-/Pipfile
-/Pipfile.lock
 .coverage
 
