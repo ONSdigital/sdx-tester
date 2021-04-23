@@ -71,12 +71,12 @@ def read_UI() -> dict:
 
 
 def get_dap() -> dict:
-    dap_ids = ["023", "134", "147", "281", "283"]
+    dap_ids = ["023", "134", "281", "283"]
     return read_survey(lambda filename: filename[0:3] in dap_ids)
 
 
 def get_legacy() -> dict:
-    non_legacy_ids = ["023", "134", "147", "281", "283", "lms"]
+    non_legacy_ids = ["023", "134", "281", "283", "lms"]
     return read_survey(lambda filename: filename[0:3] not in non_legacy_ids)
 
 
