@@ -4,7 +4,7 @@ import os
 from flask import Flask
 from flask_socketio import SocketIO
 
-LOGGING_LEVEL = logging.getLevelName(os.getenv('LOGGING_LEVEL', 'ERROR'))
+LOGGING_LEVEL = logging.getLevelName(os.getenv('LOGGING_LEVEL', 'INFO'))
 LOGGING_FORMAT = "%(asctime)s.%(msecs)06dZ|%(levelname)s: sdx-tester: thread: %(thread)d %(message)s"
 
 logging.basicConfig(

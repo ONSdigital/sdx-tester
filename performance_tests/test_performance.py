@@ -20,7 +20,7 @@ class TestPerformance(unittest.TestCase):
         # get all survey
         survey_dicts = survey_loader.read_all()
 
-        survey_list = [v[0] for k, v in survey_dicts if not k.startswith("seft")]
+        survey_list = [v[0] for k, v in survey_dicts.items() if not k.startswith("seft")]
 
         # create at least as many survey as seft
         survey_list = survey_list * (math.ceil(SEFT_COUNT / len(survey_list)))

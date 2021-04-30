@@ -4,6 +4,8 @@
   "origin": "uk.gov.ons.edc.eq",
   "survey_id": "139",
   "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
+  "started_at": "2019-03-23T14:00:24.224709",
+  "submitted_at": "2019-03-23T14:50:26.933601",
   "collection": {
     "exercise_sid": "hfjdskf",
     "instrument_id": "0001",

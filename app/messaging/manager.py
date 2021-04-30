@@ -42,18 +42,17 @@ class MessageManager:
 
         logger.info("Ready")
 
-    def submit(self, result: Result, data: str, is_seft: bool = False):
+    def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False):
         logger.info("Calling submit")
         tx_id = result.get_tx_id()
         listener = Listener()
         self.dap_listener.add_listener(tx_id, listener)
 
         r_listener = Listener()
-        if is_seft:
-            # SEFTs don't require a receipt
-            r_listener.set_complete()
-        else:
+        if requires_receipt:
             self.receipt_listener.add_listener(tx_id, r_listener)
+        else:
+            r_listener.set_complete()
 
         q_listener = Listener()
         if is_seft:

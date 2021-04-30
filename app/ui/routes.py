@@ -15,7 +15,7 @@ from app.messaging import message_manager
 from app.messaging.publisher import publish_dap_receipt
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import bucket_check_if_exists
-from app.survey_loader import read_UI
+from app.survey_loader import read_ui
 from app.tester import run_survey, run_seft
 
 logger = wrap_logger(logging.getLogger(__name__))
@@ -27,7 +27,7 @@ responses = []
 @app.route('/')
 @app.route('/index', methods=['GET'])
 def index():
-    test_data = read_UI()
+    test_data = read_ui()
     return render_template('index.html',
                            surveys=test_data,
                            number='-- Choose a Survey_ID --',
@@ -75,7 +75,7 @@ def trigger_collate(data):
 @app.route('/submit', methods=['POST'])
 def submit():
     downstream_data = []
-    surveys = read_UI()
+    surveys = read_ui()
     current_survey = request.form.get('post-data')
 
     data_dict = json.loads(current_survey)

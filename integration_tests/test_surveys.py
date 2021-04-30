@@ -41,6 +41,8 @@ class TestSurveys(unittest.TestCase):
                     if receipt:
                         self.assertIsNotNone(result.receipt, f'{key} did not produce receipt!')
 
+                    print("PASSED")
+
     def test_dap(self):
         surveys = survey_loader.get_dap()
         self.execute(surveys, receipt=True, multiple_files=False)

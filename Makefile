@@ -3,7 +3,7 @@ build:
 start:
 	pipenv run python run.py
 integration-test:
-	pipenv run python -m unittest discover -s integration_tests
+	pipenv run python -Wi -m unittest discover -s integration_tests
 performance-test-setup:
 	pipenv run python -m unittest performance_tests.setup
 performance-test:

@@ -5,8 +5,12 @@ import uuid
 
 
 # returns a dict of each type with one survey per survey id
-def read_UI() -> dict:
-    return {k: v[0] for k, v in read_all()}
+def read_ui() -> dict:
+    sorted_surveys = {}
+    result = {k: v[0] for k, v in read_all().items()}
+    for key in sorted(result.keys()):
+        sorted_surveys[key] = result[key]
+    return sorted_surveys
 
 
 # returns a dict of list of surveys mapped to their survey_id
@@ -17,8 +21,7 @@ def read_all() -> dict:
     h_dict = get_hybrid()
     f_dict = get_feedback()
     seft_dict = get_seft()
-    result_dict = {**s_dict, **d_dict, **h_dict, **f_dict, **seft_dict}
-    return result_dict
+    return {**s_dict, **d_dict, **h_dict, **f_dict, **seft_dict}
 
 
 def get_survey() -> dict:
@@ -34,7 +37,7 @@ def get_hybrid() -> dict:
 
 
 def get_feedback() -> dict:
-    return {f'feedback-{k}': v for k, v in _read_survey_type("feedback")}
+    return {f'feedback_{k}': v for k, v in _read_survey_type("feedback").items()}
 
 
 def get_seft() -> dict:
@@ -49,7 +52,10 @@ def get_seft() -> dict:
                 seft_metadata=_seft_metadata(seft_file, filename),
                 seft_bytes=seft_bytes
             )
-            seft_dict[f"seft_{seft.seft_metadata['survey_id']}"] = seft
+            key = f"seft_{seft.seft_metadata['survey_id']}"
+            if key not in seft_dict:
+                seft_dict[key] = []
+            seft_dict[key].append(seft)
 
     return seft_dict
 

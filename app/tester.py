@@ -11,7 +11,8 @@ from app.store.writer import write_seft
 def run_survey(message_manager: MessageManager, survey_dict: dict) -> Result:
     encrypted_survey = encrypt_survey(survey_dict)
     result = Result(survey_dict['tx_id'])
-    result = message_manager.submit(result, encrypted_survey)
+    requires_receipt = "feedback" not in survey_dict['type']
+    result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt)
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
         file_list = reader.get_files(file_path)
