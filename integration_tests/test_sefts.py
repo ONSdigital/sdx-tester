@@ -4,7 +4,7 @@ import uuid
 from app.tester import run_seft
 from app.messaging import message_manager
 
-SEFT_DIR = "app/Data/sefts"
+SEFT_DIR = "app/Data/seft"
 
 
 class TestSefts(unittest.TestCase):
