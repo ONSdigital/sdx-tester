@@ -4,7 +4,7 @@ from app.gpg.encryption import encrypt_seft
 from app.store.writer import write_seft
 from cleanup_tests import ignore_warnings
 
-SEFT_DIR = "app/Data/sefts"
+SEFT_DIR = "app/Data/seft"
 SEFT_FILENAME = f"11110000014H_202009_057_20210121143526"
 SEFT_COUNT = 500
 

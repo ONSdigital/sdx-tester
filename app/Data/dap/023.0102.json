@@ -2,23 +2,24 @@
   "type": "uk.gov.ons.edc.eq:surveyresponse",
   "version": "0.0.1",
   "origin": "uk.gov.ons.edc.eq",
-  "survey_id": "139",
+  "survey_id": "023",
   "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
   "collection": {
     "exercise_sid": "hfjdskf",
-    "instrument_id": "0001",
+    "instrument_id": "0102",
     "period": "1604"
   },
+  "started_at": "2016-03-01T19:55:01Z",
+  "submitted_at": "2016-03-12T13:01:26Z",
   "metadata": {
     "user_id": "789473423",
     "ru_ref": "12345678901A"
   },
   "data": {
-    "51": "84",
-    "52": "10",
-    "53": "73",
-    "54": "24",
-    "50": "205",
-    "146": "This is a comment field"
+    "11": "1/4/2016",
+    "12": "31/10/2016",
+    "20": "1800000",
+    "21": "60000",
+    "146": "Change comments included"
   }
 }

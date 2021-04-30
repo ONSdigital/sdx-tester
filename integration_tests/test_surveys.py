@@ -19,39 +19,42 @@ class TestSurveys(unittest.TestCase):
     def tearDown(self):
         print('-----------------------------------------------------')
 
-    def run_with_survey(self, surveys: dict, receipt: bool, multiple_files: bool):
-        for key, survey in surveys.items():
-            tx_id = str(uuid.uuid4())
-            survey['tx_id'] = tx_id
-            with self.subTest(msg=f'test {key} with tx_id: {tx_id}'):
-                print('---------------------------------------------------------')
-                print(f'testing {key} with tx_id: {tx_id}')
-                result = run_survey(message_manager, survey)
-                print(str(result))
-                self.assertFalse(result.timeout, f'{key} has timed out!')
-                self.assertIsNone(result.quarantine, f'{key} has been quarantined!')
-                self.assertIsNotNone(result.dap_message, f'{key} did not post dap message!')
+    def execute(self, survey_dict: dict, receipt: bool, multiple_files: bool):
+        for key, survey_list in survey_dict.items():
+            for survey in survey_list:
+                tx_id = str(uuid.uuid4())
+                survey['tx_id'] = tx_id
+                with self.subTest(msg=f'test {key} with tx_id: {tx_id}'):
+                    print('---------------------------------------------------------')
+                    print(f'testing {key} with tx_id: {tx_id}')
+                    result = run_survey(message_manager, survey)
+                    print(str(result))
+                    self.assertFalse(result.timeout, f'{key} has timed out!')
+                    self.assertIsNone(result.quarantine, f'{key} has been quarantined!')
+                    self.assertIsNotNone(result.dap_message, f'{key} did not post dap message!')
 
-                if multiple_files:
-                    self.assertTrue(len(result.files) > 1, f'{key} should have produced multiple files!')
-                else:
-                    self.assertTrue(len(result.files) == 1, f'{key} should have produced one file only!')
+                    if multiple_files:
+                        self.assertTrue(len(result.files) > 1, f'{key} should have produced multiple files!')
+                    else:
+                        self.assertTrue(len(result.files) == 1, f'{key} should have produced one file only!')
 
-                if receipt:
-                    self.assertIsNotNone(result.receipt, f'{key} did not produce receipt!')
+                    if receipt:
+                        self.assertIsNotNone(result.receipt, f'{key} did not produce receipt!')
+
+                    print("PASSED")
 
     def test_dap(self):
         surveys = survey_loader.get_dap()
-        self.run_with_survey(surveys, receipt=True, multiple_files=False)
+        self.execute(surveys, receipt=True, multiple_files=False)
 
-    def test_legacy(self):
-        surveys = survey_loader.get_legacy()
-        failing = ["092", "139"]
-        for f in failing:
-            surveys.pop(f)
+    def test_survey(self):
+        surveys = survey_loader.get_survey()
+        self.execute(surveys, receipt=True, multiple_files=True)
 
-        self.run_with_survey(surveys, receipt=True, multiple_files=True)
+    def test_hybrid(self):
+        surveys = survey_loader.get_hybrid()
+        self.execute(surveys, receipt=True, multiple_files=True)
 
-    # def test_feedback(self):
-    #     surveys = survey_loader.get_feedback()
-    #     self.run_with_survey(surveys, receipt=False, multiple_files=False)
+    def test_feedback(self):
+        survey = survey_loader.get_feedback()
+        self.execute(survey, receipt=False, multiple_files=False)

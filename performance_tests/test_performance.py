@@ -17,17 +17,12 @@ class TestPerformance(unittest.TestCase):
     @ignore_warnings
     def test_performance(self):
 
-        # get all surveys
+        # get all survey
         survey_dicts = survey_loader.read_all()
 
-        # remove known failures
-        failing = ["092", "139", 'lms']
-        for f in failing:
-            survey_dicts.pop(f)
+        survey_list = [v[0] for k, v in survey_dicts.items() if not k.startswith("seft")]
 
-        survey_list = list(survey_dicts.values())
-
-        # create at least as many surveys as sefts
+        # create at least as many survey as seft
         survey_list = survey_list * (math.ceil(SEFT_COUNT / len(survey_list)))
 
         data_list = []
