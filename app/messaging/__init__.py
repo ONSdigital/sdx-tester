@@ -19,6 +19,11 @@ DAP_RECEIPT_TOPIC = "dap-receipt-topic"
 MAX_WAIT_TIME_SECS = 30
 
 
-from app.messaging.manager import MessageManager
+from app.messaging.manager import MessageManager, SubmitManager
 
-message_manager = MessageManager()
+
+def get_message_manager(listen: bool = True) -> SubmitManager:
+    if listen:
+        return MessageManager()
+    else:
+        return SubmitManager()
