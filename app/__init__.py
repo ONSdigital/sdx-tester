@@ -14,7 +14,7 @@ logging.basicConfig(
 )
 
 PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
-listen = 'LISTEN' == os.getenv('MODE', 'LISTEN')
+listen = 'TRUE' != os.getenv('DISABLE_LISTENING', 'FALSE')
 
 app = Flask(__name__)
 socketio = SocketIO(app)
