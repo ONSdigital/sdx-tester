@@ -11,7 +11,7 @@ from flask import request, render_template, flash
 from structlog import wrap_logger
 from app import app, socketio
 from app.jwt.encryption import decrypt_survey
-from app.messaging import message_manager
+from app import message_manager
 from app.messaging.publisher import publish_dap_receipt
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import bucket_check_if_exists

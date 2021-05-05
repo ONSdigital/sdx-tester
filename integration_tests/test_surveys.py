@@ -2,7 +2,7 @@ import unittest
 import uuid
 
 from app import survey_loader
-from app.messaging import message_manager
+from app import message_manager
 from app.tester import run_survey
 
 
