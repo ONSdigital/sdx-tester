@@ -14,3 +14,8 @@ else:
 gpg.import_keys(encryption_key)
 
 RECIPIENTS = recipients
+
+with open('dap_private_gpg.asc') as f:
+    key_data = f.read()
+    f.close()
+gpg.import_keys(key_data)
