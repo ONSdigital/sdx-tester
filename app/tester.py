@@ -15,6 +15,7 @@ def run_survey(message_manager: MessageManager, survey_dict: dict) -> Result:
     result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt)
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
+        file_path = file_path.replace("|", "/")
         file_list = reader.get_files(file_path)
         result.set_files(file_list)
     return result
@@ -28,6 +29,7 @@ def run_seft(message_manager: MessageManager, message: dict, seft_data: bytes) -
     result = message_manager.submit(result, message_str, is_seft=True)
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
+        file_path = file_path.replace("|", "/")
         file_list = reader.get_files(file_path)
         result.set_files(file_list)
     return result

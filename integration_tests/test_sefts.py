@@ -2,7 +2,7 @@ import unittest
 import uuid
 
 from app.tester import run_seft
-from app.messaging import message_manager
+from app import message_manager
 
 SEFT_DIR = "app/Data/seft"
 

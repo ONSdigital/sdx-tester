@@ -14,12 +14,15 @@ logging.basicConfig(
 )
 
 PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
+listen = 'TRUE' != os.getenv('DISABLE_LISTENING', 'FALSE')
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+from app.messaging import get_message_manager
+message_manager = get_message_manager(listen)
+
 from app.ui import routes
-from app.messaging import message_manager
 
 
 def start():

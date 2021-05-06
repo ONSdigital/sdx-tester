@@ -12,7 +12,26 @@ from structlog import wrap_logger
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-class MessageManager:
+class SubmitManager:
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+    def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False):
+        tx_id = result.get_tx_id()
+        logger.info(f"requires receipt: {requires_receipt}")
+        logger.info("Publishing data", tx_id=tx_id)
+        if is_seft:
+            publish_seft(data, tx_id)
+        else:
+            publish_data(data, tx_id)
+        return result
+
+
+class MessageManager(SubmitManager):
 
     """
     This class provides a common interface for different types of listeners to publish either JSON submission or seft metadata
