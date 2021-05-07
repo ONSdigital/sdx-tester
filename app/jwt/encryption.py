@@ -13,6 +13,14 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def encrypt_survey(submission: dict) -> str:
+    """
+    Encrypts survey submission using a public key.
+
+    There are two sets of public and private keys - one pair for encryption and another for signing.
+
+    Encryption is used to ensure only SDX can read a survey response. Signing is used to ensure SDX only trusts encrypted
+    responses sent from eQ.
+    """
     key1 = open("test_sdx-public-jwt.yaml")
     key2 = open("test_eq-private-signing.yaml")
     key_store = load_keys(key1, key2)
@@ -23,6 +31,12 @@ def encrypt_survey(submission: dict) -> str:
 
 
 def decrypt_survey(payload: bytes) -> dict:
+    """
+    Decrypts an encrypted bytes payload using sdx private key and verifies the signature using the signing public key
+
+    The payload needs to be a JWE encrypted using SDX's public key.
+    The JWE ciphertext should represent a JWS signed by EQ using their private key and with the survey json as the claims set.
+    """
     key1 = open("test_sdx-private-jwt.yaml")
     key2 = open("test_eq-public-signing.yaml")
     key_store = load_keys(key1, key2)
