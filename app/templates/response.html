@@ -10,6 +10,7 @@
           .loadFiles {
                 background-color: #033e58;
                 border:2px solid #000;
+                /*Padding is used to create space around an element's content, inside of any defined borders.*/
                 padding:20px;
                 border-radius: 5px;
           }
@@ -53,6 +54,7 @@
           .content {
               padding: 0 18px;
               max-height: 0;
+              /*The overflow is clipped, and the rest of the content will be invisible with overflow:hidden*/
               overflow: hidden;
               transition: max-height 0.2s ease-out;
               background-color: #f1f1f1;
@@ -74,6 +76,7 @@
 
           #quarantine_text {
                 width:100%;
+                /*If overflow is clipped, a scroll-bar should be added to see the rest of the content with overflow:auto*/
                 overflow:auto
           }
 
@@ -139,6 +142,7 @@
             </textarea>
         </div>
         <br><br>
+        <!--            Seft submissions does not need to have a 'Receipted Receipts' textbox.-->
         {% if 'SEFT' not in files %}
             <button type="button" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
         <div class="content">
@@ -147,6 +151,8 @@
         </div>
          {% endif %}
         <br><br>
+        <!--            The below div is for loading different types of transformed files for survey submissions-->
+
         <div class="loadFiles">
             <div class="fileButtons">
                 <p style="color:#fff;"><strong>Select the format:</strong></p>
@@ -165,6 +171,7 @@
                 {% endfor %}
             </div>
         </div>
+
         </div>
     {% endif %}
         <script>
@@ -174,6 +181,8 @@
                 document.getElementById(id_clicked).style.display = 'block';
                 var ugly = document.getElementById(id_clicked).value;
                 var uglyObj = JSON.parse(ugly)
+
+                // The JSON.stringify() method converts a JavaScript object or value to a JSON string
                 pretty = JSON.stringify(uglyObj, null, 4)
                 document.getElementById(id_clicked).value = pretty
             } else {
@@ -181,6 +190,7 @@
             }
         }
 
+        // The below function checks for the successful or null dap responses and changes the textbox background colour accordingly.
         function checkDap(){
             var dap = document.getElementById('dap_text').value
             if (dap.includes('null') ) {
@@ -193,6 +203,7 @@
                 }
             }
 
+        // The below function checks for the successful or null receipt responses and changes the textbox background colour accordingly.
         function checkReceipt(){
             var receipt = document.getElementById('receipt_text').value
             if (receipt.includes('null')) {
@@ -204,7 +215,7 @@
                 document.getElementById('receipt').style.background="green";
                 }
             }
-
+        // The below code creates a collapsible section to toggle between showing and hiding the collapsible content.
         var coll = document.getElementsByClassName("collapsible");
         var i;
         for (i = 0; i < coll.length; i++) {

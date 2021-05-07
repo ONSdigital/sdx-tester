@@ -18,7 +18,8 @@ def encrypt_survey(submission: dict) -> str:
 
     There are two sets of public and private keys - one pair for encryption and another for signing.
 
-    Encryption is used to ensure only SDX can read a survey response. Signing is used to ensure SDX only trusts encrypted responses sent from eQ.
+    Encryption is used to ensure only SDX can read a survey response. Signing is used to ensure SDX only trusts encrypted
+    responses sent from eQ.
     """
     key1 = open("test_sdx-public-jwt.yaml")
     key2 = open("test_eq-private-signing.yaml")

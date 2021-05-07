@@ -4,8 +4,10 @@ import json
 import uuid
 
 
-# returns a dict of each type with one survey per survey id
 def read_ui() -> dict:
+    """
+    Returns a dict of each type with one survey per survey id
+    """
     sorted_surveys = {}
     result = {k: v[0] for k, v in read_all().items()}
     for key in sorted(result.keys()):
@@ -13,9 +15,11 @@ def read_ui() -> dict:
     return sorted_surveys
 
 
-# returns a dict of list of surveys mapped to their survey_id
-# contains all types of submission
 def read_all() -> dict:
+    """
+    Returns a dict of list of surveys mapped to their survey_id.
+    Contains all types of submission.
+    """
     s_dict = get_survey()
     d_dict = get_dap()
     h_dict = get_hybrid()
@@ -41,6 +45,10 @@ def get_feedback() -> dict:
 
 
 def get_seft() -> dict:
+    """
+    For seft submissions, this method retrieves the seft_name, seft_metadata and seft_bytes with the object of SeftSubmission class.
+    Produces a dict of list of survey with the 'seft_(survey_id)' as the key.
+    """
     seft_dict = {}
     seft_path = 'app/Data/seft'
     for filename in os.listdir(seft_path):
@@ -60,8 +68,10 @@ def get_seft() -> dict:
     return seft_dict
 
 
-# This method produces a dict of list of survey with the survey_id as the key.
 def _read_survey_type(survey_type: str) -> dict:
+    """
+    This method produces a dict of list of survey with the survey_id as the key.
+    """
     survey_dict = {}
     survey_path = f'app/Data/{survey_type}'
     for filename in os.listdir(survey_path):
@@ -94,7 +104,9 @@ def _seft_metadata(seft_file, filename):
 
 
 class SeftSubmission:
-
+    """
+    This class hold the seft_name, seft_metadata and seft_bytes for seft submissions.
+    """
     def __init__(self, seft_name, seft_metadata, seft_bytes) -> None:
         self.seft_name = seft_name
         self.seft_metadata = seft_metadata
