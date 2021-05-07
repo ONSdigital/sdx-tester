@@ -14,7 +14,7 @@ logging.basicConfig(
 )
 
 PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
-# Allow tester to be run with listening
+# Allow tester to be run without listening
 listen = 'TRUE' != os.getenv('DISABLE_LISTENING', 'FALSE')
 
 app = Flask(__name__)
