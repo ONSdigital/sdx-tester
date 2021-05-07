@@ -12,6 +12,9 @@ def write_seft(data, filename: str):
 
 
 def write(data: str, filename: str, bucket: str) -> str:
+    """
+    Uploads a string submission to the GCP output bucket: {PROJECT_ID}-outputs or input seft bucket {PROJECT_ID}-seft-responses
+    """
     path = filename
     bucket = storage_client.bucket(bucket)
     blob = bucket.blob(path)

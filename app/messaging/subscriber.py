@@ -64,6 +64,14 @@ class MessageListener:
             logger.error(f"Remaining keys: {self.listeners.keys()}")
 
     def start(self):
+        """
+        Begin listening to the pubsub subscription.
+
+        This functions spawns new threads that listen to the subscription topic and
+        on receipt of a message invoke the callback function
+
+        The main thread blocks indefinitely unless the connection times out
+        """
         self.subscriber = pubsub_v1.SubscriberClient()
         subscription_path = self.subscriber.subscription_path(PROJECT_ID, self.subscription_id)
         self.streaming_pull_future = self.subscriber.subscribe(subscription_path, callback=self.on_message)

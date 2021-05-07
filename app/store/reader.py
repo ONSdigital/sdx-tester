@@ -16,6 +16,16 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def get_files(file_path) -> dict:
+    """
+    For survey submissions, intended for the legacy system, SDX transforms them into several different files
+    which are zipped up together and then encrypted.
+
+    Comments are extracted from the survey submissions and batched up into xls files and zipped up every morning.
+    The output is encrypted zip files.
+
+    This function reads those encrypted zip, decrypts the output and extracts the zip for survey submissions and
+    significant comments. Extraction is not required for other types of submissions.
+    """
     file_dir = file_path.split("/")[0]
     filename = file_path.split("/")[1]
     if file_dir == 'survey' or file_dir == 'comments':
@@ -33,6 +43,7 @@ def get_files(file_path) -> dict:
 
 
 def read(file_path, bucket) -> bytes:
+    """Retrieve a file from GCP output bucket: {PROJECT_ID}-outputs"""
     try:
         # get bucket with name
         bucket = storage_client.bucket(bucket)
