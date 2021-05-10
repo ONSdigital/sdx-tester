@@ -142,8 +142,7 @@
             </textarea>
         </div>
         <br><br>
-        <!--            Seft submissions does not need to have a 'Receipted Receipts' textbox.-->
-        {% if 'SEFT' not in files %}
+        {% if 'SEFT' not in files and 'JSON' not in files %}
             <button type="button" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
         <div class="content">
             <textarea id="receipt_text" readonly rows="15">{{ receipt | pretty_print }}
@@ -210,7 +209,7 @@
                 document.getElementById('receipt').style.color = "white";
                 document.getElementById('receipt').style.background="red";
                 }
-            if (receipt.includes('tx_id')) {
+            if (receipt.includes('caseId')) {
                 document.getElementById('receipt').style.color = "white";
                 document.getElementById('receipt').style.background="green";
                 }
