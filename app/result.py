@@ -1,6 +1,10 @@
 
 
 class Result:
+    """
+    This class provides a common interface to the outputs displayed on the response page of tester UI,
+    associated with different types of survey submissions.
+    """
 
     def __init__(self, tx_id: str) -> None:
         self.tx_id = tx_id

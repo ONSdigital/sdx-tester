@@ -33,6 +33,11 @@ class SubmitManager:
 
 class MessageManager(SubmitManager):
 
+    """
+    This class provides a common interface for different types of listeners to publish either JSON submission or seft metadata
+    to PubSub Topic: "survey-topic" and "seft-topic" respectively
+    """
+
     def __init__(self) -> None:
         self.dap_listener = MessageListener(DAP_SUBSCRIPTION)
         self.t = None
