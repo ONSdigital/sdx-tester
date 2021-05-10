@@ -27,6 +27,7 @@ responses = []
 @app.route('/')
 @app.route('/index', methods=['GET'])
 def index():
+    # This function loads the index page (localhost:5000) with survey id and survey data
     test_data = read_ui()
     return render_template('index.html',
                            surveys=test_data,
@@ -62,6 +63,9 @@ def dap_receipt(tx_id):
 
 @socketio.on('collate')
 def trigger_collate(data):
+    """
+    This function triggers a  kubernetes cronjob for sdx-collate
+    """
     try:
         logger.info(data)
         os.system('kubectl create job --from=cronjob/sdx-collate test-collate')
@@ -86,6 +90,7 @@ def submit():
     downstream_data.append(data_dict)
 
     if 'seft' in data_dict:
+        # To distinguish seft submissions, their survey ids are displayed in the form of 'seft_(survey_id)'.
         seft_submission = surveys[f'seft_{survey_id}']
         data_bytes = seft_submission.get_seft_bytes()
         downstream_data.append(data_bytes)
@@ -155,6 +160,9 @@ def view_response(tx_id):
 
 
 def downstream_process(*data):
+    """
+    For seft submissions, seft_name, seft_metadata and seft_bytes are required.
+    """
     if len(data) > 1:
         result = run_seft(message_manager, data[0], data[1])
     else:
@@ -217,4 +225,7 @@ def remove_submissions(tx_id):
 
 @app.template_filter()
 def pretty_print(data):
+    """
+    The indent parameter specifies how many spaces to indent by the data.
+    """
     return json.dumps(data, indent=4)

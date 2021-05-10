@@ -2,6 +2,17 @@
 
 {% block content %}
 
+<!--WebSocket enables user interface to send and receive data without delay and in real time.
+
+WebSocket usage proves to be essential for this user interface as the response page is frequently updated with dap, receipt responses
+and colours for successful and null responses for different survey ids.
+    -Successful response (background colour of textbox turns green)
+    -null response (background colour of textbox turns red)
+    - timeout or quarantine (background colour of the textbox turns sweet pink with a error message)
+    -In progress (background colour of the textbox turns blue)
+
+Manual page refresh is not required to reflect the changes.
+-->
 <head>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
@@ -14,6 +25,8 @@
             <select  name="surveys_names" id="survey_names">
                 <li>surveys</li>
                 <option name="Current survey_id" selected="selected">{{ number }}</option>
+                <!--                number refers to survey-id-->
+
                 {% for key, values in surveys.items() %}
                     {% if 'seft' in key %}
                         <option value = "{{ values.get_seft_metadata() | pretty_print }}">{{ key }}</option>
