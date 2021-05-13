@@ -41,7 +41,7 @@ def publish_dap_receipt(dap_message, tx_id: str) -> None:
     Publishes dap receipt to PubSub Topic: "dap-receipt-topic". Kicking off the cleanup function
     """
     logger.info('Publishing to dap-receipt-topic')
-    msg_data = dap_message['data']
+    msg_data = dap_message['body']
     attributes = {
         'gcs.bucket': dap_message['attributes']['gcs.bucket'],
         'gcs.key': dap_message['attributes']['gcs.key'],

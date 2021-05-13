@@ -13,7 +13,7 @@ logging.basicConfig(
     level=LOGGING_LEVEL,
 )
 
-PROJECT_ID = os.getenv('PROJECT_ID', 'ons-sdx-sandbox')
+PROJECT_ID = os.getenv('PROJECT_ID')
 # Allow tester to be run without listening
 listen = 'TRUE' != os.getenv('DISABLE_LISTENING', 'FALSE')
 
