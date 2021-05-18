@@ -24,10 +24,9 @@ submissions = []
 responses = []
 
 
-@app.route('/')
-@app.route('/index', methods=['GET'])
+@app.get('/')
+@app.get('/index')
 def index():
-    # This function loads the index page (localhost:5000) with survey id and survey data
     test_data = read_ui()
     return render_template('index.html',
                            surveys=test_data,
@@ -76,7 +75,7 @@ def trigger_collate(data):
         socketio.emit('Collate status', {'status': f'Collate failed to trigger: {err}'})
 
 
-@app.route('/submit', methods=['POST'])
+@app.post('/submit')
 def submit():
     downstream_data = []
     surveys = read_ui()
@@ -108,7 +107,7 @@ def submit():
                            number=survey_id)
 
 
-@app.route('/response/<tx_id>', methods=['GET'])
+@app.post('/response/<tx_id>')
 def view_response(tx_id):
     dap_message = "In Progress"
     receipt = "In Progress"
