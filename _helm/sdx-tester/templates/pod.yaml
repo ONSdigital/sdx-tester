@@ -15,4 +15,9 @@ spec:
         configMapKeyRef:
           name: config
           key: project_id
+    - name: DATA_RECIPIENT
+      valueFrom:
+        configMapKeyRef:
+          name: sdx-config
+          key: data_recipient
   serviceAccountName: sdx-workload-identity
