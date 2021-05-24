@@ -36,16 +36,10 @@ def publish_seft(message: str, tx_id: str) -> None:
     logger.info(future.result())
 
 
-def publish_dap_receipt(dap_message, tx_id: str) -> None:
+def publish_dap_receipt(dap_message) -> None:
     """
     Publishes dap receipt to PubSub Topic: "dap-receipt-topic". Kicking off the cleanup function
     """
     logger.info('Publishing to dap-receipt-topic')
-    msg_data = dap_message['data']
-    attributes = {
-        'gcs.bucket': dap_message['attributes']['gcs.bucket'],
-        'gcs.key': dap_message['attributes']['gcs.key'],
-        'tx_id': tx_id
-    }
-    future = publisher.publish(dap_receipt_topic_path, msg_data, **attributes)
+    future = publisher.publish(dap_receipt_topic_path, dap_message)
     logger.info(future.result())
