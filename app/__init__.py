@@ -17,6 +17,8 @@ PROJECT_ID = os.getenv('PROJECT_ID')
 # Allow tester to be run without listening
 listen = 'TRUE' != os.getenv('DISABLE_LISTENING', 'FALSE')
 
+DATA_RECIPIENT = os.getenv('DATA_RECIPIENT', 'dap@ons.gov.uk')
+
 app = Flask(__name__)
 socketio = SocketIO(app)
 
