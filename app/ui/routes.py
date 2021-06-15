@@ -107,7 +107,7 @@ def submit():
                            number=survey_id)
 
 
-@app.post('/response/<tx_id>')
+@app.get('/response/<tx_id>')
 def view_response(tx_id):
     dap_message = "In Progress"
     receipt = "In Progress"

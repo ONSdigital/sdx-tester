@@ -322,11 +322,6 @@ nav ol {
  * 1. Remove border when inside `a` element in IE 8/9.
  * 2. Improves image quality when scaled in IE 7.
  */
-img {
-  border: 0;
-  -ms-interpolation-mode: bicubic;
-  /* 2 */
-}
 
 /**
  * Correct overflow displayed oddly in IE 9.
@@ -531,12 +526,6 @@ body {
   height: 100%;
   margin: 0;
   position: relative;
-}
-
-img {
-  vertical-align: middle;
-  max-width: 100%;
-  height: auto;
 }
 
 abbr[title] {
@@ -3730,37 +3719,8 @@ input[type=number] {
   *zoom: 1;
 }
 
-.details__link:before {
-  -webkit-transition: -webkit-transform 300ms ease-in-out;
-  transition: -webkit-transform 300ms ease-in-out;
-  transition: transform 300ms ease-in-out;
-  transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
-  margin-right: 5.399px;
-  margin-right: 0.3rem;
-  speak: none;
-  content: "";
-  background: url("/static/assets/img/icons/icons--details.svg") no-repeat center center;
-  background-size: auto;
-  text-align: center;
-  width: 18px;
-  width: 1rem;
-  height: 18px;
-  height: 1rem;
-  position: relative;
-  left: -1.8px;
-  left: -0.1rem;
-  vertical-align: middle;
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-}
-
 .details__link:focus {
   outline: none;
-}
-
-.details__link:focus:before {
-  background: url("/static/assets/img/icons/icons--details-white.svg") no-repeat center center;
 }
 
 .is-expanded .details__link:before {
@@ -4052,18 +4012,6 @@ input:checked ~ .field__other {
   margin-top: 0.2rem;
 }
 
-.input--select {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  padding: 10.799px 36px 10.799px 9px;
-  padding: 0.6rem 2rem 0.6rem 0.5rem;
-  background: #fff url("/static/assets/img/icons/icons--chevron-down.svg") no-repeat center right 6px;
-  background-size: 1.5rem;
-  line-height: 22.5px;
-  line-height: 1.25rem;
-}
-
 .input--select::-ms-expand {
   display: none;
 }
@@ -4135,13 +4083,6 @@ input:checked ~ .field__other {
   background-color: #4263c2;
 }
 
-.input--checkbox {
-  background: url("/static/assets/img/icons/icons--check.svg") no-repeat center center;
-  background-size: 0;
-  -webkit-transition: background-size 50ms ease-out;
-  transition: background-size 50ms ease-out;
-}
-
 .input--checkbox:checked {
   background-size: 20px;
   box-shadow: none;
@@ -4209,14 +4150,6 @@ input:checked ~ .label {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-}
-
-.lt-ie9 .logo {
-  float: left;
-  display: block;
-  width: 220px;
-  height: 44px;
-  background: url("/static/assets/img/logo.png") no-repeat 0 0;
 }
 
 .lt-ie9 .logo img {
@@ -5900,18 +5833,6 @@ input[type=file]::-webkit-file-upload-button:hover {
 
 .error-message {
   color: #d0021b;
-}
-
-.details__link:before {
-  background-image: url("/static/images/guidance.svg");
-}
-
-.details__link:focus:before {
-  background-image: url("/static/images/guidance-white.svg");
-}
-
-.input--checkbox {
-  background-image: url("https://eq.onsdigital.uk/s/img/icons/icons--check.svg");
 }
 
 .input--text-error {
