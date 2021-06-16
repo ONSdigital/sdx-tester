@@ -13,7 +13,7 @@ in SDX-Concourse.
 
 | External Interaction | Functionality                                                                                                                 |
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| RAS-RM               | Puts SEFT survey submissions within `ons-sdx-{{project_id}}-sefts` GCP Bucket and publishes to `seft-topic` PubSub Topic.     |
+| RAS-RM               | Puts SEFT survey submissions within `ons-sdx-{{project_id}}-seft-responses` GCP Bucket and publishes to `seft-topic` PubSub Topic.     |
 | RAS-RM               | Acknowledges Receipt sent to RAS-RM via `receipt-topic`                                                                       |
 | EQ                   | Publishes JSON survey submissions to `survey-topic` PubSub Topic                                                              |
 | DAP                  | Subscribes to `dap-topic`, acknowledging processed submissions.                                                               |
@@ -81,7 +81,7 @@ A set of tests that measure the speed of SDX.
 `make performance-test:`
 
 Run order:
-1. **setup.py** - puts 500 sefts into ons-sdx-{{project_id}}-sefts GCP Bucket
+1. **setup.py** - puts 500 sefts into ons-sdx-{{project_id}}-seft-responses GCP Bucket
 2. **test_performance.py** - Runs 500 sefts and surveys through SDX, measuring time taken.
 
 ## Configuration
@@ -89,7 +89,7 @@ Run order:
 |--------------------------------|------------------------------------
 | PROJECT_ID                     | Name of project
 | OUTPUT_BUCKET_NAME             | Output bucket `{project_id}-outputs`
-| INPUT_SEFT_BUCKET              | SEFT input bucket `{project_id}-sefts`
+| INPUT_SEFT_BUCKET              | SEFT input bucket `{project_id}-seft-responses`
 | DAP_SUBSCRIPTION               | Subscription to message going to dap
 | SURVEY_QUARANTINE_SUBSCRIPTION | Quarantine queue for JSON submissions
 | SEFT_QUARANTINE_SUBSCRIPTION   | Quarantine queue for SEFT submissions

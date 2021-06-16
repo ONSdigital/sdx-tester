@@ -126,14 +126,17 @@ def view_response(tx_id):
 
             if dap_message:
                 dap_message = json.loads(dap_message.data.decode('utf-8'))
+                print(f"dap message in view_response is: {dap_message}")
 
             if receipt:
                 receipt = json.loads(receipt.data.decode('utf-8'))
+                print(f"receipt in view_response is: {receipt}")
 
             if quarantine:
                 flash(f'Submission with tx_id: {quarantine.attributes["tx_id"]} has been quarantined')
                 if 'seft' not in response.quarantine.data.decode():
                     quarantine = decrypt_survey(quarantine.data)
+                    print(f"quarantine message in view_response is: {quarantine}")
                 else:
                     quarantine = 'SEFT Quarantined'
 
@@ -164,8 +167,10 @@ def downstream_process(*data):
     """
     if len(data) > 1:
         result = run_seft(message_manager, data[0], data[1])
+        print(f"result for seft in downstream_process is: {result}")
     else:
         result = run_survey(message_manager, data[0])
+        print(f"result for survey in downstream_process is: {result}")
     responses.append(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})

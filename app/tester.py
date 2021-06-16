@@ -14,8 +14,10 @@ def run_survey(message_manager: MessageManager, survey_dict: dict) -> Result:
     """
     encrypted_survey = encrypt_survey(survey_dict)
     result = Result(survey_dict['tx_id'])
+    print(f"Result in run_survey is {result}")
     requires_receipt = "feedback" not in survey_dict['type']
     result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt)
+    print(f"Result in run_survey is {result}")
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
         # Changes to file path as Nifi can't handle the earlier form
@@ -33,8 +35,11 @@ def run_seft(message_manager: MessageManager, message: dict, seft_data: bytes) -
     encrypted_seft = encrypt_seft(seft_data)
     write_seft(encrypted_seft, message['filename'])
     result = Result(message['tx_id'])
+    print(f"Result in run_seft is {result}")
     message_str = json.dumps(message)
+    print(f"message_str in run_seft is: {message_str}")
     result = message_manager.submit(result, message_str, is_seft=True)
+    print(f"Result in run_seft is {result}")
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
         file_path = file_path.replace("|", "/")
