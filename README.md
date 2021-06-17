@@ -13,7 +13,7 @@ in SDX-Concourse.
 
 | External Interaction | Functionality                                                                                                                 |
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| RAS-RM               | Puts SEFT survey submissions within `ons-sdx-{{project_id}}-sefts` GCP Bucket and publishes to `seft-topic` PubSub Topic.     |
+| RAS-RM               | Puts SEFT survey submissions within `ons-sdx-{{project_id}}-seft-responses` GCP Bucket and publishes to `seft-topic` PubSub Topic.     |
 | RAS-RM               | Acknowledges Receipt sent to RAS-RM via `receipt-topic`                                                                       |
 | EQ                   | Publishes JSON survey submissions to `survey-topic` PubSub Topic                                                              |
 | DAP                  | Subscribes to `dap-topic`, acknowledging processed submissions.                                                               |
@@ -31,7 +31,7 @@ NB:
 ## Front-end
 
 Tester provides a UI that allows users to select, edit and submit both JSON Surveys and SEFTs. The UI also provides functionality
-to verify the data and kick off the cleanup function 
+to verify the data and kick off the cleanup function. 
 
 ## Integration Tests
 
@@ -56,7 +56,7 @@ Run order:
 
 
 NB:
-- Please ensure the infrastructure is deployed including the cloud function
+- Please ensure the infrastructure is deployed including the cloud function.
  
 ## Comment Tests
 
@@ -67,9 +67,9 @@ generate and deliver the daily comments.
 `make comment-test`
 
 Run order:
-1. **test_setup.py** - wipes data within Datastore and the `{project_id}-outputs/comment` bucket/folder. 
+1. **test_setup.py** - wipes data within Datastore and the `{project_id}-outputs/comments` bucket/folder. 
 2. Trigger CronJob
-3. **test_comments.py** - verifies the spreadsheet that was generated using pandas and then deletes after verification
+3. **test_comments.py** - verifies the spreadsheet that was generated using pandas and then deletes after verification.
 4. Remove triggered CronJob
 
 
@@ -78,10 +78,10 @@ Run order:
 A set of tests that measure the speed of SDX.
 
 **run locally:**
-`make performance-test:`
+`make performance-test`
 
 Run order:
-1. **setup.py** - puts 500 sefts into ons-sdx-{{project_id}}-sefts GCP Bucket
+1. **setup.py** - puts 500 sefts into ons-sdx-{{project_id}}-seft-responses GCP Bucket
 2. **test_performance.py** - Runs 500 sefts and surveys through SDX, measuring time taken.
 
 ## Configuration
@@ -89,7 +89,7 @@ Run order:
 |--------------------------------|------------------------------------
 | PROJECT_ID                     | Name of project
 | OUTPUT_BUCKET_NAME             | Output bucket `{project_id}-outputs`
-| INPUT_SEFT_BUCKET              | SEFT input bucket `{project_id}-sefts`
+| INPUT_SEFT_BUCKET              | SEFT input bucket `{project_id}-seft-responses`
 | DAP_SUBSCRIPTION               | Subscription to message going to dap
 | SURVEY_QUARANTINE_SUBSCRIPTION | Quarantine queue for JSON submissions
 | SEFT_QUARANTINE_SUBSCRIPTION   | Quarantine queue for SEFT submissions
