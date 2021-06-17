@@ -31,7 +31,7 @@ NB:
 ## Front-end
 
 Tester provides a UI that allows users to select, edit and submit both JSON Surveys and SEFTs. The UI also provides functionality
-to verify the data and kick off the cleanup function 
+to verify the data and kick off the cleanup function. 
 
 ## Integration Tests
 
@@ -56,7 +56,7 @@ Run order:
 
 
 NB:
-- Please ensure the infrastructure is deployed including the cloud function
+- Please ensure the infrastructure is deployed including the cloud function.
  
 ## Comment Tests
 
@@ -67,9 +67,9 @@ generate and deliver the daily comments.
 `make comment-test`
 
 Run order:
-1. **test_setup.py** - wipes data within Datastore and the `{project_id}-outputs/comment` bucket/folder. 
+1. **test_setup.py** - wipes data within Datastore and the `{project_id}-outputs/comments` bucket/folder. 
 2. Trigger CronJob
-3. **test_comments.py** - verifies the spreadsheet that was generated using pandas and then deletes after verification
+3. **test_comments.py** - verifies the spreadsheet that was generated using pandas and then deletes after verification.
 4. Remove triggered CronJob
 
 
@@ -78,7 +78,7 @@ Run order:
 A set of tests that measure the speed of SDX.
 
 **run locally:**
-`make performance-test:`
+`make performance-test`
 
 Run order:
 1. **setup.py** - puts 500 sefts into ons-sdx-{{project_id}}-seft-responses GCP Bucket

@@ -31,7 +31,6 @@ def publish_seft(message: str, tx_id: str) -> None:
     logger.info(f"Publishing seft with tx_id: {tx_id}")
     # Data must be a bytestring
     message = message.encode("utf-8")
-    print(f"Seft message is: {message}")
     # When you publish a message, the client returns a future.
     future = publisher.publish(seft_topic_path, message, tx_id=tx_id)
     logger.info(future.result())
