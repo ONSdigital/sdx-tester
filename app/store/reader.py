@@ -1,7 +1,7 @@
 import io
 import zipfile
 import logging
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from google.api_core.exceptions import NotFound
 from google.cloud import storage
@@ -83,7 +83,7 @@ def bucket_check_if_exists(file_name, bucket):
 
 def datastore_check_if_exists():
     d = date.today()
-    today = datetime(d.year, d.month, d.day)
+    ninety_days_ago = datetime(d.year, d.month, d.day) - timedelta(days=90)
     query = datastore_client.query(kind='Comment')
-    query.add_filter("created", "<", today)
+    query.add_filter("created", "<", ninety_days_ago)
     return len(list(query.fetch()))

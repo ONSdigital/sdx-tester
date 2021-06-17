@@ -38,7 +38,7 @@ class TestCleanupSetup(unittest.TestCase):
         """
         d = date.today()
         today = datetime(d.year, d.month, d.day)
-        yesterday = today - timedelta(1)
+        ninety_days_ago = today - timedelta(days=91)
         for x in range(5):
-            survey_id = 'testing_cleanup_function'
-            create_entity(survey_id, yesterday)
+            survey_id = f'00{x}'
+            create_entity(survey_id, ninety_days_ago)
