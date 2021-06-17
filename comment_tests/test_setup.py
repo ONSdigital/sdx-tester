@@ -51,7 +51,7 @@ class TestSetup(unittest.TestCase):
         for survey_id in self.surveys:
             create_entity(survey_id, yesterday)
 
-        survey_134 = datastore.Entity(datastore_client.key("Comment", str(uuid.uuid4())))
+        survey_134 = datastore.Entity(datastore_client.key("134_201605", str(uuid.uuid4())))
 
         survey_134.update(
             {
@@ -74,7 +74,7 @@ class TestSetup(unittest.TestCase):
 
 
 def create_entity(survey_id, date_stored):
-    survey_entity = datastore.Entity(datastore_client.key("Comment", str(uuid.uuid4())))
+    survey_entity = datastore.Entity(datastore_client.key(f"{survey_id}_201605", str(uuid.uuid4())))
 
     survey_entity.update(
         {
@@ -93,13 +93,29 @@ def create_entity(survey_id, date_stored):
 
 def cleanup_datastore():
     try:
-        query = datastore_client.query(kind='Comment')
-        results = list(query.fetch())
-        for entity in results:
-            datastore_client.delete(entity)
-            print(f'successfully deleted {entity} from Datastore')
+        kinds = fetch_comment_kinds()
+        for kind in kinds:
+            query = datastore_client.query(kind=kind)
+            query.keys_only()
+            keys = [entity.key for entity in query.fetch()]
+            datastore_client.delete_multi(keys)
+            print(f'successfully deleted {keys} from Datastore')
 
     except Exception as e:
         print(e)
         print('Failed to delete item from Datastore')
     return True
+
+
+def fetch_comment_kinds() -> list:
+    """
+        Fetch a list of all comment kinds from datastore.
+        Each kind is represented by {survey_id}_{period}
+    """
+    try:
+        query = datastore_client.query(kind="__kind__")
+        query.keys_only()
+        return [entity.key.id_or_name for entity in query.fetch() if not entity.key.id_or_name.startswith("_")]
+    except Exception as e:
+        print(f'Datastore error fetching kinds: {e}')
+        raise e
