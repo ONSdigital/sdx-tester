@@ -14,7 +14,7 @@ from app.jwt.encryption import decrypt_survey
 from app import message_manager
 from app.messaging.publisher import publish_dap_receipt
 from app.store import OUTPUT_BUCKET_NAME
-from app.store.reader import bucket_check_if_exists
+from app.store.reader import check_file_exists
 from app.survey_loader import read_ui
 from app.tester import run_survey, run_seft
 
@@ -46,11 +46,11 @@ def dap_receipt(tx_id):
         tx_id = tx_id['tx_id']
         file_path = post_dap_message(tx_id)
 
-        while bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME) or timeout > 5:
+        while check_file_exists(file_path, OUTPUT_BUCKET_NAME) or timeout > 5:
             time.sleep(1)
             timeout += 1
 
-        in_bucket = bucket_check_if_exists(file_path, OUTPUT_BUCKET_NAME)
+        in_bucket = check_file_exists(file_path, OUTPUT_BUCKET_NAME)
         if not in_bucket:
             remove_submissions(tx_id)
         socketio.emit('cleaning finished', {'tx_id': tx_id, 'in_bucket': in_bucket})
