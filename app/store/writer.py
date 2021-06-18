@@ -20,3 +20,25 @@ def write(data: str, filename: str, bucket: str) -> str:
     blob = bucket.blob(path)
     blob.upload_from_string(data)
     return path
+
+
+def create_bucket_class_location(bucket_name):
+    """Create a new bucket in specific location with storage class"""
+    # bucket_name = "your-new-bucket-name"
+    bucket = storage_client.bucket(bucket_name)
+    bucket.storage_class = "STANDARD"
+    new_bucket = storage_client.create_bucket(bucket, location="europe-west2")
+
+    print(
+        "Created bucket {} in {} with storage class {}".format(
+            new_bucket.name, new_bucket.location, new_bucket.storage_class
+        )
+    )
+    return new_bucket
+
+
+def remove_from_bucket(folder_and_file, bucket_name):
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(folder_and_file)
+    blob.delete()
+    logger.info(f"Successfully deleted: {folder_and_file} from {bucket_name}.")

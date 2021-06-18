@@ -75,10 +75,18 @@ def get_comment_files(file_path) -> bytes:
     return zip_bytes
 
 
-def bucket_check_if_exists(file_name, bucket):
+def check_file_exists(file_name, bucket):
     logger.info(f'Checking for: {file_name} in {bucket}')
     bucket = storage_client.bucket(bucket)
     return storage.Blob(bucket=bucket, name=file_name).exists(storage_client)
+
+
+def check_bucket_exists(my_bucket):
+    list_of_buckets = storage_client.list_buckets()
+    for x in list_of_buckets:
+        if my_bucket == x.name:
+            return True
+    return False
 
 
 def datastore_check_if_exists():
