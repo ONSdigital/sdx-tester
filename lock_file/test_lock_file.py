@@ -41,8 +41,8 @@ class LockFile(unittest.TestCase):
                 print(f'waiting another 30 seconds, {self.count} seconds so far')
                 time.sleep(30)
                 self.count += 30
-            write(self.lock_file_data, FILE_NAME, BUCKET_NAME)
             print(f'lock_file not present after {self.count} seconds, writing lock file: {self.lock_file_data}')
+            write(self.lock_file_data, FILE_NAME, BUCKET_NAME)
             self.finished_locking = True
 
         self.assertTrue(self.finished_locking)
