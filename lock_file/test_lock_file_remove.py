@@ -4,7 +4,7 @@ from lock_file import FILE_NAME, BUCKET_NAME
 from google.api_core.exceptions import NotFound
 
 
-class TestCleanupSetup(unittest.TestCase):
+class LockFileRemoval(unittest.TestCase):
 
     def test_remove_lock_file(self):
         try:

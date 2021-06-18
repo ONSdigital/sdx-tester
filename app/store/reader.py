@@ -84,7 +84,6 @@ def check_file_exists(file_name, bucket):
 def check_bucket_exists(my_bucket):
     list_of_buckets = storage_client.list_buckets()
     for x in list_of_buckets:
-        print(my_bucket, x.name)
         if my_bucket == x.name:
             return True
     return False
