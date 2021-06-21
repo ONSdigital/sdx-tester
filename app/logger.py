@@ -30,19 +30,14 @@ def logging_config():
     info_handler.setLevel(logging.INFO)
     info_handler.addFilter(_MaxLevelFilter(logging.WARNING))
 
+    LOGGING_FORMAT = "%(asctime)s.%(msecs)06dZ|%(levelname)s: sdx-tester: thread: %(thread)d %(message)s"
+
     logging.basicConfig(
-        format='%(message)s',
+        format=LOGGING_FORMAT,
         level=os.getenv('LOGGING_LEVEL', 'INFO'),
         handlers=[info_handler, error_handler]
     )
 
     configure(
-        logger_factory=LoggerFactory(),
-        processors=[
-            structlog.stdlib.add_log_level,
-            structlog.stdlib.add_logger_name,
-            structlog.stdlib.PositionalArgumentsFormatter(),
-            merge_contextvars,
-            structlog.processors.JSONRenderer(),
-        ],
+        logger_factory=LoggerFactory()
     )
