@@ -2,9 +2,6 @@ import os
 
 from flask import Flask
 from flask_socketio import SocketIO
-from app.logger import logging_config
-
-logging_config()
 
 PROJECT_ID = os.getenv('PROJECT_ID')
 # Allow tester to be run without listening
