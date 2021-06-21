@@ -2,14 +2,16 @@ import logging
 import threading
 import time
 
+import structlog
+
 from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SURVEY_QUARANTINE_SUBSCRIPTION, \
     SEFT_QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data, publish_seft
 from app.messaging.subscriber import MessageListener, Listener
 from app.result import Result
-from structlog import wrap_logger
 
-logger = wrap_logger(logging.getLogger(__name__))
+
+logger = structlog.get_logger()
 
 
 class SubmitManager:

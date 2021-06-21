@@ -1,9 +1,7 @@
-import logging
-
+import structlog
 from app.store import INPUT_SEFT_BUCKET, storage_client
-from structlog import wrap_logger
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 
 def write_seft(data, filename: str):

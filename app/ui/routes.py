@@ -5,10 +5,10 @@ import os
 import threading
 import uuid
 import time
-from datetime import datetime
+import structlog
 
+from datetime import datetime
 from flask import request, render_template, flash
-from structlog import wrap_logger
 from app import app, socketio
 from app.jwt.encryption import decrypt_survey
 from app import message_manager
@@ -18,7 +18,7 @@ from app.store.reader import check_file_exists
 from app.survey_loader import read_ui
 from app.tester import run_survey, run_seft
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 submissions = []
 responses = []

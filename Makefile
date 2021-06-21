@@ -16,6 +16,5 @@ cleanup-test:
 comment-test:
 	pipenv run python -Wi -m unittest comment_tests.test_setup
 	kubectl create job --from=cronjob/sdx-collate test-collate
-	sleep 5
 	pipenv run python -Wi -m unittest comment_tests.test_comments
 	kubectl delete job test-collate

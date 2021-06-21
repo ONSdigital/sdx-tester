@@ -1,11 +1,9 @@
-import logging
 import os
-
-from structlog import wrap_logger
+import structlog
 
 from app.gpg import gpg
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 
 def decrypt_output(data: bytes, filename: str) -> bytes:

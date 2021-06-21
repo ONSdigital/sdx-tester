@@ -1,9 +1,8 @@
-import logging
+import structlog
 
 from app.gpg import gpg, RECIPIENTS
-from structlog import wrap_logger
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 
 def encrypt_seft(data_bytes: bytes) -> str:
