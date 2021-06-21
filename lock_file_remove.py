@@ -1,10 +1,11 @@
 import structlog
 
+from app import PROJECT_ID
 from app.store.writer import remove_from_bucket
 from google.api_core.exceptions import NotFound
 logger = structlog.get_logger()
 
-BUCKET_NAME = "sdx-tester-lock"
+BUCKET_NAME = f"{PROJECT_ID}-lock-file"
 FILE_NAME = 'lock.txt'
 
 

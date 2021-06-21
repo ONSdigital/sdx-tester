@@ -3,16 +3,17 @@ import os
 import time
 import structlog
 
+from app import PROJECT_ID
 from app.store.reader import check_bucket_exists, check_file_exists
 from app.store.writer import create_bucket_class_location, write
 
 logger = structlog.get_logger()
 
-BUCKET_NAME = "sdx-tester-lock"
-FILE_NAME = 'lock.txt'
 service = os.getenv('SERVICE', 'No Service Provided')
 version = os.getenv('VERSION', 'No version Provided')
 
+BUCKET_NAME = f"{PROJECT_ID}-lock-file"
+FILE_NAME = 'lock.txt'
 lock_file_data = json.dumps({
     'SERVICE': service,
     'VERSION': version
