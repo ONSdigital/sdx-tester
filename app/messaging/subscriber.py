@@ -1,12 +1,11 @@
-import logging
-from concurrent.futures import TimeoutError
+import structlog
 
+from concurrent.futures import TimeoutError
 from google.cloud import pubsub_v1
 from app.messaging import PROJECT_ID
-from structlog import wrap_logger
 
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 
 class Listener:

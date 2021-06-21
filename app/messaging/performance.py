@@ -1,12 +1,11 @@
-import logging
+import structlog
 import threading
 import time
 
 from app.messaging import DAP_SUBSCRIPTION, RECEIPT_SUBSCRIPTION
 from app.messaging.subscriber import MessageListener
-from structlog import wrap_logger
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 # Time until listener times out listening for a submission
 MAX_WAIT_TIME_SECS = 300

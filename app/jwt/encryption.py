@@ -1,15 +1,14 @@
 import io
-import logging
+import structlog
 import zipfile
 import yaml
+
 from sdc.crypto.key_store import KeyStore
 from sdc.crypto.encrypter import encrypt
 from sdc.crypto.decrypter import decrypt as sdc_decrypt
-from structlog import wrap_logger
-
 from app.jwt import KEY_PURPOSE_SUBMISSION
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 
 def encrypt_survey(submission: dict) -> str:

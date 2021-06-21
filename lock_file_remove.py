@@ -11,3 +11,7 @@ def remove_lock_file():
     except NotFound as err:
         print(f'File does not exist: {err}')
         raise NotFound
+
+
+if __name__ == '__main__':
+    remove_lock_file()

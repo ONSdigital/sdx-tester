@@ -1,18 +1,15 @@
 import io
 import zipfile
-import logging
-from datetime import date, datetime, timedelta
+import structlog
 
+from datetime import date, datetime, timedelta
 from google.api_core.exceptions import NotFound
 from google.cloud import storage
-
 from app.store import OUTPUT_BUCKET_NAME, storage_client
 from app.gpg.decryption import decrypt_output
-from structlog import wrap_logger
-
 from comment_tests.test_setup import datastore_client
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 
 def get_files(file_path) -> dict:

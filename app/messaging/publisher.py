@@ -1,15 +1,14 @@
-import logging
+import structlog
 
 from google.cloud import pubsub_v1
 from app.messaging import PROJECT_ID, SURVEY_TOPIC, SEFT_TOPIC, DAP_RECEIPT_TOPIC
-from structlog import wrap_logger
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(PROJECT_ID, SURVEY_TOPIC)
 seft_topic_path = publisher.topic_path(PROJECT_ID, SEFT_TOPIC)
 dap_receipt_topic_path = publisher.topic_path(PROJECT_ID, DAP_RECEIPT_TOPIC)
 
-logger = wrap_logger(logging.getLogger(__name__))
+logger = structlog.get_logger()
 
 
 def publish_data(data: str, tx_id: str) -> None:
