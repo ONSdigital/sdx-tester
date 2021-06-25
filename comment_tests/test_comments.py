@@ -9,7 +9,7 @@ from datetime import datetime, date
 from app.store.reader import get_comment_files, check_file_exists
 
 d = date.today()
-FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}.zip'
+FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}_GCP.zip'
 TIMEOUT = 120
 
 
