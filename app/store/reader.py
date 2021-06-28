@@ -86,9 +86,10 @@ def check_bucket_exists(my_bucket):
     return False
 
 
-def datastore_check_if_exists():
+def datastore_check_if_exists(kind: str):
+    logger.info('Checking if comments')
     d = date.today()
     ninety_days_ago = datetime(d.year, d.month, d.day) - timedelta(days=90)
-    query = datastore_client.query(kind='Comment')
+    query = datastore_client.query(kind=kind)
     query.add_filter("created", "<", ninety_days_ago)
     return len(list(query.fetch()))

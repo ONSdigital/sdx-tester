@@ -2,7 +2,6 @@ import unittest
 
 from app.gpg.encryption import encrypt_seft
 from app.store.writer import write_seft
-from cleanup_tests import ignore_warnings
 
 SEFT_DIR = "app/Data/seft"
 SEFT_FILENAME = f"11110000014H_202009_057_20210121143526"
@@ -11,7 +10,6 @@ SEFT_COUNT = 500
 
 class SetupPerformance(unittest.TestCase):
 
-    @ignore_warnings
     def test_prepare_sefts(self):
 
         with open(f"{SEFT_DIR}/{SEFT_FILENAME}.xlsx", 'rb') as seft_file:

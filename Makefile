@@ -9,10 +9,10 @@ performance-test-setup:
 performance-test:
 	pipenv run python -m unittest performance_tests.test_performance
 cleanup-test:
-	pipenv run python -m unittest cleanup_tests.test_setup
-	pipenv run python -m unittest cleanup_tests.test_publish_receipt
+	pipenv run python -Wi -m unittest cleanup_tests.test_setup
+	pipenv run python -Wi -m unittest cleanup_tests.test_publish_receipt
 	sleep 5
-	pipenv run python -m unittest cleanup_tests.test_cleanup
+	pipenv run python -Wi -m unittest cleanup_tests.test_cleanup
 comment-test:
 	pipenv run python -Wi -m unittest comment_tests.test_setup
 	kubectl create job --from=cronjob/sdx-collate test-collate

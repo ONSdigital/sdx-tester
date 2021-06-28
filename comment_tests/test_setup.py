@@ -12,6 +12,7 @@ datastore_client = datastore.Client(project=PROJECT_ID)
 
 class TestSetup(unittest.TestCase):
     unittest.TestLoader.sortTestMethodsUsing = None
+
     surveys = ['009',
                '017',
                '019',
@@ -37,9 +38,10 @@ class TestSetup(unittest.TestCase):
             bucket_name = f'{PROJECT_ID}-outputs'
             storage_client = storage.Client()
             bucket = storage_client.bucket(bucket_name)
-            blob = bucket.blob('comments')
-            blob.delete()
-            print("Blob {} deleted.".format('comments folder'))
+            blobs = bucket.list_blobs(prefix='comments')
+            for blob in blobs:
+                blob.delete()
+                print(f"Blob: {blob} deleted.")
         except exceptions.NotFound as error:
             print(error)
 
