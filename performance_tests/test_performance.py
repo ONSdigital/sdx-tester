@@ -8,7 +8,6 @@ from app import survey_loader
 from app.jwt.encryption import encrypt_survey
 from app.messaging.performance import PerformanceManager
 from app.messaging.publisher import publish_data, publish_seft
-from cleanup_tests import ignore_warnings
 from performance_tests.setup import SEFT_COUNT, SEFT_FILENAME
 
 
