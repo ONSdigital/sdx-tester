@@ -2,12 +2,11 @@ import json
 import unittest
 
 from app.messaging.publisher import publish_dap_receipt
-from cleanup_tests import test_data, ignore_warnings
+from cleanup_tests import test_data
 
 
 class TestCleanup(unittest.TestCase):
 
-    @ignore_warnings
     def test_kickoff_cleanup_outputs(self):
         """
         Publishes a PuSub message for each element placed within the bucket.

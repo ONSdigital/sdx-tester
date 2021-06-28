@@ -2,7 +2,7 @@ import unittest
 
 from datetime import datetime, date, timedelta
 from app.store import writer
-from cleanup_tests import test_data, ignore_warnings
+from cleanup_tests import test_data, fake_surveys
 from comment_tests.test_setup import create_entity, cleanup_datastore
 
 
@@ -17,7 +17,6 @@ class TestCleanupSetup(unittest.TestCase):
     def setUpClass(cls):
         cleanup_datastore()
 
-    @ignore_warnings
     def test_setup_output_bucket(self):
         """
         Upload data to buckets in ons-sdx-{{project_id}}
@@ -31,7 +30,6 @@ class TestCleanupSetup(unittest.TestCase):
             writer.write(data, filename, bucket)
             print(f'Successfully put data in {bucket}/{filename}')
 
-    @ignore_warnings
     def test_setup_comments(self):
         """
         Upload 5 comments to Datastore in ons-sdx-{{project_id}}
@@ -39,6 +37,5 @@ class TestCleanupSetup(unittest.TestCase):
         d = date.today()
         today = datetime(d.year, d.month, d.day)
         ninety_days_ago = today - timedelta(days=91)
-        for x in range(5):
-            survey_id = f'00{x}'
-            create_entity(survey_id, ninety_days_ago)
+        for fake_id in fake_surveys:
+            create_entity(fake_id, ninety_days_ago)
