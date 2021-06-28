@@ -40,7 +40,7 @@ class TestComments(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         count = 0
-        while not check_file_exists(FILE_PATH) or count > TIMEOUT:
+        while not check_file_exists(FILE_PATH) or count < TIMEOUT:
             print('SDX-Collate waiting for resources. Waiting 20 seconds...')
             time.sleep(20)
             count += 20
