@@ -10,7 +10,6 @@ SEFT_COUNT = 500
 
 class SetupPerformance(unittest.TestCase):
 
-    @ignore_warnings
     def test_prepare_sefts(self):
 
         with open(f"{SEFT_DIR}/{SEFT_FILENAME}.xlsx", 'rb') as seft_file:

@@ -13,7 +13,6 @@ from performance_tests.setup import SEFT_COUNT, SEFT_FILENAME
 
 class TestPerformance(unittest.TestCase):
 
-    @ignore_warnings
     def test_performance(self):
 
         # get all survey
