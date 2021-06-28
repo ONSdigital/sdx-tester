@@ -14,7 +14,7 @@ test_data = {
     'seft': f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup_function-seft',
     'dap': f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup_function-dap',
     'legacy': f'{OUTPUT_BUCKET_NAME}/legacy/testing_cleanup_function-legacy',
-    'seft-input': f'{INPUT_SEFT_BUCKET}/seft/testing_cleanup_function-seft',
+    'seft-input': f'{INPUT_SEFT_BUCKET}/seft/testing_cleanup_function-seft_GCP.xlsx.gpg',
     'comment': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip'
 }
 

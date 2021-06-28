@@ -9,8 +9,8 @@ from datetime import datetime, date
 from app.store.reader import get_comment_files, check_file_exists
 
 d = date.today()
-FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}.zip'
-TIMEOUT = 120
+FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}_GCP.zip'
+TIMEOUT = 150
 
 
 class TestComments(unittest.TestCase):
@@ -42,8 +42,8 @@ class TestComments(unittest.TestCase):
         count = 0
         while not check_file_exists(FILE_PATH) or count > TIMEOUT:
             print('SDX-Collate waiting for resources. Waiting 20 seconds...')
-            time.sleep(10)
-            count += 10
+            time.sleep(20)
+            count += 20
         result = get_comment_files(FILE_PATH)
         z = zipfile.ZipFile(io.BytesIO(result), "r")
         z.extractall('temp_files')
