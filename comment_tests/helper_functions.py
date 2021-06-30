@@ -1,9 +1,8 @@
 import json
 import os
-import time
 import uuid
-from datetime import date, datetime, timedelta
 
+from datetime import date, datetime, timedelta
 from cryptography.fernet import Fernet
 from google.cloud import datastore, storage, exceptions
 from comment_tests import surveys
