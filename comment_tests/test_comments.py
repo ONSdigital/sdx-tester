@@ -29,7 +29,7 @@ class TestComments(unittest.TestCase):
         bucket_cleanup()
         insert_comments()
         os.system('kubectl create job --from=cronjob/sdx-collate test-collate')
-        check_for_comments()
+        wait_for_comments()
         result = get_comment_files(FILE_PATH)
         z = zipfile.ZipFile(io.BytesIO(result), "r")
         z.extractall('temp_files')
@@ -62,7 +62,7 @@ class TestComments(unittest.TestCase):
         self.assertEqual(int(result.iat[1, 1]), 201605)
 
 
-def check_for_comments():
+def wait_for_comments():
     count = 0
     while not check_file_exists(FILE_PATH) and count < TIMEOUT:
         print('SDX-Collate waiting for resources. Waiting 20 seconds...')
