@@ -28,6 +28,7 @@ class TestComments(unittest.TestCase):
         cleanup_datastore()
         bucket_cleanup()
         insert_comments()
+        os.system('kubectl create job --from=cronjob/sdx-collate test-collate')
         check_for_comments()
         result = get_comment_files(FILE_PATH)
         z = zipfile.ZipFile(io.BytesIO(result), "r")
@@ -38,6 +39,7 @@ class TestComments(unittest.TestCase):
         files = glob.glob('temp_files/*.xls')
         for f in files:
             os.remove(f)
+        os.system('kubectl delete job test-collate')
 
     def test_all(self):
         for x in surveys:
