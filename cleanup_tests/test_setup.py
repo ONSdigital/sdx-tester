@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime, date, timedelta
 from app.store import writer
 from cleanup_tests import test_data, fake_surveys
-from comment_tests.test_setup import create_entity, cleanup_datastore
+from comment_tests.helper_functions import create_entity, cleanup_datastore
 
 
 class TestCleanupSetup(unittest.TestCase):

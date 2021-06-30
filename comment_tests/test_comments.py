@@ -5,45 +5,30 @@ import zipfile
 import glob
 import pandas
 import time
-from datetime import datetime, date
-from app.store.reader import get_comment_files, check_file_exists
 
+from datetime import datetime, date
+from app.store.reader import check_file_exists, get_comment_files
+from comment_tests import surveys
+from comment_tests.helper_functions import cleanup_datastore, bucket_cleanup, insert_comments
+
+TIMEOUT = 150
 d = date.today()
 FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}_GCP.zip'
-TIMEOUT = 150
 
 
 class TestComments(unittest.TestCase):
     """
     This test should be run from the concourse pipeline.
-    If you want to run it locally, ensure you have triggered the sdx-collate cronjob after running test_setup.py
+    If you want to run it locally, ensure you have triggered the sdx-collate cronjob after running helper_functions.py
     This can be achieve by running: kubectl create job --from=cronjob/sdx-collate test-collate.
     """
 
-    surveys = ['009',
-               '017',
-               '019',
-               '023',
-               '139',
-               '144',
-               '147',
-               '160',
-               '165',
-               '182',
-               '183',
-               '184',
-               '185',
-               '187',
-               '228',
-               '283']
-
     @classmethod
     def setUpClass(cls):
-        count = 0
-        while not check_file_exists(FILE_PATH) and count < TIMEOUT:
-            print('SDX-Collate waiting for resources. Waiting 20 seconds...')
-            time.sleep(20)
-            count += 20
+        cleanup_datastore()
+        bucket_cleanup()
+        insert_comments()
+        check_for_comments()
         result = get_comment_files(FILE_PATH)
         z = zipfile.ZipFile(io.BytesIO(result), "r")
         z.extractall('temp_files')
@@ -55,7 +40,7 @@ class TestComments(unittest.TestCase):
             os.remove(f)
 
     def test_all(self):
-        for x in self.surveys:
+        for x in surveys:
             with self.subTest(msg=f'Testing survey: {x}', survey=x):
                 result = pandas.read_excel(f'temp_files/{x}_201605.xls')
                 self.assertEqual(result.iat[1, 3], f'I am a {x} comment')
@@ -73,3 +58,11 @@ class TestComments(unittest.TestCase):
         self.assertEqual(result.iat[1, 7], 'solder joint')
         self.assertEqual(result.iat[1, 8], 'drill hole')
         self.assertEqual(int(result.iat[1, 1]), 201605)
+
+
+def check_for_comments():
+    count = 0
+    while not check_file_exists(FILE_PATH) and count < TIMEOUT:
+        print('SDX-Collate waiting for resources. Waiting 20 seconds...')
+        time.sleep(20)
+        count += 20

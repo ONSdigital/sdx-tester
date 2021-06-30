@@ -6,7 +6,7 @@ from cleanup_tests import test_data, fake_surveys
 
 class TestCleanup(unittest.TestCase):
     """
-    Please ensure you have run test_setup.py within this package before running these tests
+    Please ensure you have run helper_functions.py within this package before running these tests
     """
 
     def test_outputs_bucket(self):
