@@ -9,7 +9,7 @@ from cleanup_tests import test_data
 from comment_tests.helper_functions import create_entity
 
 """
-This test class inserts data into both buckets and Datastore and then publishes a message onto
+This file contains functions that insert data into both buckets and Datastore and then publishes a message onto
 dap-receipt-topic. This should trigger the sdx-cleanup cloud function to then clean up the data we have inserted.
 test_cleanup.py then runs queries to check if the data has in fact been deleted.
 """
