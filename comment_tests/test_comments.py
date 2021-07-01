@@ -17,11 +17,6 @@ FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}_GCP.zip'
 
 
 class TestComments(unittest.TestCase):
-    """
-    This test should be run from the concourse pipeline.
-    If you want to run it locally, ensure you have triggered the sdx-collate cronjob after running helper_functions.py
-    This can be achieve by running: kubectl create job --from=cronjob/sdx-collate test-collate.
-    """
 
     @classmethod
     def setUpClass(cls):

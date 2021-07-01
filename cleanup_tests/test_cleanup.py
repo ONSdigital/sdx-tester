@@ -8,7 +8,7 @@ TIMEOUT = 150
 
 class TestCleanup(unittest.TestCase):
     """
-    Please ensure you have run helper_functions.py within this package before running these tests
+    The functions called within setUpClass need to be run to 'setup' the tests. They can be found in helper_functions.py
     """
 
     @classmethod
