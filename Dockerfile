@@ -1,9 +1,9 @@
-FROM python:3.8-slim
+FROM google/cloud-sdk:slim
+
+RUN apt-get install kubectl
 RUN apt-get update && apt-get install -y gnupg
 COPY . /app
 WORKDIR /app
-RUN python -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pip
 RUN pip install pipenv
-RUN pipenv install --system --deploy --ignore-pipfile
-EXPOSE 5000
-CMD ["python", "./run.py"]
+RUN pipenv install --deploy --ignore-pipfile
