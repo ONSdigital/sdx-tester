@@ -1,9 +1,5 @@
 import unittest
 import time
-
-from datetime import time
-from app.store.reader import check_file_exists, get_entity_count
-from cleanup_tests import test_data, fake_surveys
 from cleanup_tests.helper_functions import setup_output_bucket, setup_comments, kickoff_cleanup_outputs, \
     is_bucket_empty, is_datastore_cleaned_up
 
@@ -29,9 +25,9 @@ class TestCleanup(unittest.TestCase):
                 passed = True
                 break
             else:
-                print('The bucket is not empty yet. Waiting 20 seconds...')
-                time.sleep(20)
-                count += 20
+                print('The bucket is not empty yet. Waiting 10 seconds...')
+                time.sleep(10)
+                count += 10
         self.assertTrue(passed)
 
     def test_comments_datastore(self):
@@ -42,7 +38,7 @@ class TestCleanup(unittest.TestCase):
                 passed = True
                 break
             else:
-                print(' The comments are not deleted yet. Waiting 20 seconds...')
-                time.sleep(20)
-                count += 20
-            self.assertTrue(passed)
+                print(' The comments are not deleted yet. Waiting 10 seconds...')
+                time.sleep(10)
+                count += 10
+        self.assertTrue(passed)
