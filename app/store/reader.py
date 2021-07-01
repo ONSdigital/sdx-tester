@@ -72,13 +72,13 @@ def get_comment_files(file_path) -> bytes:
     return zip_bytes
 
 
-def check_file_exists(file_name, bucket=OUTPUT_BUCKET_NAME):
+def check_file_exists(file_name, bucket=OUTPUT_BUCKET_NAME) -> bool:
     logger.info(f'Checking for: {file_name} in {bucket}')
     bucket = storage_client.bucket(bucket)
     return storage.Blob(bucket=bucket, name=file_name).exists(storage_client)
 
 
-def check_bucket_exists(my_bucket):
+def check_bucket_exists(my_bucket) -> bool:
     list_of_buckets = storage_client.list_buckets()
     for x in list_of_buckets:
         if my_bucket == x.name:
@@ -86,7 +86,10 @@ def check_bucket_exists(my_bucket):
     return False
 
 
-def datastore_check_if_exists(kind: str):
+def get_entity_count(kind: str) -> int:
+    """
+    Returns the number of rows that matches the filter
+    """
     logger.info('Checking if comments')
     d = date.today()
     ninety_days_ago = datetime(d.year, d.month, d.day) - timedelta(days=90)
