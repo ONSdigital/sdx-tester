@@ -1,21 +1,44 @@
 import unittest
+import time
+from cleanup_tests.helper_functions import setup_output_bucket, setup_comments, kickoff_cleanup_outputs, \
+    is_bucket_empty, is_datastore_cleaned_up
 
-from app.store.reader import check_file_exists, datastore_check_if_exists
-from cleanup_tests import test_data, fake_surveys
+TIMEOUT = 150
 
 
 class TestCleanup(unittest.TestCase):
     """
-    Please ensure you have run test_setup.py within this package before running these tests
+    The functions called within setUpClass need to be run to 'setup' the tests. They can be found in helper_functions.py
     """
 
+    @classmethod
+    def setUpClass(cls):
+        setup_output_bucket()
+        setup_comments()
+        kickoff_cleanup_outputs()
+
     def test_outputs_bucket(self):
-        for data, filename in test_data.items():
-            bucket = filename.split('/', 1)[0]
-            file_path = filename.split('/', 1)[1]
-            self.assertFalse(check_file_exists(file_path, bucket))
+        count = 0
+        passed = False
+        while count < TIMEOUT:
+            if is_bucket_empty():
+                passed = True
+                break
+            else:
+                print('The bucket is not empty yet. Waiting 10 seconds...')
+                time.sleep(10)
+                count += 10
+        self.assertTrue(passed)
 
     def test_comments_datastore(self):
-        for fake_id in fake_surveys:
-            length = datastore_check_if_exists(fake_id + '_201605')
-            self.assertEquals(length, 0)
+        count = 0
+        passed = False
+        while count < TIMEOUT:
+            if is_datastore_cleaned_up():
+                passed = True
+                break
+            else:
+                print(' The comments are not deleted yet. Waiting 10 seconds...')
+                time.sleep(10)
+                count += 10
+        self.assertTrue(passed)
