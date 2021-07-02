@@ -46,7 +46,7 @@ def kickoff_cleanup_outputs():
     """
     test_data.pop('seft-input')
     for data, filename in test_data.items():
-        dap_message = json.dumps({'dataset': f"009|{filename.split('/', 1)[1]}"}).encode()
+        dap_message = {'dataset': f"009|{filename.split('/', 1)[1]}"}
         publish_dap_receipt(dap_message)
 
 

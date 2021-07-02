@@ -2,6 +2,7 @@ import base64
 import json
 import logging
 import os
+import pprint
 import threading
 import uuid
 import time
@@ -199,15 +200,12 @@ def post_dap_message(tx_id: str):
         for response in responses:
             if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
                 file_path = response.dap_message.attributes['gcs.key']
+                logger.info(response.dap_message.data)
                 dap_message = {
-                    'data': response.dap_message.data,
-                    'ordering_key': '',
-                    'attributes': {
-                        "gcs.bucket": response.dap_message.attributes['gcs.bucket'],
-                        "gcs.key": response.dap_message.attributes['gcs.key']
-                    }
+                    'body': response.dap_message.attributes['gcs.bucket'] + '/' + response.dap_message.attributes['gcs.key']
                 }
-                publish_dap_receipt(dap_message, tx_id)
+                print(dap_message)
+                publish_dap_receipt(dap_message)
                 return file_path
         time.sleep(1)
         timeout += 1
