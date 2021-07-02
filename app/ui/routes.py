@@ -200,11 +200,9 @@ def post_dap_message(tx_id: str):
         for response in responses:
             if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
                 file_path = response.dap_message.attributes['gcs.key']
-                logger.info(response.dap_message.data)
                 dap_message = {
                     'body': response.dap_message.attributes['gcs.bucket'] + '/' + response.dap_message.attributes['gcs.key']
                 }
-                print(dap_message)
                 publish_dap_receipt(dap_message)
                 return file_path
         time.sleep(1)

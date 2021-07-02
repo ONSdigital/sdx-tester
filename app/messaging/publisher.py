@@ -42,13 +42,10 @@ def publish_dap_receipt(dap_message) -> None:
     Publishes dap receipt to PubSub Topic: "dap-receipt-topic". Kicking off the cleanup function
     """
     logger.info('Publishing to dap-receipt-topic')
-    print(type(dap_message))
-    print(dap_message)
+
     message_str = json.dumps(dap_message)
-    logger.info(message_str)
 
     b_message = message_str.encode('utf-8')
-    logger.info(b_message)
 
     future = publisher.publish(dap_receipt_topic_path, b_message)
     logger.info(future.result())
