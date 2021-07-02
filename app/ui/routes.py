@@ -199,8 +199,11 @@ def post_dap_message(tx_id: str):
         for response in responses:
             if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
                 file_path = response.dap_message.attributes['gcs.key']
+
+                message_dict = json.loads(response.dap_message.data.decode())
+
                 dap_message = {
-                    'body': response.dap_message.attributes['gcs.bucket'] + '/' + response.dap_message.attributes['gcs.key']
+                    'dataset': message_dict['dataset'] + '|' + file_path
                 }
                 publish_dap_receipt(dap_message)
                 return file_path
