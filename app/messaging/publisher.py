@@ -1,3 +1,5 @@
+import json
+
 import structlog
 
 from google.cloud import pubsub_v1
@@ -40,5 +42,10 @@ def publish_dap_receipt(dap_message) -> None:
     Publishes dap receipt to PubSub Topic: "dap-receipt-topic". Kicking off the cleanup function
     """
     logger.info('Publishing to dap-receipt-topic')
-    future = publisher.publish(dap_receipt_topic_path, dap_message)
+
+    message_str = json.dumps(dap_message)
+
+    b_message = message_str.encode('utf-8')
+
+    future = publisher.publish(dap_receipt_topic_path, b_message)
     logger.info(future.result())
