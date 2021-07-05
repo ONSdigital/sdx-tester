@@ -17,6 +17,8 @@ from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
 from app.survey_loader import read_ui
 from app.tester import run_survey, run_seft
+from comment_tests.helper_functions import cleanup_datastore
+from cleanup_tests.helper_functions import is_datastore_cleaned_up
 
 logger = structlog.get_logger()
 
@@ -74,6 +76,16 @@ def trigger_collate(data):
     except Exception as err:
         socketio.emit('Collate status', {'status': f'Collate failed to trigger: {err}'})
 
+
+@socketio.on('cleanup datastore')
+def trigger_cleanup_datastore():
+    try:
+        logger.info("Cleaning Datastore")
+        cleanup_datastore()
+        if is_datastore_cleaned_up:
+            socketio.emit('Datastore is clean')
+    except Exception as err:
+        logger.error("Datastore wasn't cleaned.")
 
 @app.post('/submit')
 def submit():
