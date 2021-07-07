@@ -6265,8 +6265,9 @@ input[type=file]::-webkit-file-upload-button:hover {
 }
 
 #collate {
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
-    margin-left: 20px;
 }
 
 #submit {

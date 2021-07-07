@@ -1,12 +1,16 @@
 import json
 import os
 import uuid
+import structlog
 
 from datetime import date, datetime, timedelta
 from cryptography.fernet import Fernet
 from google.cloud import datastore, storage, exceptions
 from comment_tests import surveys
+from app import socketio
 
+
+logger = structlog.get_logger()
 PROJECT_ID = os.getenv('PROJECT_ID')
 datastore_client = datastore.Client(project=PROJECT_ID)
 COMMENT_KEY = "E3rjFT2i9ALcvc99Pe3YqjIGrzm3LdMsCXc8nUaOEbc="
@@ -75,12 +79,15 @@ def cleanup_datastore():
             query = datastore_client.query(kind=kind)
             query.keys_only()
             keys = [entity.key for entity in query.fetch()]
+            logger.info("Cleaning datastore")
             datastore_client.delete_multi(keys)
-            print(f'successfully deleted {keys} from Datastore')
+            if not fetch_comment_kinds():
+                socketio.emit('Cleanup status', {'status': 'Datastore cleaned.'})
+                logger.info(f'successfully deleted {keys} from Datastore')
 
     except Exception as e:
         print(e)
-        print('Failed to delete item from Datastore')
+        logger.error('Failed to delete item from Datastore')
     return True
 
 

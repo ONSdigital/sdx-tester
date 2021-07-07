@@ -18,7 +18,6 @@ from app.store.reader import check_file_exists
 from app.survey_loader import read_ui
 from app.tester import run_survey, run_seft
 from comment_tests.helper_functions import cleanup_datastore
-from cleanup_tests.helper_functions import is_datastore_cleaned_up
 
 logger = structlog.get_logger()
 
@@ -80,12 +79,10 @@ def trigger_collate(data):
 @socketio.on('cleanup datastore')
 def trigger_cleanup_datastore():
     try:
-        logger.info("Cleaning Datastore")
+        logger.info("Starting to clean Datastore")
         cleanup_datastore()
-        if is_datastore_cleaned_up:
-            socketio.emit('Datastore is clean')
     except Exception as err:
-        logger.error("Datastore wasn't cleaned.")
+        logger.error(f"Datastore wasn't cleaned error: {err}")
 
 @app.post('/submit')
 def submit():

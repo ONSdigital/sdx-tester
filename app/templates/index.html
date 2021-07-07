@@ -55,7 +55,7 @@ Manual page refresh is not required to reflect the changes.
             {% endif %}
             </ul>
             <br>
-            <input id="submit" type="submit" value="Submit">
+            <input type="submit" id="submit"  value="Submit">
             <button type="button" id="collate" onclick="triggerCollate()">Trigger Collate</button>
             <button type="button" id="cleanup" onclick="triggerCleanupDatastore()">Cleanup Datastore</button>
 
@@ -108,6 +108,10 @@ Manual page refresh is not required to reflect the changes.
 
                 socket.on('Collate status', function(msg) {
                     document.getElementById('collate').disabled = false;
+                    alert("Status: " + msg.status);
+                });
+
+                socket.on('Cleanup status', function(msg){
                     alert("Status: " + msg.status);
                 });
 
