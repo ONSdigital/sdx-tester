@@ -8,6 +8,8 @@ from google.cloud import storage
 from app.store import OUTPUT_BUCKET_NAME, storage_client
 from app.gpg.decryption import decrypt_output
 from comment_tests.helper_functions import datastore_client
+from comment_tests.helper_functions import fetch_comment_kinds
+from app import socketio
 
 logger = structlog.get_logger()
 
@@ -96,3 +98,22 @@ def get_entity_count(kind: str) -> int:
     query = datastore_client.query(kind=kind)
     query.add_filter("created", "<", ninety_days_ago)
     return len(list(query.fetch()))
+
+
+def cleanup_datastore():
+    try:
+        kinds = fetch_comment_kinds()
+        for kind in kinds:
+            query = datastore_client.query(kind=kind)
+            query.keys_only()
+            keys = [entity.key for entity in query.fetch()]
+            logger.info("Cleaning datastore")
+            datastore_client.delete_multi(keys)
+            if not fetch_comment_kinds():
+                socketio.emit('Cleanup status', {'status': 'Datastore cleaned.'})
+                logger.info(f'successfully deleted {keys} from Datastore')
+
+    except Exception as e:
+        print(e)
+        logger.error('Failed to delete item from Datastore')
+    return True

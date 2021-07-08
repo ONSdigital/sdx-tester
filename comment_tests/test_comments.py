@@ -9,7 +9,8 @@ import time
 from datetime import datetime, date
 from app.store.reader import check_file_exists, get_comment_files
 from comment_tests import surveys
-from comment_tests.helper_functions import cleanup_datastore, bucket_cleanup, insert_comments
+from comment_tests.helper_functions import bucket_cleanup, insert_comments
+from app.store.reader import cleanup_datastore
 
 TIMEOUT = 150
 d = date.today()
