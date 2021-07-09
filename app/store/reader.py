@@ -8,8 +8,6 @@ from google.cloud import storage
 from app.store import OUTPUT_BUCKET_NAME, storage_client
 from app.gpg.decryption import decrypt_output
 from comment_tests.helper_functions import datastore_client
-from comment_tests.helper_functions import fetch_comment_kinds
-from app import socketio
 
 logger = structlog.get_logger()
 
@@ -110,10 +108,23 @@ def cleanup_datastore():
             logger.info("Cleaning datastore")
             datastore_client.delete_multi(keys)
             if not fetch_comment_kinds():
-                socketio.emit('Cleanup status', {'status': 'Datastore cleaned.'})
                 logger.info(f'successfully deleted {keys} from Datastore')
 
     except Exception as e:
         print(e)
         logger.error('Failed to delete item from Datastore')
     return True
+
+
+def fetch_comment_kinds() -> list:
+    """
+        Fetch a list of all comment kinds from datastore.
+        Each kind is represented by {survey_id}_{period}
+    """
+    try:
+        query = datastore_client.query(kind="__kind__")
+        query.keys_only()
+        return [entity.key.id_or_name for entity in query.fetch() if not entity.key.id_or_name.startswith("_")]
+    except Exception as e:
+        print(f'Datastore error fetching kinds: {e}')
+        raise e
