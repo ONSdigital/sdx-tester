@@ -1,7 +1,6 @@
 import json
 import os
 import uuid
-import structlog
 
 from datetime import date, datetime, timedelta
 from cryptography.fernet import Fernet
@@ -9,7 +8,6 @@ from google.cloud import datastore, storage, exceptions
 from comment_tests import surveys
 
 
-logger = structlog.get_logger()
 PROJECT_ID = os.getenv('PROJECT_ID')
 datastore_client = datastore.Client(project=PROJECT_ID)
 COMMENT_KEY = "E3rjFT2i9ALcvc99Pe3YqjIGrzm3LdMsCXc8nUaOEbc="
