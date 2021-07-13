@@ -7,6 +7,7 @@ from cryptography.fernet import Fernet
 from google.cloud import datastore, storage, exceptions
 from comment_tests import surveys
 
+
 PROJECT_ID = os.getenv('PROJECT_ID')
 datastore_client = datastore.Client(project=PROJECT_ID)
 COMMENT_KEY = "E3rjFT2i9ALcvc99Pe3YqjIGrzm3LdMsCXc8nUaOEbc="
@@ -66,36 +67,6 @@ def create_entity(survey_id, date_stored):
     )
     datastore_client.put(survey_entity)
     print(f'Successfully put {survey_id} into Datastore')
-
-
-def cleanup_datastore():
-    try:
-        kinds = fetch_comment_kinds()
-        for kind in kinds:
-            query = datastore_client.query(kind=kind)
-            query.keys_only()
-            keys = [entity.key for entity in query.fetch()]
-            datastore_client.delete_multi(keys)
-            print(f'successfully deleted {keys} from Datastore')
-
-    except Exception as e:
-        print(e)
-        print('Failed to delete item from Datastore')
-    return True
-
-
-def fetch_comment_kinds() -> list:
-    """
-        Fetch a list of all comment kinds from datastore.
-        Each kind is represented by {survey_id}_{period}
-    """
-    try:
-        query = datastore_client.query(kind="__kind__")
-        query.keys_only()
-        return [entity.key.id_or_name for entity in query.fetch() if not entity.key.id_or_name.startswith("_")]
-    except Exception as e:
-        print(f'Datastore error fetching kinds: {e}')
-        raise e
 
 
 def bucket_cleanup():

@@ -96,3 +96,35 @@ def get_entity_count(kind: str) -> int:
     query = datastore_client.query(kind=kind)
     query.add_filter("created", "<", ninety_days_ago)
     return len(list(query.fetch()))
+
+
+def cleanup_datastore():
+    try:
+        kinds = fetch_comment_kinds()
+        for kind in kinds:
+            query = datastore_client.query(kind=kind)
+            query.keys_only()
+            keys = [entity.key for entity in query.fetch()]
+            logger.info("Cleaning datastore")
+            datastore_client.delete_multi(keys)
+            if not fetch_comment_kinds():
+                logger.info(f'successfully deleted {keys} from Datastore')
+
+    except Exception as e:
+        print(e)
+        logger.error('Failed to delete item from Datastore')
+    return True
+
+
+def fetch_comment_kinds() -> list:
+    """
+        Fetch a list of all comment kinds from datastore.
+        Each kind is represented by {survey_id}_{period}
+    """
+    try:
+        query = datastore_client.query(kind="__kind__")
+        query.keys_only()
+        return [entity.key.id_or_name for entity in query.fetch() if not entity.key.id_or_name.startswith("_")]
+    except Exception as e:
+        print(f'Datastore error fetching kinds: {e}')
+        raise e
