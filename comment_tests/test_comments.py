@@ -14,7 +14,7 @@ from app.store.reader import cleanup_datastore
 
 TIMEOUT = 150
 d = date.today()
-FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}_GCP.zip'
+FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}.zip'
 
 
 class TestComments(unittest.TestCase):
