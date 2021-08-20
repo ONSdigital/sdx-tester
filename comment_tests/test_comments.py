@@ -32,7 +32,7 @@ class TestComments(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        files = glob.glob('temp_files/*.xls')
+        files = glob.glob('temp_files/*.xlsx')
         for f in files:
             os.remove(f)
         os.system('kubectl delete job test-collate')
@@ -40,12 +40,12 @@ class TestComments(unittest.TestCase):
     def test_all(self):
         for x in surveys:
             with self.subTest(msg=f'Testing survey: {x}', survey=x):
-                result = pandas.read_excel(f'temp_files/{x}_201605.xls')
+                result = pandas.read_excel(f'temp_files/{x}_201605.xlsx')
                 self.assertEqual(result.iat[1, 3], f'I am a {x} comment')
                 self.assertEqual(int(result.iat[1, 1]), 201605)
 
     def test_create_zip_verify_134(self):
-        result = pandas.read_excel('temp_files/134_201605.xls')
+        result = pandas.read_excel('temp_files/134_201605.xlsx')
 
         self.assertEqual(result.iat[1, 2], '91w, 95w, 96w, 97w, 91f, 95f, 96f, 97f, 191m, 195m, 196m, 197m, 191w4, '
                                            '195w4, 196w4, 197w4, 191w5, 195w5, 196w5, 197w5, ')
