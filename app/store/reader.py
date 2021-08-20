@@ -17,7 +17,7 @@ def get_files(file_path) -> dict:
     For survey submissions, intended for the legacy system, SDX transforms them into several different files
     which are zipped up together and then encrypted.
 
-    Comments are extracted from the survey submissions and batched up into xls files and zipped up every morning.
+    Comments are extracted from the survey submissions and batched up into xlsx files and zipped up every morning.
     The output is encrypted zip files.
 
     This function reads those encrypted zip, decrypts the output and extracts the zip for survey submissions and
