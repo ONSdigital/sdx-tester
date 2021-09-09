@@ -66,10 +66,23 @@ def extract_zip(zip_bytes: bytes) -> dict:
     return files
 
 
-def get_comment_files(file_path) -> bytes:
-    encrypted_zip = read(file_path, OUTPUT_BUCKET_NAME)
+def get_comment_files() -> bytes:
+    bucket = storage_client.bucket(OUTPUT_BUCKET_NAME)
+    files = bucket.list_blobs(prefix='comments')
+    file_list = [(file.name, file.time_created) for file in files]
+    file_list = sorted(file_list, key=lambda f: f[1], reverse=True)
+    print(file_list)
+    latest_filename = file_list[0][0]
+    encrypted_zip = read(latest_filename, OUTPUT_BUCKET_NAME)
     zip_bytes = decrypt_output(encrypted_zip, 'comments')
     return zip_bytes
+
+
+def does_comment_exist() -> bool:
+    bucket = storage_client.bucket(OUTPUT_BUCKET_NAME)
+    files = bucket.list_blobs(prefix='comments')
+    file_list = [file.name for file in files]
+    return len(file_list) > 0
 
 
 def check_file_exists(file_name, bucket=OUTPUT_BUCKET_NAME) -> bool:
