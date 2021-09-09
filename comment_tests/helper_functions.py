@@ -29,7 +29,8 @@ def insert_comments():
     for survey_id in surveys:
         create_entity(survey_id, yesterday)
 
-    survey_134 = datastore.Entity(datastore_client.key("134_201605", str(uuid.uuid4())))
+    survey_134 = datastore.Entity(datastore_client.key("134_201605", str(uuid.uuid4())),
+                                  exclude_from_indexes=("encrypted_data",))
 
     survey_134.update(
         {
@@ -52,7 +53,8 @@ def insert_comments():
 
 
 def create_entity(survey_id, date_stored):
-    survey_entity = datastore.Entity(datastore_client.key(f"{survey_id}_201605", str(uuid.uuid4())))
+    survey_entity = datastore.Entity(datastore_client.key(f"{survey_id}_201605",
+                                                          str(uuid.uuid4())), exclude_from_indexes=("encrypted_data",))
 
     survey_entity.update(
         {

@@ -6,15 +6,14 @@ import glob
 import pandas
 import time
 
-from datetime import datetime, date
-from app.store.reader import check_file_exists, get_comment_files
+from datetime import date
+from app.store.reader import get_comment_files, does_comment_exist
 from comment_tests import surveys
 from comment_tests.helper_functions import bucket_cleanup, insert_comments
 from app.store.reader import cleanup_datastore
 
 TIMEOUT = 150
 d = date.today()
-FILE_PATH = f'comments/{datetime(d.year, d.month, d.day).date()}.zip'
 
 
 class TestComments(unittest.TestCase):
@@ -26,7 +25,7 @@ class TestComments(unittest.TestCase):
         insert_comments()
         os.system('kubectl create job --from=cronjob/sdx-collate test-collate')
         wait_for_comments()
-        result = get_comment_files(FILE_PATH)
+        result = get_comment_files()
         z = zipfile.ZipFile(io.BytesIO(result), "r")
         z.extractall('temp_files')
 
@@ -60,7 +59,7 @@ class TestComments(unittest.TestCase):
 
 def wait_for_comments():
     count = 0
-    while not check_file_exists(FILE_PATH) and count < TIMEOUT:
+    while not does_comment_exist() and count < TIMEOUT:
         print('SDX-Collate waiting for resources. Waiting 20 seconds...')
         time.sleep(20)
         count += 20
