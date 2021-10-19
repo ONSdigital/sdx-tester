@@ -9,12 +9,15 @@ def comment_filename():
 
 test_data = {
     'survey': f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup_function-survey',
-    'survey-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup_function-survey',
     'seft': f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup_function-seft.xlsx.gpg',
-    'seft-input': f'{INPUT_SEFT_BUCKET}/seft/testing_cleanup_function-seft.xlsx.gpg',
     'dap': f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup_function-dap',
-    'dap-input': f'{INPUT_SURVEY_BUCKET}/dap/testing_cleanup_function-dap',
     'comment': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip'
+}
+
+extra_input = {
+    'survey-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup_function-survey',
+    'seft-input': f'{INPUT_SEFT_BUCKET}/testing_cleanup_function-seft.xlsx.gpg',
+    'dap-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup_function-dap'
 }
 
 fake_surveys = ['001', '002', '003', '004', '005']

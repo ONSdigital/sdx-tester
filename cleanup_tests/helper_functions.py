@@ -1,10 +1,9 @@
-import json
 from datetime import datetime, date, timedelta
 
 from app.messaging.publisher import publish_dap_receipt
 from app.store import writer
 from app.store.reader import check_file_exists, get_entity_count
-from cleanup_tests import fake_surveys
+from cleanup_tests import fake_surveys, extra_input
 from cleanup_tests import test_data
 from comment_tests.helper_functions import create_entity
 
@@ -20,13 +19,17 @@ def setup_output_bucket():
     Upload data to buckets in ons-sdx-{{project_id}}
     """
     for data, filename in test_data.items():
-        bucket = filename.split('/', 1)[0]
-        if data == "seft-input":
-            filename = filename.split('/')[2]
-        else:
-            filename = filename.split('/', 1)[1]
-        writer.write(data, filename, bucket)
-        print(f'Successfully put data in {bucket}/{filename}')
+        write_to_bucket(data, filename)
+
+    for data, filename in extra_input.items():
+        write_to_bucket(data, filename)
+
+
+def write_to_bucket(data, filename):
+    bucket = filename.split('/', 1)[0]
+    filename = filename.split('/', 1)[1]
+    writer.write(data, filename, bucket)
+    print(f'Successfully put data in {bucket}/{filename}')
 
 
 def setup_comments():
@@ -44,7 +47,6 @@ def kickoff_cleanup_outputs():
     """
     Publishes a PuSub message for each element placed within the bucket.
     """
-    test_data.pop('seft-input')
     for data, filename in test_data.items():
         dap_message = {'dataset': f"009|{filename.split('/', 1)[1]}"}
         publish_dap_receipt(dap_message)
