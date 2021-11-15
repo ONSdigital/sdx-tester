@@ -1,11 +1,11 @@
 import json
 
 from app.gpg.encryption import encrypt_seft
-from app.store import reader
+from app.store import reader, PROJECT_ID
 from app.jwt.encryption import encrypt_survey
 from app.messaging.manager import MessageManager
 from app.result import Result
-from app.store.writer import write_seft
+from app.store.writer import write_seft, write
 
 
 def run_survey(message_manager: MessageManager, survey_dict: dict, write_to_bucket: bool = False) -> Result:
@@ -15,14 +15,14 @@ def run_survey(message_manager: MessageManager, survey_dict: dict, write_to_buck
     :param bool write_to_bucket: Should this survey be written to bucket or published on pubusb (False = published)
     """
     encrypted_survey = encrypt_survey(survey_dict)
-    result = Result(survey_dict['tx_id'])
+    tx_id = survey_dict['tx_id']
+    result = Result(tx_id)
     requires_receipt = "feedback" not in survey_dict['type']
     requires_publish = not write_to_bucket
     result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=requires_publish)
 
     if write_to_bucket:
-        # TODO write to bucket
-        pass
+        write(encrypted_survey, tx_id, PROJECT_ID)
 
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
