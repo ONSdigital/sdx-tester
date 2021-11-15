@@ -68,7 +68,7 @@ class MessageManager(SubmitManager):
 
         logger.info("Ready")
 
-    def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False, publish_data: bool = True):
+    def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False, requires_publish: bool = True):
         logger.info("Calling submit")
         tx_id = result.get_tx_id()
         listener = Listener()
@@ -87,7 +87,7 @@ class MessageManager(SubmitManager):
             self.quarantine_listener.add_listener(tx_id, q_listener)
 
         try:
-            if publish_data:
+            if requires_publish:
                 logger.info("Publishing data", tx_id=tx_id)
                 if is_seft:
                     publish_seft(data, tx_id)
