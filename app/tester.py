@@ -8,14 +8,22 @@ from app.result import Result
 from app.store.writer import write_seft
 
 
-def run_survey(message_manager: MessageManager, survey_dict: dict) -> Result:
+def run_survey(message_manager: MessageManager, survey_dict: dict, write_to_bucket: bool = False) -> Result:
     """
     This function puts the encrypted outputs (comments, survey,dap and feedback) in the GCP outputs bucket '{PROJECT_ID}-outputs'
+
+    :param bool write_to_bucket: Should this survey be written to bucket or published on pubusb (False = published)
     """
     encrypted_survey = encrypt_survey(survey_dict)
     result = Result(survey_dict['tx_id'])
     requires_receipt = "feedback" not in survey_dict['type']
-    result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt)
+    requires_publish = not write_to_bucket
+    result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=requires_publish)
+
+    if write_to_bucket:
+        # TODO write to bucket
+        pass
+
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
         # Changes to file path as Nifi can't handle the earlier form

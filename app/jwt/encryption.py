@@ -11,7 +11,7 @@ from app.jwt import KEY_PURPOSE_SUBMISSION
 logger = structlog.get_logger()
 
 
-def encrypt_survey(submission: dict) -> str:
+def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
     """
     Encrypts survey submission using a public key.
 
@@ -22,6 +22,7 @@ def encrypt_survey(submission: dict) -> str:
     """
     key1 = open("test_sdx-public-jwt.yaml")
     key2 = open("test_eq-private-signing.yaml")
+
     key_store = load_keys(key1, key2)
     payload = encrypt(submission, key_store, 'submission')
     key1.close()
