@@ -1,4 +1,4 @@
-from app import app, socketio, start
+from app import app, start
 
 sdx_tester = """
   ____  ______  __   _____         _            
@@ -15,4 +15,4 @@ if __name__ == '__main__':
     app.secret_key = '12345'  # This is required for python flash cards
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     print(sdx_tester)
-    socketio.run(app, host='0.0.0.0', port=5000, use_reloader=True)
+    app.run(host='0.0.0.0', port=5000)
