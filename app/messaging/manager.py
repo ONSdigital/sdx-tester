@@ -22,7 +22,7 @@ class SubmitManager:
     def stop(self):
         pass
 
-    def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False):
+    def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False, requires_publish: bool = True):
         tx_id = result.get_tx_id()
         logger.info(f"requires receipt: {requires_receipt}")
         logger.info("Publishing data", tx_id=tx_id)
