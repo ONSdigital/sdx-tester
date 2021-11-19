@@ -59,6 +59,6 @@ class TestSurveys(unittest.TestCase):
         survey = survey_loader.get_feedback()
         self.execute(survey, receipt=False, multiple_files=False)
 
-    def test_eq_v3(self):
-        survey = survey_loader.get_eq_v3_survey()
-        self.execute(survey, receipt=False, multiple_files=False, eq_version_3=True)
+    # def test_eq_v3(self):
+    #     survey = survey_loader.get_eq_v3_survey()
+    #     self.execute(survey, receipt=False, multiple_files=False, eq_version_3=True)
