@@ -29,7 +29,11 @@ def read_all() -> dict:
 
 
 def get_survey() -> dict:
-    return _read_survey_type("survey")
+    return _read_survey_type("survey/eq_v2")
+
+
+def get_eq_v3_survey() -> dict:
+    return _read_survey_type("survey/eq_v3")
 
 
 def get_dap() -> dict:

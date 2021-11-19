@@ -1,0 +1,22 @@
+keyid: 9a102d7c7f960074782b3dee6fd1d5655c741015
+platform: sdc
+purpose: submission
+service: eq
+type: public
+use: signing
+value: |
+  -----BEGIN PUBLIC KEY-----
+  MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA5YkAMpOFALt/QJKZIW/N
+  pS+t6eD6yxNsedyjSFgDv0UWtFT45tRZw9ILTPeOXmJVxEOnXKiwCvwKSH7GOiDa
+  R3caPEu9DVIpSq/GIuul3TYjsXv5BlTwwFumXmwVmSjj/T+o840joIrc/VNOJGfc
+  vQRkBWpl/jTEPgoxTRB8O5G6TYSn6dayAyTwS/++9pKjpqXU/WNPTx7Bz7ishovZ
+  uGsD1EPoNrulMtHylWg1nRyB36sY3uNqlnDH/Gwnq4AtKubwf32wq8Rcj0FMZi/Q
+  bRaQNd5WPefgU5P5z7cLegu/rLgcONxu9sL/N1wcUyeAKh9pJPCGBvsADK35YXPC
+  p59pVdiWYoTogZsvRGFP7Y11wm8iSTupEN9ecHANDvjt3IzV52wq+RPmBfAvkhNU
+  fWMw+SuVmPJfy3urZtVecM2/XRE0NG9ENOMbGDQqavF9QELs/Gvfjs4pmaTcuxwO
+  0Ema0Q5ffDBzY75ilkBRy9aZBq7daugq3pa9XDGjSQFX98m3ErXV8VcpGNcevfzX
+  BBS7eM+rTgry5aveyeRtwMtTtY9FA/8M2BXj/aRIgOOoJqkjWMSZNPnSXqsupqX5
+  z9X9puZoLrwn7oSHoXlJkQ5M8H/NjHMt+CebNz0ibUzSfgm23uv8l9iNUhjHST27
+  FTmvnZb5rTgethqPjNSbbicCAwEAAQ==
+  -----END PUBLIC KEY-----
+version: v4
