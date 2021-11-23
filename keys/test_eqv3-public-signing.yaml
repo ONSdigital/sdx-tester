@@ -1,4 +1,4 @@
-keyid: 9a102d7c7f960074782b3dee6fd1d5655c741015
+keyid: ec3a4b78037b26281d3fa6fd1c9908ae1001e68d
 platform: sdc
 purpose: submission
 service: eq
@@ -6,17 +6,17 @@ type: public
 use: signing
 value: |
   -----BEGIN PUBLIC KEY-----
-  MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA5YkAMpOFALt/QJKZIW/N
-  pS+t6eD6yxNsedyjSFgDv0UWtFT45tRZw9ILTPeOXmJVxEOnXKiwCvwKSH7GOiDa
-  R3caPEu9DVIpSq/GIuul3TYjsXv5BlTwwFumXmwVmSjj/T+o840joIrc/VNOJGfc
-  vQRkBWpl/jTEPgoxTRB8O5G6TYSn6dayAyTwS/++9pKjpqXU/WNPTx7Bz7ishovZ
-  uGsD1EPoNrulMtHylWg1nRyB36sY3uNqlnDH/Gwnq4AtKubwf32wq8Rcj0FMZi/Q
-  bRaQNd5WPefgU5P5z7cLegu/rLgcONxu9sL/N1wcUyeAKh9pJPCGBvsADK35YXPC
-  p59pVdiWYoTogZsvRGFP7Y11wm8iSTupEN9ecHANDvjt3IzV52wq+RPmBfAvkhNU
-  fWMw+SuVmPJfy3urZtVecM2/XRE0NG9ENOMbGDQqavF9QELs/Gvfjs4pmaTcuxwO
-  0Ema0Q5ffDBzY75ilkBRy9aZBq7daugq3pa9XDGjSQFX98m3ErXV8VcpGNcevfzX
-  BBS7eM+rTgry5aveyeRtwMtTtY9FA/8M2BXj/aRIgOOoJqkjWMSZNPnSXqsupqX5
-  z9X9puZoLrwn7oSHoXlJkQ5M8H/NjHMt+CebNz0ibUzSfgm23uv8l9iNUhjHST27
-  FTmvnZb5rTgethqPjNSbbicCAwEAAQ==
+  MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAv7XqYad3F2QxzctMsthb
+  uVs67JEGYxzH21pjsaELu/3Sx4HjLwvUoCWvOj7Z+krwhlE17LHBMdvvJi2InRXl
+  j7dsSsqWb9VJxRN+CB6inZRj8jKVDhMMvXnhlgxd3RwXI7fjs4yWYPOyotS+ScnD
+  hKXIMmcbcRIpiyYe9sTsXj/qmoWPHulkqnS7HkqF2yfs6gQS8oUCK9I7nkzdX7cb
+  DjJGVKw4BC7sTIcg/JfhaN8qXDAFmHmuHGCCAhc0lgGh93r8rkblMpP4lma2NRLj
+  bNaTfWY+pVYMWYzqiKTQ3TNEf3zaX9K65a7WJ89L/kMWqlgg/D6XyfdEpCsIzFED
+  +dsm4DQM4uKgjEPSq04lrwls+HZHoWQpXQu6MqkARmxxHc1dkaOlsGy7QRsV1vBm
+  FtTDlu207y39GRGOpguDlYS9lepndPuRHIWJK8/wC8jhewcUy6ihV7wBaeOMF9Pv
+  JRZGyplVq6314+irWLunxgEDsIqMGxXxKYRm9mYI5HRPJfhZAtYzRRpjzPwX2vTw
+  IItBb2eCCzaAGqAaCr/ljNFsdLMQwbLN2RrpbffuvLJrMRhJ3CRh+dFxEU4J1LF+
+  QcSe+hQOpIjG78vL1b0sG8sfEQeO3CxA2AWtI+eXBtJNOVdwKf9YlJiUg7BQ438Z
+  bnctYsuPgn5Es5+0x8a4eF0CAwEAAQ==
   -----END PUBLIC KEY-----
-version: v4
+version: v2

@@ -1,28 +1,31 @@
 import json
 
 from app.gpg.encryption import encrypt_seft
-from app.store import reader, PROJECT_ID
+from app.store import reader, INPUT_SURVEY_BUCKET
 from app.jwt.encryption import encrypt_survey
 from app.messaging.manager import MessageManager
 from app.result import Result
 from app.store.writer import write_seft, write
 
 
-def run_survey(message_manager: MessageManager, survey_dict: dict, write_to_bucket: bool = False) -> Result:
+def run_survey(message_manager: MessageManager, survey_dict: dict, eq_v3: bool = False) -> Result:
     """
     This function puts the encrypted outputs (comments, survey,dap and feedback) in the GCP outputs bucket '{PROJECT_ID}-outputs'
 
-    :param bool write_to_bucket: Should this survey be written to bucket or published on pubusb (False = published)
+    :param bool eq_v3: Should this survey be run as if its from Eq_v3 (Written directly to bucket) or Eq_v2 (Pubsub) - True = Eq_v3
     """
-    encrypted_survey = encrypt_survey(survey_dict)
+    encrypted_survey = encrypt_survey(survey_dict, eq_v3)
     tx_id = survey_dict['tx_id']
+
+    if eq_v3:
+        # Writing to a bucket instead of posting on queue
+        write(encrypted_survey, tx_id, INPUT_SURVEY_BUCKET)
+
     result = Result(tx_id)
     requires_receipt = "feedback" not in survey_dict['type']
-    requires_publish = not write_to_bucket
+    # Should the data be published to pubsub?
+    requires_publish = not eq_v3
     result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=requires_publish)
-
-    if write_to_bucket:
-        write(encrypted_survey, tx_id, PROJECT_ID)
 
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
