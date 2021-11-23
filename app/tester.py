@@ -12,7 +12,7 @@ def run_survey(message_manager: MessageManager, survey_dict: dict, eq_v3: bool =
     """
     This function puts the encrypted outputs (comments, survey,dap and feedback) in the GCP outputs bucket '{PROJECT_ID}-outputs'
 
-    :param bool eq_v3: Should this survey be written to bucket or published on pubusb (False = published)
+    :param bool eq_v3: Should this survey be run as if its from Eq_v3 (Written directly to bucket) or Eq_v2 (Pubsub) - True = Eq_v3
     """
     encrypted_survey = encrypt_survey(survey_dict, eq_v3)
     tx_id = survey_dict['tx_id']
@@ -23,6 +23,7 @@ def run_survey(message_manager: MessageManager, survey_dict: dict, eq_v3: bool =
 
     result = Result(tx_id)
     requires_receipt = "feedback" not in survey_dict['type']
+    # Should the data be published to pubsub?
     requires_publish = not eq_v3
     result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=requires_publish)
 
