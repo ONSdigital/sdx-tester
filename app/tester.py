@@ -16,14 +16,15 @@ def run_survey(message_manager: MessageManager, survey_dict: dict, eq_v3: bool =
     """
     encrypted_survey = encrypt_survey(survey_dict, eq_v3)
     tx_id = survey_dict['tx_id']
-    result = Result(tx_id)
-    requires_receipt = "feedback" not in survey_dict['type']
-    requires_publish = not eq_v3
-    result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=requires_publish)
 
     if eq_v3:
         # Writing to a bucket instead of posting on queue
         write(encrypted_survey, tx_id, INPUT_SURVEY_BUCKET)
+
+    result = Result(tx_id)
+    requires_receipt = "feedback" not in survey_dict['type']
+    requires_publish = not eq_v3
+    result = message_manager.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=requires_publish)
 
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
