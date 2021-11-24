@@ -1,10 +1,11 @@
+import copy
 from datetime import datetime, date, timedelta
 
 from app.messaging.publisher import publish_dap_receipt
 from app.store import writer
 from app.store.reader import check_file_exists, get_entity_count
-from cleanup_tests import fake_surveys, extra_input
-from cleanup_tests import test_data
+from cleanup_tests import fake_surveys, input_files, dap_response
+from cleanup_tests import output_files
 from comment_tests.helper_functions import create_entity
 
 """
@@ -18,10 +19,10 @@ def setup_output_bucket():
     """
     Upload data to buckets in ons-sdx-{{project_id}}
     """
-    for data, filename in test_data.items():
+    for data, filename in output_files.items():
         write_to_bucket(data, filename)
 
-    for data, filename in extra_input.items():
+    for data, filename in input_files.items():
         write_to_bucket(data, filename)
 
 
@@ -47,16 +48,45 @@ def kickoff_cleanup_outputs():
     """
     Publishes a PuSub message for each element placed within the bucket.
     """
-    for data, filename in test_data.items():
-        dap_message = {'dataset': f"009|{filename.split('/', 1)[1]}"}
+    for data, filename in output_files.items():
+        dap_message = copy.deepcopy(dap_response)
+        dap_message['dataset'] = f"001|{filename.split('/', 1)[1]}"
         publish_dap_receipt(dap_message)
 
 
-def is_bucket_empty() -> bool:
-    for data, filename in test_data.items():
+def have_files_been_deleted() -> bool:
+    """
+    Checks to see if all of the input and output files have been deleted from their respective buckets
+    :return: True if they have been deleted, False otherwise.
+    """
+    deleted_outputs = are_deleted(output_files)
+    if not deleted_outputs:
+        return False
+
+    deleted_inputs = are_deleted(input_files)
+    if not deleted_inputs:
+        return False
+
+    return True
+
+
+def are_deleted(files: dict) -> bool:
+    """
+    Have these files been deleted from the bucket
+
+    :files: A dictionary of filenames to check. The filename must include the bucket and path.
+    :return: True if they have been deleted, False otherwise.
+    """
+    for data, filename in files.items():
         bucket = filename.split('/', 1)[0]
         file_path = filename.split('/', 1)[1]
-        return not check_file_exists(file_path, bucket)
+        exists = check_file_exists(file_path, bucket)
+        if exists:
+            return False
+        else:
+            print(f"{filename} has been deleted")
+
+    return True
 
 
 def is_datastore_cleaned_up() -> bool:
