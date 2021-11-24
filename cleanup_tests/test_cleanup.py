@@ -1,7 +1,7 @@
 import unittest
 import time
 from cleanup_tests.helper_functions import setup_output_bucket, setup_comments, kickoff_cleanup_outputs, \
-    is_bucket_empty, is_datastore_cleaned_up
+    have_files_been_deleted, is_datastore_cleaned_up
 
 TIMEOUT = 150
 
@@ -21,11 +21,12 @@ class TestCleanup(unittest.TestCase):
         count = 0
         passed = False
         while count < TIMEOUT:
-            if is_bucket_empty():
+            if have_files_been_deleted():
+                print('All files have been deleted')
                 passed = True
                 break
             else:
-                print('The bucket is not empty yet. Waiting 10 seconds...')
+                print('The files have not yet been deleted. Waiting 10 seconds...')
                 time.sleep(10)
                 count += 10
         self.assertTrue(passed)
@@ -35,10 +36,11 @@ class TestCleanup(unittest.TestCase):
         passed = False
         while count < TIMEOUT:
             if is_datastore_cleaned_up():
+                print('The comments have been deleted')
                 passed = True
                 break
             else:
-                print(' The comments are not deleted yet. Waiting 10 seconds...')
+                print('The comments are not deleted yet. Waiting 10 seconds...')
                 time.sleep(10)
                 count += 10
         self.assertTrue(passed)
