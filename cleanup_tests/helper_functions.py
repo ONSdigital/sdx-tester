@@ -55,6 +55,10 @@ def kickoff_cleanup_outputs():
 
 
 def have_files_been_deleted() -> bool:
+    """
+    Checks to see if all of the input and output files have been deleted from their respective buckets
+    :return: True if they have been deleted, False otherwise.
+    """
     deleted_outputs = are_deleted(output_files)
     if not deleted_outputs:
         return False
@@ -67,6 +71,12 @@ def have_files_been_deleted() -> bool:
 
 
 def are_deleted(files: dict) -> bool:
+    """
+    Have these files been deleted from the bucket
+
+    :files: A dictionary of filenames to check. The filename must include the bucket and path.
+    :return: True if they have been deleted, False otherwise.
+    """
     for data, filename in files.items():
         bucket = filename.split('/', 1)[0]
         file_path = filename.split('/', 1)[1]
