@@ -1,5 +1,8 @@
 # sdx-tester
 
+
+![Version](https://img.shields.io/badge/dynamic/yaml?label=App%20Version&query=%24.appVersion&url=https%3A%2F%2Fraw.githubusercontent.com%2FONSdigital%2Fsdx-tester%2Fmain%2F_helm%2Fsdx-tester%2FChart.yaml) ![GitHub pull requests](https://img.shields.io/github/issues-pr/ONSDigital/sdx-tester) ![Flask Version](https://img.shields.io/github/pipenv/locked/dependency-version/ONSdigital/sdx-tester/flask)
+
 The tester application mimics SDX's interaction with RASRM, EQ and DAP, allowing all the major functionality 
 that the SDX project provides to be tested. It is made up of an interactive front-end, unittests and Integration tests.
 
