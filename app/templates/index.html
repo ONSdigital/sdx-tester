@@ -32,7 +32,7 @@ Manual page refresh is not required to reflect the changes.
                             {% if 'seft' in key %}
                                 <option value = "{{ values[0].get_seft_metadata() | pretty_print }}">{{ key }}</option>
                             {% else %}
-                                <option sid="{{key}}" value= "{{ values[0] | pretty_print }}">{{ key }}</option>
+                                <option sid="{{key}}" value= "{{ values[0] | pretty_print }}">{{ key }} {{ " - ({})".format(values|length) if values|length > 1 }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
