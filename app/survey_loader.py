@@ -9,10 +9,11 @@ def read_ui() -> dict:
     Returns a dict of each type with one survey per survey id
     """
     sorted_surveys = {}
-    result = {k: v[0] for k, v in read_all().items()}
-    for key in sorted(result.keys()):
-        sorted_surveys[key] = result[key]
-    return sorted_surveys
+    return read_all()
+    # result = {k: v[0] for k, v in read_all().items()}
+    # for key in sorted(result.keys()):
+    #     sorted_surveys[key] = result[key]
+    # return sorted_surveys
 
 
 def read_all() -> dict:

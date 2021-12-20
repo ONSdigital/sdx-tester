@@ -29,9 +29,10 @@ responses = []
 @app.get('/index')
 def index():
     test_data = read_ui()
+    json_dict = {key:val for key, val in test_data.items() if "seft" not in key}
     return render_template('index.html',
                            surveys=test_data,
-                           number='-- Choose a Survey_ID --',
+                           json_dict = json_dict,
                            submissions=submissions)
 
 
