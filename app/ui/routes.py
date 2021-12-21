@@ -15,7 +15,7 @@ from app import message_manager
 from app.messaging.publisher import publish_dap_receipt
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
-from app.survey_loader import read_ui
+from app.survey_loader import get_json_surveys, read_ui
 from app.tester import run_survey, run_seft
 from app.store.reader import cleanup_datastore
 
@@ -28,11 +28,8 @@ responses = []
 @app.get('/')
 @app.get('/index')
 def index():
-    test_data = read_ui()
-    json_dict = {key:val for key, val in test_data.items() if "seft" not in key}
     return render_template('index.html',
-                           surveys=test_data,
-                           json_dict = json_dict,
+                           survey_dict = get_json_surveys(),
                            submissions=submissions)
 
 
@@ -112,8 +109,8 @@ def submit():
     threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
 
     return render_template('index.html',
-                           surveys=surveys,
                            submissions=submissions[:15],
+                           survey_dict = get_json_surveys(),
                            current_survey=current_survey,
                            number=survey_id)
 

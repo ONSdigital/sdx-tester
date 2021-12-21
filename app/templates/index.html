@@ -28,12 +28,8 @@ Manual page refresh is not required to reflect the changes.
                     <select  name="surveys_names" id="survey_names">
                         <option selected="selected" disabled="disabled">Please select a survey</option>
                         <!--Display each survey ID-->
-                        {% for key, values in surveys.items() %}
-                            {% if 'seft' in key %}
-                                <option value = "{{ values[0].get_seft_metadata() | pretty_print }}">{{ key }}</option>
-                            {% else %}
-                                <option sid="{{key}}" value= "{{ values[0] | pretty_print }}">{{ key }} {{ " - ({})".format(values|length) if values|length > 1 }}</option>
-                            {% endif %}
+                        {% for key, values in survey_dict.items() %}
+                            <option sid="{{key}}">{{ key }} {{ " - ({})".format(values|length) if values|length > 1 }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -66,38 +62,33 @@ Manual page refresh is not required to reflect the changes.
             <input type="submit" id="submit"  value="Submit">
             <button type="button" id="collate" onclick="triggerCollate()">Trigger Collate</button>
             <button type="button" id="cleanup" onclick="triggerCleanupDatastore()">Cleanup Datastore</button>
-  
         </form>
         <script type="text/javascript">
 
+            // Globals
             var socket = io.connect('http://' + document.domain + ':' + location.port);
-            var survey_dict = {{ json_dict|tojson|safe }};
+            var survey_dict = {{ survey_dict|tojson|safe }};
 
+            /**
+             * Will insert a survey into the
+             * textbox on screen
+             * @param  sid   The survey ID (key to dict)
+             * @param  index The index of the form (default is 0) - i.e just the first form
+             */
+            function load_survey_into_textbox(sid,index=0){
+                form = survey_dict[sid][index];
+                $("#post-data").val(JSON.stringify(form,null,4));
+            }
 
-            // When the select changes
-            // document.getElementById("survey_names").addEventListener('change', function(event) {
-            //     // Fill the text box with the data in the dropdown
-            //     document.getElementById("post-data").value = event.target.value;
-            //     // Populate the second dropdown
-            //     console.log(event)
-            //     if (event.target.hasAttribute("sid")){
-            //         survey_id = event.target.getAttribute("sid");
-            //         data = survey_dict[survey_id];
-            //         console.log(data)
-            //     }else{
-            //         console.log("THIS OPTION DOES NOT HAVE SID")
-            //     }
-                
-            // });
-
-            // When the select changes
+            // When the main select box changes
             $('#survey_names').change(function() {
-
-                // Fill the text box with the data in the dropdown
-                $("#post-data").val($(this).val());
 
                 //Get the survey id for the selected option
                 var sid = $('option:selected', this).attr('sid');
+
+                // Fill the text box with the data in the dropdown
+                load_survey_into_textbox(sid)
+
 
                 // Ensure the selection is disabled & hidden
                 $('#extra_surveys').prop('disabled', 'disabled');
@@ -108,17 +99,15 @@ Manual page refresh is not required to reflect the changes.
 
                 //Check the SID is valid
                 if (typeof sid !== 'undefined'){
-                    console.log(survey_dict[sid])
+                    // Get the list of forms associated with this survey
                     var extra_surveys = survey_dict[sid]
-                    //Only show the option if there is more than 1
+                    // Only show the option if there is more than 1 form
                     if (extra_surveys.length > 1){
-                        console.log("Ready to enable")
-
+                        // Show the second dropdown
                         $('#extra_surveys').show();
                         //Populate the dropdown
                         $.each(extra_surveys, function(key,value){
-                            case_id = value["case_id"]
-                            $('#extra_surveys_content').append($("<option></option>").attr("value", JSON.stringify(value,null,4)).text(case_id));
+                            $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(sid+": "+key));
                         });
 
                         // Enable the dropdown
@@ -131,8 +120,11 @@ Manual page refresh is not required to reflect the changes.
             // When the second select changes
             $('#extra_surveys').change(function() {
 
+                //Get the survey id for the selected option
+                var sid = $('option:selected', this).attr('sid');
+                var index = $('option:selected', this).attr('index');
                 // Fill the text box with the data in the dropdown
-                $("#post-data").val($(this).val());
+                load_survey_into_textbox(sid,index)
             });
 
 
