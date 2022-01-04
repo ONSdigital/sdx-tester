@@ -1,7 +1,10 @@
 {% extends 'layouts/_app.html.j2' %}
 {% block title %}Home{% endblock %}
 
+
+
 {% block content %}
+
 <!--WebSocket enables user interface to send and receive data without delay and in real time.
 
 WebSocket usage proves to be essential for this user interface as the response page is frequently updated with dap, receipt responses
@@ -48,7 +51,7 @@ Manual page refresh is not required to reflect the changes.
 
                     </div>
                 </div>
-                <textarea id="post-data" name="post-data" rows="33" cols="50">{{ current_survey }}</textarea>
+                <textarea id="post-data" name="post-data" class="surveyTextarea ons-input--textarea ons-input">{{ current_survey }}</textarea>
                 <br>
                 <!--Button row-->
                 <div>
@@ -100,6 +103,7 @@ Manual page refresh is not required to reflect the changes.
             function load_survey_into_textbox(sid,index=0){
                 form = survey_dict[sid][index];
                 $("#post-data").val(JSON.stringify(form,null,4));
+                $("#post-data").scrollTop(0);
             }
 
             // When the main select box changes
