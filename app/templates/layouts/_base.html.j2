@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!--ONS Styles-->
+  <link rel="stylesheet" href="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/css/main.css">
+  <!--ONS Favicons-->
+  <meta name="msapplication-config" content="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/favicons/browserconfig.json">
+  <link rel="icon" type="image/png" href="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/favicons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/favicons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" color="#5bbad5" href="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/favicons/safari-pinned-tab.svg">
+  <link rel="apple-touch-icon" type="image/png" href="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/favicons/apple-touch-icon.png" sizes="180x180">
+  <link rel="manifest" href="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/favicons/manifest.json">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+  <!--Font awesome-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+  <!--External JS libraries -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  <!--Title-->
+  <title>{% block title %}{% endblock %} | SDX-Tester </title>
+</head>
+  <body>
+    {% block base_content %}
+    {% endblock %}
+    <!--ONS JS-->
+    <script src="https://cdn.ons.gov.uk/sdc/design-system/44.1.2/scripts/main.js"></script>
+  </body>
+</html>

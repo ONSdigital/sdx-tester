@@ -1,7 +1,7 @@
-{% extends "layouts/_twocol.html" %}
+{% extends 'layouts/_app.html.j2' %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-
 <!--WebSocket enables user interface to send and receive data without delay and in real time.
 
 WebSocket usage proves to be essential for this user interface as the response page is frequently updated with dap, receipt responses
@@ -13,41 +13,43 @@ and colours for successful and null responses for different survey ids.
 
 Manual page refresh is not required to reflect the changes.
 -->
-<head>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-    <meta charset="UTF-8">
-    <title>SDX Tester</title>
-</head>
-<body>
-    <div>
-        <form action="/submit" method="post">
-            <div style="display: flex; flex-direction: row; margin: 8px 0px 8px 0px;">
-                <!--Select 1-->
-                <div>
-                    <select  name="surveys_names" id="survey_names">
-                        <option selected="selected" disabled="disabled">Please select a survey</option>
-                        <!--Display each survey ID-->
-                        {% for key, values in survey_dict.items() %}
+<!--Page container-->
+<div class="ons-page__container ons-container ons-u-mt-l ons-u-mb-m">
+    <form action="/submit" method="post">
+        <div class="ons-grid">
+            <!--Left side-->
+            <div class="ons-grid__col ons-col-6@m " style="background-color: red">
+                <div style="display: flex; flex-direction: row; margin: 8px 0px 8px 0px;">
+                    <!--Select 1-->
+                    <div>
+                        <select  name="surveys_names" id="survey_names">
+                            <option selected="selected" disabled="disabled">Please select a survey</option>
+                            <!--Display each survey ID-->
+                            {% for key, values in survey_dict.items() %}
                             <option sid="{{key}}">{{ key }} {{ " - ({})".format(values|length) if values|length > 1 }}</option>
-                        {% endfor %}
-                    </select>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!--Select 2-->
+                    <div style="margin-left: 5px;">
+                        <select  id="extra_surveys" disabled style="display: none;">
+                            <optgroup id="extra_surveys_content" label="More forms">
+                            </optgroup>
+                        </select>
+                    </div>
                 </div>
-                <!--Select 2-->
-                <div style="margin-left: 5px;">
-                    <select  id="extra_surveys" disabled style="display: none;">
-                        <optgroup id="extra_surveys_content" label="More surveys">  
-                        </optgroup>
-                    </select>
-                </div>
+                <textarea id="post-data" name="post-data" rows="33" cols="50">{{ current_survey }}</textarea>
+                <br>
+                <input type="submit" id="submit"  value="Submit">
+                <button type="button" id="collate" onclick="triggerCollate()">Trigger Collate</button>
+                <button type="button" id="cleanup" onclick="triggerCleanupDatastore()">Cleanup Datastore</button>
             </div>
-            <textarea id="post-data" name="post-data" rows="33" cols="50">
-                {{ current_survey }}
-            </textarea>
 
-            {% if submissions %}
+            <!--Right side-->
+            <div class="ons-grid__col ons-col-6@m " style="background-color: green">
+                {% if submissions %}
                 <ul id="listOfSubmissions">
-                {% for submission in submissions %}
+                    {% for submission in submissions %}
                     {% for tx_id, survey_id in submission.items() %}
                     <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a> |
                         <button type="button" class="btn" id="{{ tx_id }}" onclick="emitTxId('{{ tx_id }}'); buttonAnimation('{{ tx_id }}');" value="{{ tx_id }}">
@@ -55,15 +57,16 @@ Manual page refresh is not required to reflect the changes.
                         </button>
                     </li>
                     {% endfor %}
-                {% endfor %}
-            {% endif %}
-            </ul>
-            <br>
-            <input type="submit" id="submit"  value="Submit">
-            <button type="button" id="collate" onclick="triggerCollate()">Trigger Collate</button>
-            <button type="button" id="cleanup" onclick="triggerCleanupDatastore()">Cleanup Datastore</button>
-        </form>
-        <script type="text/javascript">
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--Scrips-->
+<script type="text/javascript">
 
             // Globals
             var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -93,7 +96,7 @@ Manual page refresh is not required to reflect the changes.
                 // Ensure the selection is disabled & hidden
                 $('#extra_surveys').prop('disabled', 'disabled');
                 $('#extra_surveys').hide();
-                
+
                 // Clear old extra surveys
                 $('#extra_surveys_content').empty();
 
@@ -176,9 +179,5 @@ Manual page refresh is not required to reflect the changes.
             socket.on('Cleanup status', function(msg){
                 alert("Status: " + msg.status);
             });
-        </script>
-    </div>
-</body>
-
-{% endblock content %}
-
+</script>
+{% endblock %}
