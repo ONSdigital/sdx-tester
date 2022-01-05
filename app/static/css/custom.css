@@ -4,6 +4,37 @@
  * Custom styles
  */
 
+
+.mx-0{
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+/**
+  * Buttons
+  */
+.buttonRow{
+    padding: 15px 0px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    align-items: stretch;
+}
+
+.btnBlock{
+	width: 100%;
+}
+.btnBlock, .btnBlock .ons-btn__inner{
+	width: 100%  !important;
+}
+
+
+.customContainer{
+	max-width: 80rem;
+	margin: auto;
+	padding: 0px 3rem;
+}
+
 .surveyTextarea{
 	max-height: 55vh;
 	min-height: 400px;
@@ -12,3 +43,12 @@
 	width: 100%;
 	height: 55vh;
 }
+
+
+@media screen and (min-width: 1200px) {
+  .buttonRow{
+      flex-direction: row;
+      justify-content: space-evenly
+  }
+}
+
