@@ -12,17 +12,26 @@
     </button>
 
     {% if timeout or quarantine %}
-        {% for flash in get_flashed_messages() %}
-            <div class="timeout">
-                <h2>ERROR</h2>
-                <p>{{ flash }}</p>
-            </div>
-        {% endfor %}
+        <div aria-labelledby="errors" role="alert" tabindex="-1" class="ons-panel ons-panel--error ons-u-mt-m">
+          <div class="ons-panel__header">
+            <h2 id="error-summary-title" data-qa="error-header" class="ons-panel__title ons-u-fs-r--b">Errors</h2>
+          </div>
+          <div class="ons-panel__body">
+            <ol class="ons-list">
+              {% for flash in get_flashed_messages() %}
+                  <li class="ons-list__item">
+                    {{ flash }}
+                  </li>
+              {% endfor %}
+              
+            </ol>
+          </div>
+        </div>
     {% endif %}
 
 
     <!--Top grid-->
-    <div class="ons-u-mt-xl ons-u-mb-m ons-grid ons-grid--spaced">
+    <div class="mt-20 ons-u-mb-m ons-grid ons-grid--spaced">
         <!--Left (Dap)-->
         <div class="ons-grid__col ons-col-6@m ">
             <div id="leftAccordian" class="ons-accordion">
@@ -32,7 +41,7 @@
                         <h3> Recieved DAP </h3>
                     </div>
                     <div class="ons-grid__col ons-col-6@m my-0">
-                        <span class="ons-status ons-status--success">In progress</span>
+                        <span class="ons-status ons-status--pending" id="dap-indicator">Loading</span>
                     </div>
                 </div>
                 
@@ -66,7 +75,7 @@
                         <h3> Recieved Receipts </h3>
                     </div>
                     <div class="ons-grid__col ons-col-6@m my-0">
-                        <span class="ons-status ons-status--success">In progress</span>
+                        <span class="ons-status ons-status--pending" id="rec-indicator">Loading</span>
                     </div>
                 </div>
                 
@@ -92,7 +101,7 @@
         </div>
         {% endif %}
         <!--Bottom (Files)-->
-        <div class="ons-grid__col">
+        <div class="ons-grid__col ons-u-mt-xl">
             <div id="file-accordion" class="ons-accordion">
                 <h3> Files </h3>
                 <button type="button" class="ons-btn ons-js-collapsible-all ons-u-mb-s ons-u-d-no ons-btn--secondary ons-btn--small" data-close-all="Hide all" data-group="file-accordion">
@@ -100,7 +109,7 @@
                 </button>
                 {% for key, value in files.items() %}
                     <!--Accordion row -->
-                    <div id="accordion-{{key}}" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="accordion">
+                    <div id="accordion-{{key}}" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="file-accordion">
                         <div class="ons-collapsible__heading ons-js-collapsible-heading">
                             <div class="ons-collapsible__controls">
                                 <p class="ons-collapsible__title">{{ key }}</p>
@@ -122,44 +131,7 @@
                             {% endif %}
                         </div>
                     </div>
-
-                    
-                    <br>
                 {% endfor %}
-
-                <!--Accordion 1 (each file) -->
-                <div id="accordion-fil" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="accordion">
-                    <div class="ons-collapsible__heading ons-js-collapsible-heading">
-                        <div class="ons-collapsible__controls">
-                            <h2 class="ons-collapsible__title">Total retail turnover</h2>
-                            <span class="ons-collapsible__icon">
-                              <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
-                                <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
-                              </svg>
-                            </span>
-                            <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
-                              <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="accordion-fil-content" class="ons-collapsible__content ons-js-collapsible-content">
-                      <h3 class="ons-u-fs-r">Include:</h3>
-                      <ul class="ons-list">
-                        <li class="ons-list__item">VAT</li>
-                        <li class="ons-list__item">internet sales</li>
-                        <li class="ons-list__item">retail sales from outlets in Great Britain to <a href="#">customers abroad</a></li>
-                      </ul>
-                      <h3 class="ons-u-fs-r">Exclude:</h3>
-                      <ul class="ons-list">
-                        <li class="ons-list__item">revenue from mobile phone network commission and top-up</li>
-                        <li class="ons-list__item">sales from catering facilities used by customers</li>
-                        <li class="ons-list__item">lottery sales and commission from lottery sales</li>
-                        <li class="ons-list__item">sales of car accessories and motor vehicles</li>
-                        <li class="ons-list__item">NHS receipts</li>
-                        <li class="ons-list__item">automotive fuel</li>
-                      </ul>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -220,74 +192,99 @@
 
         </div>
     {% endif %}
-        <script>
-        function showData(id_clicked) {
-            var current_display = document.getElementById(id_clicked).style.display;
-            if (current_display == 'none') {
-                document.getElementById(id_clicked).style.display = 'block';
-                var ugly = document.getElementById(id_clicked).value;
-                var uglyObj = JSON.parse(ugly)
+        <script type="text/javascript">
+            //Globals
+            const $indicator_classes = ["ons-status--error", "ons-status--success", "ons-status--pending"];
 
-                // The JSON.stringify() method converts a JavaScript object or value to a JSON string
-                pretty = JSON.stringify(uglyObj, null, 4)
-                document.getElementById(id_clicked).value = pretty
-            } else {
-                document.getElementById(id_clicked).style.display = 'none';
-            }
-        }
+            function showData(id_clicked) {
+                var current_display = document.getElementById(id_clicked).style.display;
+                if (current_display == 'none') {
+                    document.getElementById(id_clicked).style.display = 'block';
+                    var ugly = document.getElementById(id_clicked).value;
+                    var uglyObj = JSON.parse(ugly)
 
-        // The below function checks for the successful or null dap responses and changes the textbox background colour accordingly.
-        function checkDap(){
-            var dap = document.getElementById('dap_text').value
-            if (dap.includes('null') ) {
-                document.getElementById('dap').style.color = "white";
-                document.getElementById('dap').style.background="red";
-                }
-            if (dap.includes('name')) {
-                document.getElementById('dap').style.color = "white";
-                document.getElementById('dap').style.background="green";
+                    // The JSON.stringify() method converts a JavaScript object or value to a JSON string
+                    pretty = JSON.stringify(uglyObj, null, 4)
+                    document.getElementById(id_clicked).value = pretty
+                } else {
+                    document.getElementById(id_clicked).style.display = 'none';
                 }
             }
 
-        // The below function checks for the successful or null receipt responses and changes the textbox background colour accordingly.
-        function checkReceipt(){
-            var receipt = document.getElementById('receipt_text').value
-            if (receipt.includes('null')) {
-                document.getElementById('receipt').style.color = "white";
-                document.getElementById('receipt').style.background="red";
+            /**
+             * Change the indicator label for a given
+             * element
+             */
+            function toggleStatus(element,classname, display=""){
+
+                //Clear classes
+                for (var i = 0; i < $indicator_classes.length; i++) {
+                    element.removeClass($indicator_classes[i]);
                 }
-            if (receipt.includes('caseId')) {
-                document.getElementById('receipt').style.color = "white";
-                document.getElementById('receipt').style.background="green";
+
+                //Add Class
+                element.addClass(classname);
+
+                //Update text
+                element.text(display)
+            }
+
+            // The below function checks for the successful or null dap responses and changes the textbox background colour accordingly.
+            function checkDap(){
+                var dap = document.getElementById('dap_text').value
+                if (dap.includes('null') ) {
+                    document.getElementById('dap').style.color = "white";
+                    document.getElementById('dap').style.background="red";
+                    toggleStatus($("#dap-indicator"),"ons-status--error", "Failed")
+                    }
+                if (dap.includes('name')) {
+                    document.getElementById('dap').style.color = "white";
+                    document.getElementById('dap').style.background="green";
+                    toggleStatus($("#dap-indicator"),"ons-status--success", "Received")
                 }
             }
 
-        // The below code creates a collapsible section to toggle between showing and hiding the collapsible content.
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-              content.style.maxHeight = null;
-            } else {
-              content.style.maxHeight = content.scrollHeight + "px";
+            // The below function checks for the successful or null receipt responses and changes the textbox background colour accordingly.
+            function checkReceipt(){
+                var receipt = document.getElementById('receipt_text').value
+                if (receipt.includes('null')) {
+                    document.getElementById('receipt').style.color = "white";
+                    document.getElementById('receipt').style.background="red";
+                    toggleStatus($("#rec-indicator"),"ons-status--error", "Failed")
+                    }
+                if (receipt.includes('caseId')) {
+                    document.getElementById('receipt').style.color = "white";
+                    document.getElementById('receipt').style.background="green";
+                    toggleStatus($("#rec-indicator"),"ons-status--success", "Received")
+                }
             }
-          });
-        }
 
-        $(document).ready(function(){
-            var socket = io.connect('http://' + document.domain + ':' + location.port);
-            socket.on('data received', function(msg) {
-                console.log('data received' + msg);
-                location.reload();
+            // The below code creates a collapsible section to toggle between showing and hiding the collapsible content.
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+            for (i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                  content.style.maxHeight = null;
+                } else {
+                  content.style.maxHeight = content.scrollHeight + "px";
+                }
+              });
+            }
+
+            $(document).ready(function(){
+                var socket = io.connect('http://' + document.domain + ':' + location.port);
+                socket.on('data received', function(msg) {
+                    console.log('data received' + msg);
+                    location.reload();
+                });
+
+                //On load calls
+                checkDap()
+                checkReceipt();
             });
-
-            //On load calls
-            checkDap()
-            checkReceipt();
-        });
         </script>
 
 </div>
