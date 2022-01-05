@@ -11,6 +11,16 @@
         </span>
     </button>
 
+    {% if timeout or quarantine %}
+        {% for flash in get_flashed_messages() %}
+            <div class="timeout">
+                <h2>ERROR</h2>
+                <p>{{ flash }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
     <!--Top grid-->
     <div class="ons-u-mt-xl ons-u-mb-m ons-grid ons-grid--spaced">
         <!--Left (Dap)-->
@@ -83,12 +93,42 @@
         {% endif %}
         <!--Bottom (Files)-->
         <div class="ons-grid__col">
-            <div id="accordion" class="ons-accordion">
+            <div id="file-accordion" class="ons-accordion">
                 <h3> Files </h3>
-                <button type="button" class="ons-btn ons-js-collapsible-all ons-u-mb-s ons-u-d-no ons-btn--secondary ons-btn--small" data-close-all="Hide all" data-group="accordion">
+                <button type="button" class="ons-btn ons-js-collapsible-all ons-u-mb-s ons-u-d-no ons-btn--secondary ons-btn--small" data-close-all="Hide all" data-group="file-accordion">
                     <span class="ons-btn__inner ons-js-collapsible-all-inner">Show all</span>
                 </button>
-                <div id="accordion-1" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="accordion">
+                {% for key, value in files.items() %}
+                    <!--Accordion row -->
+                    <div id="accordion-{{key}}" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="accordion">
+                        <div class="ons-collapsible__heading ons-js-collapsible-heading">
+                            <div class="ons-collapsible__controls">
+                                <p class="ons-collapsible__title">{{ key }}</p>
+                                <span class="ons-collapsible__icon">
+                                  <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
+                                    <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
+                                  </svg>
+                                </span>
+                                <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
+                                  <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="accordion-{{key}}-content" class="ons-collapsible__content ons-js-collapsible-content">
+                            {% if 'JPG' in key %}
+                                <img style="width:75%;" src="data:image/JPG;base64,{{ value }}">
+                            {% else %}
+                                <textarea readonly id="{{ key }}">{{ value }}</textarea>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    
+                    <br>
+                {% endfor %}
+
+                <!--Accordion 1 (each file) -->
+                <div id="accordion-fil" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="accordion">
                     <div class="ons-collapsible__heading ons-js-collapsible-heading">
                         <div class="ons-collapsible__controls">
                             <h2 class="ons-collapsible__title">Total retail turnover</h2>
@@ -102,7 +142,7 @@
                             </button>
                         </div>
                     </div>
-                    <div id="accordion-1-content" class="ons-collapsible__content ons-js-collapsible-content">
+                    <div id="accordion-fil-content" class="ons-collapsible__content ons-js-collapsible-content">
                       <h3 class="ons-u-fs-r">Include:</h3>
                       <ul class="ons-list">
                         <li class="ons-list__item">VAT</li>
