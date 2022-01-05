@@ -5,9 +5,17 @@
  */
 
 
+/**
+  * Utility classes
+  */
+
 .mx-0{
 	margin-left: 0 !important;
 	margin-right: 0 !important;
+}
+
+.text-center{
+	text-align: center !important;
 }
 
 /**
@@ -48,7 +56,8 @@
 @media screen and (min-width: 1200px) {
   .buttonRow{
       flex-direction: row;
-      justify-content: space-evenly
+      justify-content: space-between
   }
 }
+
 

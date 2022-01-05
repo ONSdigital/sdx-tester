@@ -21,7 +21,7 @@ Manual page refresh is not required to reflect the changes.
     <form action="/submit" method="post">
         <div class="ons-grid ons-grid--spaced">
             <!--Left side-->
-            <div class="ons-grid__col ons-col-6@l " style="background-color: red">
+            <div class="ons-grid__col ons-col-6@l " style="background-color: none">
                 <div class="ons-grid">
                     <!--Select 1-->
                     <div class="ons-grid__col ons-col-6@s ">
@@ -39,11 +39,11 @@ Manual page refresh is not required to reflect the changes.
 
                     </div>
                     <!--Select 2-->
-                    <div class="ons-grid__col ons-col-6@s ">
+                    <div class="ons-grid__col ons-col-6@s " id="extra_surveys_container" style="display: none">
                         <div class="ons-field">
                             <label class="ons-label  " for="extra_surveys">Extra
                             </label>
-                            <select id="extra_surveys" disabled style="display: none; width: auto;" class="ons-input ons-input--select">
+                            <select id="extra_surveys" disabled style="width: auto;" class="ons-input ons-input--select">
                                 <optgroup id="extra_surveys_content" label="More forms">
                                 </optgroup>
                             </select>
@@ -77,6 +77,7 @@ Manual page refresh is not required to reflect the changes.
             <div class="ons-grid__col ons-col-6@l " style="background-color: none">
                 {% if submissions %}
                 <table id="basic-table" class="ons-table">
+                    <caption class="ons-table__caption text-center">Submitted Surveys</caption>
                     <thead class="ons-table__head">
                         <tr class="ons-table__row">
                             <th scope="col" class="ons-table__header">
@@ -109,17 +110,6 @@ Manual page refresh is not required to reflect the changes.
 
                     </tbody>
                 </table>
-                <ul id="listOfSubmissions">
-                    {% for submission in submissions %}
-                    {% for tx_id, survey_id in submission.items() %}
-                    <li>{{ survey_id }}:  <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a> |
-                        <button type="button" class="btn" id="{{ tx_id }}" onclick="emitTxId('{{ tx_id }}'); buttonAnimation('{{ tx_id }}');" value="{{ tx_id }}">
-                            Cleanup
-                        </button>
-                    </li>
-                    {% endfor %}
-                    {% endfor %}
-                </ul>
                 {% endif %}
             </div>
         </div>
@@ -157,7 +147,7 @@ Manual page refresh is not required to reflect the changes.
 
                 // Ensure the selection is disabled & hidden
                 $('#extra_surveys').prop('disabled', 'disabled');
-                $('#extra_surveys').hide();
+                $('#extra_surveys_container').hide();
 
                 // Clear old extra surveys
                 $('#extra_surveys_content').empty();
@@ -169,7 +159,7 @@ Manual page refresh is not required to reflect the changes.
                     // Only show the option if there is more than 1 form
                     if (extra_surveys.length > 1){
                         // Show the second dropdown
-                        $('#extra_surveys').show();
+                        $('#extra_surveys_container').show();
                         //Populate the dropdown
                         $.each(extra_surveys, function(key,value){
                             $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(sid+": "+key));
