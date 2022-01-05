@@ -2,8 +2,128 @@
 {% block title %}Response{% endblock %}
 
 {% block content %}
-<body onload="checkDap(), checkReceipt();">
-    <button id="backButton" onclick="window.location.href='/'">Go Back</button>
+<!--Page container-->
+<div class="ons-page__container customContainer ons-u-mt-l ons-u-mb-m">
+    <!--Back button-->
+    <button onclick="window.location.href='/'" role="button" class="ons-btn ons-btn--secondary">
+        <span class="ons-btn__inner">
+            Go back
+        </span>
+    </button>
+
+    <!--Top grid-->
+    <div class="ons-u-mt-xl ons-u-mb-m ons-grid ons-grid--spaced">
+        <!--Left (Dap)-->
+        <div class="ons-grid__col ons-col-6@m ">
+            <div id="leftAccordian" class="ons-accordion">
+                <!--Title bar-->
+                <div class="ons-grid">
+                    <div class="ons-grid__col ons-col-6@m my-0">
+                        <h3> Recieved DAP </h3>
+                    </div>
+                    <div class="ons-grid__col ons-col-6@m my-0">
+                        <span class="ons-status ons-status--success">In progress</span>
+                    </div>
+                </div>
+                
+                <div id="accordion-dap" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="leftAccordian">
+                    <div class="ons-collapsible__heading ons-js-collapsible-heading">
+                        <div class="ons-collapsible__controls">
+                            <p class="ons-collapsible__title">DAP data</p>
+                            <span class="ons-collapsible__icon">
+                              <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
+                                <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
+                              </svg>
+                            </span>
+                            <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
+                              <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="accordion-dap-content" class="ons-collapsible__content ons-js-collapsible-content">
+                      <textarea id="dap_text" readonly class="ons-input--textarea ons-input">{{dap_message | pretty_print }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if 'SEFT' not in files and 'JSON' not in files %}
+        <!--Right (receipts)-->
+        <div class="ons-grid__col ons-col-6@m ">
+            <div id="rightAccordion" class="ons-accordion">
+                <!--Title bar-->
+                <div class="ons-grid">
+                    <div class="ons-grid__col ons-col-6@m my-0">
+                        <h3> Recieved Receipts </h3>
+                    </div>
+                    <div class="ons-grid__col ons-col-6@m my-0">
+                        <span class="ons-status ons-status--success">In progress</span>
+                    </div>
+                </div>
+                
+                <div id="accordion-rec" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="rightAccordion">
+                    <div class="ons-collapsible__heading ons-js-collapsible-heading">
+                        <div class="ons-collapsible__controls">
+                            <p class="ons-collapsible__title">Receipts</p>
+                            <span class="ons-collapsible__icon">
+                              <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
+                                <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
+                              </svg>
+                            </span>
+                            <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
+                              <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="accordion-rec-content" class="ons-collapsible__content ons-js-collapsible-content">
+                      <textarea id="receipt_text" readonly class="ons-input--textarea ons-input">{{ receipt | pretty_print }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!--Bottom (Files)-->
+        <div class="ons-grid__col">
+            <div id="accordion" class="ons-accordion">
+                <h3> Files </h3>
+                <button type="button" class="ons-btn ons-js-collapsible-all ons-u-mb-s ons-u-d-no ons-btn--secondary ons-btn--small" data-close-all="Hide all" data-group="accordion">
+                    <span class="ons-btn__inner ons-js-collapsible-all-inner">Show all</span>
+                </button>
+                <div id="accordion-1" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="accordion">
+                    <div class="ons-collapsible__heading ons-js-collapsible-heading">
+                        <div class="ons-collapsible__controls">
+                            <h2 class="ons-collapsible__title">Total retail turnover</h2>
+                            <span class="ons-collapsible__icon">
+                              <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
+                                <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
+                              </svg>
+                            </span>
+                            <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
+                              <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="accordion-1-content" class="ons-collapsible__content ons-js-collapsible-content">
+                      <h3 class="ons-u-fs-r">Include:</h3>
+                      <ul class="ons-list">
+                        <li class="ons-list__item">VAT</li>
+                        <li class="ons-list__item">internet sales</li>
+                        <li class="ons-list__item">retail sales from outlets in Great Britain to <a href="#">customers abroad</a></li>
+                      </ul>
+                      <h3 class="ons-u-fs-r">Exclude:</h3>
+                      <ul class="ons-list">
+                        <li class="ons-list__item">revenue from mobile phone network commission and top-up</li>
+                        <li class="ons-list__item">sales from catering facilities used by customers</li>
+                        <li class="ons-list__item">lottery sales and commission from lottery sales</li>
+                        <li class="ons-list__item">sales of car accessories and motor vehicles</li>
+                        <li class="ons-list__item">NHS receipts</li>
+                        <li class="ons-list__item">automotive fuel</li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% if timeout or quarantine %}
         {% for flash in get_flashed_messages() %}
             <div class="timeout">
@@ -101,6 +221,7 @@
                 document.getElementById('receipt').style.background="green";
                 }
             }
+
         // The below code creates a collapsible section to toggle between showing and hiding the collapsible content.
         var coll = document.getElementsByClassName("collapsible");
         var i;
@@ -122,9 +243,12 @@
                 console.log('data received' + msg);
                 location.reload();
             });
+
+            //On load calls
+            checkDap()
+            checkReceipt();
         });
         </script>
 
- </body>
-
+</div>
 {% endblock %}

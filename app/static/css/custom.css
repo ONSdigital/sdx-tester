@@ -6,7 +6,7 @@
 
 
 /**
-  * Utility classes
+  * ================ Utility classes ==================
   */
 
 .mx-0{
@@ -14,8 +14,19 @@
 	margin-right: 0 !important;
 }
 
+.my-0{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 .text-center{
 	text-align: center !important;
+}
+
+.collapseStatus{
+  margin-left: 10px;
+  text-decoration: none !important;
+  cursor: default !important;
 }
 
 /**
