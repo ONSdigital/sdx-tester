@@ -38,8 +38,9 @@
 }
 
 /**
-  * Buttons
+  * ================ Buttons ==================
   */
+ 
 .buttonRow{
     padding: 15px 0px;
     display: flex;
@@ -55,7 +56,10 @@
 	width: 100%  !important;
 }
 
-
+/**
+  * ================ MISC ==================
+  */
+ 
 .customContainer{
 	max-width: 80rem;
 	margin: auto;
@@ -71,7 +75,15 @@
 	height: 55vh;
 }
 
+.scrollableTextarea{
+  resize: vertical !important;
+  overflow-y: scroll !important;
+}
 
+
+/**
+  * ================ Media Queries ==================
+  */
 @media screen and (min-width: 1200px) {
   .buttonRow{
       flex-direction: row;

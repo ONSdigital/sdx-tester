@@ -12,6 +12,7 @@
     </button>
 
     {% if timeout or quarantine %}
+        <!--Error box-->
         <div aria-labelledby="errors" role="alert" tabindex="-1" class="ons-panel ons-panel--error ons-u-mt-m">
           <div class="ons-panel__header">
             <h2 id="error-summary-title" data-qa="error-header" class="ons-panel__title ons-u-fs-r--b">Errors</h2>
@@ -30,76 +31,148 @@
     {% endif %}
 
 
-    <!--Top grid-->
+    <!--Main Grid-->
     <div class="mt-20 ons-u-mb-m ons-grid ons-grid--spaced">
-        <!--Left (Dap)-->
-        <div class="ons-grid__col ons-col-6@m ">
-            <div id="leftAccordian" class="ons-accordion">
-                <!--Title bar-->
-                <div class="ons-grid">
-                    <div class="ons-grid__col ons-col-6@m my-0">
-                        <h3> Recieved DAP </h3>
+        {% if quarantine %}
+            <div class="buttons">
+                <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
+            <div class="content">
+                <textarea id="quarantine_text" readonly rows="30">{{ quarantine | pretty_print }}</textarea>
+            </div>
+            </div>
+
+            <div class="ons-grid__col ons-col-6@m ">
+                <div id="quarAccordion" class="ons-accordion">
+                    <!--Title bar-->
+                    <h3> Quarantine </h3>
+                    
+                    {% if not quarantine %}
+                    <div class="ons-collapsible--accordion">
+                        <div class="ons-collapsible__heading ons-js-collapsible-heading  text-center">
+                          No data
+                        </div>  
                     </div>
-                    <div class="ons-grid__col ons-col-6@m my-0">
-                        <span class="ons-status ons-status--pending" id="dap-indicator">Loading</span>
-                    </div>
-                </div>
-                
-                <div id="accordion-dap" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="leftAccordian">
-                    <div class="ons-collapsible__heading ons-js-collapsible-heading">
-                        <div class="ons-collapsible__controls">
-                            <p class="ons-collapsible__title">DAP data</p>
-                            <span class="ons-collapsible__icon">
-                              <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
-                                <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
-                              </svg>
-                            </span>
-                            <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
-                              <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
-                            </button>
+                    {% else %}
+                    <div id="accordion-quar" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="quarAccordion">
+                        <div class="ons-collapsible__heading ons-js-collapsible-heading">
+                            <div class="ons-collapsible__controls">
+                                <p class="ons-collapsible__title">Quarantine data</p>
+                                <span class="ons-collapsible__icon">
+                                  <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
+                                    <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
+                                  </svg>
+                                </span>
+                                <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
+                                  <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="accordion-quar-content" class="ons-collapsible__content ons-js-collapsible-content">
+                          <textarea id="quarantine_text" readonly class="ons-input--textarea ons-input">{{quarantine | pretty_print }}</textarea>
                         </div>
                     </div>
-                    <div id="accordion-dap-content" class="ons-collapsible__content ons-js-collapsible-content">
-                      <textarea id="dap_text" readonly class="ons-input--textarea ons-input">{{dap_message | pretty_print }}</textarea>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-        </div>
-        {% if 'SEFT' not in files and 'JSON' not in files %}
-        <!--Right (receipts)-->
-        <div class="ons-grid__col ons-col-6@m ">
-            <div id="rightAccordion" class="ons-accordion">
-                <!--Title bar-->
-                <div class="ons-grid">
-                    <div class="ons-grid__col ons-col-6@m my-0">
-                        <h3> Recieved Receipts </h3>
-                    </div>
-                    <div class="ons-grid__col ons-col-6@m my-0">
-                        <span class="ons-status ons-status--pending" id="rec-indicator">Loading</span>
-                    </div>
-                </div>
-                
-                <div id="accordion-rec" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="rightAccordion">
-                    <div class="ons-collapsible__heading ons-js-collapsible-heading">
-                        <div class="ons-collapsible__controls">
-                            <p class="ons-collapsible__title">Receipts</p>
-                            <span class="ons-collapsible__icon">
-                              <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
-                                <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
-                              </svg>
-                            </span>
-                            <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
-                              <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
-                            </button>
+        {% else %}
+            <!--Left (Dap)-->
+            <div class="ons-grid__col ons-col-6@m ">
+                <div id="leftAccordian" class="ons-accordion">
+                    <!--Title bar-->
+                    <div class="ons-grid">
+                        <div class="ons-grid__col ons-col-6@m my-0">
+                            <h3> Recieved DAP </h3>
+                        </div>
+                        <div class="ons-grid__col ons-col-6@m my-0">
+                            <span class="ons-status ons-status--pending" id="dap-indicator">Loading</span>
                         </div>
                     </div>
-                    <div id="accordion-rec-content" class="ons-collapsible__content ons-js-collapsible-content">
-                      <textarea id="receipt_text" readonly class="ons-input--textarea ons-input">{{ receipt | pretty_print }}</textarea>
+                    
+                    {% if not dap_message %}
+                        <div class="ons-collapsible--accordion" id="no_dap_data">
+                            <div class="ons-collapsible__heading ons-js-collapsible-heading  text-center">
+                              No data
+                            </div>  
+                        </div>
+                    {% elif dap_message == 'In Progress' %}
+                        <div class="ons-collapsible--accordion" id="pending_dap_data">
+                            <div class="ons-collapsible__heading ons-js-collapsible-heading  text-center">
+                              Pending..
+                            </div>  
+                        </div>
+                    {% else %}
+                    <div id="accordion-dap" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="leftAccordian">
+                        <div class="ons-collapsible__heading ons-js-collapsible-heading">
+                            <div class="ons-collapsible__controls">
+                                <p class="ons-collapsible__title">DAP data</p>
+                                <span class="ons-collapsible__icon">
+                                  <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
+                                    <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
+                                  </svg>
+                                </span>
+                                <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
+                                  <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="accordion-dap-content" class="ons-collapsible__content ons-js-collapsible-content">
+                          <textarea id="dap_text" readonly class="ons-input--textarea ons-input">{{dap_message | pretty_print }}</textarea>
+                        </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
-        </div>
+            {% if 'SEFT' not in files and 'JSON' not in files %}
+            <!--Right (receipts)-->
+            <div class="ons-grid__col ons-col-6@m ">
+                <div id="rightAccordion" class="ons-accordion">
+                    <!--Title bar-->
+                    <div class="ons-grid">
+                        <div class="ons-grid__col ons-col-6@m my-0">
+                            <h3> Recieved Receipts </h3>
+                        </div>
+                        <div class="ons-grid__col ons-col-6@m my-0">
+                            <span class="ons-status ons-status--pending" id="rec-indicator">Loading</span>
+                        </div>
+                    </div>
+                    {% if not receipt %}
+                        <div class="ons-collapsible--accordion" id="no_rec_data">
+                            <div class="ons-collapsible__heading ons-js-collapsible-heading text-center">
+                              No data
+                            </div>  
+                        </div>
+                    {% elif receipt == 'In Progress' %}
+                        <div class="ons-collapsible--accordion" id="pending_rec_data">
+                            <div class="ons-collapsible__heading ons-js-collapsible-heading  text-center">
+                              Pending..
+                            </div>  
+                        </div>
+                    {% else %}
+                    <div id="accordion-rec" class="ons-collapsible ons-js-collapsible ons-collapsible--accordion" data-btn-close="Hide" data-group="rightAccordion">
+                        <div class="ons-collapsible__heading ons-js-collapsible-heading">
+                            <div class="ons-collapsible__controls">
+                                <p class="ons-collapsible__title">Receipts</p>
+                                <span class="ons-collapsible__icon">
+                                  <svg class="ons-svg-icon " viewBox="0 0 8 13" xmlns="http://www.w3.org/2000/svg" focusable="false" fill="currentColor">
+                                    <path d="M5.74,14.28l-.57-.56a.5.5,0,0,1,0-.71h0l5-5-5-5a.5.5,0,0,1,0-.71h0l.57-.56a.5.5,0,0,1,.71,0h0l5.93,5.93a.5.5,0,0,1,0,.7L6.45,14.28a.5.5,0,0,1-.71,0Z" transform="translate(-5.02 -1.59)" />
+                                  </svg>
+                                </span>
+                                <button type="button" class="ons-btn ons-collapsible__btn ons-js-collapsible-button ons-u-d-no ons-u-d-no@xxs@s ons-btn--secondary ons-btn--small">
+                                  <span class="ons-btn__inner ons-js-collapsible-button-inner">Show</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="accordion-rec-content" class="ons-collapsible__content ons-js-collapsible-content">
+                          <textarea id="receipt_text" readonly class="ons-input--textarea ons-input">{{ receipt | pretty_print }}</textarea>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
         {% endif %}
+
+        {% if files.items()|length > 0 %}
         <!--Bottom (Files)-->
         <div class="ons-grid__col ons-u-mt-xl">
             <div id="file-accordion" class="ons-accordion">
@@ -127,16 +200,17 @@
                             {% if 'JPG' in key %}
                                 <img style="width:75%;" src="data:image/JPG;base64,{{ value }}">
                             {% else %}
-                                <textarea readonly id="{{ key }}">{{ value }}</textarea>
+                                <textarea readonly class="ons-input--textarea ons-input scrollableTextarea" >{{ value | pretty_print}}</textarea>
                             {% endif %}
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
     </div>
-
-    {% if timeout or quarantine %}
+    
+    {# {% if timeout or quarantine %}
         {% for flash in get_flashed_messages() %}
             <div class="timeout">
                 <h2>ERROR</h2>
@@ -144,7 +218,6 @@
             </div>
         {% endfor %}
     {% endif %}
-    <br>
     {% if quarantine %}
         <div class="buttons">
             <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
@@ -191,101 +264,117 @@
         </div>
 
         </div>
-    {% endif %}
-        <script type="text/javascript">
-            //Globals
-            const $indicator_classes = ["ons-status--error", "ons-status--success", "ons-status--pending"];
+    {% endif %} #}
+    
+    <script type="text/javascript">
 
-            function showData(id_clicked) {
-                var current_display = document.getElementById(id_clicked).style.display;
-                if (current_display == 'none') {
-                    document.getElementById(id_clicked).style.display = 'block';
-                    var ugly = document.getElementById(id_clicked).value;
-                    var uglyObj = JSON.parse(ugly)
+        //Globals
+        const $indicator_classes = ["ons-status--error", "ons-status--success", "ons-status--pending", "ons-status--dead"];
 
-                    // The JSON.stringify() method converts a JavaScript object or value to a JSON string
-                    pretty = JSON.stringify(uglyObj, null, 4)
-                    document.getElementById(id_clicked).value = pretty
-                } else {
-                    document.getElementById(id_clicked).style.display = 'none';
-                }
+        function showData(id_clicked) {
+            var current_display = document.getElementById(id_clicked).style.display;
+            if (current_display == 'none') {
+                document.getElementById(id_clicked).style.display = 'block';
+                var ugly = document.getElementById(id_clicked).value;
+                var uglyObj = JSON.parse(ugly)
+
+                // The JSON.stringify() method converts a JavaScript object or value to a JSON string
+                pretty = JSON.stringify(uglyObj, null, 4)
+                document.getElementById(id_clicked).value = pretty
+            } else {
+                document.getElementById(id_clicked).style.display = 'none';
+            }
+        }
+
+        /**
+         * Change the indicator label for a given
+         * element
+         */
+        function toggleStatus(element,classname, display=""){
+
+            //Clear classes
+            for (var i = 0; i < $indicator_classes.length; i++) {
+                element.removeClass($indicator_classes[i]);
             }
 
-            /**
-             * Change the indicator label for a given
-             * element
-             */
-            function toggleStatus(element,classname, display=""){
+            //Add Class
+            element.addClass(classname);
 
-                //Clear classes
-                for (var i = 0; i < $indicator_classes.length; i++) {
-                    element.removeClass($indicator_classes[i]);
-                }
+            //Update text
+            element.text(display)
+        }
 
-                //Add Class
-                element.addClass(classname);
-
-                //Update text
-                element.text(display)
-            }
-
-            // The below function checks for the successful or null dap responses and changes the textbox background colour accordingly.
-            function checkDap(){
-                var dap = document.getElementById('dap_text').value
-                if (dap.includes('null') ) {
-                    document.getElementById('dap').style.color = "white";
-                    document.getElementById('dap').style.background="red";
+        // This function will check the DAP status and show an indicator accordingly
+        function checkDap(){
+            var dap = $("#dap_text");
+            if(dap.length)
+            {
+                if (dap.val().includes("null")){
                     toggleStatus($("#dap-indicator"),"ons-status--error", "Failed")
-                    }
-                if (dap.includes('name')) {
-                    document.getElementById('dap').style.color = "white";
-                    document.getElementById('dap').style.background="green";
+                }
+                if (dap.val().includes("name")){
                     toggleStatus($("#dap-indicator"),"ons-status--success", "Received")
                 }
             }
+            // If at least one pendng ID exists then change status
+            else if($("#pending_dap_data").length){
+                toggleStatus($("#dap-indicator"),"ons-status--pending", "Loading")
+            }
+            // Show the failed status
+            else{
+                toggleStatus($("#dap-indicator"),"ons-status--error", "Failed")
+            }
+        }
 
-            // The below function checks for the successful or null receipt responses and changes the textbox background colour accordingly.
-            function checkReceipt(){
-                var receipt = document.getElementById('receipt_text').value
-                if (receipt.includes('null')) {
-                    document.getElementById('receipt').style.color = "white";
-                    document.getElementById('receipt').style.background="red";
+        // This function will check the receipt status and show an indicator accordingly
+        function checkReceipt(){
+            var rec = $("#receipt_text");
+            if(rec.length)
+            {
+                if (rec.val().includes("null")){
                     toggleStatus($("#rec-indicator"),"ons-status--error", "Failed")
-                    }
-                if (receipt.includes('caseId')) {
-                    document.getElementById('receipt').style.color = "white";
-                    document.getElementById('receipt').style.background="green";
+                }
+                if (rec.val().includes("caseId")){
                     toggleStatus($("#rec-indicator"),"ons-status--success", "Received")
                 }
             }
-
-            // The below code creates a collapsible section to toggle between showing and hiding the collapsible content.
-            var coll = document.getElementsByClassName("collapsible");
-            var i;
-            for (i = 0; i < coll.length; i++) {
-              coll[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight){
-                  content.style.maxHeight = null;
-                } else {
-                  content.style.maxHeight = content.scrollHeight + "px";
-                }
-              });
+            // If at least one pendng ID exists then change status
+            else if($("#pending_rec_data").length){
+                toggleStatus($("#rec-indicator"),"ons-status--pending", "Loading")
             }
+            // Show failure status
+            else{
+                toggleStatus($("#rec-indicator"),"ons-status--error", "Failed")
+            }
+        }
 
-            $(document).ready(function(){
-                var socket = io.connect('http://' + document.domain + ':' + location.port);
-                socket.on('data received', function(msg) {
-                    console.log('data received' + msg);
-                    location.reload();
-                });
+        // The below code creates a collapsible section to toggle between showing and hiding the collapsible content.
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }
+          });
+        }
 
-                //On load calls
-                checkDap()
-                checkReceipt();
+        $(document).ready(function(){
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('data received', function(msg) {
+                console.log('data received' + msg);
+                location.reload();
             });
-        </script>
+
+            //On load calls
+            checkDap()
+            checkReceipt();
+        });
+    </script>
 
 </div>
 {% endblock %}
