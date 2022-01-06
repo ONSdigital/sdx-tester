@@ -198,7 +198,9 @@
                         </div>
                         <div id="accordion-{{key}}-content" class="ons-collapsible__content ons-js-collapsible-content">
                             {% if 'JPG' in key %}
-                                <img style="width:75%;" src="data:image/JPG;base64,{{ value }}">
+                            <div class="fileImageContainer">
+                                <img src="data:image/JPG;base64,{{ value }}">
+                            </div>
                             {% else %}
                                 <textarea readonly class="ons-input--textarea ons-input scrollableTextarea fileTextarea min250" >{{ value }}</textarea>
                             {% endif %}
