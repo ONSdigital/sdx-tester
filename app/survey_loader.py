@@ -5,14 +5,23 @@ import uuid
 
 
 def read_ui() -> dict:
-    """
-    Returns a dict of each type with one survey per survey id
-    """
     sorted_surveys = {}
     result = {k: v[0] for k, v in read_all().items()}
     for key in sorted(result.keys()):
         sorted_surveys[key] = result[key]
     return sorted_surveys
+
+
+def get_json_surveys() -> dict:
+    """
+    This function takes the surveys from the
+    survey loader, and extracts the data into a dictionary,
+    the survey is SEFT, it will use get_seft_metadata to
+    ensure the dictionary can be serialized.
+    """
+    data = read_all()
+    # Left: Non sef surveys, Right: SEFT surveys
+    return {**{key:val for key, val in sorted(data.items()) if "seft" not in key}, **{outer_key: [i.get_seft_metadata() for i in outer_val] for outer_key, outer_val in sorted(data.items()) if "seft" in outer_key}}
 
 
 def read_all() -> dict:

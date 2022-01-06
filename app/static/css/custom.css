@@ -1,0 +1,113 @@
+/**
+ * SDX-Tester
+ *
+ * Custom styles
+ */
+
+
+/**
+  * ================ Utility classes ==================
+  */
+
+.mx-0{
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+.my-0{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.mb-20{
+  margin-bottom: 5rem !important;
+}
+
+.mt-20{
+  margin-top: 5rem !important;
+}
+
+.text-center{
+	text-align: center !important;
+}
+
+.collapseStatus{
+  margin-left: 10px;
+  text-decoration: none !important;
+  cursor: default !important;
+}
+
+/**
+  * ================ Buttons ==================
+  */
+ 
+.buttonRow{
+    padding: 15px 0px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    align-items: stretch;
+}
+
+.btnBlock{
+	width: 100%;
+}
+.btnBlock, .btnBlock .ons-btn__inner{
+	width: 100%  !important;
+}
+
+/**
+  * ================ MISC ==================
+  */
+ 
+.customContainer{
+	max-width: 80rem;
+	margin: auto;
+	padding: 0px 3rem;
+}
+
+.surveyTextarea{
+	max-height: 55vh;
+	min-height: 400px;
+	resize: vertical !important;
+	overflow-y: scroll !important;
+	width: 100%;
+	height: 55vh;
+}
+
+.scrollableTextarea{
+  resize: vertical !important;
+  overflow-y: scroll !important;
+}
+
+.min250{
+  min-height: 250px !important;
+}
+
+.fileImageContainer{
+  height: 90vh;
+  width: auto;
+  background-color: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  padding: 2em;
+}
+
+.fileImageContainer img{
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+}
+
+
+
+/**
+  * ================ Media Queries ==================
+  */
+@media screen and (min-width: 1200px) {
+  .buttonRow{
+      flex-direction: row;
+      justify-content: space-between
+  }
+}
+
+

@@ -1,0 +1,16 @@
+{% extends 'layouts/_base.html.j2' %}
+
+{% block base_content %}
+<div class="ons-page">
+    <div class="ons-page__content">
+        <a class="ons-skip-link" href="#main-content">Skip to main content</a>
+        {% include 'partials/header.html.j2' %}
+        <!--Main page content-->
+        <main id="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+    {% include 'partials/footer.html.j2' %}
+</div>
+{% endblock %}

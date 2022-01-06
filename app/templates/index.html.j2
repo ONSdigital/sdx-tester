@@ -1,0 +1,235 @@
+{% extends 'layouts/_app.html.j2' %}
+{% block title %}Home{% endblock %}
+
+
+
+{% block content %}
+
+<!--WebSocket enables user interface to send and receive data without delay and in real time.
+
+WebSocket usage proves to be essential for this user interface as the response page is frequently updated with dap, receipt responses
+and colours for successful and null responses for different survey ids.
+    -Successful response (background colour of textbox turns green)
+    -null response (background colour of textbox turns red)
+    - timeout or quarantine (background colour of the textbox turns sweet pink with a error message)
+    -In progress (background colour of the textbox turns blue)
+
+Manual page refresh is not required to reflect the changes.
+-->
+<!--Page container-->
+<div class="ons-page__container customContainer ons-u-mt-l ons-u-mb-m">
+    <form action="/submit" method="post">
+        <div class="ons-grid ons-grid--spaced">
+            <!--Left side-->
+            <div class="ons-grid__col ons-col-6@l " style="background-color: none">
+                <div class="ons-grid">
+                    <!--Select 1-->
+                    <div class="ons-grid__col ons-col-6@s ">
+                        <div class="ons-field">
+                            <label class="ons-label  " for="survey_names">Surveys
+                            </label>
+                            <select name="surveys_names" id="survey_names" class="ons-input ons-input--select" style="width: auto;">
+                                <option selected="selected" disabled="disabled">Please select a survey</option>
+                                <!--Display each survey ID-->
+                                {% for key, values in survey_dict.items() %}
+                                <option sid="{{key}}">{{ key }} {{ " - ({})".format(values|length) if values|length > 1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    </div>
+                    <!--Select 2-->
+                    <div class="ons-grid__col ons-col-6@s " id="extra_surveys_container" style="display: none">
+                        <div class="ons-field">
+                            <label class="ons-label  " for="extra_surveys">Extra
+                            </label>
+                            <select id="extra_surveys" disabled style="width: auto;" class="ons-input ons-input--select">
+                                <optgroup id="extra_surveys_content" label="More forms">
+                                </optgroup>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <textarea id="post-data" name="post-data" class="surveyTextarea ons-input--textarea ons-input">{{ current_survey }}</textarea>
+                <br>
+                <!--Button row-->
+                <div class="buttonRow">
+                    <div class="">
+                        <button type="submit" class="ons-btn btnBlock">
+                            <span class="ons-btn__inner">Submit</span>
+                        </button>
+                    </div>
+                    <div class="">
+                        <button type="button" class="ons-btn ons-btn--secondary btnBlock" id="collate" onclick="triggerCollate()">
+                            <span class="ons-btn__inner">Trigger Collate</span>
+                        </button>
+                    </div>
+                    <div class="">
+                        <button type="button" class="ons-btn ons-btn--secondary btnBlock" id="cleanup" onclick="triggerCleanupDatastore()">
+                            <span class="ons-btn__inner">Cleanup Datastore</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--Right side-->
+            <div class="ons-grid__col ons-col-6@l " style="background-color: none">
+                {% if submissions %}
+                <table id="basic-table" class="ons-table">
+                    <caption class="ons-table__caption text-center">Submitted Surveys</caption>
+                    <thead class="ons-table__head">
+                        <tr class="ons-table__row">
+                            <th scope="col" class="ons-table__header">
+                                <span>Survey ID</span>
+                            </th>
+                            <th scope="col" class="ons-table__header" colspan="2">
+                                <span>TXID</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="ons-table__body">
+
+                    {% for submission in submissions %}
+                    {% for tx_id, survey_id in submission.items() %}
+                    <tr class="ons-table__row">
+                        <td class="ons-table__cell ">
+                            {{ survey_id }}
+                        </td>
+                        <td class="ons-table__cell ">
+                            <a href = "{{url_for('view_response', tx_id=tx_id )}}"> {{ tx_id }} </a>
+                        </td>
+                        <td>
+                            <button type="button" class="ons-btn ons-btn--secondary ons-btn--small" id="{{ tx_id }}" onclick="emitTxId('{{ tx_id }}'); buttonAnimation('{{ tx_id }}');" value="{{ tx_id }}">
+                                <span class="ons-btn__inner">Cleanup</span>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--Scrips-->
+<script type="text/javascript">
+
+            // Globals
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            var survey_dict = {{ survey_dict|tojson|safe }};
+
+            /**
+             * Will insert a survey into the
+             * textbox on screen
+             * @param  sid   The survey ID (key to dict)
+             * @param  index The index of the form (default is 0) - i.e just the first form
+             */
+            function load_survey_into_textbox(sid,index=0){
+                form = survey_dict[sid][index];
+                $("#post-data").val(JSON.stringify(form,null,4));
+                $("#post-data").scrollTop(0);
+            }
+
+            // When the main select box changes
+            $('#survey_names').change(function() {
+
+                //Get the survey id for the selected option
+                var sid = $('option:selected', this).attr('sid');
+
+                // Fill the text box with the data in the dropdown
+                load_survey_into_textbox(sid)
+
+
+                // Ensure the selection is disabled & hidden
+                $('#extra_surveys').prop('disabled', 'disabled');
+                $('#extra_surveys_container').hide();
+
+                // Clear old extra surveys
+                $('#extra_surveys_content').empty();
+
+                //Check the SID is valid
+                if (typeof sid !== 'undefined'){
+                    // Get the list of forms associated with this survey
+                    var extra_surveys = survey_dict[sid]
+                    // Only show the option if there is more than 1 form
+                    if (extra_surveys.length > 1){
+                        // Show the second dropdown
+                        $('#extra_surveys_container').show();
+                        //Populate the dropdown
+                        $.each(extra_surveys, function(key,value){
+                            $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(sid+": "+key));
+                        });
+
+                        // Enable the dropdown
+                        $('#extra_surveys').prop('disabled', false);
+                    }
+                }
+            });
+
+
+            // When the second select changes
+            $('#extra_surveys').change(function() {
+
+                //Get the survey id for the selected option
+                var sid = $('option:selected', this).attr('sid');
+                var index = $('option:selected', this).attr('index');
+                // Fill the text box with the data in the dropdown
+                load_survey_into_textbox(sid,index)
+            });
+
+
+            function emitTxId(tx_id) {
+                socket.emit('dap_receipt', {tx_id : tx_id});
+            }
+
+            function buttonAnimation(tx_id) {
+                var selectedButton = document.getElementById(tx_id);
+                $(selectedButton).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Cleaning...').attr('disabled', true);
+            }
+
+            function buttonChange(tx_id, color, status) {
+                var selectedButton = document.getElementById(tx_id);
+                $(selectedButton).html(status);
+                document.getElementById(tx_id).style.background = color;
+            }
+
+            function triggerCollate() {
+                socket.emit('collate', {data : 'collate triggered'});
+                document.getElementById('collate').disabled = true;
+                alert("Triggering sdx-collate cron...");
+            }
+
+            function triggerCleanupDatastore() {
+                socket.emit('cleanup datastore')
+                alert("Cleaning up Datastore")
+            }
+            socket.on('cleaning finished', function(msg) {
+                if (msg.in_bucket == false) {
+                    console.log(msg.in_bucket);
+                    buttonChange(msg.tx_id, 'DarkSeaGreen', 'Done!');
+                } else {
+                    console.log(msg.in_bucket);
+                    buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                }
+            });
+
+            socket.on('cleanup failed', function(msg) {
+                buttonChange(msg.tx_id, 'Tomato', 'Failed!');
+                alert("Cleanup Failed: " + msg.error);
+            });
+
+            socket.on('Collate status', function(msg) {
+                document.getElementById('collate').disabled = false;
+                alert("Status: " + msg.status);
+            });
+
+            socket.on('Cleanup status', function(msg){
+                alert("Status: " + msg.status);
+            });
+</script>
+{% endblock %}
