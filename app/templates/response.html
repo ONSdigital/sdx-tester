@@ -200,7 +200,7 @@
                             {% if 'JPG' in key %}
                                 <img style="width:75%;" src="data:image/JPG;base64,{{ value }}">
                             {% else %}
-                                <textarea readonly class="ons-input--textarea ons-input scrollableTextarea" >{{ value | pretty_print}}</textarea>
+                                <textarea readonly class="ons-input--textarea ons-input scrollableTextarea fileTextarea min250" >{{ value }}</textarea>
                             {% endif %}
                         </div>
                     </div>
@@ -210,80 +210,29 @@
         {% endif %}
     </div>
     
-    {# {% if timeout or quarantine %}
-        {% for flash in get_flashed_messages() %}
-            <div class="timeout">
-                <h2>ERROR</h2>
-                <p>{{ flash }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
-    {% if quarantine %}
-        <div class="buttons">
-            <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
-        <div class="content">
-            <textarea id="quarantine_text" readonly rows="30">{{ quarantine | pretty_print }}</textarea>
-        </div>
-        </div>
-        <br>
-    {% else %}
-        <div class="buttons">
-            <button type="button" class="collapsible" id="dap"><strong>Received DAP</strong></button>
-        <div class="content">
-            <textarea id="dap_text" readonly rows="20">{{dap_message | pretty_print }}
-            </textarea>
-        </div>
-        <br><br>
-        {% if 'SEFT' not in files and 'JSON' not in files %}
-            <button type="button" class="collapsible" id="receipt"><strong>Received Receipts</strong></button>
-        <div class="content">
-            <textarea id="receipt_text" readonly rows="15">{{ receipt | pretty_print }}
-            </textarea>
-        </div>
-         {% endif %}
-        <br><br>
-        <!--            The below div is for loading different types of transformed files for survey submissions-->
-
-        <div class="loadFiles">
-            <div class="fileButtons">
-                <p style="color:#fff;"><strong>Select the format:</strong></p>
-                {% for key, value in files.items() %}
-                    {% if 'JPG' in key %}
-                        <center><button class="fileButton"  onclick="showData( '{{key}}' );"> {{ key }} </button>
-                        <p id="{{ key }}" style="display:none; padding:20px"><img style="width:75%;" src="data:image/JPG;base64,{{ value }}"></p>
-                        </center>
-                    {% else %}
-                        <center><button class="fileButton" onclick="showData( '{{key}}' );"> {{ key }} </button>
-                        <textarea readonly id="{{ key }}" style="display:none; padding:20px; width:100%; height:700px;
-                        border-radius: 5px; resize:none; overflow:visible;">{{ value }}</textarea>
-                        </center>
-                    {% endif %}
-                    <br>
-                {% endfor %}
-            </div>
-        </div>
-
-        </div>
-    {% endif %} #}
-    
     <script type="text/javascript">
 
         //Globals
         const $indicator_classes = ["ons-status--error", "ons-status--success", "ons-status--pending", "ons-status--dead"];
 
-        function showData(id_clicked) {
-            var current_display = document.getElementById(id_clicked).style.display;
-            if (current_display == 'none') {
-                document.getElementById(id_clicked).style.display = 'block';
-                var ugly = document.getElementById(id_clicked).value;
-                var uglyObj = JSON.parse(ugly)
-
-                // The JSON.stringify() method converts a JavaScript object or value to a JSON string
-                pretty = JSON.stringify(uglyObj, null, 4)
-                document.getElementById(id_clicked).value = pretty
-            } else {
-                document.getElementById(id_clicked).style.display = 'none';
-            }
+        /**
+         * This function will prettify
+         * the textareas on page load
+         */
+        function prettyTextareas(){
+            $( ".fileTextarea" ).each(function( index ) {
+                var content = $(this).val();
+                try {
+                    var pretty = JSON.stringify(JSON.parse(content), null, 4);
+                } 
+                catch(e) {
+                    var pretty = content
+                }
+                finally{
+                    $(this).val(pretty);
+                    $(this).height( $(this)[0].scrollHeight );
+                } 
+            });
         }
 
         /**
@@ -348,20 +297,6 @@
             }
         }
 
-        // The below code creates a collapsible section to toggle between showing and hiding the collapsible content.
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-              content.style.maxHeight = null;
-            } else {
-              content.style.maxHeight = content.scrollHeight + "px";
-            }
-          });
-        }
 
         $(document).ready(function(){
             var socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -373,6 +308,7 @@
             //On load calls
             checkDap()
             checkReceipt();
+            prettyTextareas();
         });
     </script>
 

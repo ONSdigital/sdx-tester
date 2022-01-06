@@ -80,6 +80,10 @@
   overflow-y: scroll !important;
 }
 
+.min250{
+  min-height: 250px !important;
+}
+
 
 /**
   * ================ Media Queries ==================
