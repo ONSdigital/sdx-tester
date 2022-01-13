@@ -68,6 +68,7 @@ class MessageManager(SubmitManager):
         logger.info("Ready")
 
     def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False, requires_publish: bool = True):
+
         logger.info("Calling submit")
         tx_id = result.get_tx_id()
         listener = Listener()
@@ -83,6 +84,7 @@ class MessageManager(SubmitManager):
         if is_seft:
             self.seft_quarantine_listener.add_listener(tx_id, q_listener)
         else:
+            # This cannot be a listener anymore because toolbox is listening
             self.quarantine_listener.add_listener(tx_id, q_listener)
 
         try:

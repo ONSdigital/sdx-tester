@@ -63,6 +63,7 @@ class TestQuarantine(unittest.TestCase):
         self.assertIsNone(result.receipt, f'{key} should not produce a receipt!')
         print("PASSED")
 
+    # This one failed
     def test_missing_survey_id(self):
         self.survey.pop('survey_id')
         self.run_with_survey(self.survey)
@@ -75,6 +76,7 @@ class TestQuarantine(unittest.TestCase):
         self.survey.pop('data')
         self.run_with_survey(self.survey)
 
+    # This one also failed
     def test_missing_metadata(self):
         self.survey.pop('metadata')
         self.run_with_survey(self.survey)
