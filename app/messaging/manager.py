@@ -6,7 +6,7 @@ import structlog
 from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SURVEY_QUARANTINE_SUBSCRIPTION, \
     SEFT_QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data, publish_seft
-from app.messaging.subscriber import MessageListener, Listener
+from app.messaging.subscriber import MessageListener, Listener, QuarantineDatastoreChecker
 from app.result import Result
 
 
@@ -46,7 +46,7 @@ class MessageManager(SubmitManager):
         self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
         self.r = None
 
-        self.quarantine_listener = MessageListener(SURVEY_QUARANTINE_SUBSCRIPTION)
+        self.quarantine_listener = QuarantineDatastoreChecker()
         self.q = None
 
         self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)

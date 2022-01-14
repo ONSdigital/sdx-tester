@@ -102,6 +102,8 @@ class QuarantineDatastoreChecker:
         self.listeners={}
         # Boolean to enable polling of datastore
         self.enabled = False
+        # Interval before polling datastore again (seconds)
+        self.poll_interval = 5
 
     def add_listener(self, tx_id, listener: Listener):
         """
@@ -125,23 +127,20 @@ class QuarantineDatastoreChecker:
         """
         self.listeners = {}
 
-    def on_message(self, message):
+    def on_message(self, messages: list):
         """
         Callback function
+        @param messages: List of tx_id's in datastore
         """
+
         logger.info(f'Current tx_ids: {self.listeners.keys()}')
-        tx_id = message.attributes.get('tx_id')
-        logger.info(f"Received tx_id from header {tx_id} on {self.subscription_id}")
-        if tx_id in self.listeners:
-            message.ack()
-            logger.info(f"Acking message with tx_id {tx_id}")
-            listener = self.listeners[tx_id]
-            listener.set_complete()
-            listener.set_message(message)
-        else:
-            message.ack()
-            logger.error(f"NOT EXPECTED! acking message with tx_id {tx_id}")
-            logger.error(f"Remaining keys: {self.listeners.keys()}")
+        # Go through all the listeners
+        for l in self.listeners:
+            if l in messages:
+                logger.info(f"Found datastore entity matching listener {l}")
+                listener = self.listeners[l]
+                listener.set_complete()
+                listener.set_message(l)
 
     def stop(self):
         """
@@ -158,8 +157,8 @@ class QuarantineDatastoreChecker:
         self.enabled = True
         # Track the number of polls we make
         while self.enabled:
-
-            messages = fetch_quarantined_messages()
+            # Check
+            self.on_message(fetch_quarantined_messages())
             time.sleep(self.poll_interval)
 
 
