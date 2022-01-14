@@ -11,7 +11,6 @@ from app.store.writer import write_seft, write
 def run_survey(message_manager: MessageManager, survey_dict: dict, eq_v3: bool = False) -> Result:
     """
     This function puts the encrypted outputs (comments, survey,dap and feedback) in the GCP outputs bucket '{PROJECT_ID}-outputs'
-
     :param bool eq_v3: Should this survey be run as if its from Eq_v3 (Written directly to bucket) or Eq_v2 (Pubsub) - True = Eq_v3
     """
     encrypted_survey = encrypt_survey(survey_dict, eq_v3)

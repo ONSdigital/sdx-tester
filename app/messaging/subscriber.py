@@ -3,7 +3,8 @@ import structlog
 from concurrent.futures import TimeoutError
 from google.cloud import pubsub_v1
 from app.messaging import PROJECT_ID
-
+from app.datastore.datastore_reader import fetch_quarantined_messages
+import time
 
 logger = structlog.get_logger()
 
@@ -88,3 +89,83 @@ class MessageListener:
     def stop(self):
         self.streaming_pull_future.cancel()
         self.subscriber.close()
+
+
+class QuarantineDatastoreChecker:
+    """
+    Will poll datastore
+    at intervals instead of listening to pubsub for messages.
+    """
+
+    def __init__(self):
+        # Dictionary containing expected quarantine tx_id:listener
+        self.listeners={}
+        # Boolean to enable polling of datastore
+        self.enabled = False
+        # How many times we poll before timing out
+        self.max_polls = 4
+        # Interval between polls (seconds)
+        self.poll_interval = 5
+
+    def add_listener(self, tx_id, listener: Listener):
+        """
+        Add something for the class to listen for when running
+        the start method
+        """
+        logger.info(f"Added {tx_id} to listeners on quarantineChecker")
+        self.listeners[tx_id] = listener
+
+    def remove_listener(self, tx_id):
+        """
+        Remove a specific tx_id from the listener dictionary
+        """
+        if tx_id in self.listeners:
+            logger.info(f"Removed {tx_id} to listeners on quarantineChecker")
+            del self.listeners[tx_id]
+
+    def remove_all(self):
+        """
+        Remove all the tx_id's from the listener dictionary
+        """
+        self.listeners = {}
+
+    def on_message(self, message):
+        """
+        Callback function
+        """
+        logger.info(f'Current tx_ids: {self.listeners.keys()}')
+        tx_id = message.attributes.get('tx_id')
+        logger.info(f"Received tx_id from header {tx_id} on {self.subscription_id}")
+        if tx_id in self.listeners:
+            message.ack()
+            logger.info(f"Acking message with tx_id {tx_id}")
+            listener = self.listeners[tx_id]
+            listener.set_complete()
+            listener.set_message(message)
+        else:
+            message.ack()
+            logger.error(f"NOT EXPECTED! acking message with tx_id {tx_id}")
+            logger.error(f"Remaining keys: {self.listeners.keys()}")
+
+    def stop(self):
+        """
+        Stop polling datastore for new
+        messages
+        """
+        self.enabled = False
+
+    def start(self):
+        """
+        Start checking datastore
+        for mew messages
+        """
+        self.enabled = True
+        # Track the number of polls we make
+        poll_count = 0
+        while self.enabled and poll_count < self.max_polls:
+            poll_count += 1
+            messages = fetch_quarantined_messages()
+            time.sleep(self.poll_interval)
+
+
+
