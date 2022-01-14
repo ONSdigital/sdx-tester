@@ -102,10 +102,6 @@ class QuarantineDatastoreChecker:
         self.listeners={}
         # Boolean to enable polling of datastore
         self.enabled = False
-        # How many times we poll before timing out
-        self.max_polls = 4
-        # Interval between polls (seconds)
-        self.poll_interval = 5
 
     def add_listener(self, tx_id, listener: Listener):
         """
@@ -161,9 +157,8 @@ class QuarantineDatastoreChecker:
         """
         self.enabled = True
         # Track the number of polls we make
-        poll_count = 0
-        while self.enabled and poll_count < self.max_polls:
-            poll_count += 1
+        while self.enabled:
+
             messages = fetch_quarantined_messages()
             time.sleep(self.poll_interval)
 
