@@ -29,6 +29,9 @@ class Listener:
 
 
 class MessageListener:
+    """
+    Class for checking PubSub Subscriptions for quarantined submissions
+    """
 
     def __init__(self, subscription_id: str) -> None:
         self.listeners = {}
@@ -48,7 +51,7 @@ class MessageListener:
     def remove_all(self):
         self.listeners = {}
 
-    def on_message(self, message):
+    def _on_message(self, message):
         logger.info(f'Current tx_ids: {self.listeners.keys()}')
         tx_id = message.attributes.get('tx_id')
         logger.info(f"Received tx_id from header {tx_id} on {self.subscription_id}")
@@ -74,7 +77,7 @@ class MessageListener:
         """
         self.subscriber = pubsub_v1.SubscriberClient()
         subscription_path = self.subscriber.subscription_path(PROJECT_ID, self.subscription_id)
-        self.streaming_pull_future = self.subscriber.subscribe(subscription_path, callback=self.on_message)
+        self.streaming_pull_future = self.subscriber.subscribe(subscription_path, callback=self._on_message)
         logger.info(f"Listening for messages on {subscription_path}..\n")
 
         # Wrap subscriber in a 'with' block to automatically call close() when done.
@@ -93,13 +96,12 @@ class MessageListener:
 
 class QuarantineDatastoreChecker:
     """
-    Will poll datastore
-    at intervals instead of listening to pubsub for messages.
+    Class for checking DataStore for quarantined submissions
     """
 
     def __init__(self):
-        # Dictionary containing expected quarantine tx_id:listener
-        self.listeners={}
+        # Dictionary containing tx_id's of expected quarantined messages {tx_id:listener}
+        self.listeners = {}
         # Boolean to enable polling of datastore
         self.enabled = False
         # Interval before polling datastore again (seconds)
@@ -107,8 +109,7 @@ class QuarantineDatastoreChecker:
 
     def add_listener(self, tx_id, listener: Listener):
         """
-        Add something for the class to listen for when running
-        the start method
+        Adds a Listener to the self.listeners dict
         """
         logger.info(f"Added {tx_id} to listeners on quarantineChecker")
         self.listeners[tx_id] = listener
@@ -127,20 +128,19 @@ class QuarantineDatastoreChecker:
         """
         self.listeners = {}
 
-    def on_message(self, messages: list):
+    def _check_for_listener_match(self, messages: list):
         """
-        Callback function
-        @param messages: List of tx_id's in datastore
+        Checks for a matching tx_id in list of listeners and messages param
+        @param messages: List of tx_id's
         """
 
         logger.info(f'Current tx_ids: {self.listeners.keys()}')
-        # Go through all the listeners
-        for l in self.listeners:
-            if l in messages:
-                logger.info(f"Found datastore entity matching listener {l}")
-                listener = self.listeners[l]
-                listener.set_complete()
-                listener.set_message(l)
+        for listener in self.listeners:
+            if listener in messages:
+                logger.info(f"Found datastore entity matching listener {listener}")
+                current_listener = self.listeners[listener]
+                current_listener.set_complete()
+                current_listener.set_message(listener)
 
     def stop(self):
         """
@@ -152,14 +152,9 @@ class QuarantineDatastoreChecker:
     def start(self):
         """
         Start checking datastore
-        for mew messages
+        for new messages
         """
         self.enabled = True
-        # Track the number of polls we make
         while self.enabled:
-            # Check
-            self.on_message(fetch_quarantined_messages())
+            self._check_for_listener_match(fetch_quarantined_messages())
             time.sleep(self.poll_interval)
-
-
-

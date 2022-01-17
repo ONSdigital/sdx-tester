@@ -1,10 +1,8 @@
 import threading
 import time
-
 import structlog
 
-from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SURVEY_QUARANTINE_SUBSCRIPTION, \
-    SEFT_QUARANTINE_SUBSCRIPTION
+from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SEFT_QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data, publish_seft
 from app.messaging.subscriber import MessageListener, Listener, QuarantineDatastoreChecker
 from app.result import Result
