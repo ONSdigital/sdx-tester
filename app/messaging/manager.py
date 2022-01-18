@@ -69,20 +69,20 @@ class MessageManager(SubmitManager):
 
         logger.info("Calling submit")
         tx_id = result.get_tx_id()
-        listener = Target()
-        self.dap_listener.add_target(tx_id, listener)
+        dap_target = Target()
+        self.dap_listener.add_target(tx_id, dap_target)
 
-        r_listener = Target()
+        receipt_target = Target()
         if requires_receipt:
-            self.receipt_listener.add_target(tx_id, r_listener)
+            self.receipt_listener.add_target(tx_id, receipt_target)
         else:
-            r_listener.set_complete()
+            receipt_target.set_complete()
 
-        q_listener = Target()
+        quarantine_target = Target()
         if is_seft:
-            self.seft_quarantine_listener.add_target(tx_id, q_listener)
+            self.seft_quarantine_listener.add_target(tx_id, quarantine_target)
         else:
-            self.quarantine_listener.add_target(tx_id, q_listener)
+            self.quarantine_listener.add_target(tx_id, quarantine_target)
 
         try:
             if requires_publish:
@@ -108,18 +108,18 @@ class MessageManager(SubmitManager):
                 self._remove_listeners(tx_id)
                 return result
 
-            if q_listener.is_complete():
+            if quarantine_target.is_complete():
                 logger.error("Quarantined")
-                result.set_quarantine(q_listener.get_message())
+                result.set_quarantine(quarantine_target.get_message())
                 self._remove_listeners(tx_id)
                 return result
 
-            if listener.is_complete():
-                result.set_dap(listener.get_message())
+            if dap_target.is_complete():
+                result.set_dap(dap_target.get_message())
                 dap_completed = True
 
-            if r_listener.is_complete():
-                result.set_receipt(r_listener.get_message())
+            if receipt_target.is_complete():
+                result.set_receipt(receipt_target.get_message())
                 receipt_completed = True
 
             if dap_completed and receipt_completed:
