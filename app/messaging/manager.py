@@ -82,7 +82,6 @@ class MessageManager(SubmitManager):
         if is_seft:
             self.seft_quarantine_listener.add_target(tx_id, q_listener)
         else:
-            # This cannot be a listener anymore because toolbox is listening
             self.quarantine_listener.add_target(tx_id, q_listener)
 
         try:
