@@ -3,7 +3,7 @@ import threading
 import time
 
 from app.messaging import DAP_SUBSCRIPTION, RECEIPT_SUBSCRIPTION
-from app.messaging.subscriber import MessageListener
+from app.messaging.subscriber import PubsubListener
 
 logger = structlog.get_logger()
 
@@ -11,7 +11,7 @@ logger = structlog.get_logger()
 MAX_WAIT_TIME_SECS = 300
 
 
-class PerformanceListener(MessageListener):
+class PerformanceListener(PubsubListener):
 
     def __init__(self, subscription_id: str):
         super().__init__(subscription_id)
@@ -25,7 +25,7 @@ class PerformanceListener(MessageListener):
         logger.info(f'Received count = {self.message_count}')
 
 
-class ReceiptListener(MessageListener):
+class ReceiptListener(PubsubListener):
 
     def on_message(self, message):
         message.ack()

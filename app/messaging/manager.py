@@ -1,12 +1,10 @@
 import threading
 import time
-
 import structlog
 
-from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SURVEY_QUARANTINE_SUBSCRIPTION, \
-    SEFT_QUARANTINE_SUBSCRIPTION
+from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SEFT_QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data, publish_seft
-from app.messaging.subscriber import MessageListener, Listener
+from app.messaging.subscriber import PubsubListener, Target, DatastoreListener
 from app.result import Result
 
 
@@ -40,16 +38,16 @@ class MessageManager(SubmitManager):
     """
 
     def __init__(self) -> None:
-        self.dap_listener = MessageListener(DAP_SUBSCRIPTION)
+        self.dap_listener = PubsubListener(DAP_SUBSCRIPTION)
         self.t = None
 
-        self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
+        self.receipt_listener = PubsubListener(RECEIPT_SUBSCRIPTION)
         self.r = None
 
-        self.quarantine_listener = MessageListener(SURVEY_QUARANTINE_SUBSCRIPTION)
+        self.quarantine_listener = DatastoreListener()
         self.q = None
 
-        self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
+        self.seft_quarantine_listener = PubsubListener(SEFT_QUARANTINE_SUBSCRIPTION)
         self.sq = None
 
     def start(self):
@@ -68,22 +66,23 @@ class MessageManager(SubmitManager):
         logger.info("Ready")
 
     def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False, requires_publish: bool = True):
+
         logger.info("Calling submit")
         tx_id = result.get_tx_id()
-        listener = Listener()
-        self.dap_listener.add_listener(tx_id, listener)
+        dap_target = Target()
+        self.dap_listener.add_target(tx_id, dap_target)
 
-        r_listener = Listener()
+        receipt_target = Target()
         if requires_receipt:
-            self.receipt_listener.add_listener(tx_id, r_listener)
+            self.receipt_listener.add_target(tx_id, receipt_target)
         else:
-            r_listener.set_complete()
+            receipt_target.set_complete()
 
-        q_listener = Listener()
+        quarantine_target = Target()
         if is_seft:
-            self.seft_quarantine_listener.add_listener(tx_id, q_listener)
+            self.seft_quarantine_listener.add_target(tx_id, quarantine_target)
         else:
-            self.quarantine_listener.add_listener(tx_id, q_listener)
+            self.quarantine_listener.add_target(tx_id, quarantine_target)
 
         try:
             if requires_publish:
@@ -109,18 +108,18 @@ class MessageManager(SubmitManager):
                 self._remove_listeners(tx_id)
                 return result
 
-            if q_listener.is_complete():
+            if quarantine_target.is_complete():
                 logger.error("Quarantined")
-                result.set_quarantine(q_listener.get_message())
+                result.set_quarantine(quarantine_target.get_message())
                 self._remove_listeners(tx_id)
                 return result
 
-            if listener.is_complete():
-                result.set_dap(listener.get_message())
+            if dap_target.is_complete():
+                result.set_dap(dap_target.get_message())
                 dap_completed = True
 
-            if r_listener.is_complete():
-                result.set_receipt(r_listener.get_message())
+            if receipt_target.is_complete():
+                result.set_receipt(receipt_target.get_message())
                 receipt_completed = True
 
             if dap_completed and receipt_completed:
@@ -134,10 +133,10 @@ class MessageManager(SubmitManager):
 
     def _remove_listeners(self, tx_id):
         logger.info("Removing listeners")
-        self.dap_listener.remove_listener(tx_id)
-        self.receipt_listener.remove_listener(tx_id)
-        self.quarantine_listener.remove_listener(tx_id)
-        self.seft_quarantine_listener.remove_listener(tx_id)
+        self.dap_listener.remove_target(tx_id)
+        self.receipt_listener.remove_target(tx_id)
+        self.quarantine_listener.remove_target(tx_id)
+        self.seft_quarantine_listener.remove_target(tx_id)
 
     def stop(self):
         logger.info("Stopping Message Manager")
