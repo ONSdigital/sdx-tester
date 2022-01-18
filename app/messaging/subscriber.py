@@ -9,7 +9,10 @@ import time
 logger = structlog.get_logger()
 
 
-class Listener:
+class Target:
+    """
+    A class for recording the status of a received message
+    """
 
     def __init__(self) -> None:
         self.complete = False
@@ -28,43 +31,65 @@ class Listener:
         return self._message
 
 
-class MessageListener:
+class BaseListener:
+    """
+    A base class containing the required methods to manage a set of targets
+    """
+
+    def __init__(self, label: str):
+        self.label = label
+        self.targets = {}
+
+    def add_target(self, tx_id, target: Target):
+        """
+        Add a specific tx_id from the targets dictionary
+        """
+        logger.info(f"Added {tx_id} to targets on {self.label}")
+        self.targets[tx_id] = target
+
+    def remove_target(self, tx_id):
+        """
+        Remove a specific tx_id from the targets dictionary
+        """
+        if tx_id in self.targets:
+            logger.info(f"Removed {tx_id} to targets on {self.label}")
+            del self.targets[tx_id]
+
+    def remove_all(self):
+        self.targets = {}
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+
+class PubsubListener(BaseListener):
     """
     Class for checking PubSub Subscriptions for quarantined submissions
     """
 
     def __init__(self, subscription_id: str) -> None:
-        self.listeners = {}
+        super().__init__(subscription_id)
         self.subscription_id = subscription_id
         self.subscriber = pubsub_v1.SubscriberClient()
         self.streaming_pull_future = None
 
-    def add_listener(self, tx_id, listener: Listener):
-        logger.info(f"Added {tx_id} to listeners on {self.subscription_id}")
-        self.listeners[tx_id] = listener
-
-    def remove_listener(self, tx_id):
-        if tx_id in self.listeners:
-            logger.info(f"Removed {tx_id} to listeners on {self.subscription_id}")
-            del self.listeners[tx_id]
-
-    def remove_all(self):
-        self.listeners = {}
-
     def _on_message(self, message):
-        logger.info(f'Current tx_ids: {self.listeners.keys()}')
+        logger.info(f'Current tx_ids: {self.targets.keys()}')
         tx_id = message.attributes.get('tx_id')
-        logger.info(f"Received tx_id from header {tx_id} on {self.subscription_id}")
-        if tx_id in self.listeners:
+        logger.info(f"Received tx_id from header {tx_id} on {self.label}")
+        if tx_id in self.targets:
             message.ack()
             logger.info(f"Acking message with tx_id {tx_id}")
-            listener = self.listeners[tx_id]
+            listener = self.targets[tx_id]
             listener.set_complete()
             listener.set_message(message)
         else:
             message.ack()
             logger.error(f"NOT EXPECTED! acking message with tx_id {tx_id}")
-            logger.error(f"Remaining keys: {self.listeners.keys()}")
+            logger.error(f"Remaining keys: {self.targets.keys()}")
 
     def start(self):
         """
@@ -94,39 +119,17 @@ class MessageListener:
         self.subscriber.close()
 
 
-class QuarantineDatastoreChecker:
+class DatastoreListener(BaseListener):
     """
     Class for checking DataStore for quarantined submissions
     """
 
     def __init__(self):
-        # Dictionary containing tx_id's of expected quarantined messages {tx_id:listener}
-        self.listeners = {}
+        super().__init__("quarantineChecker")
         # Boolean to enable polling of datastore
         self.enabled = False
         # Interval before polling datastore again (seconds)
         self.poll_interval = 5
-
-    def add_listener(self, tx_id, listener: Listener):
-        """
-        Adds a Listener to the self.listeners dict
-        """
-        logger.info(f"Added {tx_id} to listeners on quarantineChecker")
-        self.listeners[tx_id] = listener
-
-    def remove_listener(self, tx_id):
-        """
-        Remove a specific tx_id from the listener dictionary
-        """
-        if tx_id in self.listeners:
-            logger.info(f"Removed {tx_id} to listeners on quarantineChecker")
-            del self.listeners[tx_id]
-
-    def remove_all(self):
-        """
-        Remove all the tx_id's from the listener dictionary
-        """
-        self.listeners = {}
 
     def _check_for_listener_match(self, messages: list):
         """
@@ -134,13 +137,13 @@ class QuarantineDatastoreChecker:
         @param messages: List of tx_id's
         """
 
-        logger.info(f'Current tx_ids: {self.listeners.keys()}')
-        for listener in self.listeners:
-            if listener in messages:
-                logger.info(f"Found datastore entity matching listener {listener}")
-                current_listener = self.listeners[listener]
+        logger.info(f'Current tx_ids: {self.targets.keys()}')
+        for target in self.targets:
+            if target in messages:
+                logger.info(f"Found datastore entity matching listener {target}")
+                current_listener = self.targets[target]
                 current_listener.set_complete()
-                current_listener.set_message(listener)
+                current_listener.set_message(target)
 
     def stop(self):
         """

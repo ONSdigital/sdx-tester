@@ -4,7 +4,7 @@ import structlog
 
 from app.messaging import DAP_SUBSCRIPTION, MAX_WAIT_TIME_SECS, RECEIPT_SUBSCRIPTION, SEFT_QUARANTINE_SUBSCRIPTION
 from app.messaging.publisher import publish_data, publish_seft
-from app.messaging.subscriber import MessageListener, Listener, QuarantineDatastoreChecker
+from app.messaging.subscriber import PubsubListener, Target, DatastoreListener
 from app.result import Result
 
 
@@ -38,16 +38,16 @@ class MessageManager(SubmitManager):
     """
 
     def __init__(self) -> None:
-        self.dap_listener = MessageListener(DAP_SUBSCRIPTION)
+        self.dap_listener = PubsubListener(DAP_SUBSCRIPTION)
         self.t = None
 
-        self.receipt_listener = MessageListener(RECEIPT_SUBSCRIPTION)
+        self.receipt_listener = PubsubListener(RECEIPT_SUBSCRIPTION)
         self.r = None
 
-        self.quarantine_listener = QuarantineDatastoreChecker()
+        self.quarantine_listener = DatastoreListener()
         self.q = None
 
-        self.seft_quarantine_listener = MessageListener(SEFT_QUARANTINE_SUBSCRIPTION)
+        self.seft_quarantine_listener = PubsubListener(SEFT_QUARANTINE_SUBSCRIPTION)
         self.sq = None
 
     def start(self):
@@ -69,21 +69,21 @@ class MessageManager(SubmitManager):
 
         logger.info("Calling submit")
         tx_id = result.get_tx_id()
-        listener = Listener()
-        self.dap_listener.add_listener(tx_id, listener)
+        listener = Target()
+        self.dap_listener.add_target(tx_id, listener)
 
-        r_listener = Listener()
+        r_listener = Target()
         if requires_receipt:
-            self.receipt_listener.add_listener(tx_id, r_listener)
+            self.receipt_listener.add_target(tx_id, r_listener)
         else:
             r_listener.set_complete()
 
-        q_listener = Listener()
+        q_listener = Target()
         if is_seft:
-            self.seft_quarantine_listener.add_listener(tx_id, q_listener)
+            self.seft_quarantine_listener.add_target(tx_id, q_listener)
         else:
             # This cannot be a listener anymore because toolbox is listening
-            self.quarantine_listener.add_listener(tx_id, q_listener)
+            self.quarantine_listener.add_target(tx_id, q_listener)
 
         try:
             if requires_publish:
@@ -134,10 +134,10 @@ class MessageManager(SubmitManager):
 
     def _remove_listeners(self, tx_id):
         logger.info("Removing listeners")
-        self.dap_listener.remove_listener(tx_id)
-        self.receipt_listener.remove_listener(tx_id)
-        self.quarantine_listener.remove_listener(tx_id)
-        self.seft_quarantine_listener.remove_listener(tx_id)
+        self.dap_listener.remove_target(tx_id)
+        self.receipt_listener.remove_target(tx_id)
+        self.quarantine_listener.remove_target(tx_id)
+        self.seft_quarantine_listener.remove_target(tx_id)
 
     def stop(self):
         logger.info("Stopping Message Manager")
