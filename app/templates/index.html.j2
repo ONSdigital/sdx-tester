@@ -162,14 +162,16 @@ Manual page refresh is not required to reflect the changes.
                         $('#extra_surveys_container').show();
                         //Populate the dropdown
                         $.each(extra_surveys, function(key,value){
+                            // Attempt to fetch the instrument_id for this survey
                             var instrument = key;
                             try {
-                              instrument = value["collection"]["instrument_id"]
+                                instrument = value["collection"]["instrument_id"]
                             }
                             catch(err) {
-                              console.log("Instrument ID could not be located")
+                                // If the instrument_id is not found, simply use a counter value
+                                console.log("Instrument ID could not be located")
                             }
-
+                            // Add this form type to the dropdown on screen
                             $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(instrument));
                         });
 
