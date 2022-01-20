@@ -41,7 +41,7 @@ Manual page refresh is not required to reflect the changes.
                     <!--Select 2-->
                     <div class="ons-grid__col ons-col-6@s " id="extra_surveys_container" style="display: none">
                         <div class="ons-field">
-                            <label class="ons-label  " for="extra_surveys">Extra
+                            <label class="ons-label  " for="extra_surveys">Form type
                             </label>
                             <select id="extra_surveys" disabled style="width: auto;" class="ons-input ons-input--select">
                                 <optgroup id="extra_surveys_content" label="More forms">
@@ -162,7 +162,17 @@ Manual page refresh is not required to reflect the changes.
                         $('#extra_surveys_container').show();
                         //Populate the dropdown
                         $.each(extra_surveys, function(key,value){
-                            $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(sid+": "+key));
+                            // Attempt to fetch the instrument_id for this survey
+                            var instrument = key;
+                            try {
+                                instrument = value["collection"]["instrument_id"]
+                            }
+                            catch(err) {
+                                // If the instrument_id is not found, simply use a counter value
+                                console.log("Instrument ID could not be located")
+                            }
+                            // Add this form type to the dropdown on screen
+                            $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(instrument));
                         });
 
                         // Enable the dropdown
