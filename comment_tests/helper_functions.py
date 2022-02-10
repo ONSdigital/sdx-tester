@@ -6,11 +6,15 @@ from datetime import date, datetime, timedelta
 from cryptography.fernet import Fernet
 from google.cloud import datastore, storage, exceptions
 from comment_tests import surveys
+from app.secret_manager import get_secret
 
 
 PROJECT_ID = os.getenv('PROJECT_ID')
 datastore_client = datastore.Client(project=PROJECT_ID)
 COMMENT_KEY = "E3rjFT2i9ALcvc99Pe3YqjIGrzm3LdMsCXc8nUaOEbc="
+
+COMMENT_KEY = get_secret(PROJECT_ID, 'sdx-comment-key')
+
 TIMEOUT = 150
 
 

@@ -7,6 +7,8 @@ from sdc.crypto.key_store import KeyStore
 from sdc.crypto.encrypter import encrypt
 from sdc.crypto.decrypter import decrypt as sdc_decrypt
 from app.jwt import KEY_PURPOSE_SUBMISSION
+from app.secret_manager import get_secret
+from app import PROJECT_ID
 
 logger = structlog.get_logger()
 
@@ -23,6 +25,10 @@ def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
     sdx_key = open("keys/test_sdx-public-jwt.yaml")
     eq_key = open("keys/test_eq-private-signing.yaml")
     eqv3_key = open("keys/test_eqv3-private-signing.yaml")
+
+    # sdx_key = get_secret(PROJECT_ID, 'sdx-public-jwt')
+    # eq_key = get_secret(PROJECT_ID, 'eq-private-signing')
+    # eqv3_key = get_secret(PROJECT_ID, 'eq-private-signing')
 
     if eq_version_3:
         key_store = load_keys(sdx_key, eqv3_key)
@@ -45,9 +51,13 @@ def decrypt_survey(payload: bytes, eq_version_3: bool = False) -> dict:
     The payload needs to be a JWE encrypted using SDX's public key.
     The JWE ciphertext should represent a JWS signed by EQ using their private key and with the survey json as the claims set.
     """
-    sdx_key = open("keys/test_sdx-private-jwt.yaml")
-    eq_key = open("keys/test_eq-public-signing.yaml")
-    eqv3_key = open("keys/test_eq-public-signing.yaml")
+    # sdx_key = open("keys/test_sdx-private-jwt.yaml")
+    # eq_key = open("keys/test_eq-public-signing.yaml")
+    # eqv3_key = open("keys/test_eq-public-signing.yaml")
+
+    sdx_key = get_secret(PROJECT_ID, 'sdx-private-jwt')
+    eq_key = get_secret(PROJECT_ID, 'eq-public-signing')
+    eqv3_key = get_secret(PROJECT_ID, 'eq-public-signing')
 
     if eq_version_3:
         key_store = load_keys(sdx_key, eqv3_key)
