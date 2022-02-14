@@ -22,13 +22,13 @@ def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
     Encryption is used to ensure only SDX can read a survey response. Signing is used to ensure SDX only trusts encrypted
     responses sent from eQ.
     """
-    sdx_key = open("keys/test_sdx-public-jwt.yaml")
-    eq_key = open("keys/test_eq-private-signing.yaml")
-    eqv3_key = open("keys/test_eqv3-private-signing.yaml")
+    # sdx_key = open("keys/test_sdx-public-jwt.yaml")
+    # eq_key = open("keys/test_eq-private-signing.yaml")
+    # eqv3_key = open("keys/test_eqv3-private-signing.yaml")
 
-    # sdx_key = get_secret(PROJECT_ID, 'sdx-public-jwt')
-    # eq_key = get_secret(PROJECT_ID, 'eq-private-signing')
-    # eqv3_key = get_secret(PROJECT_ID, 'eq-private-signing')
+    sdx_key = get_secret(PROJECT_ID, 'sdx-public-jwt')
+    eq_key = get_secret(PROJECT_ID, 'eq-private-signing')
+    eqv3_key = get_secret(PROJECT_ID, 'eq-private-jws')
 
     if eq_version_3:
         key_store = load_keys(sdx_key, eqv3_key)
@@ -57,7 +57,7 @@ def decrypt_survey(payload: bytes, eq_version_3: bool = False) -> dict:
 
     sdx_key = get_secret(PROJECT_ID, 'sdx-private-jwt')
     eq_key = get_secret(PROJECT_ID, 'eq-public-signing')
-    eqv3_key = get_secret(PROJECT_ID, 'eq-public-signing')
+    eqv3_key = get_secret(PROJECT_ID, 'eq-public-jws')
 
     if eq_version_3:
         key_store = load_keys(sdx_key, eqv3_key)
