@@ -91,6 +91,7 @@ def submit():
 
     data_dict = json.loads(current_survey)
     survey_id = data_dict["survey_id"]
+    instrument_id = data_dict["collection"]["instrument_id"]
 
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
@@ -103,11 +104,11 @@ def submit():
         downstream_data.append(data_bytes)
         survey_id = 'seft_' + survey_id
 
-    time_and_survey = {tx_id: f'({survey_id})  {datetime.now().strftime("%H:%M")}'}
-    submissions.insert(0, time_and_survey)
+    #time_and_survey = {tx_id: f'({survey_id})  {datetime.now().strftime("%H:%M")}'}
+    tx_id_info = {tx_id: {"time": datetime.now().strftime("%H:%M"), "survey_id": survey_id, "instrument_id": instrument_id}}
+    submissions.insert(0, tx_id_info)
 
     threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
-
     return render_template('index.html.j2',
                            submissions=submissions[:15],
                            survey_dict = get_json_surveys(),
