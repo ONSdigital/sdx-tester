@@ -7,8 +7,17 @@ from sdc.crypto.key_store import KeyStore
 from sdc.crypto.encrypter import encrypt
 from sdc.crypto.decrypter import decrypt as sdc_decrypt
 from app.jwt import KEY_PURPOSE_SUBMISSION
+from app.secret_manager import get_secret
+from app import PROJECT_ID
 
 logger = structlog.get_logger()
+
+sdx_key = get_secret(PROJECT_ID, 'sdx-public-jwt')
+eq_key = get_secret(PROJECT_ID, 'eq-private-signing')
+eqv3_key = get_secret(PROJECT_ID, 'eq-private-jws')
+sdx_key_decrypt = get_secret(PROJECT_ID, 'sdx-private-jwt')
+eq_key_decrypt = get_secret(PROJECT_ID, 'eq-public-signing')
+eqv3_key_decrypt = get_secret(PROJECT_ID, 'eq-public-jws')
 
 
 def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
@@ -20,9 +29,6 @@ def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
     Encryption is used to ensure only SDX can read a survey response. Signing is used to ensure SDX only trusts encrypted
     responses sent from eQ.
     """
-    sdx_key = open("keys/test_sdx-public-jwt.yaml")
-    eq_key = open("keys/test_eq-private-signing.yaml")
-    eqv3_key = open("keys/test_eqv3-private-signing.yaml")
 
     if eq_version_3:
         key_store = load_keys(sdx_key, eqv3_key)
@@ -30,10 +36,6 @@ def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
         key_store = load_keys(sdx_key, eq_key)
 
     payload = encrypt(submission, key_store, 'submission')
-
-    sdx_key.close()
-    eq_key.close()
-    eqv3_key.close()
 
     return payload
 
@@ -45,20 +47,15 @@ def decrypt_survey(payload: bytes, eq_version_3: bool = False) -> dict:
     The payload needs to be a JWE encrypted using SDX's public key.
     The JWE ciphertext should represent a JWS signed by EQ using their private key and with the survey json as the claims set.
     """
-    sdx_key = open("keys/test_sdx-private-jwt.yaml")
-    eq_key = open("keys/test_eq-public-signing.yaml")
-    eqv3_key = open("keys/test_eq-public-signing.yaml")
 
     if eq_version_3:
-        key_store = load_keys(sdx_key, eqv3_key)
+        key_store = load_keys(sdx_key_decrypt, eqv3_key_decrypt)
     else:
-        key_store = load_keys(sdx_key, eq_key)
+        key_store = load_keys(sdx_key_decrypt, eq_key_decrypt)
 
     b_payload = payload.decode('utf-8')
+
     decrypted_json = sdc_decrypt(b_payload, key_store, KEY_PURPOSE_SUBMISSION)
-    sdx_key.close()
-    eq_key.close()
-    eqv3_key.close()
 
     return decrypted_json
 
