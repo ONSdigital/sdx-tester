@@ -91,7 +91,11 @@ def submit():
 
     data_dict = json.loads(current_survey)
     survey_id = data_dict["survey_id"]
-    instrument_id = data_dict["collection"]["instrument_id"]
+    # Attempt to find an instrument ID
+    try:
+        instrument_id = data_dict["collection"]["instrument_id"]
+    except KeyError:
+        instrument_id = ""
 
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id

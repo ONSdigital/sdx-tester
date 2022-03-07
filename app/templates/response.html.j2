@@ -34,13 +34,6 @@
     <!--Main Grid-->
     <div class="mt-20 ons-u-mb-m ons-grid ons-grid--spaced">
         {% if quarantine %}
-            <div class="buttons">
-                <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
-            <div class="content">
-                <textarea id="quarantine_text" readonly rows="30">{{ quarantine | pretty_print }}</textarea>
-            </div>
-            </div>
-
             <div class="ons-grid__col ons-col-6@m ">
                 <div id="quarAccordion" class="ons-accordion">
                     <!--Title bar-->
