@@ -31,17 +31,11 @@
 	text-align: center !important;
 }
 
-.collapseStatus{
-  margin-left: 10px;
-  text-decoration: none !important;
-  cursor: default !important;
-}
-
 /**
   * ================ Buttons ==================
   */
  
-.buttonRow{
+.button-row{
     padding: 15px 0px;
     display: flex;
     flex-direction: column;
@@ -49,10 +43,10 @@
     align-items: stretch;
 }
 
-.btnBlock{
+.btn-block{
 	width: 100%;
 }
-.btnBlock, .btnBlock .ons-btn__inner{
+.btn-block, .btn-block .ons-btn__inner{
 	width: 100%  !important;
 }
 
@@ -60,13 +54,13 @@
   * ================ MISC ==================
   */
  
-.customContainer{
+.custom-container{
 	max-width: 80rem;
 	margin: auto;
 	padding: 0px 3rem;
 }
 
-.surveyTextarea{
+.survey-text-area{
 	max-height: 55vh;
 	min-height: 400px;
 	resize: vertical !important;
@@ -75,16 +69,16 @@
 	height: 55vh;
 }
 
-.scrollableTextarea{
+.scrollable-text-area{
   resize: vertical !important;
   overflow-y: scroll !important;
 }
 
-.min250{
+.min-250{
   min-height: 250px !important;
 }
 
-.fileImageContainer{
+.file-image-container{
   height: 90vh;
   width: auto;
   background-color: rgba(0, 0, 0, 0.2);
@@ -92,7 +86,7 @@
   padding: 2em;
 }
 
-.fileImageContainer img{
+.file-image-container img{
   width: 100%;
   height: 100%;
   object-fit: scale-down;
@@ -104,7 +98,7 @@
   * ================ Media Queries ==================
   */
 @media screen and (min-width: 1200px) {
-  .buttonRow{
+  .button-row{
       flex-direction: row;
       justify-content: space-between
   }

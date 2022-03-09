@@ -3,7 +3,7 @@
 
 {% block content %}
 <!--Page container-->
-<div class="ons-page__container customContainer ons-u-mt-l ons-u-mb-m">
+<div class="ons-page__container custom-container ons-u-mt-l ons-u-mb-m">
     <!--Back button-->
     <button onclick="window.location.href='/'" role="button" class="ons-btn ons-btn--secondary">
         <span class="ons-btn__inner">
@@ -34,13 +34,6 @@
     <!--Main Grid-->
     <div class="mt-20 ons-u-mb-m ons-grid ons-grid--spaced">
         {% if quarantine %}
-            <div class="buttons">
-                <button type="button" class="collapsible" id="quarantine"><strong>This submission with tx_id: {{ tx_id }} has been quarantined</strong></button>
-            <div class="content">
-                <textarea id="quarantine_text" readonly rows="30">{{ quarantine | pretty_print }}</textarea>
-            </div>
-            </div>
-
             <div class="ons-grid__col ons-col-6@m ">
                 <div id="quarAccordion" class="ons-accordion">
                     <!--Title bar-->
@@ -198,11 +191,11 @@
                         </div>
                         <div id="accordion-{{key}}-content" class="ons-collapsible__content ons-js-collapsible-content">
                             {% if 'JPG' in key %}
-                            <div class="fileImageContainer">
+                            <div class="file-image-container">
                                 <img src="data:image/JPG;base64,{{ value }}">
                             </div>
                             {% else %}
-                                <textarea readonly class="ons-input--textarea ons-input scrollableTextarea fileTextarea min250" >{{ value }}</textarea>
+                                <textarea readonly class="ons-input--textarea ons-input scrollable-text-area fileTextarea min-250" >{{ value }}</textarea>
                             {% endif %}
                         </div>
                     </div>
