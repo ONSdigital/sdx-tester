@@ -11,13 +11,15 @@ output_files = {
     'survey': f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup-survey',
     'seft': f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup-seft.xlsx.gpg',
     'dap': f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup-dap.json',
-    'comment': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip'
+    'comment': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip',
+    'feedback': f'{OUTPUT_BUCKET_NAME}/feedback/testing_cleanup_feeback-fb-1645465208'
 }
 
 input_files = {
     'survey-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup-survey',
     'seft-input': f'{INPUT_SEFT_BUCKET}/testing_cleanup-seft.xlsx.gpg',
-    'dap-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup-dap'
+    'dap-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup-dap',
+    'feedback-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup_feeback'
 }
 
 fake_surveys = ['001', '002', '003', '004', '005']

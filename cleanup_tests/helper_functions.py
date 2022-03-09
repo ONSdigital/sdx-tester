@@ -15,7 +15,7 @@ test_cleanup.py then runs queries to check if the data has in fact been deleted.
 """
 
 
-def setup_output_bucket():
+def setup_output_and_input_buckets():
     """
     Upload data to buckets in ons-sdx-{{project_id}}
     """

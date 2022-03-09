@@ -1,6 +1,6 @@
 import unittest
 import time
-from cleanup_tests.helper_functions import setup_output_bucket, setup_comments, kickoff_cleanup_outputs, \
+from cleanup_tests.helper_functions import setup_output_and_input_buckets, setup_comments, kickoff_cleanup_outputs, \
     have_files_been_deleted, is_datastore_cleaned_up
 
 TIMEOUT = 150
@@ -13,11 +13,11 @@ class TestCleanup(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        setup_output_bucket()
+        setup_output_and_input_buckets()
         setup_comments()
         kickoff_cleanup_outputs()
 
-    def test_outputs_bucket(self):
+    def test_outputs_and_inputs_buckets(self):
         count = 0
         passed = False
         while count < TIMEOUT:
