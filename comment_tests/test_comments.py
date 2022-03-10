@@ -1,33 +1,23 @@
-import io
 import os
 import unittest
-import zipfile
 import glob
 import pandas
-import time
 
-from datetime import date
-from app.store.reader import get_comment_files, does_comment_exist
 from comment_tests import surveys
-from comment_tests.helper_functions import bucket_cleanup, insert_comments
-from app.store.reader import cleanup_datastore
-
-TIMEOUT = 150
-d = date.today()
+from comment_tests.helper_functions import bucket_cleanup, insert_comments, wait_for_comments, extract_files, \
+    clean_datastore
 
 
 class TestComments(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cleanup_datastore()
+        clean_datastore()
         bucket_cleanup()
         insert_comments()
         os.system('kubectl create job --from=cronjob/sdx-collate test-collate')
         wait_for_comments()
-        result = get_comment_files()
-        z = zipfile.ZipFile(io.BytesIO(result), "r")
-        z.extractall('temp_files')
+        extract_files()
 
     @classmethod
     def tearDownClass(cls):
@@ -55,11 +45,3 @@ class TestComments(unittest.TestCase):
         self.assertEqual(result.iat[1, 7], 'solder joint')
         self.assertEqual(result.iat[1, 8], 'drill hole')
         self.assertEqual(int(result.iat[1, 1]), 201605)
-
-
-def wait_for_comments():
-    count = 0
-    while not does_comment_exist() and count < TIMEOUT:
-        print('SDX-Collate waiting for resources. Waiting 20 seconds...')
-        time.sleep(20)
-        count += 20

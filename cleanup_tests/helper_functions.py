@@ -3,7 +3,8 @@ from datetime import datetime, date, timedelta
 
 from app.messaging.publisher import publish_dap_receipt
 from app.store import writer
-from app.store.reader import check_file_exists, get_entity_count
+from app.store.reader import check_file_exists
+from app.datastore.datastore_reader import get_entity_count
 from cleanup_tests import fake_surveys, input_files, dap_response
 from cleanup_tests import output_files
 from comment_tests.helper_functions import create_entity

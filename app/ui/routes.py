@@ -10,6 +10,7 @@ import structlog
 from datetime import datetime
 from flask import request, render_template, flash
 from app import app, socketio
+from app.datastore.datastore_writer import cleanup_datastore
 from app.jwt.encryption import decrypt_survey
 from app import message_manager
 from app.messaging.publisher import publish_dap_receipt
@@ -17,7 +18,6 @@ from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
 from app.survey_loader import get_json_surveys, read_ui
 from app.tester import run_survey, run_seft
-from app.store.reader import cleanup_datastore
 
 logger = structlog.get_logger()
 
@@ -29,7 +29,7 @@ responses = []
 @app.get('/index')
 def index():
     return render_template('index.html.j2',
-                           survey_dict = get_json_surveys(),
+                           survey_dict=get_json_surveys(),
                            submissions=submissions)
 
 
@@ -108,7 +108,7 @@ def submit():
         downstream_data.append(data_bytes)
         survey_id = 'seft_' + survey_id
 
-    #time_and_survey = {tx_id: f'({survey_id})  {datetime.now().strftime("%H:%M")}'}
+    # time_and_survey = {tx_id: f'({survey_id})  {datetime.now().strftime("%H:%M")}'}
     tx_id_info = {tx_id: {"time": datetime.now().strftime("%H:%M"), "survey_id": survey_id, "instrument_id": instrument_id}}
     submissions.insert(0, tx_id_info)
 
