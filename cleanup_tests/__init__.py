@@ -55,4 +55,3 @@ dap_response = {
   "iterationL3": "",
   "schemaVersion": 1
 }
-

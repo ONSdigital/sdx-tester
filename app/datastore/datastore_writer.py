@@ -1,10 +1,17 @@
-from google.cloud import datastore
-from app.datastore import DATASTORE_CLIENT
-import structlog
+import json
 
+import structlog
+from cryptography.fernet import Fernet
+from google.cloud import datastore
+
+from app.datastore import PROJECT_ID, DATASTORE_CLIENT
 from app.datastore.datastore_reader import fetch_comment_kinds
+from app.secret_manager import get_secret
 
 logger = structlog.get_logger()
+
+
+COMMENT_KEY = get_secret(PROJECT_ID, 'sdx-comment-key')
 
 
 def write_entity(kind: str, entity_id: str, data: dict, exclude_from_indexes: tuple = ()):
@@ -32,3 +39,9 @@ def cleanup_datastore():
         logger.error('Failed to delete item from Datastore')
     return True
 
+
+def encrypt_comment(data: dict) -> str:
+    comment_str = json.dumps(data)
+    f = Fernet(COMMENT_KEY)
+    token = f.encrypt(comment_str.encode())
+    return token.decode()
