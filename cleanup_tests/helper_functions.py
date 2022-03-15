@@ -1,12 +1,14 @@
 import copy
+import uuid
 from datetime import datetime, date, timedelta
 
+from app.datastore.datastore_writer import encrypt_comment, write_entity
 from app.messaging.publisher import publish_dap_receipt
 from app.store import writer
-from app.store.reader import check_file_exists, get_entity_count
+from app.store.reader import check_file_exists
+from app.datastore.datastore_reader import get_entity_count
 from cleanup_tests import fake_surveys, input_files, dap_response
 from cleanup_tests import output_files
-from comment_tests.helper_functions import create_entity
 
 """
 This file contains functions that insert data into both buckets and Datastore and then publishes a message onto
@@ -41,7 +43,19 @@ def setup_comments():
     today = datetime(d.year, d.month, d.day)
     ninety_days_ago = today - timedelta(days=91)
     for fake_id in fake_surveys:
-        create_entity(fake_id, ninety_days_ago)
+        insert_comment(fake_id, ninety_days_ago)
+
+
+def insert_comment(survey_id, date_stored):
+    data = {
+        "created": date_stored,
+        "encrypted_data": encrypt_comment(
+            {'ru_ref': '12346789012A', 'boxes_selected': '', 'comment': f'I am a {survey_id} comment',
+             'additional': []}
+        )
+    }
+
+    write_entity(f"{survey_id}_201605", str(uuid.uuid4()), data, exclude_from_indexes=("encrypted_data",))
 
 
 def kickoff_cleanup_outputs():

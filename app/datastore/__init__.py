@@ -6,6 +6,7 @@ and methods for managing datastore
 from google.cloud import datastore
 from app import PROJECT_ID
 
-DATASTORE_NAMESPACE = "toolbox"
+DATASTORE_TOOLBOX_NAMESPACE = "toolbox"
 QUARANTINE_KIND = "quarantined_messages"
-DATASTORE_CLIENT = datastore.Client(project=PROJECT_ID, namespace=DATASTORE_NAMESPACE)
+DATASTORE_CLIENT = datastore.Client(project=PROJECT_ID)
+DATASTORE_TOOLBOX_CLIENT = datastore.Client(project=PROJECT_ID, namespace=DATASTORE_TOOLBOX_NAMESPACE)
