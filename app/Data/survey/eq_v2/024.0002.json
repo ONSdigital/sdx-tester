@@ -1,0 +1,44 @@
+{
+  "case_id": "c81d352b-b936-4f03-b5b7-07c6d370050d",
+  "collection": {
+    "exercise_sid": "d9a3f189-44a9-40c3-adc8-894b15a5ba10",
+    "instrument_id": "0002",
+    "period": "201605"
+  },
+  "data": {
+    "11": "Electricity",
+    "110": "45000",
+    "12": "Coal",
+    "120": "Litres",
+    "121": "67",
+    "13": "Oil",
+    "130": "34000",
+    "140": "Tonnes",
+    "142": "26",
+    "146": "Fuel is getting expensive!",
+    "150": "55000",
+    "160": "40",
+    "180": "120",
+    "190": "75",
+    "200": "0",
+    "330": "98000",
+    "340": "4567",
+    "350": "1234",
+    "360": "42",
+    "370": "The Electric Supplier"
+  },
+  "flushed": false,
+  "metadata": {
+    "ref_period_end_date": "2016-05-31",
+    "ref_period_start_date": "2016-05-01",
+    "ru_ref": "08449838140O",
+    "user_id": "UNKNOWN"
+  },
+  "origin": "uk.gov.ons.edc.eq",
+  "started_at": "2022-03-15T16:26:24.436484",
+  "submitted_at": "2022-03-15T16:29:58.687540",
+  "survey_id": "024",
+  "tx_id": "0d21ffe7-dcb0-4d4e-b66e-095cd2e58d7a",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1"
+}
