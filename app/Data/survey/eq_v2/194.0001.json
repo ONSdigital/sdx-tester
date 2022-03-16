@@ -1,0 +1,35 @@
+{
+  "case_id": "d845c8e7-96cf-4087-b040-a2f55bbdbe81",
+  "collection": {
+    "exercise_sid": "9957ef46-98d1-4502-8ff0-d1606fe6ddd0",
+    "instrument_id": "0001",
+    "period": "201605"
+  },
+  "data": {
+    "10": "0",
+    "13": "1",
+    "146": "No comments today ;)",
+    "2": "34000",
+    "3": "27000",
+    "4": "81000",
+    "5": "95200",
+    "6": "4235",
+    "7": "5634",
+    "8": "56234",
+    "9": "123000"
+  },
+  "flushed": false,
+  "metadata": {
+    "ref_period_end_date": "2016-05-31",
+    "ref_period_start_date": "2016-05-01",
+    "ru_ref": "09558595073h",
+    "user_id": "UNKNOWN"
+  },
+  "origin": "uk.gov.ons.edc.eq",
+  "started_at": "2022-03-15T16:33:40.665055",
+  "submitted_at": "2022-03-15T16:44:26.847308",
+  "survey_id": "194",
+  "tx_id": "d75401c0-54ae-4d5c-a432-72303554e3ba",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1"
+}
