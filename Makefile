@@ -13,6 +13,4 @@ performance-test:
 cleanup-test:
 	pipenv run python -Wi -m unittest cleanup_tests.test_cleanup
 comment-test:
-	pipenv run python -Wi -m unittest comment_tests.test_comments
-daily-comment-test:
-	pipenv run python -Wi -m unittest comment_tests.test_daily
+	pipenv run python -Wi -m unittest discover -s comment_tests
