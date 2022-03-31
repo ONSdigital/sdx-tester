@@ -33,6 +33,14 @@ class UserSurveySubmissionsManager:
     def __init__(self):
         self.surveys = []
 
+    def __iter__(self):
+        """
+        Make this object iterable
+        and loop over each survey
+        """
+        for survey in self.surveys:
+            yield survey
+
     def add_response(self, response: Result):
         """
         Associate a response with
@@ -56,13 +64,17 @@ class UserSurveySubmissionsManager:
     def add_survey(self, survey):
         self.surveys.insert(0, survey)
 
-    def __iter__(self):
+    def get_response(self, tx_id):
         """
-        Make this object iterable
-        and loop over each survey
+        Fetch a response for a user submitted
+        survey given the tx_id
         """
         for survey in self.surveys:
-            yield survey
+            if survey.tx_id == tx_id:
+                return survey.response
+
+    def get_all_responses(self):
+        return [survey.response for survey in self.surveys]
 
 
 class UserSurveySubmission:
@@ -81,9 +93,6 @@ class UserSurveySubmission:
 
 # Track the submissions submitted by the user
 submissions = UserSurveySubmissionsManager()
-
-# Track the responses of submissions by the user
-responses = []
 
 
 @app.get('/')
@@ -206,40 +215,33 @@ def view_response(tx_id):
     quarantine = None
     files = {}
     errors = []
-    for response in responses:
-        # If this line doesn't run the UI needs to be able to handle the default values above
-        if response.get_tx_id() == tx_id:
-            timeout = response.timeout
-            dap_message = response.dap_message
-            receipt = response.receipt
-            quarantine = response.quarantine
-            errors = response.errors
-            files = decode_files_and_images(response.files)
 
-            if dap_message:
-                dap_message = json.loads(dap_message.data.decode('utf-8'))
+    response = submissions.get_response(tx_id)
 
-            if receipt:
-                receipt = json.loads(receipt.data.decode('utf-8'))
+    if response:
+        timeout = response.timeout
+        dap_message = response.dap_message
+        receipt = response.receipt
+        quarantine = response.quarantine
+        errors = response.errors
+        files = decode_files_and_images(response.files)
 
-            if quarantine:
-                flash(f'Submission with tx_id: {tx_id} has been quarantined')
-                if 'seft' not in response.quarantine.data.decode():
-                    quarantine = decrypt_survey(quarantine.data)
-                else:
-                    quarantine = 'SEFT Quarantined'
+        if dap_message:
+            dap_message = json.loads(dap_message.data.decode('utf-8'))
 
-            if timeout:
-                flash('PubSub subscriber in sdx-tester timed out before receiving a response')
+        if receipt:
+            receipt = json.loads(receipt.data.decode('utf-8'))
 
-            return render_template('response.html.j2',
-                                   tx_id=tx_id,
-                                   receipt=receipt,
-                                   dap_message=dap_message,
-                                   files=files,
-                                   errors=errors,
-                                   quarantine=quarantine,
-                                   timeout=timeout)
+        if quarantine:
+            flash(f'Submission with tx_id: {tx_id} has been quarantined')
+            if 'seft' not in response.quarantine.data.decode():
+                quarantine = decrypt_survey(quarantine.data)
+            else:
+                quarantine = 'SEFT Quarantined'
+
+        if timeout:
+            flash('PubSub subscriber in sdx-tester timed out before receiving a response')
+
     return render_template('response.html.j2',
                            tx_id=tx_id,
                            receipt=receipt,
@@ -269,7 +271,7 @@ def downstream_process(*data):
         result = run_seft(message_manager, data[0], data[1])
     else:
         result = run_survey(message_manager, data[0])
-    responses.append(result)
+    submissions.add_response(result)
     response = 'Emitting....'
     socketio.emit('data received', {'response': response})
     logger.info('Emit data (websocket)')
@@ -299,7 +301,7 @@ def decode_files_and_images(response_files: dict):
 def post_dap_message(tx_id: str):
     timeout = 0
     while timeout < 30:
-        for response in responses:
+        for response in submissions.get_all_responses():
             if response.dap_message and tx_id == response.dap_message.attributes['tx_id']:
                 file_path = response.dap_message.attributes['gcs.key']
 
