@@ -17,11 +17,70 @@ from app.jwt.encryption import decrypt_survey
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
 from app.survey_loader import get_json_surveys, read_ui
+from app.result import Result
 
 logger = structlog.get_logger()
 
+
+# --------- Classes ----------
+
+
+class UserSurveySubmissionsManager:
+    """
+    Keep control of the submitted
+    surveys and their responses
+    """
+    def __init__(self):
+        self.surveys = []
+
+    def add_response(self, response: Result):
+        """
+        Associate a response with
+        a survey submitted by the user
+        """
+        tx_id = response.tx_id
+        for survey in self.surveys:
+            if survey.tx_id == tx_id:
+                survey.response = response
+                return True
+
+    def remove_survey(self, tx_id):
+        """
+        Remove a certain survey
+        from this manager
+        """
+        for survey in list(self.surveys):
+            if survey.tx_id == tx_id:
+                return self.surveys.pop(survey)
+
+    def add_survey(self, survey):
+        self.surveys.insert(0, survey)
+
+    def __iter__(self):
+        """
+        Make this object iterable
+        and loop over each survey
+        """
+        for survey in self.surveys:
+            yield survey
+
+
+class UserSurveySubmission:
+    """
+    Class used for tracking
+    a submission made by the
+    user
+    """
+    def __init__(self, tx_id, survey_id, instrument_id):
+        self.tx_id = tx_id
+        self.survey_id = survey_id
+        self.instrument_id = instrument_id
+        self.time_submitted = datetime.now().strftime("%H:%M")
+        self.response = None
+
+
 # Track the submissions submitted by the user
-submissions = []
+submissions = UserSurveySubmissionsManager()
 
 # Track the responses of submissions by the user
 responses = []
@@ -53,7 +112,7 @@ def dap_receipt(tx_id):
 
         in_bucket = check_file_exists(file_path, OUTPUT_BUCKET_NAME)
         if not in_bucket:
-            remove_submissions(tx_id)
+            submissions.remove_survey(tx_id)
         socketio.emit('cleaning finished', {'tx_id': tx_id, 'in_bucket': in_bucket})
 
     except Exception as err:
@@ -122,13 +181,12 @@ def submit():
         data_bytes = seft_submission.get_seft_bytes()
         downstream_data.append(data_bytes)
 
-    # Information dictionary used by the front end to display data
-    tx_id_info = {tx_id: {"time": datetime.now().strftime("%H:%M"), "survey_id": survey_id, "instrument_id": instrument_id}}
-    submissions.insert(0, tx_id_info)
+    # Information class used by the front end to display data
+    submissions.add_survey(UserSurveySubmission(tx_id, survey_id, instrument_id))
 
     threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
     return render_template('index.html.j2',
-                           submissions=submissions[:15],
+                           submissions=submissions,
                            survey_dict = get_json_surveys(),
                            current_survey=current_survey,
                            number=survey_id)
@@ -199,12 +257,14 @@ def pretty_print(data):
     """
     return json.dumps(data, indent=4)
 
+
 # --------- Functions ----------
+
 
 def downstream_process(*data):
     """
-	For seft submissions, seft_name, seft_metadata and seft_bytes are required.
-	"""
+    For seft submissions, seft_name, seft_metadata and seft_bytes are required.
+    """
     if len(data) > 1:
         result = run_seft(message_manager, data[0], data[1])
     else:
@@ -217,9 +277,9 @@ def downstream_process(*data):
 
 def decode_files_and_images(response_files: dict):
     """
-	For our tester we want to display the data that has been sent through our system. As SDX produces different
-	file types they require different processing for our HTML page to display them correctly.
-	"""
+    For our tester we want to display the data that has been sent through our system. As SDX produces different
+    file types they require different processing for our HTML page to display them correctly.
+    """
     sorted_files = {}
     for key, value in response_files.items():
         if value is None:
@@ -256,8 +316,5 @@ def post_dap_message(tx_id: str):
     return None
 
 
-def remove_submissions(tx_id):
-    for submission in submissions:
-        for key in submission.keys():
-            if tx_id == key:
-                submissions.remove(submission)
+
+
