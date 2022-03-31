@@ -1,4 +1,3 @@
-import base64
 import json
 import logging
 import os
@@ -6,22 +5,25 @@ import threading
 import uuid
 import time
 import structlog
-
+import base64
+from app import message_manager
+from app.messaging.publisher import publish_dap_receipt
+from app.tester import run_survey, run_seft
 from datetime import datetime
 from flask import request, render_template, flash
 from app import app, socketio
 from app.datastore.datastore_writer import cleanup_datastore
 from app.jwt.encryption import decrypt_survey
-from app import message_manager
-from app.messaging.publisher import publish_dap_receipt
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
 from app.survey_loader import get_json_surveys, read_ui
-from app.tester import run_survey, run_seft
 
 logger = structlog.get_logger()
 
+# Track the submissions submitted by the user
 submissions = []
+
+# Track the responses of submissions by the user
 responses = []
 
 
@@ -83,32 +85,44 @@ def trigger_cleanup_datastore():
     except Exception as err:
         logger.error(f"Datastore wasn't cleaned error: {err}")
 
+
 @app.post('/submit')
 def submit():
+    """
+    Called when the user
+    clicks the submit button
+    after selecting a survey
+    from the dropdown
+    """
     downstream_data = []
-    surveys = read_ui()
-    current_survey = request.form.get('post-data')
 
+    # Read in surveys from disk
+    surveys = read_ui()
+
+    # Extract the current survey from the post request
+    current_survey = request.form.get('post-data')
     data_dict = json.loads(current_survey)
     survey_id = data_dict["survey_id"]
+
     # Attempt to find an instrument ID
     try:
         instrument_id = data_dict["collection"]["instrument_id"]
     except KeyError:
         instrument_id = ""
 
+    # Generate a tx_id
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
     downstream_data.append(data_dict)
 
     if 'seft' in data_dict:
         # To distinguish seft submissions, their survey ids are displayed in the form of 'seft_(survey_id)'.
-        seft_submission = surveys[f'seft_{survey_id}']
+        survey_id = f"seft_{survey_id}"
+        seft_submission = surveys[survey_id]
         data_bytes = seft_submission.get_seft_bytes()
         downstream_data.append(data_bytes)
-        survey_id = 'seft_' + survey_id
 
-    # time_and_survey = {tx_id: f'({survey_id})  {datetime.now().strftime("%H:%M")}'}
+    # Information dictionary used by the front end to display data
     tx_id_info = {tx_id: {"time": datetime.now().strftime("%H:%M"), "survey_id": survey_id, "instrument_id": instrument_id}}
     submissions.insert(0, tx_id_info)
 
@@ -122,6 +136,12 @@ def submit():
 
 @app.get('/response/<tx_id>')
 def view_response(tx_id):
+    """
+    Called when the user clicks on the
+    survey link after it's been
+    submitted
+    """
+
     dap_message = "In Progress"
     receipt = "In Progress"
     timeout = False
@@ -129,6 +149,7 @@ def view_response(tx_id):
     files = {}
     errors = []
     for response in responses:
+        # If this line doesn't run the UI needs to be able to handle the default values above
         if response.get_tx_id() == tx_id:
             timeout = response.timeout
             dap_message = response.dap_message
@@ -144,7 +165,7 @@ def view_response(tx_id):
                 receipt = json.loads(receipt.data.decode('utf-8'))
 
             if quarantine:
-                flash(f'Submission with tx_id: {quarantine.attributes["tx_id"]} has been quarantined')
+                flash(f'Submission with tx_id: {tx_id} has been quarantined')
                 if 'seft' not in response.quarantine.data.decode():
                     quarantine = decrypt_survey(quarantine.data)
                 else:
@@ -171,10 +192,19 @@ def view_response(tx_id):
                            timeout=timeout)
 
 
+@app.template_filter()
+def pretty_print(data):
+    """
+    The indent parameter specifies how many spaces to indent by the data.
+    """
+    return json.dumps(data, indent=4)
+
+# --------- Functions ----------
+
 def downstream_process(*data):
     """
-    For seft submissions, seft_name, seft_metadata and seft_bytes are required.
-    """
+	For seft submissions, seft_name, seft_metadata and seft_bytes are required.
+	"""
     if len(data) > 1:
         result = run_seft(message_manager, data[0], data[1])
     else:
@@ -187,9 +217,9 @@ def downstream_process(*data):
 
 def decode_files_and_images(response_files: dict):
     """
-    For our tester we want to display the data that has been sent through our system. As SDX produces different
-    file types they require different processing for our HTML page to display them correctly.
-    """
+	For our tester we want to display the data that has been sent through our system. As SDX produces different
+	file types they require different processing for our HTML page to display them correctly.
+	"""
     sorted_files = {}
     for key, value in response_files.items():
         if value is None:
@@ -231,11 +261,3 @@ def remove_submissions(tx_id):
         for key in submission.keys():
             if tx_id == key:
                 submissions.remove(submission)
-
-
-@app.template_filter()
-def pretty_print(data):
-    """
-    The indent parameter specifies how many spaces to indent by the data.
-    """
-    return json.dumps(data, indent=4)
