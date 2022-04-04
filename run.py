@@ -12,5 +12,5 @@ sdx_tester = """
 if __name__ == '__main__':
     start()
     print(sdx_tester)
-    # app.debug = True;
+    app.debug = True;
     app.run(host='0.0.0.0', port=5000)

@@ -196,36 +196,45 @@ def submit():
 
     # Extract the current survey from the post request
     current_survey = request.form.get('post-data')
-    # TODO if the user modifies the JSON to an invalid format this will fail
-    data_dict = json.loads(current_survey)
 
-    # TODO validate the json contains the required fields
-    survey_id = data_dict["survey_id"]
-
-    # Attempt to find an instrument ID
+    # First we check if the json is valid format
     try:
-        instrument_id = data_dict["collection"]["instrument_id"]
-    except KeyError:
-        instrument_id = ""
-
-    # Generate a tx_id
-    tx_id = str(uuid.uuid4())
-    data_dict['tx_id'] = tx_id
-
-    if 'seft' in data_dict:
-        byte_data = surveys[survey_id].get_seft_bytes()
-        user_submission = UserSeftSurveySubmission(tx_id, survey_id, instrument_id, data_dict, byte_data)
+        data_dict = json.loads(current_survey)
+    except json.decoder.JSONDecodeError:
+        flash("Invalid JSON format")
     else:
-        user_submission = UserSurveySubmission(tx_id, survey_id, instrument_id, data_dict)
 
-    # Store this survey for later and process it in the background
-    submissions.process_survey(user_submission)
+        # Next check if survey_id is included in the json
+        if "survey_id" in data_dict:
+            survey_id = data_dict["survey_id"]
+
+            # Attempt to find an instrument ID
+            try:
+                instrument_id = data_dict["collection"]["instrument_id"]
+            except KeyError:
+                instrument_id = ""
+
+            # Generate a tx_id
+            tx_id = str(uuid.uuid4())
+            data_dict['tx_id'] = tx_id
+
+            if 'seft' in data_dict:
+                byte_data = surveys[survey_id].get_seft_bytes()
+                user_submission = UserSeftSurveySubmission(tx_id, survey_id, instrument_id, data_dict, byte_data)
+            else:
+                user_submission = UserSurveySubmission(tx_id, survey_id, instrument_id, data_dict)
+
+            # Store this survey for later and process it in the background
+            submissions.process_survey(user_submission)
+
+        else:
+            flash("Please include a survey_id")
 
     return render_template('index.html.j2',
                            submissions=submissions,
                            survey_dict = get_json_surveys(),
                            current_survey=current_survey,
-                           number=survey_id)
+                           )
 
 
 @app.get('/response/<tx_id>')

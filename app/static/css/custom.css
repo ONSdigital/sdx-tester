@@ -31,6 +31,14 @@
 	text-align: center !important;
 }
 
+.my-4{
+	margin-top: 1em !important;
+	margin-bottom: 1em !important;
+}
+
+.mb-4{
+	margin-bottom: 1em !important;
+}
 /**
   * ================ Buttons ==================
   */
