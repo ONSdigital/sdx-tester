@@ -216,8 +216,10 @@ def view_response(tx_id):
     files = {}
     errors = []
 
+    # Fetch the response for the submitted survey
     response = submissions.get_response(tx_id)
 
+    # Check the response has been found
     if response:
         timeout = response.timeout
         dap_message = response.dap_message
