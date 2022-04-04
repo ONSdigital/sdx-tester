@@ -41,17 +41,6 @@ class UserSurveySubmissionsManager:
         for survey in self.surveys:
             yield survey
 
-    def add_response(self, response: Result):
-        """
-        Associate a response with
-        a survey submitted by the user
-        """
-        tx_id = response.tx_id
-        for survey in self.surveys:
-            if survey.tx_id == tx_id:
-                survey.response = response
-                return True
-
     def remove_survey(self, tx_id):
         """
         Remove a certain survey
@@ -61,8 +50,14 @@ class UserSurveySubmissionsManager:
             if survey.tx_id == tx_id:
                 return self.surveys.pop(survey)
 
-    def add_survey(self, survey):
+    def process_survey(self, survey):
+        """
+        Store this survey in the class
+        and then kick off a thread to process
+        it
+        """
         self.surveys.insert(0, survey)
+        threading.Thread(target=survey.process_downstream_data).start()
 
     def get_response(self, tx_id):
         """
@@ -83,12 +78,45 @@ class UserSurveySubmission:
     a submission made by the
     user
     """
-    def __init__(self, tx_id, survey_id, instrument_id):
+    def __init__(self, tx_id, survey_id, instrument_id, downstream_dict):
         self.tx_id = tx_id
         self.survey_id = survey_id
         self.instrument_id = instrument_id
         self.time_submitted = datetime.now().strftime("%H:%M")
         self.response = None
+        self.downstream_dict = downstream_dict
+
+    def process_downstream_data(self):
+        """
+        The function that processes the data for the submitted
+        survey
+        """
+        self.response = run_survey(message_manager, self.downstream_dict)
+        self._log_processed_survey()
+
+    def _log_processed_survey(self):
+        socketio.emit('data received', {'response': 'Emitting....'})
+        logger.info('Emit data (websocket)')
+
+
+class UserSeftSurveySubmission(UserSurveySubmission):
+    """
+    A child class used for SEFT submissions
+    This class requires the
+    downstream_dict -> the json response dictionary
+    downstream_data -> the byte data for this SEFT
+    """
+    def __init__(self, tx_id, survey_id, instrument_id, downstream_dict, downstream_data):
+        self.downstream_data = downstream_data
+        UserSurveySubmission.__init__(self, f"seft_{tx_id}", survey_id, instrument_id, downstream_dict)
+
+    def process_downstream_data(self):
+        """
+        The function that processes the data for a SEFT
+        submission
+        """
+        self.response = run_seft(message_manager, self.downstream_dict, self.downstream_data)
+        self._log_processed_survey()
 
 
 # Track the submissions submitted by the user
@@ -162,14 +190,16 @@ def submit():
     after selecting a survey
     from the dropdown
     """
-    downstream_data = []
 
     # Read in surveys from disk
     surveys = read_ui()
 
     # Extract the current survey from the post request
     current_survey = request.form.get('post-data')
+    # TODO if the user modifies the JSON to an invalid format this will fail
     data_dict = json.loads(current_survey)
+
+    # TODO validate the json contains the required fields
     survey_id = data_dict["survey_id"]
 
     # Attempt to find an instrument ID
@@ -181,19 +211,16 @@ def submit():
     # Generate a tx_id
     tx_id = str(uuid.uuid4())
     data_dict['tx_id'] = tx_id
-    downstream_data.append(data_dict)
 
     if 'seft' in data_dict:
-        # To distinguish seft submissions, their survey ids are displayed in the form of 'seft_(survey_id)'.
-        survey_id = f"seft_{survey_id}"
-        seft_submission = surveys[survey_id]
-        data_bytes = seft_submission.get_seft_bytes()
-        downstream_data.append(data_bytes)
+        byte_data = surveys[survey_id].get_seft_bytes()
+        user_submission = UserSeftSurveySubmission(tx_id, survey_id, instrument_id, data_dict, byte_data)
+    else:
+        user_submission = UserSurveySubmission(tx_id, survey_id, instrument_id, data_dict)
 
-    # Information class used by the front end to display data
-    submissions.add_survey(UserSurveySubmission(tx_id, survey_id, instrument_id))
+    # Store this survey for later and process it in the background
+    submissions.process_survey(user_submission)
 
-    threading.Thread(target=downstream_process, args=tuple(downstream_data)).start()
     return render_template('index.html.j2',
                            submissions=submissions,
                            survey_dict = get_json_surveys(),
@@ -234,6 +261,7 @@ def view_response(tx_id):
         if receipt:
             receipt = json.loads(receipt.data.decode('utf-8'))
 
+        # TODO this line causes errors when quarantine is set to a string
         if quarantine:
             flash(f'Submission with tx_id: {tx_id} has been quarantined')
             if 'seft' not in response.quarantine.data.decode():
