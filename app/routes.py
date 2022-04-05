@@ -96,7 +96,7 @@ class UserSurveySubmission:
 
     def _log_processed_survey(self):
         socketio.emit('data received', {'response': 'Emitting....'})
-        logger.info('Emit data (websocket)')
+        logger.info(f'Emit data (websocket) for {self.tx_id}')
 
 
 class UserSeftSurveySubmission(UserSurveySubmission):
@@ -270,13 +270,18 @@ def view_response(tx_id):
         if receipt:
             receipt = json.loads(receipt.data.decode('utf-8'))
 
-        # TODO this line causes errors when quarantine is set to a string
         if quarantine:
             flash(f'Submission with tx_id: {tx_id} has been quarantined')
-            if 'seft' not in response.quarantine.data.decode():
-                quarantine = decrypt_survey(quarantine.data)
-            else:
-                quarantine = 'SEFT Quarantined'
+
+            # SEFT quarantine data is different so we need to check it's attributes so the app doesnt crash
+            if hasattr(quarantine, 'data'):
+
+                if 'seft' not in response.quarantine.data.decode():
+                    quarantine = decrypt_survey(quarantine.data)
+                else:
+                    quarantine = 'SEFT Quarantined'
+            elif type(quarantine) is not str:
+                quarantine = "Survey Quarantined"
 
         if timeout:
             flash('PubSub subscriber in sdx-tester timed out before receiving a response')
