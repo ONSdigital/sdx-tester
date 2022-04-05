@@ -5,7 +5,8 @@ import uuid
 import time
 import structlog
 from app.messaging.publisher import publish_dap_receipt
-from app.tester import *
+from app.tester import UserSurveySubmissionsManager, UserSurveySubmission, UserSeftSurveySubmission, \
+    decode_files_and_images
 from flask import request, render_template, flash
 from app import app, socketio
 from app.datastore.datastore_writer import cleanup_datastore
