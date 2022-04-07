@@ -1,0 +1,14 @@
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="ons-panel ons-panel--info ons-panel--no-title mb-4">
+    <span class="ons-u-vh">Important information: </span>
+    <div class="ons-panel__body">
+        <div class=flashes>
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endwith %}

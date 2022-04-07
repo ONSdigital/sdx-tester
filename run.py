@@ -11,9 +11,7 @@ sdx_tester = """
 
 if __name__ == '__main__':
     start()
-    app.jinja_env.auto_reload = True
-    app.secret_key = '12345'  # This is required for python flash cards
-    app.config['TEMPLATES_AUTO_RELOAD'] = True
-    # app.debug = True;
     print(sdx_tester)
+    # TODO when this line is uncommented, every other file submission times out
+    # app.debug = True;
     app.run(host='0.0.0.0', port=5000)
