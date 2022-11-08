@@ -6,8 +6,9 @@
   "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
   "started_at": "2019-03-23T14:00:24.224709",
   "submitted_at": "2019-03-23T14:50:26.933601",
+  "flushed": false,
   "collection": {
-    "exercise_sid": "hfjdskf",
+    "exercise_sid": "0c77e89f-60fc-4613-a76f-f12e8ba851d5",
     "instrument_id": "0001",
     "period": "1604"
   },
