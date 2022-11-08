@@ -1,9 +1,10 @@
 import unittest
 import uuid
 
-from app import survey_loader
+from app import survey_loader, PROJECT_ID
 from app import message_manager
 from app.tester import run_survey
+from app.store.bucket_cleanup import delete_files_in_bucket
 
 
 class TestSurveys(unittest.TestCase):
@@ -14,6 +15,8 @@ class TestSurveys(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        delete_files_in_bucket(f'{PROJECT_ID}-outputs')
+        delete_files_in_bucket(f'{PROJECT_ID}-survey-responses')
         message_manager.stop()
 
     def tearDown(self):

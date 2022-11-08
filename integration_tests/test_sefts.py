@@ -1,8 +1,9 @@
 import unittest
 import uuid
 
+from app.store.bucket_cleanup import delete_files_in_bucket
 from app.tester import run_seft
-from app import message_manager
+from app import message_manager, PROJECT_ID
 
 SEFT_DIR = "app/Data/seft"
 
@@ -15,6 +16,7 @@ class TestSefts(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        delete_files_in_bucket(f'{PROJECT_ID}-seft-responses')
         message_manager.stop()
 
     def test_sefts(self):
