@@ -33,7 +33,7 @@ class TestSurveys(unittest.TestCase):
                     result = run_survey(message_manager, survey, eq_version_3)
                     print(str(result))
                     self.assertFalse(result.timeout, f'{key} has timed out!')
-                    self.assertIsNone(result.quarantine, f'{key} has been quarantined!')
+                    self.assertIsNone(result.quarantine, f'{key} has been quarantined: {result.quarantine}')
                     self.assertIsNotNone(result.dap_message, f'{key} did not post dap message!')
 
                     if multiple_files:

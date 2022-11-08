@@ -62,6 +62,7 @@
     },
     "type": "uk.gov.ons.edc.eq:surveyresponse",
     "version": "0.0.1",
+    "flushed": false,
     "metadata": {
       "user_id": "K5O86M2NU1",
       "ru_ref": "12346789012A"
@@ -69,7 +70,7 @@
     "submitted_at": "2017-03-01T14:25:46.101447+00:00",
     "collection": {
       "period": "201605",
-      "exercise_sid": "82R1VDWN74",
+      "exercise_sid": "0c77e89f-60fc-4613-a76f-f12e8ba851d5",
       "instrument_id": "0051"
     }
   }
