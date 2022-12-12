@@ -1,0 +1,19 @@
+---
+substitutions:
+  _SERVICE_NAME: "${REPO_NAME}"
+  _IMAGE_PATH: "eu.gcr.io/${PROJECT_ID}/${BRANCH_NAME}/${REPO_NAME}"
+  _IMAGE_VERSION: "1.11.0"
+
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "${_IMAGE_PATH}:${BUILD_ID}", "."]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      ["tag", "${_IMAGE_PATH}:${BUILD_ID}", "${_IMAGE_PATH}:${_IMAGE_VERSION}"]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "${_IMAGE_PATH}:${BUILD_ID}"]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "${_IMAGE_PATH}:${_IMAGE_VERSION}"]
