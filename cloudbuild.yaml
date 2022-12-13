@@ -2,7 +2,7 @@
 substitutions:
   _SERVICE_NAME: "${REPO_NAME}"
   _IMAGE_PATH: "eu.gcr.io/${PROJECT_ID}/${BRANCH_NAME}/${REPO_NAME}"
-  _IMAGE_VERSION: "1.11.0"
+  _IMAGE_VERSION: "1.26.1"
 
 steps:
   - name: "gcr.io/cloud-builders/docker"
