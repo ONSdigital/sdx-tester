@@ -117,8 +117,7 @@ def submit():
             data_dict['tx_id'] = tx_id
 
             if 'seft' in data_dict:
-                survey_id = f"seft_{survey_id}"
-                byte_data = surveys[survey_id].get_seft_bytes()
+                byte_data = surveys[f"seft_{survey_id}"].get_seft_bytes()
                 user_submission = UserSeftSurveySubmission(tx_id, survey_id, instrument_id, data_dict, byte_data)
             else:
                 user_submission = UserSurveySubmission(tx_id, survey_id, instrument_id, data_dict)
