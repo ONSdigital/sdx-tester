@@ -9,9 +9,9 @@
     "submitted_at": "2023-01-12T12:34:06+00:00",
     "collection": {
       "exercise_sid": "22a2fdcf-3fcf-4747-9ff3-0858d1bcd532",
-      "schema_name": "lcree_9009",
+      "schema_name": "lcree_0009",
       "period": "201605",
-      "instrument_id": "9009"
+      "instrument_id": "0009"
     },
     "metadata": {
       "user_id": "UNKNOWN",
@@ -256,7 +256,7 @@
       "0063": "Not sure",
       "0060": "Thanks for a great survey experience"
     },
-    "form_type": "9009",
+    "form_type": "0009",
     "started_at": "2023-01-12T11:50:04.919240+00:00",
     "submission_language_code": "en"
 }
