@@ -98,6 +98,7 @@ def submit():
     # First we check if the json is valid format
     try:
         data_dict = json.loads(current_survey)
+        print(data_dict)
     except json.decoder.JSONDecodeError:
         flash("Invalid JSON format")
     else:

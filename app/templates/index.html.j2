@@ -24,7 +24,22 @@ Manual page refresh is not required to reflect the changes.
             <!--Left side-->
             <div class="ons-grid__col ons-col-6@l " style="background-color: none">
                 <div class="ons-grid">
+
                     <!--Select 1-->
+                    <div class="ons-grid__col ons-col-6@s ">
+                        <div class="ons-field">
+                            <label class="ons-label  " for="schema_versions">Schema Versions
+                            </label>
+                            <select name="schema_versions" id="schema_versions" class="ons-input ons-input--select" style="width: auto;">
+                                <option selected="selected" disabled="disabled">Select a schema version</option>
+                                <!--Display each schema version-->
+                                <option sid="v1">Version 1</option>
+                                <option sid="v2">Version 2</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--Select 2-->
                     <div class="ons-grid__col ons-col-6@s ">
                         <div class="ons-field">
                             <label class="ons-label  " for="survey_names">Surveys
@@ -37,9 +52,9 @@ Manual page refresh is not required to reflect the changes.
                                 {% endfor %}
                             </select>
                         </div>
-
                     </div>
-                    <!--Select 2-->
+
+                    <!--Select 3-->
                     <div class="ons-grid__col ons-col-6@s " id="extra_surveys_container" style="display: none">
                         <div class="ons-field">
                             <label class="ons-label  " for="extra_surveys">Form type
@@ -49,9 +64,10 @@ Manual page refresh is not required to reflect the changes.
                                 </optgroup>
                             </select>
                         </div>
-
                     </div>
                 </div>
+
+
                 <textarea id="post-data" name="post-data" class="survey-text-area ons-input--textarea ons-input">{{ current_survey }}</textarea>
                 <br>
                 <!--Button row-->

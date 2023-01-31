@@ -21,7 +21,8 @@ def get_json_surveys() -> dict:
     """
     data = read_all()
     # Left: Non sef surveys, Right: SEFT surveys
-    return {**{key:val for key, val in sorted(data.items()) if "seft" not in key}, **{outer_key: [i.get_seft_metadata() for i in outer_val] for outer_key, outer_val in sorted(data.items()) if "seft" in outer_key}}
+    return {**{key:val for key, val in sorted(data.items()) if "seft" not in key},
+            **{outer_key: [i.get_seft_metadata() for i in outer_val] for outer_key, outer_val in sorted(data.items()) if "seft" in outer_key}}
 
 
 def read_all() -> dict:
