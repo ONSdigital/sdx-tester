@@ -16,12 +16,18 @@ def get_json_surveys() -> dict:
     """
     This function takes the surveys from the
     survey loader, and extracts the data into a dictionary,
-    the survey is SEFT, it will use get_seft_metadata to
+    if the survey is SEFT, it will use get_seft_metadata to
     ensure the dictionary can be serialized.
     """
+
+    # Get all v1 surveys
     data_v1 = read_all_v1()
+
+    # Get all v2 surveys
     data_v2 = read_all_v2()
 
+    # Return a dictionary containing all the surveys
+    # schema_version: {survey_id: [form1, form2 ...]}
     return {
         "v1": {**{key:val for key, val in sorted(data_v1.items()) if "seft" not in key},
                **{outer_key: [i.get_seft_metadata() for i in outer_val] for outer_key, outer_val in sorted(data_v1.items()) if "seft" in outer_key}},
@@ -51,7 +57,8 @@ def read_all_v2():
     d_dict = get_dap(schema_version="v2")
     h_dict = get_hybrid(schema_version="v2")
     f_dict = get_feedback(schema_version="v2")
-    return {**s_dict, **d_dict, **h_dict, **f_dict}
+    seft_dict = get_seft(schema_version="v2")
+    return {**s_dict, **d_dict, **h_dict, **f_dict, **seft_dict}
 
 
 def get_survey() -> dict:
@@ -81,29 +88,27 @@ def get_feedback(schema_version="v1") -> dict:
     return {f'feedback_{k}': v for k, v in _read_survey_type("feedback", schema_version).items()}
 
 
-def get_seft() -> dict:
+def get_seft(schema_version="v1") -> dict:
     """
     For seft submissions, this method retrieves the seft_name, seft_metadata and seft_bytes with the object of SeftSubmission class.
     Produces a dict of list of survey with the 'seft_(survey_id)' as the key.
-
-
-    # TODO this will not work with v2 sefts
     """
     seft_dict = {}
-    seft_path = 'app/Data/v1/seft'
-    for filename in os.listdir(seft_path):
-        with open(f'{seft_path}/{filename}', 'rb') as seft_file:
-            seft_bytes = seft_file.read()
-            filename = filename.split('.')[0]
-            seft = SeftSubmission(
-                seft_name=f"seft_{filename}",
-                seft_metadata=_seft_metadata(seft_file, filename),
-                seft_bytes=seft_bytes
-            )
-            key = f"seft_{seft.seft_metadata['survey_id']}"
-            if key not in seft_dict:
-                seft_dict[key] = []
-            seft_dict[key].append(seft)
+    seft_path = f'app/Data/{schema_version}/seft'
+    if os.path.exists(seft_path):
+        for filename in os.listdir(seft_path):
+            with open(f'{seft_path}/{filename}', 'rb') as seft_file:
+                seft_bytes = seft_file.read()
+                filename = filename.split('.')[0]
+                seft = SeftSubmission(
+                    seft_name=f"seft_{filename}",
+                    seft_metadata=_seft_metadata(seft_file, filename),
+                    seft_bytes=seft_bytes
+                )
+                key = f"seft_{seft.seft_metadata['survey_id']}"
+                if key not in seft_dict:
+                    seft_dict[key] = []
+                seft_dict[key].append(seft)
 
     return seft_dict
 
