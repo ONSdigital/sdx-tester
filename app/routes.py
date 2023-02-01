@@ -24,7 +24,10 @@ submissions = UserSurveySubmissionsManager()
 @app.get('/')
 @app.get('/index')
 def index():
-    return render_template('index.html.j2',
+
+   surveys = get_json_surveys()
+
+   return render_template('index.html.j2',
                            survey_dict=get_json_surveys(),
                            submissions=submissions)
 

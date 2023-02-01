@@ -16,7 +16,7 @@ class TestPerformance(unittest.TestCase):
     def test_performance(self):
 
         # get all survey
-        survey_dicts = survey_loader.read_all()
+        survey_dicts = survey_loader.read_all_v1()
 
         survey_list = [v[0] for k, v in survey_dicts.items() if not k.startswith("seft")]
 
