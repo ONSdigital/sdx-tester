@@ -9,10 +9,10 @@ settings
 """
 
 # Imports
-import os
+from os import path, pardir
 
 
-script_dir = os.path.dirname(__file__)
+ROOT_FOLDER = path.abspath(path.join(path.dirname(path.abspath(__file__)), pardir))
 
 
 class Config:
@@ -26,7 +26,8 @@ class Config:
 		self.PROJECT_ID = proj_id
 
 		# Folders
-		self.APP_FOLDER = script_dir
+		self.PROJECT_ROOT = ROOT_FOLDER
+		self.APP_FOLDER = f"{self.PROJECT_ROOT}/app"
 		self.DATA_FOLDER = f"{self.APP_FOLDER}/Data"
 
 

@@ -3,6 +3,96 @@ import os
 import json
 import uuid
 
+# Defines how to extract certain metadata from the different schemas
+# Each item in the array corresponds to a level of the json
+schema_logic = {
+    "v1": {
+        "survey_id": ["survey_id"]
+    },
+    "v2": {
+        "survey_id": ["survey_metadata", "survey_id"]
+    }
+}
+
+
+
+class SurveyLoader:
+    """
+    Will load surveys from the filesystem
+    """
+    def __init__(self, data_folder):
+        self.data_folder = data_folder
+
+    def _read_all(self, root):
+        """
+        Will parse everything in the specified data folder,
+        each direct sub folder will be assigned to a schema version (v1, v2)
+        and folders under those will be survey types (DAP, SEFT etc)
+        :param root The folder to search
+        """
+        my_dict = {}   # this is the final dictionary to be populated
+
+        # Go through every folder in the current folder
+        for element in os.listdir(root):
+
+            if os.path.isfile(os.path.join(root, element)):
+
+                # Extract key and value here
+                code, contents = self._extract_file_information(os.path.join(root, element))
+                my_dict[code] = contents
+
+            elif os.path.isdir(os.path.join(root, element)):
+                my_dict[element] = self._read_all(os.path.join(root, element))
+
+        return my_dict
+
+    def to_json(self):
+        """
+        Convert this data structure to
+        a json readable format
+        """
+        pass
+
+    def _extract_survey_code(self, survey, schema_version):
+        """
+        Extract the survey code
+        from the json using the schema logic
+        """
+        sc = survey
+        for i in schema_logic[schema_version]["survey_id"]:
+            sc = sc[i]
+        return sc
+
+    def _extract_file_information(self, file_path: str) -> (str, object):
+        """
+        Given the path to a file, extract the survey code
+        and return the file contents
+        """
+
+        # Schema logic
+        for key in schema_logic.keys():
+
+            # This file belongs to this schema
+            if key in file_path:
+
+                # Special case for SEFT files
+                if "seft" in file_path:
+                    with open(file_path, 'rb') as seft_file:
+                        seft_bytes = seft_file.read()
+                        filename = os.path.basename(file_path).split(".")[0]
+                        seft = SeftSubmission(
+                            seft_name=f"seft_{filename}",
+                            seft_metadata=_seft_metadata(seft_file, filename),
+                            seft_bytes=seft_bytes
+                        )
+                    return filename, seft
+                else:
+                    # Read the contents of the file
+                    with open(file_path, 'r') as data:
+                        survey = json.load(data)
+                        survey_code = self._extract_survey_code(survey, key)
+                    return survey_code, survey
+
 
 def read_ui() -> dict:
     sorted_surveys = {}
