@@ -18,7 +18,7 @@ class TestSurveyLoader(unittest.TestCase):
 
 		file_path = f"{CONFIG.DATA_FOLDER}/v1/dap/283.0001.json"
 		expected_survey_id = "283"
-		actual_survey_id, content = self.loader._extract_file_information(file_path)
+		schema, actual_survey_id, content = self.loader._extract_file_information(file_path)
 		self.assertEqual(expected_survey_id, actual_survey_id)
 
 	def test_extract_survey_code(self):
@@ -32,7 +32,7 @@ class TestSurveyLoader(unittest.TestCase):
 
 	def test_read_all(self):
 
-		a = self.loader._read_all(self.loader.data_folder)
+		a = self.loader.to_json()
 		print(a)
 
 

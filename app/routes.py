@@ -8,25 +8,29 @@ from app.messaging.publisher import publish_dap_receipt
 from app.tester import UserSurveySubmissionsManager, UserSurveySubmission, UserSeftSurveySubmission, \
     decode_files_and_images
 from flask import request, render_template, flash
-from app import app, socketio
+from app import app, socketio, CONFIG
 from app.datastore.datastore_writer import cleanup_datastore
 from app.jwt.encryption import decrypt_survey
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
-from app.survey_loader import get_json_surveys, read_ui
+from app.survey_loader import get_json_surveys, read_ui, SurveyLoader
 
 logger = structlog.get_logger()
 
 # Track the submissions submitted by the user
 submissions = UserSurveySubmissionsManager()
 
+# Survey loader
+survey_loader = SurveyLoader(CONFIG.DATA_FOLDER)
+
 
 @app.get('/')
 @app.get('/index')
 def index():
 
+    a = get_json_surveys()
     return render_template('index.html.j2',
-                           survey_dict=get_json_surveys(),
+                           survey_dict=survey_loader.to_json(),
                            submissions=submissions)
 
 

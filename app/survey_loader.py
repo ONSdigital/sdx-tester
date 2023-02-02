@@ -2,6 +2,7 @@ import hashlib
 import os
 import json
 import uuid
+from abc import ABC
 
 # Defines how to extract certain metadata from the different schemas
 # Each item in the array corresponds to a level of the json
@@ -15,13 +16,14 @@ schema_logic = {
 }
 
 
-
 class SurveyLoader:
     """
     Will load surveys from the filesystem
     """
     def __init__(self, data_folder):
         self.data_folder = data_folder
+        self.files_only = {version: {} for version in schema_logic.keys()}
+        self.all_data = self._read_all(self.data_folder)
 
     def _read_all(self, root):
         """
@@ -38,7 +40,10 @@ class SurveyLoader:
             if os.path.isfile(os.path.join(root, element)):
 
                 # Extract key and value here
-                code, contents = self._extract_file_information(os.path.join(root, element))
+                schema, code, contents = self._extract_file_information(os.path.join(root, element))
+
+                # Store
+                self.files_only[schema][code] = contents
                 my_dict[code] = contents
 
             elif os.path.isdir(os.path.join(root, element)):
@@ -51,7 +56,7 @@ class SurveyLoader:
         Convert this data structure to
         a json readable format
         """
-        pass
+        return self.files_only
 
     def _extract_survey_code(self, survey, schema_version):
         """
@@ -63,7 +68,7 @@ class SurveyLoader:
             sc = sc[i]
         return sc
 
-    def _extract_file_information(self, file_path: str) -> (str, object):
+    def _extract_file_information(self, file_path: str) -> (str, str, object):
         """
         Given the path to a file, extract the survey code
         and return the file contents
@@ -85,13 +90,29 @@ class SurveyLoader:
                             seft_metadata=_seft_metadata(seft_file, filename),
                             seft_bytes=seft_bytes
                         )
-                    return filename, seft
+                        survey_id = f"seft_{seft.seft_metadata['survey_id']}"
+                    return key, survey_id, seft
                 else:
                     # Read the contents of the file
                     with open(file_path, 'r') as data:
                         survey = json.load(data)
                         survey_code = self._extract_survey_code(survey, key)
-                    return survey_code, survey
+                    return key, survey_code, survey
+
+
+class Survey(ABC):
+    """
+    The Abstract for every
+    survey that tester loads
+    """
+    def __init__(self, file):
+        self.file = file
+
+    def _extract_survey_code(self):
+        pass
+
+    def serialize(self):
+        pass
 
 
 def read_ui() -> dict:
