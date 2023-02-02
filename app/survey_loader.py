@@ -29,11 +29,12 @@ def get_json_surveys() -> dict:
     # Return a dictionary containing all the surveys
     # schema_version: {survey_id: [form1, form2 ...]}
     return {
-        "v1": {**{key:val for key, val in sorted(data_v1.items()) if "seft" not in key},
+        "v1": {**{key: val for key, val in sorted(data_v1.items()) if "seft" not in key},
                **{outer_key: [i.get_seft_metadata() for i in outer_val] for outer_key, outer_val in sorted(data_v1.items()) if "seft" in outer_key}},
         "v2": {key: val for key, val in sorted(data_v2.items())}
 
     }
+
 
 def read_all_v1() -> dict:
     """
