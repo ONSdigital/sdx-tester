@@ -176,7 +176,10 @@ Manual page refresh is not required to reflect the changes.
                 selected_schema = this.value;
 
                 // Go through each survey for this given schema version
-                $.each(survey_dict[selected_schema], function(key,value){
+                $.each(survey_dict[selected_schema], function(index){
+                    json = survey_dict[selected_schema][index]
+
+                    console.log(key)
                     // The key to the dictionary is the survey ID
                     let number_forms = survey_dict[selected_schema][key].length
                     let display_name = key

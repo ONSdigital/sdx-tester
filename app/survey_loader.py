@@ -15,6 +15,103 @@ schema_logic = {
     }
 }
 
+# Defines a mapping of schema versions, each version
+# in the array will get mapped to it's key, eg. 0.0.1 -> v1
+determine_schema = {
+    "version": {
+        "v1": ["0.0.1"],
+        "v2": ["v2"]
+
+    }
+
+}
+
+
+class Survey(ABC):
+    """
+    The Abstract for every
+    survey that tester loads
+    """
+    def __init__(self, file_path):
+        self.contents = self._extract_content(file_path)
+        self.schema = self._determine_schema()
+        self.survey_code = self._extract_survey_code()
+
+    def _determine_schema(self) -> str:
+        """
+        Determine the schema of this file, based
+        on the folder it's in
+        """
+        for version in determine_schema["version"].keys():
+            if self.contents["version"] in determine_schema["version"][version]:
+                return version
+
+    def _extract_survey_code(self) -> str:
+        """
+        Retrieve the survey code
+        from the contents of the survey
+        """
+        sc = self.contents
+        for i in schema_logic[self.schema]["survey_id"]:
+            sc = sc[i]
+        return sc
+
+    def _extract_content(self, file_path: str):
+        """
+        Method to load a simple json file
+        """
+        with open(file_path, 'r') as data:
+            contents = json.load(data)
+        return contents
+
+    def serialize(self):
+        """
+        Convert this survey to a JSON
+        format
+        """
+        return {self.survey_code: self.contents}
+
+
+class Seft(Survey):
+    def __int__(self, file_path):
+        super(Seft, self).__init__(file_path)
+
+    def _extract_content(self, file_path: str):
+        """
+        Override the parent class, extract the content
+        from a SEFT file
+        """
+        with open(file_path, 'rb') as seft_file:
+            seft_bytes = seft_file.read()
+            filename = os.path.basename(file_path).split(".")[0]
+            seft = SeftSubmission(
+                seft_name=f"seft_{filename}",
+                seft_metadata=_seft_metadata(seft_file, filename),
+                seft_bytes=seft_bytes
+            )
+        return seft
+
+    def _extract_survey_code(self) -> str:
+        """
+        Extract the survey code from the seft
+        submission
+        """
+        return f"seft_{self.contents.seft_metadata['survey_id']}"
+
+    def _determine_schema(self) -> str:
+        """
+        For now simply return v1 for all
+        SEFTS we find
+        """
+        return "v1"
+
+    def serialize(self):
+        """
+        Convert this seft to a usable
+        format
+        """
+        return {self.survey_code: self.contents.get_seft_metadata()}
+
 
 class SurveyLoader:
     """
@@ -22,7 +119,12 @@ class SurveyLoader:
     """
     def __init__(self, data_folder):
         self.data_folder = data_folder
+
+        # Store just the survey objects {schema: {survey_code: Survey} }
         self.files_only = {version: {} for version in schema_logic.keys()}
+
+        # Store the entire structure including recursive sub folders
+        # {schema: {survey_type: {sub-folder: Survey}}
         self.all_data = self._read_all(self.data_folder)
 
     def _read_all(self, root):
@@ -39,12 +141,30 @@ class SurveyLoader:
 
             if os.path.isfile(os.path.join(root, element)):
 
-                # Extract key and value here
-                schema, code, contents = self._extract_file_information(os.path.join(root, element))
+                # Create a survey object
+                file_path = os.path.join(root, element)
+                if "seft" in file_path:
+                    survey = Seft(file_path)
+                else:
+                    survey = Survey(file_path)
 
-                # Store
-                self.files_only[schema][code] = contents
-                my_dict[code] = contents
+                # Store just the files
+
+                # Create a list of surveys for this survey code
+                if survey.survey_code not in self.files_only[survey.schema]:
+                    self.files_only[survey.schema][survey.survey_code] = []
+
+                # Add this survey to the list
+                self.files_only[survey.schema][survey.survey_code].append(survey)
+
+                # Store and preserve folder structure
+
+                # Create a list of surveys for this survey code
+                if survey.survey_code not in my_dict:
+                    my_dict[survey.survey_code] = []
+
+                # Add this survey to the list
+                my_dict[survey.survey_code].append(survey)
 
             elif os.path.isdir(os.path.join(root, element)):
                 my_dict[element] = self._read_all(os.path.join(root, element))
@@ -55,64 +175,14 @@ class SurveyLoader:
         """
         Convert this data structure to
         a json readable format
-        """
-        return self.files_only
 
-    def _extract_survey_code(self, survey, schema_version):
-        """
-        Extract the survey code
-        from the json using the schema logic
-        """
-        sc = survey
-        for i in schema_logic[schema_version]["survey_id"]:
-            sc = sc[i]
-        return sc
-
-    def _extract_file_information(self, file_path: str) -> (str, str, object):
-        """
-        Given the path to a file, extract the survey code
-        and return the file contents
+        {version: [survey1, survey2...]}
         """
 
-        # Schema logic
-        for key in schema_logic.keys():
-
-            # This file belongs to this schema
-            if key in file_path:
-
-                # Special case for SEFT files
-                if "seft" in file_path:
-                    with open(file_path, 'rb') as seft_file:
-                        seft_bytes = seft_file.read()
-                        filename = os.path.basename(file_path).split(".")[0]
-                        seft = SeftSubmission(
-                            seft_name=f"seft_{filename}",
-                            seft_metadata=_seft_metadata(seft_file, filename),
-                            seft_bytes=seft_bytes
-                        )
-                        survey_id = f"seft_{seft.seft_metadata['survey_id']}"
-                    return key, survey_id, seft
-                else:
-                    # Read the contents of the file
-                    with open(file_path, 'r') as data:
-                        survey = json.load(data)
-                        survey_code = self._extract_survey_code(survey, key)
-                    return key, survey_code, survey
-
-
-class Survey(ABC):
-    """
-    The Abstract for every
-    survey that tester loads
-    """
-    def __init__(self, file):
-        self.file = file
-
-    def _extract_survey_code(self):
-        pass
-
-    def serialize(self):
-        pass
+        return {
+            version: [survey.serialize()
+                      for surveyCode in self.files_only[version] for survey in self.files_only[version][surveyCode]]
+            for version in self.files_only}
 
 
 def read_ui() -> dict:

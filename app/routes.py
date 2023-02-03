@@ -28,7 +28,7 @@ survey_loader = SurveyLoader(CONFIG.DATA_FOLDER)
 @app.get('/index')
 def index():
 
-    a = get_json_surveys()
+    #a = get_json_surveys()
     return render_template('index.html.j2',
                            survey_dict=survey_loader.to_json(),
                            submissions=submissions)
