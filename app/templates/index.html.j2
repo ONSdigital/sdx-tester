@@ -176,17 +176,15 @@ Manual page refresh is not required to reflect the changes.
                 selected_schema = this.value;
 
                 // Go through each survey for this given schema version
-                $.each(survey_dict[selected_schema], function(index){
-                    json = survey_dict[selected_schema][index]
-
-                    console.log(key)
+                $.each(survey_dict[selected_schema], function(survey_code, form_list){
+                    console.log(survey_code)
                     // The key to the dictionary is the survey ID
-                    let number_forms = survey_dict[selected_schema][key].length
-                    let display_name = key
+                    let number_forms = survey_dict[selected_schema][survey_code].length
+                    let display_name = survey_code
                     if (number_forms > 1){
                         display_name += " ("+number_forms+")"
                     }
-                    $('#main_survey_dropdowns_content').append($("<option></option>").attr({"sid": key, "index": key}).text(display_name));
+                    $('#main_survey_dropdowns_content').append($("<option></option>").attr({"sid": survey_code, "index": survey_code}).text(display_name));
                 });
                 // Enable the dropdown
                 $('#main_survey_dropdowns_content').prop('disabled', false);

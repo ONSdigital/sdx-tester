@@ -69,7 +69,7 @@ class Survey(ABC):
         Convert this survey to a JSON
         format
         """
-        return {self.survey_code: self.contents}
+        return self.contents
 
 
 class Seft(Survey):
@@ -110,7 +110,7 @@ class Seft(Survey):
         Convert this seft to a usable
         format
         """
-        return {self.survey_code: self.contents.get_seft_metadata()}
+        return self.contents.get_seft_metadata()
 
 
 class SurveyLoader:
@@ -176,13 +176,13 @@ class SurveyLoader:
         Convert this data structure to
         a json readable format
 
-        {version: [survey1, survey2...]}
+        {schema_version: {survey_code: [survey1, survey2...]}}
         """
 
+        # Beautiful
         return {
-            version: [survey.serialize()
-                      for surveyCode in self.files_only[version] for survey in self.files_only[version][surveyCode]]
-            for version in self.files_only}
+            version: {survey_code: [survey.serialize() for survey in self.files_only[version][survey_code]] for survey_code in self.files_only[version]} for version in self.files_only
+        }
 
 
 def read_ui() -> dict:
