@@ -13,7 +13,7 @@ from app.datastore.datastore_writer import cleanup_datastore
 from app.jwt.encryption import decrypt_survey
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
-from app.survey_loader import get_json_surveys, read_ui, SurveyLoader
+from app.survey_loader import get_json_surveys, read_ui, SurveyLoader, Survey, InvalidSurveyException
 
 logger = structlog.get_logger()
 
@@ -108,11 +108,18 @@ def submit():
         flash("Invalid JSON format")
     else:
 
+        # Validate
+        try:
+            current_survey = Survey(data_dict)
+        except InvalidSurveyException as e:
+            flash(e.message)
+
         # Next check if survey_id is included in the json
         if "survey_id" in data_dict:
             survey_id = data_dict["survey_id"]
 
             # Attempt to find an instrument ID
+            # TODO how to handle this in v2?
             try:
                 instrument_id = data_dict["collection"]["instrument_id"]
             except KeyError:

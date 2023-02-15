@@ -38,6 +38,14 @@ class TestSurvey(unittest.TestCase):
 		actual_code = self.survey.survey_id
 		self.assertEqual(expected_code, actual_code)
 
+	def test_extract_instrument_id(self):
+		file_path = f"{CONFIG.DATA_FOLDER}/v1/survey/eq_v2/009.0167.json"
+		survey = Survey.from_file(file_path)
+
+		expected_code = "0167"
+		actual_code = survey.extract_instrument_id()
+		self.assertEqual(expected_code, actual_code)
+
 	def test_invalid_survey(self):
 
 		# A json with lots of missing information
@@ -51,7 +59,6 @@ class TestSurvey(unittest.TestCase):
 
 		with self.assertRaises(InvalidSurveyException):
 			Survey(test_json)
-
 
 
 class TestSeft(unittest.TestCase):

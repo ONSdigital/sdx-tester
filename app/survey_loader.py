@@ -9,10 +9,12 @@ from typing import Union, Any
 # Each item in the array corresponds to a level of the json
 schema_logic = {
     "v1": {
-        "survey_id": ["survey_id"]
+        "survey_id": ["survey_id"],
+        "instrument_id": ["collection", "instrument_id"]
     },
     "v2": {
-        "survey_id": ["survey_metadata", "survey_id"]
+        "survey_id": ["survey_metadata", "survey_id"],
+        "instrument_id": ["survey_metadata", "form_type"]
     }
 }
 
@@ -23,8 +25,7 @@ determine_schema = {
         "v1": ["0.0.1"],
         "v2": ["v2"]
 
-    }
-
+    },
 }
 
 
@@ -34,7 +35,7 @@ class InvalidSurveyException(Exception):
         super().__init__(self.message)
 
 
-class Survey(ABC):
+class SurveyCore(ABC):
     """
     The Abstract for every
     survey that tester loads
@@ -64,19 +65,30 @@ class Survey(ABC):
             if self.contents["version"] in determine_schema["version"][version]:
                 return version
 
+    def _extract_metadata_from_contents(self, key):
+        """
+        Extract certain metadata from the survey,
+        the key must be specified in the schema_logic
+        dictionary
+        """
+        sc = self.contents
+        for i in schema_logic[self.schema][key]:
+            try:
+                sc = sc[i]
+            except KeyError:
+                raise InvalidSurveyException(message="The format of this survey is incorrect")
+        return sc
+
     def _extract_survey_id(self) -> str:
         """
         Retrieve the survey id
         from the contents of the survey
         """
 
-        sc = self.contents
-        for i in schema_logic[self.schema]["survey_id"]:
-            try:
-                sc = sc[i]
-            except KeyError:
-                raise InvalidSurveyException(message="This survey is missing a survey_id in the correct location")
-        return sc
+        try:
+            return self._extract_metadata_from_contents("survey_id")
+        except InvalidSurveyException:
+            raise InvalidSurveyException(message="This survey is missing a survey_id in the correct location")
 
     def _extract_content(self, file_path: str) -> json:
         """
@@ -94,7 +106,31 @@ class Survey(ABC):
         return self.contents
 
 
-class Seft(Survey):
+class Survey(SurveyCore):
+    """
+    Class containing logic specific
+    to surveys (not SEFT)
+    """
+
+    def __init__(self, contents: json):
+        super(Survey, self).__init__(contents)
+
+    def extract_instrument_id(self):
+        """
+        Fetch the instrument_id
+        for this survey
+        """
+        try:
+            return self._extract_metadata_from_contents("instrument_id")
+        except InvalidSurveyException:
+            raise InvalidSurveyException(message="Could not extract the instrument_id from this survey")
+
+
+class Seft(SurveyCore):
+    """
+    Class for storing SEFT data
+    """
+
     def __init__(self, contents: json):
         super(Seft, self).__init__(contents)
 
