@@ -28,6 +28,12 @@ determine_schema = {
 }
 
 
+class InvalidSurveyException(Exception):
+    def __init__(self, message="The loaded survey is invalid"):
+        self.message = message
+        super().__init__(self.message)
+
+
 class Survey(ABC):
     """
     The Abstract for every
@@ -50,18 +56,26 @@ class Survey(ABC):
         Determine the schema of this file, based
         on the folder it's in
         """
+
+        if "version" not in self.contents:
+            raise InvalidSurveyException(message="This survey does not contain a version attribute")
+
         for version in determine_schema["version"].keys():
             if self.contents["version"] in determine_schema["version"][version]:
                 return version
 
     def _extract_survey_id(self) -> str:
         """
-        Retrieve the survey code
+        Retrieve the survey id
         from the contents of the survey
         """
+
         sc = self.contents
         for i in schema_logic[self.schema]["survey_id"]:
-            sc = sc[i]
+            try:
+                sc = sc[i]
+            except KeyError:
+                raise InvalidSurveyException(message="This survey is missing a survey_id in the correct location")
         return sc
 
     def _extract_content(self, file_path: str) -> json:
@@ -103,19 +117,19 @@ class Seft(Survey):
             )
         return seft
 
-    def _extract_survey_id(self) -> str:
-        """
-        Extract the survey code from the seft
-        submission
-        """
-        return f"seft_{self.contents.seft_metadata['survey_id']}"
-
     def _determine_schema(self) -> str:
         """
         For now simply return v1 for all
         SEFTS we find
         """
         return "v1"
+
+    def _extract_survey_id(self) -> str:
+        """
+        Extract the survey code from the seft
+        submission
+        """
+        return f"seft_{self.contents.seft_metadata['survey_id']}"
 
     def serialize(self):
         """

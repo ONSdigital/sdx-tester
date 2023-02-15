@@ -8,7 +8,7 @@ also run any top level code in the app files
 import unittest
 
 from app import CONFIG
-from app.survey_loader import SurveyLoader, Survey, Seft
+from app.survey_loader import SurveyLoader, Survey, Seft, InvalidSurveyException
 
 
 class TestSurveyLoader(unittest.TestCase):
@@ -37,6 +37,21 @@ class TestSurvey(unittest.TestCase):
 		expected_code = "009"
 		actual_code = self.survey.survey_id
 		self.assertEqual(expected_code, actual_code)
+
+	def test_invalid_survey(self):
+
+		# A json with lots of missing information
+		test_json = {
+			"case_id": "8fc3eb0b-2dd7-4acd-a354-5d4f69503233",
+			"tx_id": "bddbb412-75ea-43ce-9efa-0deb07cb8550",
+			"survey_metadata": {
+				"period_id": "201605",
+			},
+		}
+
+		with self.assertRaises(InvalidSurveyException):
+			Survey(test_json)
+
 
 
 class TestSeft(unittest.TestCase):
