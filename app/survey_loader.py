@@ -3,6 +3,7 @@ import os
 import json
 import uuid
 from abc import ABC
+from typing import Union, Any
 
 # Defines how to extract certain metadata from the different schemas
 # Each item in the array corresponds to a level of the json
@@ -32,10 +33,17 @@ class Survey(ABC):
     The Abstract for every
     survey that tester loads
     """
-    def __init__(self, file_path):
-        self.contents = self._extract_content(file_path)
+    def __init__(self, contents: json):
+        self.contents = contents
         self.schema = self._determine_schema()
-        self.survey_code = self._extract_survey_code()
+        self.survey_id = self._extract_survey_id()
+
+    @classmethod
+    def from_file(cls, file_path):
+        """
+        Load a survey given a path to the file
+        """
+        return cls(cls._extract_content(cls, file_path))
 
     def _determine_schema(self) -> str:
         """
@@ -46,7 +54,7 @@ class Survey(ABC):
             if self.contents["version"] in determine_schema["version"][version]:
                 return version
 
-    def _extract_survey_code(self) -> str:
+    def _extract_survey_id(self) -> str:
         """
         Retrieve the survey code
         from the contents of the survey
@@ -56,7 +64,7 @@ class Survey(ABC):
             sc = sc[i]
         return sc
 
-    def _extract_content(self, file_path: str):
+    def _extract_content(self, file_path: str) -> json:
         """
         Method to load a simple json file
         """
@@ -73,8 +81,12 @@ class Survey(ABC):
 
 
 class Seft(Survey):
-    def __int__(self, file_path):
-        super(Seft, self).__init__(file_path)
+    def __init__(self, contents: json):
+        super(Seft, self).__init__(contents)
+
+    @classmethod
+    def from_file(cls, file_path):
+        return super(Seft, cls).from_file(file_path)
 
     def _extract_content(self, file_path: str):
         """
@@ -91,7 +103,7 @@ class Seft(Survey):
             )
         return seft
 
-    def _extract_survey_code(self) -> str:
+    def _extract_survey_id(self) -> str:
         """
         Extract the survey code from the seft
         submission
@@ -117,17 +129,17 @@ class SurveyLoader:
     """
     Will load surveys from the filesystem
     """
-    def __init__(self, data_folder):
+    def __init__(self, data_folder: str):
         self.data_folder = data_folder
 
-        # Store just the survey objects {schema: {survey_code: Survey} }
+        # Store just the survey objects {schema: {survey_id: Survey} }
         self.files_only = {version: {} for version in schema_logic.keys()}
 
         # Store the entire structure including recursive sub folders
         # {schema: {survey_type: {sub-folder: Survey}}
         self.all_data = self._read_all(self.data_folder)
 
-    def _read_all(self, root):
+    def _read_all(self, root: str):
         """
         Will parse everything in the specified data folder,
         each direct sub folder will be assigned to a schema version (v1, v2)
@@ -144,27 +156,27 @@ class SurveyLoader:
                 # Create a survey object
                 file_path = os.path.join(root, element)
                 if "seft" in file_path:
-                    survey = Seft(file_path)
+                    survey = Seft.from_file(file_path)
                 else:
-                    survey = Survey(file_path)
+                    survey = Survey.from_file(file_path)
 
                 # Store just the files
 
                 # Create a list of surveys for this survey code
-                if survey.survey_code not in self.files_only[survey.schema]:
-                    self.files_only[survey.schema][survey.survey_code] = []
+                if survey.survey_id not in self.files_only[survey.schema]:
+                    self.files_only[survey.schema][survey.survey_id] = []
 
                 # Add this survey to the list
-                self.files_only[survey.schema][survey.survey_code].append(survey)
+                self.files_only[survey.schema][survey.survey_id].append(survey)
 
                 # Store and preserve folder structure
 
                 # Create a list of surveys for this survey code
-                if survey.survey_code not in my_dict:
-                    my_dict[survey.survey_code] = []
+                if survey.survey_id not in my_dict:
+                    my_dict[survey.survey_id] = []
 
                 # Add this survey to the list
-                my_dict[survey.survey_code].append(survey)
+                my_dict[survey.survey_id].append(survey)
 
             elif os.path.isdir(os.path.join(root, element)):
                 my_dict[element] = self._read_all(os.path.join(root, element))
@@ -176,13 +188,23 @@ class SurveyLoader:
         Convert this data structure to
         a json readable format
 
-        {schema_version: {survey_code: [survey1, survey2...]}}
+        {schema_version: {survey_id: [survey1, survey2...]}}
         """
 
         # Beautiful
         return {
-            version: {survey_code: [survey.serialize() for survey in self.files_only[version][survey_code]] for survey_code in self.files_only[version]} for version in self.files_only
+            version: {survey_id: [survey.serialize() for survey in self.files_only[version][survey_id]] for survey_id in self.files_only[version]} for version in self.files_only
         }
+
+    def get_survey(self, schema: str, survey_id: str) -> Union[bool, Survey]:
+        """
+        Attempt to get a survey from this loader
+        given the schema and survey code
+        """
+        try:
+            return self.files_only[schema][survey_id]
+        except KeyError:
+            return False
 
 
 def read_ui() -> dict:

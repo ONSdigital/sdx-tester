@@ -96,13 +96,14 @@ def submit():
     # Read in surveys from disk
     surveys = read_ui()
 
+    surveys = survey_loader.files_only
+
     # Extract the current survey from the post request
     current_survey = request.form.get('post-data')
 
     # First we check if the json is valid format
     try:
         data_dict = json.loads(current_survey)
-        print(data_dict)
     except json.decoder.JSONDecodeError:
         flash("Invalid JSON format")
     else:
