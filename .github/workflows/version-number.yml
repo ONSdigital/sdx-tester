@@ -10,33 +10,39 @@ jobs:
     name: Checking Version Number
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Read Helm Chart
-      id: chart
-      uses: jacobtomlinson/gha-read-helm-chart@master
-      with:
-        path: ./_helm/sdx-tester
-    - name: Print outputs
-      run: echo ${{ steps.chart.outputs.version }}
+      - uses: actions/checkout@v2
+      - name: Read version contents
+        id: new_version
+        run: |
+          echo "NEW_VERSION=$(cat .version)" >> $GITHUB_ENV
 
-    - name: Getting main version
-      uses: actions/checkout@v2
-      with:
-        ref: main
-        fetch-depth: 1
-    - name: Read Helm Chart
-      id: chart-main
-      uses: jacobtomlinson/gha-read-helm-chart@master
-      with:
-        path: ./_helm/sdx-tester
-    - name: Print outputs
-      run: echo ${{ steps.chart-main.outputs.version }}
-    - name: Compare appVersion
-      run: |
-        if [ ${{ steps.chart-main.outputs.version }} != ${{ steps.chart.outputs.version }} ]
-        then
-          echo Version has been incremented
-        else
-          echo Please Increment the Chart version number
-          exit 1
-        fi
+      - name: Print Version
+        run: |
+          echo ${{ env.NEW_VERSION }}
+
+      - name: Checkout to main
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Read main version contents
+        id: main_version
+        run: |
+          echo "MAIN_VERSION=$(cat .version)" >> $GITHUB_ENV
+
+
+      - name: Print main version
+        run: |
+          echo ${{ env.MAIN_VERSION }}
+
+
+      - name: Compare versions
+        run: |
+          if [ ${{ env.NEW_VERSION }} != ${{ env.MAIN_VERSION }} ]
+          then
+            echo Version updated!
+          else
+            echo Version not updated!
+            exit 1
+          fi
