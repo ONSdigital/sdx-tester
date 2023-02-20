@@ -66,6 +66,7 @@ def extract_zip(zip_bytes: bytes) -> dict:
 
 def get_comment_files() -> bytes:
     bucket = storage_client.bucket(OUTPUT_BUCKET_NAME)
+    print(bucket)
     files = bucket.list_blobs(prefix='comments')
     file_list = [(file.name, file.time_created) for file in files]
     file_list = sorted(file_list, key=lambda f: f[1], reverse=True)
