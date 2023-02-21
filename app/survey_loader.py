@@ -98,7 +98,7 @@ class SurveyCore(ABC):
             contents = json.load(data)
         return contents
 
-    def serialize(self):
+    def serialize(self) -> json:
         """
         Convert this survey to a JSON
         format
