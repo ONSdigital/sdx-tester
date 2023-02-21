@@ -67,7 +67,9 @@ Manual page refresh is not required to reflect the changes.
                 </div>
 
 
-                <textarea id="post-data" name="post-data" class="survey-text-area ons-input--textarea ons-input">{{ current_survey }}</textarea>
+                <textarea id="post-data" name="post-data" class="survey-text-area ons-input--textarea ons-input">
+                    {{ current_survey|pretty_print }}
+                </textarea>
                 <br>
                 <!--Button row-->
                 <div class="button-row">

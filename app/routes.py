@@ -13,7 +13,7 @@ from app.datastore.datastore_writer import cleanup_datastore
 from app.jwt.encryption import decrypt_survey
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
-from app.survey_loader import get_json_surveys, read_ui, SurveyLoader, Survey, InvalidSurveyException, Seft
+from app.survey_loader import SurveyLoader, Survey, InvalidSurveyException, Seft
 
 logger = structlog.get_logger()
 
@@ -115,7 +115,7 @@ def submit():
             except InvalidSurveyException as e:
                 flash(e.message)
             else:
-                byte_data = current_survey.contents.seft_bytes
+                byte_data = current_survey.byte_data
                 instrument_id = ""
                 # Create and process the survey submission
                 submissions.process_survey(UserSeftSurveySubmission(tx_id,
@@ -211,7 +211,9 @@ def pretty_print(data):
     """
     The indent parameter specifies how many spaces to indent by the data.
     """
-    return json.dumps(data, indent=4)
+    if data:
+        return json.dumps(data, indent=4)
+    return ""
 
 
 # --------- Functions ----------

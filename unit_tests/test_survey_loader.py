@@ -8,7 +8,7 @@ also run any top level code in the app files
 import unittest
 
 from app import CONFIG
-from app.survey_loader import SurveyLoader, Survey, Seft, InvalidSurveyException
+from app.survey_loader import SurveyLoader, Survey, Seft, InvalidSurveyException, read_all_v1
 
 
 class TestSurveyLoader(unittest.TestCase):
@@ -60,6 +60,9 @@ class TestSurvey(unittest.TestCase):
 		with self.assertRaises(InvalidSurveyException):
 			Survey(test_json)
 
+	def test_extract_v1(self):
+		read_all_v1()
+
 
 class TestSeft(unittest.TestCase):
 
@@ -71,12 +74,6 @@ class TestSeft(unittest.TestCase):
 		actual_code = self.survey.survey_id
 		self.assertEqual(expected_code, actual_code)
 
-	def test_extract_seft_instrument_id(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/v1/seft/11110000014H_202009_057_20210121143526.xlsx"
-		self.survey = Seft.from_file(file_path)
-
-		# TODO do sefts have instrument id?
-		print()
 
 if __name__ == '__main__':
 	unittest.main()
