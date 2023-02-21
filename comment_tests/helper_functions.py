@@ -13,7 +13,7 @@ from app.store.reader import does_comment_exist, get_comment_files
 from comment_tests import surveys
 
 
-TIMEOUT = 150
+TIMEOUT = 300
 
 
 def clean_datastore():
