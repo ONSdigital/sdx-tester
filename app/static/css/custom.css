@@ -87,8 +87,9 @@
 }
 
 .file-image-container{
-  height: 90vh;
-  width: auto;
+  height: auto;
+  width: 750px;
+    margin: auto;
   background-color: rgba(0, 0, 0, 0.2);
   overflow: hidden;
   padding: 2em;
