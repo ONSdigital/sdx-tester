@@ -255,7 +255,6 @@ class SurveyLoader:
             return False
 
 
-
 def read_all_v1() -> dict:
     """
     Returns a dict of list of surveys mapped to their survey_id.
