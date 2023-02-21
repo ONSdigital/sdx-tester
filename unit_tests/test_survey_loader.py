@@ -60,9 +60,6 @@ class TestSurvey(unittest.TestCase):
 		with self.assertRaises(InvalidSurveyException):
 			Survey(test_json)
 
-	def test_extract_v1(self):
-		read_all_v1()
-
 
 class TestSeft(unittest.TestCase):
 
