@@ -12,8 +12,11 @@ google-cloud-secret-manager = "==2.15.1"
 cryptography = "==39.0.1"
 python-gnupg = "==0.5.0"
 structlog = "==22.3.0"
+
 python-engineio = "==4.3.4"
 python-socketio = "==5.7.2"
+Flask-SocketIO = "==5.3.2"
+
 coverage = "==7.1.0"
 xls2xlsx = "==0.2.0"
 xlrd = "==2.0.1"
@@ -21,7 +24,6 @@ pandas = "==1.5.3"
 pytest-cov = "==4.0.0"
 Flask = "==2.2.2"
 PyYAML = "==6.0"
-Flask-SocketIO = "==5.3.2"
 pillow = "==9.4.0"
 
 [dev-packages]
