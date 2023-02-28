@@ -24,22 +24,36 @@ Manual page refresh is not required to reflect the changes.
             <!--Left side-->
             <div class="ons-grid__col ons-col-6@l " style="background-color: none">
                 <div class="ons-grid">
+
                     <!--Select 1-->
                     <div class="ons-grid__col ons-col-6@s ">
+                        <div class="ons-field">
+                            <label class="ons-label  " for="schema_versions">Schema Versions
+                            </label>
+                            <select name="schema_versions" id="schema_versions" class="ons-input ons-input--select" style="width: auto;">
+                                <option selected="selected" disabled="disabled">Select a schema version</option>
+                                <!--Display each schema version-->
+                                {% for schema_version in survey_dict.keys() %}
+                                    <option schema_version="{{ schema_version }}">{{ schema_version}}</option>
+                                {%  endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--Select 2-->
+                    <div class="ons-grid__col ons-col-6@s " id="main_survey_dropdowns">
                         <div class="ons-field">
                             <label class="ons-label  " for="survey_names">Surveys
                             </label>
                             <select name="surveys_names" id="survey_names" class="ons-input ons-input--select" style="width: auto;">
                                 <option selected="selected" disabled="disabled">Please select a survey</option>
-                                <!--Display each survey ID-->
-                                {% for key, values in survey_dict.items() %}
-                                <option sid="{{key}}">{{ key }} {{ " - ({})".format(values|length) if values|length > 1 }}</option>
-                                {% endfor %}
+                                <optgroup id="main_survey_dropdowns_content" label="surveys">
+                                </optgroup>
                             </select>
                         </div>
-
                     </div>
-                    <!--Select 2-->
+
+                    <!--Select 3-->
                     <div class="ons-grid__col ons-col-6@s " id="extra_surveys_container" style="display: none">
                         <div class="ons-field">
                             <label class="ons-label  " for="extra_surveys">Form type
@@ -49,10 +63,13 @@ Manual page refresh is not required to reflect the changes.
                                 </optgroup>
                             </select>
                         </div>
-
                     </div>
                 </div>
-                <textarea id="post-data" name="post-data" class="survey-text-area ons-input--textarea ons-input">{{ current_survey }}</textarea>
+
+
+                <textarea id="post-data" name="post-data" class="survey-text-area ons-input--textarea ons-input">
+                    {{ current_survey|pretty_print }}
+                </textarea>
                 <br>
                 <!--Button row-->
                 <div class="button-row">
@@ -129,6 +146,7 @@ Manual page refresh is not required to reflect the changes.
             // Globals
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             var survey_dict = {{ survey_dict|tojson|safe }};
+            var selected_schema = null;
 
             /**
              * Will insert a survey into the
@@ -137,10 +155,44 @@ Manual page refresh is not required to reflect the changes.
              * @param  index The index of the form (default is 0) - i.e just the first form
              */
             function load_survey_into_textbox(sid,index=0){
-                form = survey_dict[sid][index];
+                form = survey_dict[selected_schema][sid][index];
                 $("#post-data").val(JSON.stringify(form,null,4));
                 $("#post-data").scrollTop(0);
             }
+
+            // When the user clicks the "schema version" dropdown
+            $('#schema_versions').on('change', function() {
+
+
+                // Hide, clear and disable the dropdown
+                $('#extra_surveys').prop('disabled', 'disabled');
+                $('#main_survey_dropdowns_content').prop('disabled', 'disabled');
+
+                $('#extra_surveys_container').hide();
+
+                // Clear old extra surveys
+                $('#extra_surveys_content').empty();
+                $('#main_survey_dropdowns_content').empty();
+
+                // Update our global variable to the selected schema
+                selected_schema = this.value;
+
+                // Go through each survey for this given schema version
+                $.each(survey_dict[selected_schema], function(survey_code, form_list){
+                    console.log(survey_code)
+                    // The key to the dictionary is the survey ID
+                    let number_forms = survey_dict[selected_schema][survey_code].length
+                    let display_name = survey_code
+                    if (number_forms > 1){
+                        display_name += " ("+number_forms+")"
+                    }
+                    $('#main_survey_dropdowns_content').append($("<option></option>").attr({"sid": survey_code, "index": survey_code}).text(display_name));
+                });
+                // Enable the dropdown
+                $('#main_survey_dropdowns_content').prop('disabled', false);
+
+            });
+
 
             // When the main select box changes
             $('#survey_names').change(function() {
@@ -148,9 +200,9 @@ Manual page refresh is not required to reflect the changes.
                 //Get the survey id for the selected option
                 var sid = $('option:selected', this).attr('sid');
 
+
                 // Fill the text box with the data in the dropdown
                 load_survey_into_textbox(sid)
-
 
                 // Ensure the selection is disabled & hidden
                 $('#extra_surveys').prop('disabled', 'disabled');
@@ -162,7 +214,7 @@ Manual page refresh is not required to reflect the changes.
                 //Check the SID is valid
                 if (typeof sid !== 'undefined'){
                     // Get the list of forms associated with this survey
-                    var extra_surveys = survey_dict[sid]
+                    var extra_surveys = survey_dict[selected_schema][sid]
                     // Only show the option if there is more than 1 form
                     if (extra_surveys.length > 1){
                         // Show the second dropdown

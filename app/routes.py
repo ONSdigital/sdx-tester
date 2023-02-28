@@ -8,24 +8,28 @@ from app.messaging.publisher import publish_dap_receipt
 from app.tester import UserSurveySubmissionsManager, UserSurveySubmission, UserSeftSurveySubmission, \
     decode_files_and_images
 from flask import request, render_template, flash
-from app import app, socketio
+from app import app, socketio, CONFIG
 from app.datastore.datastore_writer import cleanup_datastore
 from app.jwt.encryption import decrypt_survey
 from app.store import OUTPUT_BUCKET_NAME
 from app.store.reader import check_file_exists
-from app.survey_loader import get_json_surveys, read_ui
+from app.survey_loader import SurveyLoader, Survey, InvalidSurveyException, Seft
 
 logger = structlog.get_logger()
 
 # Track the submissions submitted by the user
 submissions = UserSurveySubmissionsManager()
 
+# Survey loader
+survey_loader = SurveyLoader(CONFIG.DATA_FOLDER)
+
 
 @app.get('/')
 @app.get('/index')
 def index():
+
     return render_template('index.html.j2',
-                           survey_dict=get_json_surveys(),
+                           survey_dict=survey_loader.to_json(),
                            submissions=submissions)
 
 
@@ -89,9 +93,6 @@ def submit():
     from the dropdown
     """
 
-    # Read in surveys from disk
-    surveys = read_ui()
-
     # Extract the current survey from the post request
     current_survey = request.form.get('post-data')
 
@@ -102,38 +103,49 @@ def submit():
         flash("Invalid JSON format")
     else:
 
-        # Next check if survey_id is included in the json
-        if "survey_id" in data_dict:
-            survey_id = data_dict["survey_id"]
+        # Generate a random tx_id
+        tx_id = str(uuid.uuid4())
+        # Update the data dict with the new tx_id
+        data_dict["tx_id"] = tx_id
 
-            # Attempt to find an instrument ID
+        # Seft
+        if "seft" in data_dict:
             try:
-                instrument_id = data_dict["collection"]["instrument_id"]
-            except KeyError:
-                instrument_id = ""
-
-            # Generate a tx_id
-            tx_id = str(uuid.uuid4())
-            data_dict['tx_id'] = tx_id
-
-            if 'seft' in data_dict:
-                byte_data = surveys[survey_id].get_seft_bytes()
-                user_submission = UserSeftSurveySubmission(tx_id, survey_id, instrument_id, data_dict, byte_data)
+                current_survey = Seft(data_dict)
+            except InvalidSurveyException as e:
+                flash(e.message)
             else:
-                user_submission = UserSurveySubmission(tx_id, survey_id, instrument_id, data_dict)
+                byte_data = current_survey.byte_data
+                instrument_id = ""
+                # Create and process the survey submission
+                submissions.process_survey(UserSeftSurveySubmission(tx_id,
+                                                           current_survey.survey_id,
+                                                           instrument_id, data_dict,
+                                                           byte_data ))
+                # Serialize the survey to render for the ui
+                current_survey = current_survey.serialize()
 
-            # Store this survey for later and process it in the background
-            submissions.process_survey(user_submission)
-
+        # Non seft
         else:
-            flash("Please include a survey_id")
+            try:
+                current_survey = Survey(data_dict)
+            except InvalidSurveyException as e:
+                flash(e.message)
+            else:
+                # Create and process the survey submission
+                submissions.process_survey(UserSurveySubmission(tx_id,
+                                                       current_survey.survey_id,
+                                                       current_survey.extract_instrument_id(),
+                                                      data_dict))
+                # Serialize the survey to render for the ui
+                current_survey = current_survey.serialize()
 
+    # Render the ui
     return render_template('index.html.j2',
                            submissions=submissions,
-                           survey_dict = get_json_surveys(),
+                           survey_dict=survey_loader.to_json(),
                            current_survey=current_survey,
                            )
-
 
 @app.get('/response/<tx_id>')
 def view_response(tx_id):
@@ -199,7 +211,9 @@ def pretty_print(data):
     """
     The indent parameter specifies how many spaces to indent by the data.
     """
-    return json.dumps(data, indent=4)
+    if data:
+        return json.dumps(data, indent=4)
+    return ""
 
 
 # --------- Functions ----------
