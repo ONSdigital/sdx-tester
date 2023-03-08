@@ -17,6 +17,8 @@ from app.survey_loader import SurveyLoader, Survey, InvalidSurveyException, Seft
 
 logger = structlog.get_logger()
 
+# logging.getLogger('werkzeug').disabled = True # (Use this to disable constant console logs)
+
 # Track the submissions submitted by the user
 submissions = UserSurveySubmissionsManager()
 

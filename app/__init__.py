@@ -16,6 +16,7 @@ DATA_RECIPIENT = os.getenv('DATA_RECIPIENT', 'dap@ons.gov.uk')
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+
 # Configure Flask app settings
 app.secret_key = os.urandom(12).hex()
 app.jinja_env.auto_reload = True
