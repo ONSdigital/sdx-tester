@@ -1,0 +1,45 @@
+{
+  "case_id": "97e2cee2-5837-4a6b-8767-97363911686d",
+  "tx_id": "6bb9e327-a70e-4221-95b0-7fcc2f9f4225",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1",
+  "origin": "uk.gov.ons.edc.eq",
+  "survey_id": "073",
+  "flushed": false,
+  "submitted_at": "2023-03-02T10:43:59+00:00",
+  "collection": {
+    "exercise_sid": "9434df37-d712-48e2-b52c-706d745e99a5",
+    "schema_name": "073_0001",
+    "period": "201605",
+    "instrument_id": "0001"
+  },
+  "metadata": {
+    "user_id": "UNKNOWN",
+    "ru_ref": "12346789012A",
+    "ref_period_start_date": "2016-05-01",
+    "ref_period_end_date": "2016-05-31"
+  },
+  "launch_language_code": "en",
+  "data": {
+    "9999": "Dense aggregate blocks",
+    "9998": "Lightweight aggregate blocks",
+    "9997": "Aerated blocks",
+    "101": "5670",
+    "102": "2450",
+    "103": "55",
+    "104": "2560",
+    "111": "256",
+    "112": "132",
+    "113": "11",
+    "114": "84",
+    "121": "10000",
+    "122": "3000",
+    "123": "4000",
+    "124": "8000",
+    "145": "Hello, this was an amazing survey!",
+    "146": "Further details to help you understand your blocks"
+  },
+  "form_type": "0001",
+  "started_at": "2023-03-02T10:40:58.110825+00:00",
+  "submission_language_code": "en"
+}

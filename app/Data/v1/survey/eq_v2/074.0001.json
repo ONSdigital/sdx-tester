@@ -1,0 +1,41 @@
+{
+  "case_id": "a564082e-e000-4b08-8303-18f077bf4cec",
+  "tx_id": "bb82c0f0-dcda-4a35-9388-258576f59879",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1",
+  "origin": "uk.gov.ons.edc.eq",
+  "survey_id": "074",
+  "flushed": false,
+  "submitted_at": "2023-03-02T10:45:31+00:00",
+  "collection": {
+    "exercise_sid": "adcbb823-6dc0-4b7b-a5df-39eae3d52a5b",
+    "schema_name": "074_0001",
+    "period": "201605",
+    "instrument_id": "0001"
+  },
+  "metadata": {
+    "user_id": "UNKNOWN",
+    "ru_ref": "12346789012A",
+    "ref_period_start_date": "2016-05-01",
+    "ref_period_end_date": "2016-05-31"
+  },
+  "launch_language_code": "en",
+  "data": {
+    "9998": "Common bricks",
+    "9997": "Facing bricks",
+    "01": "22000",
+    "02": "5000",
+    "03": "8000",
+    "04": "7000",
+    "11": "9000",
+    "12": "1000",
+    "13": "2000",
+    "14": "6000",
+    "9999": "Concrete",
+    "145": "I love bricks!",
+    "146": "Another comment?"
+  },
+  "form_type": "0001",
+  "started_at": "2023-03-02T10:41:42.438418+00:00",
+  "submission_language_code": "en"
+}
