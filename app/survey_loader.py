@@ -24,7 +24,7 @@ schema_logic = {
 # in the array will get mapped to it's key, eg. 0.0.1 -> v1
 determine_schema = {
     "version": {
-        "v1": ["0.0.1"],
+        "v1": ["0.0.1", "0.0.3"],
         "v2": ["v2"]
 
     },
