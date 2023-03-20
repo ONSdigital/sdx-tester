@@ -77,7 +77,6 @@ class PubsubListener(BaseListener):
         self.streaming_pull_future = None
 
     def _on_message(self, message):
-        logger.info(f'Current tx_ids: {self.targets.keys()}')
         tx_id = message.attributes.get('tx_id')
         logger.info(f"Received tx_id from header {tx_id} on {self.label}")
         if tx_id in self.targets:
@@ -137,7 +136,6 @@ class DatastoreListener(BaseListener):
         @param messages: List of tx_id's
         """
 
-        logger.info(f'Current tx_ids: {self.targets.keys()}')
         for target in self.targets:
             if target in messages:
                 logger.info(f"Found datastore entity matching listener {target}")
