@@ -13,14 +13,12 @@ from app import PROJECT_ID
 logger = structlog.get_logger()
 
 sdx_key = get_secret(PROJECT_ID, 'sdx-public-jwt')
-eq_key = get_secret(PROJECT_ID, 'eq-private-signing')
 eqv3_key = get_secret(PROJECT_ID, 'eq-private-jws')
 sdx_key_decrypt = get_secret(PROJECT_ID, 'sdx-private-jwt')
-eq_key_decrypt = get_secret(PROJECT_ID, 'eq-public-signing')
 eqv3_key_decrypt = get_secret(PROJECT_ID, 'eq-public-jws')
 
 
-def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
+def encrypt_survey(submission: dict) -> str:
     """
     Encrypts survey submission using a public key.
 
@@ -30,17 +28,13 @@ def encrypt_survey(submission: dict, eq_version_3: bool = False) -> str:
     responses sent from eQ.
     """
 
-    if eq_version_3:
-        key_store = load_keys(sdx_key, eqv3_key)
-    else:
-        key_store = load_keys(sdx_key, eq_key)
-
+    key_store = load_keys(sdx_key, eqv3_key)
     payload = encrypt(submission, key_store, 'submission')
 
     return payload
 
 
-def decrypt_survey(payload: bytes, eq_version_3: bool = False) -> dict:
+def decrypt_survey(payload: bytes) -> dict:
     """
     Decrypts an encrypted bytes payload using sdx private key and verifies the signature using the signing public key
 
@@ -48,10 +42,7 @@ def decrypt_survey(payload: bytes, eq_version_3: bool = False) -> dict:
     The JWE ciphertext should represent a JWS signed by EQ using their private key and with the survey json as the claims set.
     """
 
-    if eq_version_3:
-        key_store = load_keys(sdx_key_decrypt, eqv3_key_decrypt)
-    else:
-        key_store = load_keys(sdx_key_decrypt, eq_key_decrypt)
+    key_store = load_keys(sdx_key_decrypt, eqv3_key_decrypt)
 
     b_payload = payload.decode('utf-8')
 

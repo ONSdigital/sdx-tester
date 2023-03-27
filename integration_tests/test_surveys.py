@@ -22,7 +22,7 @@ class TestSurveys(unittest.TestCase):
     def tearDown(self):
         print('-----------------------------------------------------')
 
-    def execute(self, survey_dict: dict, receipt: bool, multiple_files: bool, eq_version_3: bool = False):
+    def execute(self, survey_dict: dict, receipt: bool, multiple_files: bool):
         for key, survey_list in survey_dict.items():
             for survey in survey_list:
                 tx_id = str(uuid.uuid4())
@@ -30,7 +30,7 @@ class TestSurveys(unittest.TestCase):
                 with self.subTest(msg=f'test {key} with tx_id: {tx_id}'):
                     print('---------------------------------------------------------')
                     print(f'testing {key} with tx_id: {tx_id}')
-                    result = run_survey(message_manager, survey, eq_version_3)
+                    result = run_survey(message_manager, survey)
                     print(str(result))
                     self.assertFalse(result.timeout, f'{key} has timed out!')
                     self.assertIsNone(result.quarantine, f'{key} has been quarantined: {result.quarantine}')

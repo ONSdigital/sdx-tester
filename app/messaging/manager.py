@@ -65,7 +65,12 @@ class MessageManager(SubmitManager):
 
         logger.info("Ready")
 
-    def submit(self, result: Result, data: str, is_seft: bool = False, requires_receipt: bool = False, requires_publish: bool = True):
+    def submit(self,
+               result: Result,
+               data: str,
+               is_seft: bool = False,
+               requires_receipt: bool = False,
+               requires_publish: bool = False):
 
         logger.info("Calling submit")
         tx_id = result.get_tx_id()
