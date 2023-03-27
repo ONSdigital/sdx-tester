@@ -34,8 +34,7 @@ def run_survey(messenger: MessageManager, survey_dict: dict) -> Result:
     result = Result(tx_id)
     requires_receipt = "feedback" not in survey_dict['type']
     # Should the data be published to pubsub?
-    requires_publish = not eq_v3
-    result = messenger.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=requires_publish)
+    result = messenger.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=False)
 
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
@@ -55,7 +54,7 @@ def run_seft(message_manager: MessageManager, message: dict, seft_data: bytes) -
     write_seft(encrypted_seft, message['filename'])
     result = Result(message['tx_id'])
     message_str = json.dumps(message)
-    result = message_manager.submit(result, message_str, is_seft=True, requires_publish=False)
+    result = message_manager.submit(result, message_str, is_seft=True, requires_publish=True)
     if result.dap_message:
         file_path = result.dap_message.attributes.get('gcs.key')
         file_path = file_path.replace("|", "/")
