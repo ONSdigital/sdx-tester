@@ -81,14 +81,11 @@ class PubsubListener(BaseListener):
         logger.info(f"Received tx_id from header {tx_id} on {self.label}")
         if tx_id in self.targets:
             message.ack()
-            logger.info(f"Acking message with tx_id {tx_id}")
             listener = self.targets[tx_id]
             listener.set_complete()
             listener.set_message(message)
         else:
             message.ack()
-            logger.error(f"NOT EXPECTED! acking message with tx_id {tx_id}")
-            logger.error(f"Remaining keys: {self.targets.keys()}")
 
     def start(self):
         """

@@ -268,11 +268,7 @@ def read_all_v1() -> dict:
 
 
 def get_survey() -> dict:
-    return _read_survey_type("survey/eq_v2")
-
-
-def get_eq_v3_survey(schema_version="v1") -> dict:
-    return _read_survey_type("survey/eq_v3", schema_version)
+    return _read_survey_type("survey")
 
 
 def get_dap(schema_version="v1") -> dict:
