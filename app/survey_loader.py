@@ -122,6 +122,11 @@ class Survey(SurveyCore):
         Fetch the instrument_id
         for this survey
         """
+        version = self._determine_schema()
+        if version == "v2":
+            if self.contents.get("channel") == "RH":
+                # submissions from RM do not have an instrument_id so default to 0001
+                return "0001"
         try:
             return self._extract_metadata_from_contents("instrument_id")
         except InvalidSurveyException:
@@ -137,7 +142,6 @@ class Seft(SurveyCore):
         self.byte_data = None
         self.seft_name = None
         super(Seft, self).__init__(contents)
-
 
     @classmethod
     def from_file(cls, file_path):
