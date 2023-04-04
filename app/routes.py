@@ -105,6 +105,9 @@ def submit():
         flash("Invalid JSON format")
     else:
 
+        # Update current_survey to avoid loading twice
+        current_survey = data_dict
+
         # Generate a random tx_id
         tx_id = str(uuid.uuid4())
         # Update the data dict with the new tx_id
@@ -124,8 +127,6 @@ def submit():
                                                            current_survey.survey_id,
                                                            instrument_id, data_dict,
                                                            byte_data ))
-                # Serialize the survey to render for the ui
-                current_survey = current_survey.serialize()
 
         # Non seft
         else:
@@ -134,13 +135,18 @@ def submit():
             except InvalidSurveyException as e:
                 flash(e.message)
             else:
-                # Create and process the survey submission
-                submissions.process_survey(UserSurveySubmission(tx_id,
-                                                       current_survey.survey_id,
-                                                       current_survey.extract_instrument_id(),
-                                                      data_dict))
-                # Serialize the survey to render for the ui
-                current_survey = current_survey.serialize()
+                try:
+                    # Create and process the survey submission
+                    submissions.process_survey(UserSurveySubmission(tx_id,
+                                                           current_survey.survey_id,
+                                                           current_survey.extract_instrument_id(),
+                                                          data_dict))
+                except InvalidSurveyException as e:
+                    flash(e.message)
+
+    # Attempt to serialize before returning
+    if type(current_survey) is Survey:
+        current_survey = current_survey.serialize()
 
     # Render the ui
     return render_template('index.html.j2',
@@ -214,7 +220,10 @@ def pretty_print(data):
     The indent parameter specifies how many spaces to indent by the data.
     """
     if data:
-        return json.dumps(data, indent=4)
+        print(data)
+        d = json.dumps(data, indent=4)
+        print(d)
+        return d
     return ""
 
 
