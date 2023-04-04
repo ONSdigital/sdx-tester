@@ -221,10 +221,7 @@ def pretty_print(data):
     The indent parameter specifies how many spaces to indent by the data.
     """
     if data:
-        print(data)
-        d = json.dumps(data, indent=4)
-        print(d)
-        return d
+        return json.dumps(data, indent=4)
     return ""
 
 
