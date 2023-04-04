@@ -105,7 +105,7 @@ def submit():
         flash("Invalid JSON format")
     else:
 
-        # Update current_survey to avoid loading twice
+        # Update current_survey variable to avoid rendering issue
         current_survey = data_dict
 
         # Generate a random tx_id
@@ -154,6 +154,7 @@ def submit():
                            survey_dict=survey_loader.to_json(),
                            current_survey=current_survey,
                            )
+
 
 @app.get('/response/<tx_id>')
 def view_response(tx_id):
