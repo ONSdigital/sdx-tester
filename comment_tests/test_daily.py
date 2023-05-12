@@ -6,7 +6,7 @@ from datetime import date, timedelta
 import pandas
 
 from comment_tests.helper_functions import bucket_cleanup, wait_for_comments, extract_files, \
-    clean_datastore, insert_comments, get_datetime
+    clean_datastore, insert_comments, get_datetime, run_job
 
 
 def yesterday() -> date:
@@ -29,8 +29,8 @@ class TestDailyComments(unittest.TestCase):
         insert_comments(['009', '017'], '2201', get_datetime(2))
         insert_comments(['009'], '2201', get_datetime(3))
 
-        os.system('kubectl create job --from=cronjob/sdx-collate test-daily')
-        wait_for_comments()
+        run_job()
+        # wait_for_comments()
         extract_files()
 
     def test_009(self):
@@ -41,7 +41,6 @@ class TestDailyComments(unittest.TestCase):
         files = glob.glob('temp_files/*.xlsx')
         for f in files:
             os.remove(f)
-        os.system('kubectl delete job test-daily')
 
     def test_009(self):
         result = pandas.read_excel(f'temp_files/009_daily_{yesterday()}.xlsx', header=None)

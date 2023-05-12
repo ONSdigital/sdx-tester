@@ -5,7 +5,7 @@ import pandas
 
 from comment_tests import surveys
 from comment_tests.helper_functions import bucket_cleanup, create_comments, wait_for_comments, extract_files, \
-    clean_datastore
+    clean_datastore, run_job
 
 
 class TestComments(unittest.TestCase):
@@ -15,8 +15,8 @@ class TestComments(unittest.TestCase):
         clean_datastore()
         bucket_cleanup()
         create_comments()
-        os.system('kubectl create job --from=cronjob/sdx-collate test-collate')
-        wait_for_comments()
+        run_job()
+        # wait_for_comments()
         extract_files()
 
     @classmethod
@@ -24,7 +24,6 @@ class TestComments(unittest.TestCase):
         files = glob.glob('temp_files/*.xlsx')
         for f in files:
             os.remove(f)
-        os.system('kubectl delete job test-collate')
 
     def test_all(self):
         for x in surveys:
