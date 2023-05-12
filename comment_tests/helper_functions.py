@@ -4,7 +4,7 @@ import uuid
 import time
 
 from datetime import date, datetime, timedelta
-from google.cloud import storage, exceptions
+from google.cloud import storage, exceptions, run_v2
 from typing import List
 
 from app import PROJECT_ID
@@ -93,3 +93,19 @@ def extract_files():
     result = get_comment_files()
     z = zipfile.ZipFile(io.BytesIO(result), "r")
     z.extractall('temp_files')
+
+
+def run_job():
+    client = run_v2.JobsClient()
+    name = f'projects/{PROJECT_ID}/locations/europe-west2/jobs/sdx-collate'
+
+    request = run_v2.RunJobRequest(
+        name=name,
+    )
+
+    # Make the request
+    operation = client.run_job(request=request)
+
+    print("Waiting for operation to complete...")
+
+    response = operation.result()
