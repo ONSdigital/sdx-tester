@@ -12,3 +12,5 @@ cleanup-test:
 	pipenv run python -Wi -m unittest cleanup_tests.test_cleanup
 comment-test:
 	pipenv run python -Wi -m unittest discover -s comment_tests
+quarantine-test:
+	pipenv run python -Wi -m unittest discover -s quarantine_tests
