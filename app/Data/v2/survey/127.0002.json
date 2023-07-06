@@ -6,7 +6,7 @@
   "data_version": "0.0.1",
   "origin": "uk.gov.ons.edc.eq",
   "collection_exercise_sid": "7509d6fc-5931-48a9-8d38-3b7a5523176c",
-  "schema_name": "mcg_0001",
+  "schema_name": "mcg_0002",
   "flushed": false,
   "submitted_at": "2023-07-06T14:00:29+00:00",
   "launch_language_code": "en",
