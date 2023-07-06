@@ -1,14 +1,14 @@
 {
-  "case_id": "4e9acfb5-e433-455b-a776-658433a17d4a",
-  "tx_id": "84b98e49-c3b9-4db0-a9a3-bc0e42ee173e",
+  "case_id": "36e77865-0ab0-460b-851c-bb6d9670f16f",
+  "tx_id": "ecbf1596-210d-4d50-b28b-7f6d515bb287",
   "type": "uk.gov.ons.edc.eq:surveyresponse",
   "version": "0.0.1",
   "origin": "uk.gov.ons.edc.eq",
   "survey_id": "144",
   "flushed": false,
-  "submitted_at": "2023-01-10T12:26:23+00:00",
+  "submitted_at": "2023-04-26T12:20:55+00:00",
   "collection": {
-    "exercise_sid": "e31d9360-4b79-4a72-a066-431fc3b42e2a",
+    "exercise_sid": "7b0de6a1-4e22-495a-8a9a-95d3fabdc1d7",
     "schema_name": "ukis_0001",
     "period": "201605",
     "instrument_id": "0001"
@@ -113,6 +113,7 @@
     "1863": "EU or EFTA countries",
     "2121": "Further than 15 miles from the physical sites of your business and within the UK",
     "1871": "We did not co-operate with government or public research institutes",
+    "2131": "Outside of the UK",
     "1877": "EU or EFTA countries",
     "1878": "All other countries",
     "1880": "UK",
@@ -165,6 +166,6 @@
     "2900": "Yes"
   },
   "form_type": "0001",
-  "started_at": "2023-01-10T12:08:22.553807+00:00",
+  "started_at": "2023-04-26T12:20:43.332924+00:00",
   "submission_language_code": "en"
 }

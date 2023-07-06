@@ -1,0 +1,50 @@
+{
+  "case_id": "7000be34-8968-4596-9d25-7dfeea81ebbb",
+  "tx_id": "abbd1026-6499-41cb-84fd-3c516dfee26b",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1",
+  "origin": "uk.gov.ons.edc.eq",
+  "survey_id": "127",
+  "flushed": false,
+  "submitted_at": "2023-06-02T16:14:45+00:00",
+  "collection": {
+    "exercise_sid": "b690967a-e2ff-44ab-9fe8-03b4dedc43e5",
+    "schema_name": "mcg_0001",
+    "period": "201605",
+    "instrument_id": "0001"
+  },
+  "metadata": {
+    "user_id": "UNKNOWN",
+    "ru_ref": "12346789012A",
+    "ref_period_start_date": "2016-05-01",
+    "ref_period_end_date": "2016-05-31"
+  },
+  "launch_language_code": "en",
+  "data": {
+    "9999": "Yes, I can report for this period",
+    "9996": "Yes",
+    "9995": "Yes",
+    "9994": "business A, business B",
+    "9001": "10000",
+    "9003": "15000",
+    "9005": "3000",
+    "9007": "2000",
+    "9008": "1000",
+    "9010": "8000",
+    "9012": "3000",
+    "9014": "15000",
+    "9993": "Yes",
+    "9002": "1000",
+    "9004": "4000",
+    "9006": "3000",
+    "9009": "2000",
+    "9016": "6000",
+    "9011": "5000",
+    "9013": "1000",
+    "9015": "-6000",
+    "9992": "Happy Credit Granting!"
+  },
+  "form_type": "0001",
+  "started_at": "2023-06-02T15:40:09.852512+00:00",
+  "submission_language_code": "en"
+}
