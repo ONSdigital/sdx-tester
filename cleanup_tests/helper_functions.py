@@ -3,10 +3,12 @@ import uuid
 from datetime import datetime, date, timedelta
 
 from app.datastore.datastore_writer import encrypt_comment, write_entity
+from app.jwt.encryption import encrypt_survey
 from app.messaging.publisher import publish_dap_receipt
 from app.store import writer
 from app.store.reader import check_file_exists
 from app.datastore.datastore_reader import get_entity_count
+from app.store.writer import write
 from cleanup_tests import fake_surveys, input_files, dap_response
 from cleanup_tests import output_files
 
@@ -21,11 +23,15 @@ def setup_output_and_input_buckets():
     """
     Upload data to buckets in ons-sdx-{{project_id}}
     """
-    for data, filename in output_files.items():
-        write_to_bucket(data, filename)
+    for filename, data in output_files.items():
+        bucket = filename.split('/', 1)[0]
+        encrypted_survey = encrypt_survey(data)
+        write(encrypted_survey, filename, bucket)
 
-    for data, filename in input_files.items():
-        write_to_bucket(data, filename)
+    for filename, data in input_files.items():
+        bucket = filename.split('/', 1)[0]
+        encrypted_survey = encrypt_survey(data)
+        write(encrypted_survey, filename, bucket)
 
 
 def write_to_bucket(data, filename):
@@ -62,7 +68,7 @@ def kickoff_cleanup_outputs():
     """
     Publishes a PuSub message for each element placed within the bucket.
     """
-    for data, filename in output_files.items():
+    for filename, data in output_files.items():
         dap_message = copy.deepcopy(dap_response)
         dap_message['dataset'] = f"001|{filename.split('/', 1)[1]}"
         publish_dap_receipt(dap_message)
@@ -91,7 +97,7 @@ def are_deleted(files: dict) -> bool:
     :files: A dictionary of filenames to check. The filename must include the bucket and path.
     :return: True if they have been deleted, False otherwise.
     """
-    for data, filename in files.items():
+    for filename, data in files.items():
         bucket = filename.split('/', 1)[0]
         file_path = filename.split('/', 1)[1]
         exists = check_file_exists(file_path, bucket)

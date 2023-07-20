@@ -15,7 +15,6 @@ class TestCleanup(unittest.TestCase):
     def setUpClass(cls):
         setup_output_and_input_buckets()
         setup_comments()
-        wait_for_survey()
         kickoff_cleanup_outputs()
 
     def test_outputs_and_inputs_buckets(self):
@@ -45,12 +44,3 @@ class TestCleanup(unittest.TestCase):
                 time.sleep(10)
                 count += 10
         self.assertTrue(passed)
-
-
-def wait_for_survey():
-    count = 0
-    print(f"waiting for {TIMEOUT} seconds")
-    while count < TIMEOUT:
-        print(f't minus {TIMEOUT-count} seconds...')
-        time.sleep(15)
-        count += 15

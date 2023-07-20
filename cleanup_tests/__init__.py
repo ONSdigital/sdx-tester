@@ -1,5 +1,8 @@
 from datetime import datetime
 from app.store import OUTPUT_BUCKET_NAME, INPUT_SEFT_BUCKET, INPUT_SURVEY_BUCKET
+from app.survey_loader import SurveyLoader
+
+SEFT_DIR = "app/Data/v1/seft"
 
 
 def comment_filename():
@@ -7,19 +10,32 @@ def comment_filename():
     return date_time.strftime('%Y-%m-%d')
 
 
-output_files = {
-    'survey': f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup-survey',
-    'seft': f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup-seft.xlsx.gpg',
-    'dap': f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup-dap.json',
-    'comment': f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip',
-    'feedback': f'{OUTPUT_BUCKET_NAME}/feedback/testing_cleanup_feeback-fb-1645465208'
-}
+survey_loader_obj = SurveyLoader("app/Data")
 
+survey = survey_loader_obj.get_survey(schema='v2', survey_id='002')[0].contents \
+    if survey_loader_obj.get_survey(schema='v2', survey_id='002') else None
+
+dap = survey_loader_obj.get_survey(schema='v1', survey_id='283')[0].contents \
+    if survey_loader_obj.get_survey(schema='v2', survey_id='002') else None
+
+feedback = survey_loader_obj.get_survey(schema='v1', survey_id='139')[0].contents \
+    if survey_loader_obj.get_survey(schema='v2', survey_id='002') else None
+
+with open(f"{SEFT_DIR}/11110000014H_202009_057_20210121143526.xlsx", 'rb') as seft_file:
+    seft_bytes = seft_file.read()
+
+output_files = {
+        f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup-survey': survey,
+        f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup-seft.xlsx.gpg': seft_bytes,
+        f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup-dap.json': dap,
+        f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip': 'comment',
+        f'{OUTPUT_BUCKET_NAME}/feedback/testing_cleanup_feedback-fb-1645465208': feedback
+}
 input_files = {
-    'survey-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup-survey',
-    'seft-input': f'{INPUT_SEFT_BUCKET}/testing_cleanup-seft.xlsx.gpg',
-    'dap-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup-dap',
-    'feedback-input': f'{INPUT_SURVEY_BUCKET}/testing_cleanup_feeback'
+        f'{INPUT_SURVEY_BUCKET}/testing_cleanup-survey': survey,
+        f'{INPUT_SEFT_BUCKET}/testing_cleanup-seft.xlsx.gpg': seft_bytes,
+        f'{INPUT_SURVEY_BUCKET}/testing_cleanup-dap': dap,
+        f'{INPUT_SURVEY_BUCKET}/testing_cleanup_feedback': feedback
 }
 
 fake_surveys = ['001', '002', '003', '004', '005']
