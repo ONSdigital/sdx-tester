@@ -23,8 +23,8 @@ def setup_output_and_input_buckets():
     """
     Upload data to buckets in ons-sdx-{{project_id}}
     """
-    for filename, data in output_files.items():
-        write_to_bucket(data, filename)
+    # for filename, data in output_files.items():
+    #     write_to_bucket(data, filename)
 
     for filename, data in input_files.items():
         write_to_bucket(data, filename)

@@ -12,22 +12,18 @@ def comment_filename():
 
 survey_loader_obj = SurveyLoader("app/Data")
 
-survey = survey_loader_obj.get_survey(schema='v2', survey_id='002')[0].contents \
-    if survey_loader_obj.get_survey(schema='v2', survey_id='002') else None
-
-dap = survey_loader_obj.get_survey(schema='v1', survey_id='283')[0].contents \
-    if survey_loader_obj.get_survey(schema='v2', survey_id='002') else None
-
-feedback = survey_loader_obj.get_survey(schema='v1', survey_id='139')[0].contents \
-    if survey_loader_obj.get_survey(schema='v2', survey_id='002') else None
+# Get the different surveys in json format via a SurveyLoader object.
+survey = s[0].contents if (s := survey_loader_obj.get_survey(schema='v2', survey_id='002')) else None
+dap = s[0].contents if (s := survey_loader_obj.get_survey(schema='v1', survey_id='283')) else None
+feedback = s[0].contents if (s := survey_loader_obj.get_survey(schema='v1', survey_id='139')) else None
 
 with open(f"{SEFT_DIR}/11110000014H_202009_057_20210121143526.xlsx", 'rb') as seft_file:
     seft_bytes = seft_file.read()
 
 output_files = {
-        f'{OUTPUT_BUCKET_NAME}/survey/testing_cleanup-survey': survey,
+        f'{OUTPUT_BUCKET_NAME}/survey/b909aa24-dedc-4d83-be37-8ccf2fdb8314': survey,
         f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup-seft.xlsx.gpg': seft_bytes,
-        f'{OUTPUT_BUCKET_NAME}/dap/testing_cleanup-dap.json': dap,
+        f'{OUTPUT_BUCKET_NAME}/dap/c37a3efa-593c-4bab-b49c-bee0613c4fb4.json': dap,
         f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip': 'comment',
         f'{OUTPUT_BUCKET_NAME}/feedback/testing_cleanup_feedback-fb-1645465208': feedback
 }
