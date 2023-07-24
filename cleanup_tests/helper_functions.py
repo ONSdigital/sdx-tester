@@ -24,21 +24,17 @@ def setup_output_and_input_buckets():
     Upload data to buckets in ons-sdx-{{project_id}}
     """
     for filename, data in output_files.items():
-        bucket = filename.split('/', 1)[0]
-        encrypted_survey = encrypt_survey(data)
-        write(encrypted_survey, filename, bucket)
+        write_to_bucket(data, filename)
 
     for filename, data in input_files.items():
-        bucket = filename.split('/', 1)[0]
-        encrypted_survey = encrypt_survey(data)
-        write(encrypted_survey, filename, bucket)
+        write_to_bucket(data, filename)
 
 
 def write_to_bucket(data, filename):
     bucket = filename.split('/', 1)[0]
-    filename = filename.split('/', 1)[1]
-    writer.write(data, filename, bucket)
-    print(f'Successfully put data in {bucket}/{filename}')
+    encrypted_survey = encrypt_survey(data)
+    output_filename = filename.split('/', 1)[1]
+    write(encrypted_survey, output_filename, bucket)
 
 
 def setup_comments():
