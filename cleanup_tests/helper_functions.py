@@ -66,7 +66,8 @@ def kickoff_cleanup_outputs():
     """
     for filename, data in output_files.items():
         dap_message = copy.deepcopy(dap_response)
-        dap_message['dataset'] = f"001|{filename.split('/', 1)[1]}"
+        file = f"001|{filename.split('/', 1)[1]}"
+        dap_message['dataset'] = file
         publish_dap_receipt(dap_message)
 
 

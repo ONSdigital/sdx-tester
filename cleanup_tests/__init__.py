@@ -28,7 +28,7 @@ output_files = {
         f'{OUTPUT_BUCKET_NAME}/feedback/testing_cleanup_feedback-fb-1645465208': feedback
 }
 input_files = {
-        f'{INPUT_SURVEY_BUCKET}/testing_cleanup-survey': survey,
+        f'{INPUT_SURVEY_BUCKET}/b909aa24-dedc-4d83-be37-8ccf2fdb8314': survey,
         f'{INPUT_SEFT_BUCKET}/testing_cleanup-seft.xlsx.gpg': seft_bytes,
         f'{INPUT_SURVEY_BUCKET}/testing_cleanup-dap': dap,
         f'{INPUT_SURVEY_BUCKET}/testing_cleanup_feedback': feedback
