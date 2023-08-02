@@ -30,7 +30,7 @@ output_files = {
 input_files = {
         f'{INPUT_SURVEY_BUCKET}/b909aa24-dedc-4d83-be37-8ccf2fdb8314': survey,
         f'{INPUT_SEFT_BUCKET}/testing_cleanup-seft.xlsx.gpg': seft_bytes,
-        f'{INPUT_SURVEY_BUCKET}/testing_cleanup-dap': dap,
+        f'{INPUT_SURVEY_BUCKET}/c37a3efa-593c-4bab-b49c-bee0613c4fb4': dap,
         f'{INPUT_SURVEY_BUCKET}/testing_cleanup_feedback': feedback
 }
 

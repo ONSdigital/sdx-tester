@@ -15,9 +15,18 @@ class TestCleanup(unittest.TestCase):
     def setUpClass(cls):
         setup_output_and_input_buckets()
         setup_comments()
-        kickoff_cleanup_outputs()
 
     def test_outputs_and_inputs_buckets(self):
+        t = 0
+
+        print("-" * 50)
+        while t < 60:
+            print(f"Slept for {t} seconds...")
+            time.sleep(1)
+            t += 1
+        print("-" * 50)
+
+        kickoff_cleanup_outputs()
         count = 0
         passed = False
         while count < TIMEOUT:

@@ -67,6 +67,7 @@ def kickoff_cleanup_outputs():
     for filename, data in output_files.items():
         dap_message = copy.deepcopy(dap_response)
         file = f"001|{filename.split('/', 1)[1]}"
+        print(file)
         dap_message['dataset'] = file
         publish_dap_receipt(dap_message)
 
@@ -111,3 +112,6 @@ def is_datastore_cleaned_up() -> bool:
         length = get_entity_count(fake_id + '_201605')
         return length < 1
 
+
+def wait_for_flag_file():
+    pass
