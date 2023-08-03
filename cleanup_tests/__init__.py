@@ -2,15 +2,17 @@ from datetime import datetime
 from app.store import OUTPUT_BUCKET_NAME, INPUT_SEFT_BUCKET, INPUT_SURVEY_BUCKET
 from app.survey_loader import SurveyLoader
 
+
 SEFT_DIR = "app/Data/v1/seft"
+EXPECTED_NUM_OF_OUTPUT_FILES = 5
+FAKE_SURVEYS = ('001', '002', '003', '004', '005')
+survey_loader_obj = SurveyLoader("app/Data")
 
 
-def comment_filename():
+def comment_filename() -> str:
     date_time = datetime.utcnow()
     return date_time.strftime('%Y-%m-%d')
 
-
-survey_loader_obj = SurveyLoader("app/Data")
 
 # Get the different surveys in json format via a SurveyLoader object.
 survey = s[0].contents if (s := survey_loader_obj.get_survey(schema='v2', survey_id='002')) else None
@@ -30,11 +32,6 @@ input_files = {
         f'{INPUT_SURVEY_BUCKET}/c37a3efa-593c-4bab-b49c-bee0613c4fb4': dap,
         f'{INPUT_SURVEY_BUCKET}/testing_cleanup_feedback': feedback
 }
-
-EXPECTED_NUM_OF_OUTPUT_FILES = 5
-
-
-fake_surveys = ['001', '002', '003', '004', '005']
 
 
 dap_response = {
