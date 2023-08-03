@@ -20,12 +20,9 @@ feedback = s[0].contents if (s := survey_loader_obj.get_survey(schema='v1', surv
 with open(f"{SEFT_DIR}/11110000014H_202009_057_20210121143526.xlsx", 'rb') as seft_file:
     seft_bytes = seft_file.read()
 
-output_files = {
-        f'{OUTPUT_BUCKET_NAME}/survey/b909aa24-dedc-4d83-be37-8ccf2fdb8314': survey,
+output_mock_files = {
         f'{OUTPUT_BUCKET_NAME}/seft/testing_cleanup-seft.xlsx.gpg': seft_bytes,
-        f'{OUTPUT_BUCKET_NAME}/dap/c37a3efa-593c-4bab-b49c-bee0613c4fb4.json': dap,
         f'{OUTPUT_BUCKET_NAME}/comments/{comment_filename()}.zip': 'comment',
-        f'{OUTPUT_BUCKET_NAME}/feedback/testing_cleanup_feedback-fb-1645465208': feedback
 }
 input_files = {
         f'{INPUT_SURVEY_BUCKET}/b909aa24-dedc-4d83-be37-8ccf2fdb8314': survey,
@@ -33,6 +30,9 @@ input_files = {
         f'{INPUT_SURVEY_BUCKET}/c37a3efa-593c-4bab-b49c-bee0613c4fb4': dap,
         f'{INPUT_SURVEY_BUCKET}/testing_cleanup_feedback': feedback
 }
+
+EXPECTED_NUM_OF_OUTPUT_FILES = 5
+
 
 fake_surveys = ['001', '002', '003', '004', '005']
 
