@@ -21,7 +21,7 @@ class TestCleanup(unittest.TestCase):
         delete_files_in_bucket(f'{PROJECT_ID}-survey-responses')
         setup_input_and_output_buckets()
         setup_comments()
-        cls.files_in_outputs_bucket = wait_for_outputs_and_return_list_of_them(EXPECTED_NUM_OF_OUTPUT_FILES)
+        cls.files_in_outputs_bucket: list[str] = wait_for_outputs_and_return_list_of_them(EXPECTED_NUM_OF_OUTPUT_FILES)
         kickoff_cleanup_outputs(cls.files_in_outputs_bucket)
 
     def test_outputs_and_inputs_buckets(self):
@@ -51,7 +51,4 @@ class TestCleanup(unittest.TestCase):
                 time.sleep(10)
                 count += 10
         self.assertTrue(passed)
-
-
-
 

@@ -142,7 +142,6 @@ def wait_for_outputs_and_return_list_of_them(expected_num_of_files: int) -> list
     :type expected_num_of_files: int
     :return: list of files in output bucket
     :rtype: list[str]
-
     """
     file_list = list_blobs()
     t = 0
