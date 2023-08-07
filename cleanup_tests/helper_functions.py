@@ -24,7 +24,7 @@ test_cleanup.py then runs queries to check if the data has in fact been deleted.
 MAX_TIMEOUT_IN_SECONDS = 60
 
 
-def setup_input_and_output_buckets():
+def setup_input_and_output_buckets() -> None:
     """
     Upload data to buckets in ons-sdx-{{project_id}}
     """
@@ -37,7 +37,7 @@ def setup_input_and_output_buckets():
         write_to_bucket(data, filename)
 
 
-def write_to_bucket(data: dict, filename: str) -> None:
+def write_to_bucket(data: dict[str: str], filename: str) -> None:
     bucket = filename.split('/', 1)[0]
     encrypted_survey = encrypt_survey(data)
     output_filename = filename.split('/', 1)[1]
@@ -94,7 +94,7 @@ def have_files_been_deleted(files_in_outputs_bucket: list[str]) -> bool:
     return True
 
 
-def are_deleted(files: list) -> bool:
+def are_deleted(files: list[str]) -> bool:
     """
     Have these files been deleted from the bucket
 
@@ -157,7 +157,7 @@ def wait_for_outputs_and_return_list_of_them(expected_num_of_files: int) -> list
     return file_list
 
 
-def print_wait_message_at(position: str = None):
+def print_wait_message_at(position: str = None) -> None:
     message = " Successfully retrieved outputs "
     number_of_symbols = 26
     if position == "start":
