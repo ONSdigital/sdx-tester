@@ -1,9 +1,13 @@
 import unittest
 import time
-from cleanup_tests.helper_functions import setup_output_and_input_buckets, setup_comments, kickoff_cleanup_outputs, \
-    have_files_been_deleted, is_datastore_cleaned_up
 
-TIMEOUT = 150
+from app import PROJECT_ID
+from app.store.bucket_cleanup import delete_files_in_bucket
+from cleanup_tests import EXPECTED_NUM_OF_OUTPUT_FILES
+from cleanup_tests.helper_functions import setup_input_and_output_buckets, setup_comments, kickoff_cleanup_outputs, \
+    have_files_been_deleted, is_datastore_cleaned_up, wait_for_outputs_and_return_list_of_them
+
+MAX_TIMEOUT_IN_SECONDS = 60
 
 
 class TestCleanup(unittest.TestCase):
@@ -13,15 +17,18 @@ class TestCleanup(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        setup_output_and_input_buckets()
+        delete_files_in_bucket(f'{PROJECT_ID}-outputs')
+        delete_files_in_bucket(f'{PROJECT_ID}-survey-responses')
+        setup_input_and_output_buckets()
         setup_comments()
-        kickoff_cleanup_outputs()
+        cls.files_in_outputs_bucket: list[str] = wait_for_outputs_and_return_list_of_them(EXPECTED_NUM_OF_OUTPUT_FILES)
+        kickoff_cleanup_outputs(cls.files_in_outputs_bucket)
 
     def test_outputs_and_inputs_buckets(self):
         count = 0
         passed = False
-        while count < TIMEOUT:
-            if have_files_been_deleted():
+        while count < MAX_TIMEOUT_IN_SECONDS:
+            if have_files_been_deleted(self.files_in_outputs_bucket):
                 print('All files have been deleted')
                 passed = True
                 break
@@ -34,7 +41,7 @@ class TestCleanup(unittest.TestCase):
     def test_comments_datastore(self):
         count = 0
         passed = False
-        while count < TIMEOUT:
+        while count < MAX_TIMEOUT_IN_SECONDS:
             if is_datastore_cleaned_up():
                 print('The comments have been deleted')
                 passed = True
@@ -44,3 +51,4 @@ class TestCleanup(unittest.TestCase):
                 time.sleep(10)
                 count += 10
         self.assertTrue(passed)
+
