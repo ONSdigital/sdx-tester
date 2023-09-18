@@ -248,7 +248,7 @@ class SurveyLoader:
             version: {survey_id: [survey.serialize() for survey in self.files_only[version][survey_id]] for survey_id in self.files_only[version]} for version in self.files_only
         }
 
-    def get_survey(self, schema: str, survey_id: str) -> Union[bool, Survey]:
+    def get_survey(self, schema: str, survey_id: str) -> Union[bool, list[Survey]]:
         """
         Attempt to get a survey from this loader
         given the schema and survey code
