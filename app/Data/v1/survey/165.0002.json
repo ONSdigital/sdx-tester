@@ -2,6 +2,7 @@
     "case_id": "e72684f9-2748-4d9e-b6a4-4a3859501e0d",
     "collection": {
         "exercise_sid": "fe6ee9c8-c663-470a-aa3f-9e9bd241d3db",
+        "schema_name": "qpses165_0002",
         "instrument_id": "0002",
         "period": "201605"
     },

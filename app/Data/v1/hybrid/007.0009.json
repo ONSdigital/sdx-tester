@@ -1,6 +1,7 @@
 {
   "case_id": "4bc5a896-994f-4c5d-b592-9da04147378a",
   "collection": {
+    "schema_name": "lcree_0009",
     "exercise_sid": "b13af55f-8571-4ad9-a95e-990accbb5053",
     "instrument_id": "0009",
     "period": "201605"

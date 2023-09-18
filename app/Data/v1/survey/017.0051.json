@@ -2,6 +2,7 @@
 	"case_id": "f7007cd3-ee0b-4afa-b8a1-757f7a704039",
 	"collection": {
 		"exercise_sid": "a8d2ab9d-2aca-48e2-b801-1d16bae20eb5",
+		"schema_name": "stocks_0051",
 		"instrument_id": "0051",
 		"period": "201904"
 	},
