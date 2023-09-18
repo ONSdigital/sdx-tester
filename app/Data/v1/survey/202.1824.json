@@ -2,6 +2,7 @@
   "case_id": "3f98c511-a486-4166-8fc3-95eeb79f9cda",
   "collection": {
     "exercise_sid": "5c492e5f-37b4-48fd-87a7-4dac2d723fb7",
+    "schema_name": "abs_1824",
     "instrument_id": "1824",
     "period": "201605"
   },

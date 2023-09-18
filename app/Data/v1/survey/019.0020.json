@@ -1,6 +1,7 @@
 {
     "collection": {
         "exercise_sid": "707e7391-33ad-4ecd-87b2-42422feb2987",
+        "schema_name": "qcas_0020",
         "instrument_id": "0020",
         "period": "201807"
     },

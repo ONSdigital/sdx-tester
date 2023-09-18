@@ -1,6 +1,7 @@
 {
     "collection": {
         "exercise_sid":"478d806c-f7e2-4fc5-bcde-82148bab029a",
+        "schema_name": "mbs_0201",
         "instrument_id":"0201",
         "period":"201605"
     },

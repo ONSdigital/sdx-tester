@@ -5,6 +5,7 @@
   "survey_id": "023",
   "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
   "collection": {
+    "schema_name": "1_0203",
     "exercise_sid": "01a375d3-a68c-4040-85ee-d00db226669c",
     "instrument_id": "0203",
     "period": "1604"

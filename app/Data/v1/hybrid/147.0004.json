@@ -1,6 +1,7 @@
 {
     "case_id": "45b217eb-013a-4a47-84bd-d8ce905ee9b9",
     "collection": {
+      "schema_name": "epe_0004",
       "exercise_sid": "6a3ddb62-f46b-440b-8a92-91723b4c102c",
       "instrument_id": "0004",
       "period": "201605"
