@@ -23,7 +23,6 @@ app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
-
 from app.datastore import DATASTORE_TOOLBOX_CLIENT, DATASTORE_TOOLBOX_NAMESPACE
 from app.messaging import get_message_manager
 message_manager = get_message_manager(listen)
