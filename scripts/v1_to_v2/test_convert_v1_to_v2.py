@@ -18,5 +18,5 @@ class TestTransform(unittest.TestCase):
 		transformed_data = transform_v1_to_v2(mock_v1)
 
 		print("\n")
-		print(transformed_data)
+		print(json.dumps(transformed_data))
 		self.assertEqual(expected_v2, transformed_data)
