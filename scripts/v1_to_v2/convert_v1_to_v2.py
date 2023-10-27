@@ -5,12 +5,16 @@ from v1 to v2 schema
 import json
 import os
 
+current_directory = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(current_directory))
+
 
 def get_all_v1_files() -> list[str]:
 	"""
 	Collect all the file paths for v1 data
 	"""
-	v1_path = "../../app/Data/v1"
+
+	v1_path = os.path.join(project_root, "app/Data/v1")
 	all_v1_files = []
 	for folder, sub_folder, filenames in os.walk(v1_path):
 		for filename in filenames:
@@ -173,4 +177,3 @@ def process() -> None:
 	print("Conversion complete")
 
 
-process()
