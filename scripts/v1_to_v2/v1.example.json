@@ -40,5 +40,7 @@
   "survey_id": "202",
   "tx_id": "0b8c42ad-fe94-40b9-ac3b-60d6ef2848f6",
   "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "submission_language_code": "en",
+  "launch_language_code": "en",
   "version": "0.0.1"
 }

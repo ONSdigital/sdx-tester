@@ -39,36 +39,6 @@ class Mapper:
 		self.required = required
 
 
-
-
-required_v1 = [
-	"tx_id",
-	"type",
-	"version",
-	"origin",
-	"survey_id",
-	"submitted_at",
-	"collection",
-	"metadata",
-	"data"
-]
-
-required_v2 = [
-	"tx_id",
-	"type",
-	"version",
-	"data_version",
-	"origin",
-	"flushed",
-	"submitted_at",
-	"launch_language_code",
-	"collection_exercise_sid",
-	"case_id",
-	"survey_metadata",
-	"data"
-],
-
-# TODO collection
 v1_to_v2_map = {
 	"case_id": Mapper(),
 	"tx_id": Mapper(),
@@ -84,12 +54,45 @@ v1_to_v2_map = {
 		"instrument_id": Mapper(["survey_metadata"], rename="form_type"),
 		"period": Mapper(["survey_metadata"], rename="period_id"),
 	}),
-	"flushed": Mapper(required=False),
-	"started_at": Mapper(required=False),
-	"submission_language_code": Mapper(required=False)
+	"flushed": Mapper(),
+	"started_at": Mapper(),
+	"submission_language_code": Mapper(),
+	"launch_language_code": Mapper()
 }
 
 
 def transform_v1_to_v2(v1_data: dict) -> dict:
-	v2 = {}
-	required_v2 = ["tx_id", ""]
+	v2_data = {}
+
+	def process_mapping(src_key, mapping, v1_data_src, v2_data_dest):
+		if src_key not in v1_data_src and mapping.required:
+			raise ValueError(f"Required key '{src_key}' not found in V1 data.")
+		elif src_key not in v1_data_src:
+			return  # Key not found and not required, so we skip
+
+		dest_key = mapping.rename if mapping.rename is not SAME else src_key
+
+		if mapping.destination is SAME:
+			target = v2_data_dest
+		else:
+			target = v2_data_dest
+			for dest in mapping.destination:
+				target = target.setdefault(dest, {})
+
+		if mapping.mappers:
+			# Recursively process nested mappers
+			nested_v2_data = {}
+			for nested_key, nested_mapping in mapping.mappers.items():
+				process_mapping(nested_key, nested_mapping, v1_data_src[src_key], nested_v2_data)
+			target[dest_key] = nested_v2_data
+		else:
+			target[dest_key] = v1_data_src[src_key]
+
+		# Check if we should preserve the key in the v2_data
+		if not mapping.preserve:
+			del v2_data_dest[dest_key]
+
+	for key, mapping in v1_to_v2_map.items():
+		process_mapping(key, mapping, v1_data, v2_data)
+
+	return v2_data
