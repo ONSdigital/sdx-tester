@@ -2,6 +2,7 @@
 Script to convert the test data
 from v1 to v2 schema
 """
+import json
 import os
 
 
@@ -9,7 +10,7 @@ def get_all_v1_files() -> list[str]:
 	"""
 	Collect all the file paths for v1 data
 	"""
-	v1_path = "../../app/Data"
+	v1_path = "../../app/Data/v1"
 	all_v1_files = []
 	for folder, sub_folder, filenames in os.walk(v1_path):
 		for filename in filenames:
@@ -24,6 +25,10 @@ SAME = None
 
 
 class Mapper:
+	"""
+	A very simple class
+	for storing mappings from v1 -> v2 recursively
+	"""
 
 	def __init__(
 			self,
@@ -31,14 +36,11 @@ class Mapper:
 			rename: str = SAME,
 			mappers: dict = None,
 			preserve=True,
-			required=True,
-			retain=True):
+			):
 		self.destination = destination
 		self.rename = rename
 		self.mappers = mappers
 		self.preserve = preserve
-		self.required = required
-		self.retain= retain
 
 
 v1_to_v2_map = {
@@ -67,8 +69,11 @@ v1_to_v2_map = {
 }
 
 
-def deep_merge(dict1, dict2):
-	"""Recursively merge dict2 into dict1."""
+def deep_merge(dict1: dict, dict2: dict) -> dict:
+	"""
+	Merge dictionary values more than a single leve
+	deep
+	"""
 	for key, value in dict2.items():
 		if key in dict1 and isinstance(dict1[key], dict) and isinstance(value, dict):
 			deep_merge(dict1[key], value)
@@ -78,6 +83,12 @@ def deep_merge(dict1, dict2):
 
 
 def transform_v1_to_v2(v1_data: dict) -> dict:
+	"""
+	Take a v1 json and transform
+	it into a v2 json
+	"""
+
+	# Pre-defined data that is needed in v2
 	v2_data = {
 		"version": "v2",
 		"survey_metadata": {
@@ -85,15 +96,19 @@ def transform_v1_to_v2(v1_data: dict) -> dict:
 		}
 	}
 
-	def process_mapping(src_key, mapping, v1_data_src, v2_data_dest):
-		if src_key not in v1_data_src and mapping.required:
-			raise ValueError(f"Required key '{src_key}' not found in V1 data.")
-		elif src_key not in v1_data_src:
-			print("Ignoring: ",src_key, "in data: ",v1_data_src)
-			return  # Key not found and not required, so we skip
+	def process_mapping(src_key: str, mapping: Mapper, v1_data_src: dict, v2_data_dest: dict):
+		"""
+		The recursive function that maps a single v1 key and value into v2
+		"""
 
-		dest_key = mapping.rename if mapping.rename is not SAME else src_key
+		# If a key from the mapping is NOT in the json, skip it
+		if src_key not in v1_data_src:
+			return
 
+		# Work out if the destination key should be renamed or not
+		dest_key: str = mapping.rename if mapping.rename is not SAME else src_key
+
+		# Handle relocation of the data
 		if mapping.destination is SAME:
 			target = v2_data_dest
 		else:
@@ -101,11 +116,12 @@ def transform_v1_to_v2(v1_data: dict) -> dict:
 			for dest in mapping.destination:
 				target = target.setdefault(dest, {})
 
+		# If this mapping has nested mappers, apply them recursively
 		if mapping.mappers:
 
 			# Recursively process nested mappers
 			nested_v2_data = {}
-			mapping_items = []  # Store a list of the mapping items so we can removed the old ones
+			mapping_items = []  # Store a list of the mapping items so we can keep other keys
 			for nested_key, nested_mapping in mapping.mappers.items():
 				process_mapping(nested_key, nested_mapping, v1_data_src[src_key], nested_v2_data)
 				mapping_items.append(nested_key)
@@ -123,8 +139,38 @@ def transform_v1_to_v2(v1_data: dict) -> dict:
 		else:
 			target[dest_key] = v1_data_src[src_key]
 
-
 	for key, mapping in v1_to_v2_map.items():
 		process_mapping(key, mapping, v1_data, v2_data)
 
 	return v2_data
+
+
+def process() -> None:
+	"""
+	Read all V1 files
+	process them into a new location
+	"""
+	all_files: list[str] = get_all_v1_files()
+	new_folder = "v1_new"
+
+	for file_path in all_files:
+		print(file_path)
+		filename = os.path.basename(file_path)
+		destination = file_path.replace("v1", new_folder)
+		with open(file_path, 'r') as file:
+			# Load the JSON content from the file into a dictionary
+			data = json.load(file)
+
+		try:
+			new_data = transform_v1_to_v2(data)
+		except Exception as e:
+			print(f"Error transforming {filename}: {e}")
+		else:
+			with open(destination, 'w') as file:
+				# Write the dictionary to the file in JSON format
+				json.dump(new_data, file, indent=4)
+
+	print("Conversion complete")
+
+
+process()
