@@ -158,8 +158,8 @@ def process() -> None:
 	new_folder = "v1_new"
 
 	for file_path in all_files:
-		print(file_path)
 		filename = os.path.basename(file_path)
+		print("Converting: ",filename)
 		destination = file_path.replace("v1", new_folder)
 		with open(file_path, 'r') as file:
 			# Load the JSON content from the file into a dictionary
@@ -170,6 +170,10 @@ def process() -> None:
 		except Exception as e:
 			print(f"Error transforming {filename}: {e}")
 		else:
+
+			# Create any directories as needed
+			os.makedirs(os.path.dirname(destination), exist_ok=True)
+
 			with open(destination, 'w') as file:
 				# Write the dictionary to the file in JSON format
 				json.dump(new_data, file, indent=4)
@@ -177,3 +181,4 @@ def process() -> None:
 	print("Conversion complete")
 
 
+process()
