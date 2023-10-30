@@ -42,5 +42,6 @@
   "type": "uk.gov.ons.edc.eq:surveyresponse",
   "submission_language_code": "en",
   "launch_language_code": "en",
+  "schema_name": "abs_1802",
   "version": "0.0.1"
 }

@@ -40,11 +40,13 @@ class Mapper:
 			rename: str = SAME,
 			mappers: dict = None,
 			preserve=True,
+			create=False
 			):
 		self.destination = destination
 		self.rename = rename
 		self.mappers = mappers
 		self.preserve = preserve
+		self.create=create
 
 
 v1_to_v2_map = {
@@ -70,6 +72,7 @@ v1_to_v2_map = {
 	"submitted_at": Mapper(),
 	"submission_language_code": Mapper(),
 	"launch_language_code": Mapper(),
+	"schema_name": Mapper(create=True),
 }
 
 
@@ -96,7 +99,7 @@ def transform_v1_to_v2(v1_data: dict) -> dict:
 	v2_data = {
 		"version": "v2",
 		"survey_metadata": {
-			"ru_name": "Example Business name"
+			"ru_name": "ESSENTIAL ENTERPRISE LTD."
 		}
 	}
 
@@ -107,6 +110,8 @@ def transform_v1_to_v2(v1_data: dict) -> dict:
 
 		# If a key from the mapping is NOT in the json, skip it
 		if src_key not in v1_data_src:
+			if mapping.create and src_key not in v2_data_dest:
+				v2_data_dest[src_key] = ""
 			return
 
 		# Work out if the destination key should be renamed or not
