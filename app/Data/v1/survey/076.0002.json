@@ -1,41 +1,40 @@
 {
-  "case_id": "b8599839-4df4-4860-bee4-69805adf4718",
-  "tx_id": "608d2797-f40b-4374-b989-ef14d4b4d454",
-  "type": "uk.gov.ons.edc.eq:surveyresponse",
-  "version": "0.0.1",
-  "origin": "uk.gov.ons.edc.eq",
-  "survey_id": "076",
-  "flushed": false,
-  "submitted_at": "2023-05-09T10:27:45+00:00",
-  "collection": {
-    "exercise_sid": "754d8a8b-a039-458f-9570-20af429200fd",
+    "version": "v2",
+    "survey_metadata": {
+        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+        "ref_p_start_date": "2016-05-01",
+        "ref_p_end_date": "2016-05-31",
+        "user_id": "UNKNOWN",
+        "ru_ref": "12346789012A",
+        "survey_id": "076",
+        "form_type": "0002",
+        "period_id": "201605"
+    },
+    "case_id": "b8599839-4df4-4860-bee4-69805adf4718",
+    "tx_id": "608d2797-f40b-4374-b989-ef14d4b4d454",
     "schema_name": "qsm_0002",
-    "period": "201605",
-    "instrument_id": "0002"
-  },
-  "metadata": {
-    "user_id": "UNKNOWN",
-    "ru_ref": "12346789012A",
-    "ref_period_start_date": "2016-05-01",
-    "ref_period_end_date": "2016-05-31"
-  },
-  "launch_language_code": "en",
-  "data": {
-    "999": "Sand",
-    "998": "Gravel, Pebbles, Shingle, Flint",
-    "997": "Sand and gravel used for constructional fill",
-    "601": "10",
-    "602": "20",
-    "603": "30",
-    "604": "100",
-    "605": "200",
-    "606": "300",
-    "607": "1000",
-    "995": "portsmouth",
-    "148": "Here is a good comment",
-    "146": "Another good comment"
-  },
-  "form_type": "0002",
-  "started_at": "2023-05-09T10:26:44.148156+00:00",
-  "submission_language_code": "en"
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "data_version": "0.0.1",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "754d8a8b-a039-458f-9570-20af429200fd",
+    "flushed": false,
+    "started_at": "2023-05-09T10:26:44.148156+00:00",
+    "submitted_at": "2023-05-09T10:27:45+00:00",
+    "submission_language_code": "en",
+    "launch_language_code": "en",
+    "data": {
+        "999": "Sand",
+        "998": "Gravel, Pebbles, Shingle, Flint",
+        "997": "Sand and gravel used for constructional fill",
+        "601": "10",
+        "602": "20",
+        "603": "30",
+        "604": "100",
+        "605": "200",
+        "606": "300",
+        "607": "1000",
+        "995": "portsmouth",
+        "148": "Here is a good comment",
+        "146": "Another good comment"
+    }
 }

@@ -1,32 +1,34 @@
 {
-  "type": "uk.gov.ons.edc.eq:surveyresponse",
-  "version": "0.0.1",
-  "origin": "uk.gov.ons.edc.eq",
-  "survey_id": "023",
-  "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
-  "collection": {
+    "version": "v2",
+    "survey_metadata": {
+        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+        "ref_period_start_date": "",
+        "ref_period_end_date": "",
+        "user_id": "789473423",
+        "ru_ref": "12345678901A",
+        "survey_id": "023",
+        "form_type": "0203",
+        "period_id": "1604"
+    },
+    "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
     "schema_name": "1_0203",
-    "exercise_sid": "01a375d3-a68c-4040-85ee-d00db226669c",
-    "instrument_id": "0203",
-    "period": "1604"
-  },
-  "started_at": "2016-03-01T19:55:01Z",
-  "submitted_at": "2016-03-12T13:01:26Z",
-  "flushed": false,
-  "metadata": {
-    "user_id": "789473423",
-    "ru_ref": "12345678901A"
-  },
-  "data": {
-    "11": "1/4/2016",
-    "12": "31/10/2016",
-    "22": "705000",
-    "23": "900",
-    "24": "74",
-    "25": "50",
-    "26": "100",
-    "20": "1800000",
-    "21": "60000",
-    "146": "Change comments included"
-  }
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "data_version": "0.0.1",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "01a375d3-a68c-4040-85ee-d00db226669c",
+    "flushed": false,
+    "started_at": "2016-03-01T19:55:01Z",
+    "submitted_at": "2016-03-12T13:01:26Z",
+    "data": {
+        "11": "1/4/2016",
+        "12": "31/10/2016",
+        "22": "705000",
+        "23": "900",
+        "24": "74",
+        "25": "50",
+        "26": "100",
+        "20": "1800000",
+        "21": "60000",
+        "146": "Change comments included"
+    }
 }

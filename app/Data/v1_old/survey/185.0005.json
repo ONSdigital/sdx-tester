@@ -1,0 +1,26 @@
+{
+    "collection": {
+        "exercise_sid": "c850b18a-9488-4ee3-9b6c-6a37acb19c18",
+        "schema_name": "vacancies185_0005",
+        "instrument_id": "0005",
+        "period": "2001"
+    },
+    "data": {
+        "10": "60",
+        "146": "This is a comment"
+    },
+    "flushed": false,
+    "metadata": {
+        "ref_period_end_date": "2019-01-30",
+        "ref_period_start_date": "2020-01-01",
+        "ru_ref": "49800108249D",
+        "user_id": "UNKNOWN"
+    },
+    "origin": "uk.gov.ons.edc.eq",
+    "started_at": "2020-01-05T10:54:11.548611+00:00",
+    "submitted_at": "2020-01-05T14:49:33.448608+00:00",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "version": "0.0.1",
+    "survey_id": "185",
+    "case_id": "20ca055e-f7d9-42f8-9f69-d29b31a7965d"
+}

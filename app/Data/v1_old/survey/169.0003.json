@@ -1,0 +1,38 @@
+{
+    "case_id": "5d31f3e1-67c1-43c6-867e-85e4d96aa28c",
+    "collection": {
+        "exercise_sid": "c6ac7b6b-334d-4714-84c5-3d13e967744c",
+        "schema_name": "qpses169_0003",
+        "instrument_id": "0003",
+        "period": "201605"
+    },
+    "data": {
+        "50": "100",
+        "60": "110",
+        "146": "This is another comment",
+        "551": "33",
+        "552": "44",
+        "553": "55",
+        "554": "66",
+        "561": "44",
+        "562": "66",
+        "651": "33",
+        "652": "44",
+        "653": "55",
+        "654": "66",
+        "661": "44",
+        "662": "66"
+    },
+    "flushed": false,
+    "metadata": {
+        "ru_ref": "12346789012A",
+        "user_id": "UNKNOWN"
+    },
+    "origin": "uk.gov.ons.edc.eq",
+    "started_at": "2019-02-05T12:58:29.796012",
+    "submitted_at": "2019-02-05T12:59:19.215275",
+    "survey_id": "169",
+    "tx_id": "72d4f9a3-9129-48a8-a527-c636cc6975d4",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "version": "0.0.1"
+}

@@ -1,0 +1,43 @@
+{
+  "case_id": "166be042-424a-4493-9135-69198b50a62f",
+  "collection": {
+    "exercise_sid": "dd729d96-2fa7-4de8-8ce5-9769bacf376a",
+    "schema_name": "abs_1814",
+    "instrument_id": "1814",
+    "period": "16"
+  },
+  "data": {
+    "11": "06/04/2020",
+    "12": "05/04/2021",
+    "146": "lorem ipsum",
+    "15": "Yes",
+    "16": "Yes",
+    "163": "10",
+    "164": "10",
+    "337": "100000",
+    "339": "100000",
+    "399": "100000000",
+    "400": "10",
+    "450": "10",
+    "499": "10",
+    "600": "10",
+    "699": "10",
+    "80": "Yes",
+    "81": "50-74%",
+    "9": "Yes"
+  },
+  "flushed": false,
+  "metadata": {
+    "ref_period_end_date": "2016-05-31",
+    "ref_period_start_date": "2016-05-01",
+    "ru_ref": "85844497768v",
+    "user_id": "UNKNOWN"
+  },
+  "origin": "uk.gov.ons.edc.eq",
+  "started_at": "2022-02-10T16:07:45.172737",
+  "submitted_at": "2022-02-10T16:11:21.415922",
+  "survey_id": "202",
+  "tx_id": "72b2ccf1-2705-4d01-816f-ebbd3bbd4de4",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1"
+}
