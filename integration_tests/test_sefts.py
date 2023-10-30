@@ -5,7 +5,7 @@ from app.store.bucket_cleanup import delete_files_in_bucket
 from app.tester import run_seft
 from app import message_manager, PROJECT_ID
 
-SEFT_DIR = "app/Data/v1/seft"
+SEFT_DIR = "app/Data/seft"
 
 
 class TestSefts(unittest.TestCase):

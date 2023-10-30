@@ -23,7 +23,7 @@ class TestSurveyLoader(unittest.TestCase):
 class TestSurvey(unittest.TestCase):
 
 	def test_determine_schema_survey_eq_v2(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/v1/survey/eq_v2/009.0167.json"
+		file_path = f"{CONFIG.DATA_FOLDER}/survey/eq_v2/009.0167.json"
 		self.survey = Survey.from_file(file_path)
 
 		expected_schema = "v1"
@@ -31,7 +31,7 @@ class TestSurvey(unittest.TestCase):
 		self.assertEqual(expected_schema, actual_schema)
 
 	def test_extract_survey_id_json(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/v1/survey/eq_v2/009.0167.json"
+		file_path = f"{CONFIG.DATA_FOLDER}/survey/eq_v2/009.0167.json"
 		self.survey = Survey.from_file(file_path)
 
 		expected_code = "009"
@@ -39,7 +39,7 @@ class TestSurvey(unittest.TestCase):
 		self.assertEqual(expected_code, actual_code)
 
 	def test_extract_instrument_id(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/v1/survey/eq_v2/009.0167.json"
+		file_path = f"{CONFIG.DATA_FOLDER}/survey/eq_v2/009.0167.json"
 		survey = Survey.from_file(file_path)
 
 		expected_code = "0167"
@@ -64,7 +64,7 @@ class TestSurvey(unittest.TestCase):
 class TestSeft(unittest.TestCase):
 
 	def test_extract_survey_id_json(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/v1/seft/11110000014H_202009_057_20210121143526.xlsx"
+		file_path = f"{CONFIG.DATA_FOLDER}/seft/11110000014H_202009_057_20210121143526.xlsx"
 		self.survey = Seft.from_file(file_path)
 
 		expected_code = "seft_057"
