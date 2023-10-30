@@ -1,40 +1,40 @@
 {
-    "version": "v2",
-    "survey_metadata": {
-        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
-        "ref_p_start_date": "2016-05-01",
-        "ref_p_end_date": "2016-05-31",
-        "ru_ref": "13474521886W",
-        "user_id": "UNKNOWN",
-        "survey_id": "202",
-        "form_type": "1808",
-        "period_id": "16"
-    },
-    "case_id": "46e6912f-b8c4-4fdf-a835-41e739fb9abb",
-    "tx_id": "b599fd72-b3fd-405a-8ee8-bda643e2b47a",
+  "case_id": "46e6912f-b8c4-4fdf-a835-41e739fb9abb",
+  "collection": {
+    "exercise_sid": "681dbf39-5610-4111-a3cd-73c38e71fcfd",
     "schema_name": "abs_1808",
-    "type": "uk.gov.ons.edc.eq:surveyresponse",
-    "data_version": "0.0.1",
-    "origin": "uk.gov.ons.edc.eq",
-    "collection_exercise_sid": "681dbf39-5610-4111-a3cd-73c38e71fcfd",
-    "flushed": false,
-    "started_at": "2022-02-10T15:42:58.391433",
-    "submitted_at": "2022-02-10T15:48:03.276819",
-    "data": {
-        "15": "Yes",
-        "16": "Yes",
-        "163": "12000",
-        "164": "43500",
-        "346": "120000",
-        "400": "15000",
-        "450": "75000",
-        "499": "20000",
-        "500": "80000",
-        "599": "60000",
-        "600": "43000",
-        "699": "31000",
-        "80": "Yes",
-        "81": "25-49%",
-        "9": "Yes"
-    }
+    "instrument_id": "1808",
+    "period": "16"
+  },
+  "data": {
+    "15": "Yes",
+    "16": "Yes",
+    "163": "12000",
+    "164": "43500",
+    "346": "120000",
+    "400": "15000",
+    "450": "75000",
+    "499": "20000",
+    "500": "80000",
+    "599": "60000",
+    "600": "43000",
+    "699": "31000",
+    "80": "Yes",
+    "81": "25-49%",
+    "9": "Yes"
+  },
+  "flushed": false,
+  "metadata": {
+    "ref_period_end_date": "2016-05-31",
+    "ref_period_start_date": "2016-05-01",
+    "ru_ref": "13474521886W",
+    "user_id": "UNKNOWN"
+  },
+  "origin": "uk.gov.ons.edc.eq",
+  "started_at": "2022-02-10T15:42:58.391433",
+  "submitted_at": "2022-02-10T15:48:03.276819",
+  "survey_id": "202",
+  "tx_id": "b599fd72-b3fd-405a-8ee8-bda643e2b47a",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1"
 }

@@ -1,26 +1,26 @@
 {
-    "version": "v2",
-    "survey_metadata": {
-        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
-        "ref_p_start_date": "2020-01-01",
-        "ref_p_end_date": "2019-01-30",
-        "ru_ref": "49800108249D",
-        "user_id": "UNKNOWN",
-        "survey_id": "184",
-        "form_type": "0006",
-        "period_id": "2001"
+    "collection": {
+        "exercise_sid": "e562bb8e-a6ad-416c-a44b-2d737b6c72e2",
+        "schema_name": "vacancies184_0006",
+        "instrument_id": "0006",
+        "period": "2001"
     },
-    "case_id": "fc7f9d48-5374-46c0-993f-e8c59bbfbe70",
-    "schema_name": "vacancies184_0006",
-    "type": "uk.gov.ons.edc.eq:surveyresponse",
-    "data_version": "0.0.1",
-    "origin": "uk.gov.ons.edc.eq",
-    "collection_exercise_sid": "e562bb8e-a6ad-416c-a44b-2d737b6c72e2",
-    "flushed": false,
-    "started_at": "2020-01-05T10:54:11.548611+00:00",
-    "submitted_at": "2020-01-05T14:49:33.448608+00:00",
     "data": {
         "10": "40",
         "146": "This is a comment"
-    }
+    },
+    "flushed": false,
+    "metadata": {
+        "ref_period_end_date": "2019-01-30",
+        "ref_period_start_date": "2020-01-01",
+        "ru_ref": "49800108249D",
+        "user_id": "UNKNOWN"
+    },
+    "origin": "uk.gov.ons.edc.eq",
+    "started_at": "2020-01-05T10:54:11.548611+00:00",
+    "submitted_at": "2020-01-05T14:49:33.448608+00:00",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "version": "0.0.1",
+    "survey_id": "184",
+    "case_id": "fc7f9d48-5374-46c0-993f-e8c59bbfbe70"
 }

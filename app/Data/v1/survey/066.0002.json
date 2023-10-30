@@ -1,39 +1,40 @@
 {
-    "version": "v2",
-    "survey_metadata": {
-        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
-        "ref_p_start_date": "2016-05-01",
-        "ref_p_end_date": "2016-05-31",
-        "user_id": "UNKNOWN",
-        "ru_ref": "12346789012A",
-        "survey_id": "066",
-        "form_type": "0002",
-        "period_id": "201605"
-    },
-    "case_id": "0b67c770-2e52-453f-81de-1cf7a5c76757",
-    "tx_id": "84e5df3c-94e1-42e6-895d-628a0e38742b",
+  "case_id": "0b67c770-2e52-453f-81de-1cf7a5c76757",
+  "tx_id": "84e5df3c-94e1-42e6-895d-628a0e38742b",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1",
+  "origin": "uk.gov.ons.edc.eq",
+  "survey_id": "066",
+  "flushed": false,
+  "submitted_at": "2023-05-09T10:25:26+00:00",
+  "collection": {
+    "exercise_sid": "bf5886cd-9793-472f-ad77-57bf58e71ab9",
     "schema_name": "qsl_0002",
-    "type": "uk.gov.ons.edc.eq:surveyresponse",
-    "data_version": "0.0.1",
-    "origin": "uk.gov.ons.edc.eq",
-    "collection_exercise_sid": "bf5886cd-9793-472f-ad77-57bf58e71ab9",
-    "flushed": false,
-    "started_at": "2023-05-09T10:24:24.353830+00:00",
-    "submitted_at": "2023-05-09T10:25:26+00:00",
-    "submission_language_code": "en",
-    "launch_language_code": "en",
-    "data": {
-        "999": "Sand",
-        "998": "Gravel, Pebbles, Shingle, Flint",
-        "997": "Sand and gravel used for constructional fill",
-        "601": "10",
-        "602": "20",
-        "603": "30",
-        "604": "100",
-        "605": "200",
-        "606": "300",
-        "607": "1000",
-        "147": "Here is a good comment",
-        "146": "Another good comment"
-    }
+    "period": "201605",
+    "instrument_id": "0002"
+  },
+  "metadata": {
+    "user_id": "UNKNOWN",
+    "ru_ref": "12346789012A",
+    "ref_period_start_date": "2016-05-01",
+    "ref_period_end_date": "2016-05-31"
+  },
+  "launch_language_code": "en",
+  "data": {
+    "999": "Sand",
+    "998": "Gravel, Pebbles, Shingle, Flint",
+    "997": "Sand and gravel used for constructional fill",
+    "601": "10",
+    "602": "20",
+    "603": "30",
+    "604": "100",
+    "605": "200",
+    "606": "300",
+    "607": "1000",
+    "147": "Here is a good comment",
+    "146": "Another good comment"
+  },
+  "form_type": "0002",
+  "started_at": "2023-05-09T10:24:24.353830+00:00",
+  "submission_language_code": "en"
 }

@@ -1,31 +1,31 @@
 {
-    "version": "v2",
-    "survey_metadata": {
-        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
-        "ref_p_start_date": "2019-04-01",
-        "ref_p_end_date": "2018-11-29",
-        "ru_ref": "15162882666F",
-        "user_id": "UNKNOWN",
-        "survey_id": "017",
-        "form_type": "0011",
-        "period_id": "201904"
-    },
-    "case_id": "bb9eaf11-a729-40b5-8d17-d112e018c0d5",
-    "tx_id": "1027a13a-c253-4e9d-9e78-d0f0cfdd3988",
-    "schema_name": "stocks_0011",
-    "type": "uk.gov.ons.edc.eq:surveyresponse",
-    "data_version": "0.0.1",
-    "origin": "uk.gov.ons.edc.eq",
-    "collection_exercise_sid": "664dbdf4-02fb-4d68-b0cf-7f7402df00e5",
-    "flushed": false,
-    "started_at": "2019-04-01T14:00:24.224709",
-    "submitted_at": "2019-04-01T14:10:26.933601",
-    "data": {
-        "15": "No",
-        "119": "150",
-        "120": "152",
-        "144": "200",
-        "145": "124",
-        "146": "This is a comment"
-    }
+	"case_id": "bb9eaf11-a729-40b5-8d17-d112e018c0d5",
+	"collection": {
+		"exercise_sid": "664dbdf4-02fb-4d68-b0cf-7f7402df00e5",
+		"schema_name": "stocks_0011",
+		"instrument_id": "0011",
+		"period": "201904"
+	},
+	"data": {
+		"15": "No",
+		"119": "150",
+		"120": "152",
+		"144": "200",
+		"145": "124",
+		"146": "This is a comment"
+	},
+	"flushed": false,
+	"metadata": {
+		"ref_period_end_date": "2018-11-29",
+		"ref_period_start_date": "2019-04-01",
+		"ru_ref": "15162882666F",
+		"user_id": "UNKNOWN"
+	},
+	"origin": "uk.gov.ons.edc.eq",
+	"started_at": "2019-04-01T14:00:24.224709",
+	"submitted_at": "2019-04-01T14:10:26.933601",
+	"survey_id": "017",
+	"tx_id": "1027a13a-c253-4e9d-9e78-d0f0cfdd3988",
+	"type": "uk.gov.ons.edc.eq:surveyresponse",
+	"version": "0.0.1"
 }

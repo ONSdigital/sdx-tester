@@ -1,25 +1,26 @@
 {
-  "case_id": "9832c26f-e2e6-45ee-b3b9-49e55330ab7e",
-  "tx_id": "97a9923a-f6b0-494a-816e-8f075cc33637",
+  "case_id": "0c6a6b4c-bc6f-48e3-8d5c-5c2d6f6d7be6",
+  "tx_id": "b909aa24-dedc-4d83-be37-8ccf2fdb8314",
   "type": "uk.gov.ons.edc.eq:surveyresponse",
-  "version": "0.0.3",
+  "version": "v2",
+  "data_version": "0.0.3",
   "origin": "uk.gov.ons.edc.eq",
-  "survey_id": "002",
+  "collection_exercise_sid": "c263be7b-551a-4472-828d-f4839e23a566",
+  "schema_name": "berd_0001",
   "flushed": false,
-  "submitted_at": "2023-03-13T11:10:12+00:00",
-  "collection": {
-    "exercise_sid": "afb5b4f9-f8ce-471b-91cd-89b5b888eb69",
-    "schema_name": "berd_0001",
-    "period": "201605",
-    "instrument_id": "0001"
-  },
-  "metadata": {
-    "user_id": "UNKNOWN",
-    "ru_ref": "12346789012A",
-    "ref_period_start_date": "2016-05-01",
-    "ref_period_end_date": "2016-05-31"
-  },
+  "submitted_at": "2023-03-16T13:54:16+00:00",
   "launch_language_code": "en",
+  "survey_metadata": {
+    "survey_id": "002",
+    "ref_p_start_date": "2016-05-01",
+    "period_id": "201605",
+    "user_id": "UNKNOWN",
+    "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+    "ru_ref": "12346789012A",
+    "ref_p_end_date": "2016-05-31",
+    "trad_as": "ESSENTIAL ENTERPRISE LTD.",
+    "form_type": "0001"
+  },
   "data": {
     "answers": [
       {
@@ -1276,7 +1277,6 @@
       }
     ]
   },
-  "form_type": "0001",
-  "started_at": "2023-03-13T10:57:29.551736+00:00",
+  "started_at": "2023-03-16T13:54:01.661890+00:00",
   "submission_language_code": "en"
 }
