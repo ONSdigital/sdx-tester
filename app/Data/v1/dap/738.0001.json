@@ -1,0 +1,62 @@
+{
+  "case_id": "6b7fe1d3-b8a9-406e-a521-5a8dd2f86b28",
+  "tx_id": "debf9e22-0b78-40d8-872d-ca5fe2507ab1",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "v2",
+  "data_version": "0.0.3",
+  "origin": "uk.gov.ons.edc.eq",
+  "collection_exercise_sid": "97f4b3e2-5b5f-4bc2-a361-b4b1183afe81",
+  "schema_name": "fuis_0001",
+  "flushed": false,
+  "submitted_at": "2023-03-21T10:08:37+00:00",
+  "launch_language_code": "en",
+  "survey_metadata": {
+    "survey_id": "738",
+    "BLOOD_TEST_BARCODE": "",
+    "SWAB_TEST_BARCODE": "SWT33333333",
+    "FIRST_NAME": "Bradley",
+    "qid": "0130000001408548",
+    "PARTICIPANT_ID": "DHR-11111111111",
+    "PORTAL_ID": "1111111",
+    "PARTICIPANT_WINDOW_ID": "DHR-11111111111-000",
+    "TEST_QUESTIONS": "T",
+    "WINDOW_CLOSE_DATE": "2023-02-03",
+    "WINDOW_START_DATE": "2023-01-20"
+  },
+  "data": {
+    "answers": [
+      {
+        "answer_id": "answerbbdb0b77-e4d2-4a94-bb52-c7b6e91ab850",
+        "value": "No"
+      },
+      {
+        "answer_id": "answer3cbbbc81-3d85-4eca-b230-9a24e7203f38",
+        "value": "No"
+      },
+      {
+        "answer_id": "answer3d3e4020-8795-444f-98e4-057ec571ec07",
+        "value": [
+          "Continue"
+        ]
+      }
+    ],
+    "lists": [],
+    "answer_codes": [
+      {
+        "answer_id": "answerbbdb0b77-e4d2-4a94-bb52-c7b6e91ab850",
+        "code": "PHM-FUP-INT-003"
+      },
+      {
+        "answer_id": "answer3cbbbc81-3d85-4eca-b230-9a24e7203f38",
+        "code": "PHM-FUP-INT-004"
+      },
+      {
+        "answer_id": "answer3d3e4020-8795-444f-98e4-057ec571ec07",
+        "code": "PHM-FUP-INT-005"
+      }
+    ]
+  },
+  "channel": "RH",
+  "started_at": "2023-03-21T10:08:32.556293+00:00",
+  "submission_language_code": "en"
+}

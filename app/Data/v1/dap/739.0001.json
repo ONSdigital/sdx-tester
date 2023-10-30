@@ -6,7 +6,7 @@
   "data_version": "0.0.3",
   "origin": "uk.gov.ons.edc.eq",
   "collection_exercise_sid": "97f4b3e2-5b5f-4bc2-a361-b4b1183afe81",
-  "schema_name": "cris_0001",
+  "schema_name": "wcis_0001",
   "flushed": false,
   "submitted_at": "2023-03-21T10:08:37+00:00",
   "launch_language_code": "en",

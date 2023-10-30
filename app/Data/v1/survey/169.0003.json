@@ -2,8 +2,8 @@
     "version": "v2",
     "survey_metadata": {
         "ru_name": "ESSENTIAL ENTERPRISE LTD.",
-        "ref_period_start_date": "",
-        "ref_period_end_date": "",
+        "ref_p_start_date": "2016-05-01",
+        "ref_p_end_date": "2016-05-31",
         "ru_ref": "12346789012A",
         "user_id": "UNKNOWN",
         "survey_id": "169",
