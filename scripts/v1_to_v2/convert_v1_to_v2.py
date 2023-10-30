@@ -52,6 +52,7 @@ class Mapper:
 v1_to_v2_map = {
 	"case_id": Mapper(),
 	"tx_id": Mapper(),
+	"schema_name": Mapper(create=True),
 	"type": Mapper(),
 	"version": Mapper(rename="data_version"),
 	"origin": Mapper(),
@@ -60,7 +61,6 @@ v1_to_v2_map = {
 		"ref_period_end_date": Mapper(rename="ref_p_end_date"),
 	}),
 	"survey_id": Mapper(["survey_metadata"]),
-	"data": Mapper(),
 	"collection": Mapper(preserve=False, mappers={
 		"exercise_sid": Mapper(rename="collection_exercise_sid"),
 		"schema_name": Mapper(),
@@ -72,7 +72,7 @@ v1_to_v2_map = {
 	"submitted_at": Mapper(),
 	"submission_language_code": Mapper(),
 	"launch_language_code": Mapper(),
-	"schema_name": Mapper(create=True),
+	"data": Mapper(),
 }
 
 
