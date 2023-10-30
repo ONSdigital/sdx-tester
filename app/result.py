@@ -37,10 +37,11 @@ class Result:
         self.errors.append(error)
 
     def __str__(self) -> str:
-        return f'''dap_message: {self.dap_message}
-                receipt: {self.receipt}
-                quarantine: {self.quarantine}
-                files: {self.files.keys()}
-                errors: {self.errors}
-                timeout: {self.timeout}
-              '''
+        return f'''
+        dap_message: {self.dap_message}
+        receipt: {self.receipt}
+        quarantine: {self.quarantine}
+        files: {self.files.keys()}
+        errors: {self.errors}
+        timeout: {self.timeout}
+        '''

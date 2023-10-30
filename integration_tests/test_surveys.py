@@ -47,17 +47,17 @@ class TestSurveys(unittest.TestCase):
                     print("PASSED")
 
     def test_dap(self):
-        surveys = survey_loader.get_dap()
+        surveys: dict[str, list] = survey_loader.get_dap()
         self.execute(surveys, receipt=True, multiple_files=False)
 
     def test_survey(self):
-        surveys = survey_loader.get_survey()
+        surveys: dict[str, list] = survey_loader.get_survey()
         self.execute(surveys, receipt=True, multiple_files=True)
 
     def test_hybrid(self):
-        surveys = survey_loader.get_hybrid()
+        surveys: dict[str, list] = survey_loader.get_hybrid()
         self.execute(surveys, receipt=True, multiple_files=True)
 
     def test_feedback(self):
-        survey = survey_loader.get_feedback()
+        survey: dict[str, list] = survey_loader.get_feedback()
         self.execute(survey, receipt=False, multiple_files=False)
