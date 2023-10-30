@@ -1,0 +1,43 @@
+{
+  "case_id": "6578112b-5b48-4563-922d-a93d3a485afe",
+  "collection": {
+    "exercise_sid": "ac8493ef-54ad-4ec5-a41b-6ca16f2fd1e9",
+    "schema_name": "abs_1818",
+    "instrument_id": "1818",
+    "period": "16"
+  },
+  "data": {
+    "11": "01/01/2021",
+    "12": "07/04/2021",
+    "146": "My comment",
+    "15": "Yes",
+    "16": "Yes",
+    "163": "58321",
+    "164": "2345",
+    "399": "54000",
+    "400": "34000",
+    "450": "23000",
+    "499": "89000",
+    "501": "26000",
+    "502": "34000",
+    "600": "76000",
+    "699": "26000",
+    "80": "Yes",
+    "81": "50-74%",
+    "9": "Yes"
+  },
+  "flushed": false,
+  "metadata": {
+    "ref_period_end_date": "2016-05-31",
+    "ref_period_start_date": "2016-05-01",
+    "ru_ref": "25807171174J",
+    "user_id": "UNKNOWN"
+  },
+  "origin": "uk.gov.ons.edc.eq",
+  "started_at": "2022-02-10T15:50:52.717260",
+  "submitted_at": "2022-02-10T15:54:34.572218",
+  "survey_id": "202",
+  "tx_id": "6ec16f2f-2d0e-4596-9e01-e6bfa33a32c4",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "0.0.1"
+}

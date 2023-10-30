@@ -1,0 +1,37 @@
+{
+    "case_id": "45b217eb-013a-4a47-84bd-d8ce905ee9b9",
+    "collection": {
+      "schema_name": "epe_0004",
+      "exercise_sid": "6a3ddb62-f46b-440b-8a92-91723b4c102c",
+      "instrument_id": "0004",
+      "period": "201605"
+    },
+    "data": {
+      "10": "Yes, I can report for these dates",
+      "105": "No",
+      "110": "my comment",
+      "30": "No",
+      "32": "8000",
+      "33": "2000",
+      "34": "2000",
+      "35": "2000",
+      "36": "2000",
+      "37": "Yes",
+      "50": "No",
+      "70": "No"
+    },
+    "flushed": false,
+    "metadata": {
+      "ref_period_end_date": "2016-05-31",
+      "ref_period_start_date": "2016-05-01",
+      "ru_ref": "46830471473Z",
+      "user_id": "UNKNOWN"
+    },
+    "origin": "uk.gov.ons.edc.eq",
+    "started_at": "2020-08-18T10:32:17.646967",
+    "submitted_at": "2020-08-18T10:34:06.018828",
+    "survey_id": "147",
+    "tx_id": "372d2b4a-3bee-41ee-9630-43cb8185316e",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "version": "0.0.1"
+}
