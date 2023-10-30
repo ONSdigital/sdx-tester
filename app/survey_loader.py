@@ -299,10 +299,7 @@ def _read_survey_type(survey_type: str, schema_version="v1") -> dict:
         for filename in os.listdir(survey_path):
             with open(f'{survey_path}/{filename}', 'r') as data:
                 survey = json.load(data)
-                if schema_version == "v1":
-                    key = f"{survey['survey_id']}"
-                else:
-                    key = f"{survey['survey_metadata']['survey_id']}"
+                key = f"{survey['survey_metadata']['survey_id']}"
                 if key not in survey_dict:
                     survey_dict[key] = []
                 survey_dict[key].append(survey)
