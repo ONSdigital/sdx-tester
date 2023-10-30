@@ -57,8 +57,8 @@ v1_to_v2_map = {
 	"version": Mapper(rename="data_version"),
 	"origin": Mapper(),
 	"metadata": Mapper(rename="survey_metadata", mappers={
-		"ref_period_start_date": Mapper(rename="ref_p_start_date"),
-		"ref_period_end_date": Mapper(rename="ref_p_end_date"),
+		"ref_period_start_date": Mapper(rename="ref_p_start_date", create=True),
+		"ref_period_end_date": Mapper(rename="ref_p_end_date", create=True),
 	}),
 	"survey_id": Mapper(["survey_metadata"]),
 	"collection": Mapper(preserve=False, mappers={
