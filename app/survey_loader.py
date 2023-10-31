@@ -10,13 +10,9 @@ from app import CONFIG
 # Defines how to extract certain metadata from the different schemas
 # Each item in the array corresponds to a level of the json
 schema_logic = {
-    "v1": {
-        "survey_id": ["survey_id"],
-        "instrument_id": ["collection", "instrument_id"]
-    },
     "v2": {
         "survey_id": ["survey_metadata", "survey_id"],
-        "instrument_id": ["survey_metadata", "form_type"]
+        "form_type": ["survey_metadata", "form_type"]
     }
 }
 
@@ -164,10 +160,10 @@ class Seft(SurveyCore):
 
     def _determine_schema(self) -> str:
         """
-        For now simply return v1 for all
+        For now simply return v2 for all
         SEFTS we find
         """
-        return "v1"
+        return "v2"
 
     def _extract_survey_id(self) -> str:
         """
