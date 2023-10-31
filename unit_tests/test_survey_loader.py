@@ -22,24 +22,16 @@ class TestSurveyLoader(unittest.TestCase):
 
 class TestSurvey(unittest.TestCase):
 
-	def test_determine_schema_survey_eq_v2(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/survey/eq_v2/009.0167.json"
-		self.survey = Survey.from_file(file_path)
-
-		expected_schema = "v1"
-		actual_schema = self.survey.schema
-		self.assertEqual(expected_schema, actual_schema)
-
 	def test_extract_survey_id_json(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/survey/eq_v2/009.0167.json"
+		file_path = f"{CONFIG.DATA_FOLDER}/survey/009.0167.json"
 		self.survey = Survey.from_file(file_path)
 
 		expected_code = "009"
 		actual_code = self.survey.survey_id
 		self.assertEqual(expected_code, actual_code)
 
-	def test_extract_instrument_id(self):
-		file_path = f"{CONFIG.DATA_FOLDER}/survey/eq_v2/009.0167.json"
+	def test_extract_form_type(self):
+		file_path = f"{CONFIG.DATA_FOLDER}/survey/009.0167.json"
 		survey = Survey.from_file(file_path)
 
 		expected_code = "0167"
