@@ -42,7 +42,7 @@ class SurveyCore(ABC):
         self.survey_id = self._extract_survey_id()
 
     @classmethod
-    def from_file(cls, file_path):
+    def from_file(cls, file_path) -> json:
         """
         Load a survey given a path to the file
         """
@@ -51,7 +51,7 @@ class SurveyCore(ABC):
     def _determine_schema(self) -> str:
         """
         Determine the schema of this file, based
-        on the folder it's in
+        on the "version" attribute
         """
 
         if "version" not in self.contents:
@@ -66,6 +66,7 @@ class SurveyCore(ABC):
         Extract certain metadata from the survey,
         the key must be specified in the schema_logic
         dictionary
+        :return Whatever data structure the schema logic specifies
         """
         sc = self.contents
         for i in schema_logic[self.schema][key]:
@@ -111,7 +112,7 @@ class Survey(SurveyCore):
     def __init__(self, contents: json):
         super(Survey, self).__init__(contents)
 
-    def extract_form_type(self):
+    def extract_form_type(self) -> str:
         """
         Fetch the instrument_id
         for this survey
@@ -138,10 +139,10 @@ class Seft(SurveyCore):
         super(Seft, self).__init__(contents)
 
     @classmethod
-    def from_file(cls, file_path):
+    def from_file(cls, file_path) -> json:
         return super(Seft, cls).from_file(file_path)
 
-    def _extract_content(self, file_path: str):
+    def _extract_content(self, file_path: str) -> dict:
         """
         Override the parent class, extract the content
         from a SEFT file
@@ -153,7 +154,7 @@ class Seft(SurveyCore):
             self.seft_name = f"seft_{filename}"
             self.byte_data = seft_bytes
             # Assign the content to the metadata
-            data = _seft_metadata(seft_file, filename)
+            data: dict = _seft_metadata(seft_file, filename)
         return data
 
     def _determine_schema(self) -> str:
@@ -229,7 +230,7 @@ class SurveyLoader:
 
         return my_dict
 
-    def to_json(self):
+    def to_json(self) -> dict:
         """
         Convert this data structure to
         a json readable format
@@ -301,7 +302,7 @@ def _read_survey_type(survey_type: str) -> dict:
     return survey_dict
 
 
-def _seft_metadata(seft_file, filename):
+def _seft_metadata(seft_file, filename) -> dict:
     data_bytes = seft_file.read()
     filename_list = filename.split('_')
     survey_id = filename_list[2]
