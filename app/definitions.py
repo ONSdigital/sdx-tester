@@ -45,3 +45,17 @@ class SurveySubmission(TypedDict):
 	schema_url: NotRequired[str]
 	started_at: NotRequired[str]
 	submission_language_code: NotRequired[str]
+
+
+class SeftMetadata(TypedDict):
+	filename: str
+	tx_id: str
+	survey_id: str
+	period: str
+	ru_ref: str
+	md5sum: str
+	sizeBytes: int
+	seft: bool
+
+
+AbstractSubmission = SurveySubmission | SeftMetadata

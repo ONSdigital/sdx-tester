@@ -6,6 +6,7 @@ from abc import ABC
 from typing import Union, Any
 
 from app import CONFIG
+from app.definitions import SeftMetadata, SurveySubmission, AbstractSubmission
 
 # Defines how to extract certain metadata from the different schemas
 # Each item in the array corresponds to a level of the json
@@ -36,13 +37,13 @@ class SurveyCore(ABC):
     The Abstract for every
     survey that tester loads
     """
-    def __init__(self, contents: json):
+    def __init__(self, contents: AbstractSubmission):
         self.contents = contents
         self.schema = self._determine_schema()
         self.survey_id = self._extract_survey_id()
 
     @classmethod
-    def from_file(cls, file_path) -> json:
+    def from_file(cls, file_path) -> AbstractSubmission:
         """
         Load a survey given a path to the file
         """
@@ -87,7 +88,7 @@ class SurveyCore(ABC):
         except InvalidSurveyException:
             raise InvalidSurveyException(message="This survey is missing a survey_id in the correct location")
 
-    def _extract_content(self, file_path: str) -> json:
+    def _extract_content(self, file_path: str) -> AbstractSubmission:
         """
         Method to load a simple json file
         """
@@ -95,7 +96,7 @@ class SurveyCore(ABC):
             contents = json.load(data)
         return contents
 
-    def serialize(self) -> json:
+    def serialize(self) -> AbstractSubmission:
         """
         Convert this survey to a JSON
         format
@@ -127,6 +128,13 @@ class Survey(SurveyCore):
         except InvalidSurveyException:
             raise InvalidSurveyException(message="Could not extract the form type from this survey")
 
+    def serialize(self) -> SurveySubmission:
+        """
+        Convert this survey to a JSON
+        format
+        """
+        return self.contents
+
 
 class Seft(SurveyCore):
     """
@@ -142,7 +150,7 @@ class Seft(SurveyCore):
     def from_file(cls, file_path) -> json:
         return super(Seft, cls).from_file(file_path)
 
-    def _extract_content(self, file_path: str) -> dict:
+    def _extract_content(self, file_path: str) -> SeftMetadata:
         """
         Override the parent class, extract the content
         from a SEFT file
@@ -150,12 +158,27 @@ class Seft(SurveyCore):
         with open(file_path, 'rb') as seft_file:
             seft_bytes = seft_file.read()
             filename = os.path.basename(file_path).split(".")[0]
-            # Save other important data
-            self.seft_name = f"seft_{filename}"
-            self.byte_data = seft_bytes
-            # Assign the content to the metadata
-            data: dict = _seft_metadata(seft_file, filename)
-        return data
+
+        # Save other important data
+        self.seft_name = f"seft_{filename}"
+        self.byte_data = seft_bytes
+
+        filename_list = filename.split('_')
+        survey_id = filename_list[2]
+        period = filename_list[1]
+        ru_ref = filename_list[3]
+        message = {
+            'filename': filename,
+            'tx_id': str(uuid.uuid4()),
+            'survey_id': survey_id,
+            'period': period,
+            'ru_ref': ru_ref,
+            'md5sum': hashlib.md5(seft_bytes).hexdigest(),
+            'sizeBytes': len(seft_bytes),
+            'seft': True
+        }
+
+        return message
 
     def _determine_schema(self) -> str:
         """
@@ -186,7 +209,7 @@ class SurveyLoader:
         # {schema: {survey_type: {sub-folder: Survey}}
         self.all_data = self._read_all(self.data_folder)
 
-    def _read_all(self, root: str):
+    def _read_all(self, root: str) -> dict[str, list[AbstractSubmission]]:
         """
         Will parse everything in the specified data folder,
         each direct sub folder will be assigned to a schema version (v1, v2)
@@ -230,7 +253,7 @@ class SurveyLoader:
 
         return my_dict
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict[str, dict[str, list[AbstractSubmission]]]:
         """
         Convert this data structure to
         a json readable format
@@ -254,7 +277,7 @@ class SurveyLoader:
             return False
 
 
-def read_all_v1() -> dict:
+def read_all_v1() -> dict[str, SurveySubmission]:
     """
     Returns a dict of list of surveys mapped to their survey_id.
     Contains all types of submission.
@@ -266,27 +289,26 @@ def read_all_v1() -> dict:
     return {survey_id: s.files_only["v1"][survey_id][0].serialize() for survey_id in s.files_only["v1"]}
 
 
-def get_survey() -> dict:
+def get_survey() -> dict[str, list[SurveySubmission]]:
     return _read_survey_type("survey")
 
 
-def get_dap() -> dict:
+def get_dap() -> dict[str, list[SurveySubmission]]:
     return _read_survey_type("dap")
 
 
-def get_hybrid() -> dict:
+def get_hybrid() -> dict[str, list[SurveySubmission]]:
     return _read_survey_type("hybrid")
 
 
-def get_feedback() -> dict:
+def get_feedback() -> dict[str, list[SurveySubmission]]:
     return {f'feedback_{k}': v for k, v in _read_survey_type("feedback").items()}
 
 
-def _read_survey_type(survey_type: str) -> dict:
+def _read_survey_type(survey_type: str) -> dict[str, list[AbstractSubmission]]:
     """
     This method produces a dict of list of survey with the survey_id as the key.
     :param survey_type: The type of survey to select (survey, seft etc)
-    :param schema_version: The survey schema (v1 or v2)
     """
     survey_dict = {}
     survey_path = f'app/Data/{survey_type}'
@@ -302,20 +324,3 @@ def _read_survey_type(survey_type: str) -> dict:
     return survey_dict
 
 
-def _seft_metadata(seft_file, filename) -> dict:
-    data_bytes = seft_file.read()
-    filename_list = filename.split('_')
-    survey_id = filename_list[2]
-    period = filename_list[1]
-    ru_ref = filename_list[3]
-    message = {
-        'filename': filename,
-        'tx_id': str(uuid.uuid4()),
-        'survey_id': survey_id,
-        'period': period,
-        'ru_ref': ru_ref,
-        'md5sum': hashlib.md5(data_bytes).hexdigest(),
-        'sizeBytes': len(data_bytes),
-        'seft': True
-    }
-    return message
