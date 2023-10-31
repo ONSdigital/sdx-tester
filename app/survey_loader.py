@@ -271,35 +271,36 @@ def read_all_v1() -> dict:
     return {survey_id: s.files_only["v1"][survey_id][0].serialize() for survey_id in s.files_only["v1"]}
 
 
-def get_survey() -> dict[str, list]:
+def get_survey() -> dict:
     return _read_survey_type("survey")
 
 
-def get_dap(schema_version="v1") -> dict[str, list]:
-    return _read_survey_type("dap", schema_version)
+def get_dap() -> dict:
+    return _read_survey_type("dap")
 
 
-def get_hybrid(schema_version="v1") -> dict[str, list]:
-    return _read_survey_type("hybrid", schema_version)
+def get_hybrid() -> dict:
+    return _read_survey_type("hybrid")
 
 
-def get_feedback(schema_version="v1") -> dict[str, list]:
-    return {f'feedback_{k}': v for k, v in _read_survey_type("feedback", schema_version).items()}
+def get_feedback() -> dict:
+    return {f'feedback_{k}': v for k, v in _read_survey_type("feedback").items()}
 
 
-def _read_survey_type(survey_type: str, schema_version="v1") -> dict[str, list]:
+def _read_survey_type(survey_type: str) -> dict:
     """
     This method produces a dict of list of survey with the survey_id as the key.
     :param survey_type: The type of survey to select (survey, seft etc)
     :param schema_version: The survey schema (v1 or v2)
     """
     survey_dict = {}
-    survey_path = f'app/Data/{schema_version}/{survey_type}'
+    survey_path = f'app/Data/{survey_type}'
     if os.path.exists(survey_path):
         for filename in os.listdir(survey_path):
             with open(f'{survey_path}/{filename}', 'r') as data:
-                survey: dict = json.load(data)
+                survey = json.load(data)
                 key = f"{survey['survey_metadata']['survey_id']}"
+
                 if key not in survey_dict:
                     survey_dict[key] = []
                 survey_dict[key].append(survey)
