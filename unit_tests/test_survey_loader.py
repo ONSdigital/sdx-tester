@@ -43,7 +43,7 @@ class TestSurvey(unittest.TestCase):
 		survey = Survey.from_file(file_path)
 
 		expected_code = "0167"
-		actual_code = survey.extract_instrument_id()
+		actual_code = survey.extract_form_type()
 		self.assertEqual(expected_code, actual_code)
 
 	def test_invalid_survey(self):

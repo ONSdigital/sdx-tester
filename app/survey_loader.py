@@ -20,9 +20,7 @@ schema_logic = {
 # in the array will get mapped to it's key, eg. 0.0.1 -> v1
 determine_schema = {
     "version": {
-        "v1": ["0.0.1", "0.0.3"],
         "v2": ["v2"]
-
     },
 }
 
@@ -113,7 +111,7 @@ class Survey(SurveyCore):
     def __init__(self, contents: json):
         super(Survey, self).__init__(contents)
 
-    def extract_instrument_id(self):
+    def extract_form_type(self):
         """
         Fetch the instrument_id
         for this survey
@@ -124,9 +122,9 @@ class Survey(SurveyCore):
                 # submissions from RM do not have an instrument_id so default to 0001
                 return "0001"
         try:
-            return self._extract_metadata_from_contents("instrument_id")
+            return self._extract_metadata_from_contents("form_type")
         except InvalidSurveyException:
-            raise InvalidSurveyException(message="Could not extract the instrument_id from this survey")
+            raise InvalidSurveyException(message="Could not extract the form type from this survey")
 
 
 class Seft(SurveyCore):

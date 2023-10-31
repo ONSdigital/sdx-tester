@@ -29,7 +29,6 @@ survey_loader = SurveyLoader(CONFIG.DATA_FOLDER)
 @app.get('/')
 @app.get('/index')
 def index():
-
     a = survey_loader.to_json()
     return render_template('index.html.j2',
                            survey_dict=survey_loader.to_json(),
@@ -139,9 +138,9 @@ def submit():
                 try:
                     # Create and process the survey submission
                     submissions.process_survey(UserSurveySubmission(tx_id,
-                                                           current_survey.survey_id,
-                                                           current_survey.extract_instrument_id(),
-                                                          data_dict))
+                                                                    current_survey.survey_id,
+                                                                    current_survey.extract_form_type(),
+                                                                    data_dict))
                 except InvalidSurveyException as e:
                     flash(e.message)
 
