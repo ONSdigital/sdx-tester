@@ -147,7 +147,7 @@ class Seft(SurveyCore):
         super(Seft, self).__init__(contents)
 
     @classmethod
-    def from_file(cls, file_path) -> json:
+    def from_file(cls, file_path) -> SeftMetadata:
         return super(Seft, cls).from_file(file_path)
 
     def _extract_content(self, file_path: str) -> SeftMetadata:
