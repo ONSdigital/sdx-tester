@@ -146,7 +146,7 @@ Manual page refresh is not required to reflect the changes.
             // Globals
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             var survey_dict = {{ survey_dict|tojson|safe }};
-            var selected_schema = null;
+            var selected_schema = "v2";
 
             /**
              * Will insert a survey into the
@@ -160,37 +160,37 @@ Manual page refresh is not required to reflect the changes.
                 $("#post-data").scrollTop(0);
             }
 
+            function onSchemaChange(selectedValue){
+              // Hide, clear and disable the dropdown
+              $('#extra_surveys').prop('disabled', 'disabled');
+              $('#main_survey_dropdowns_content').prop('disabled', 'disabled');
+
+              $('#extra_surveys_container').hide();
+
+              // Clear old extra surveys
+              $('#extra_surveys_content').empty();
+              $('#main_survey_dropdowns_content').empty();
+
+              // Update our global variable to the selected schema
+              selected_schema = selectedValue;
+
+              // Go through each survey for this given schema version
+              $.each(survey_dict[selected_schema], function(survey_code, form_list){
+                // The key to the dictionary is the survey ID
+                let number_forms = survey_dict[selected_schema][survey_code].length
+                let display_name = survey_code
+                if (number_forms > 1){
+                  display_name += " ("+number_forms+")"
+                }
+                $('#main_survey_dropdowns_content').append($("<option></option>").attr({"sid": survey_code, "index": survey_code}).text(display_name));
+              });
+              // Enable the dropdown
+              $('#main_survey_dropdowns_content').prop('disabled', false);
+            }
+
             // When the user clicks the "schema version" dropdown
             $('#schema_versions').on('change', function() {
-
-
-                // Hide, clear and disable the dropdown
-                $('#extra_surveys').prop('disabled', 'disabled');
-                $('#main_survey_dropdowns_content').prop('disabled', 'disabled');
-
-                $('#extra_surveys_container').hide();
-
-                // Clear old extra surveys
-                $('#extra_surveys_content').empty();
-                $('#main_survey_dropdowns_content').empty();
-
-                // Update our global variable to the selected schema
-                selected_schema = this.value;
-
-                // Go through each survey for this given schema version
-                $.each(survey_dict[selected_schema], function(survey_code, form_list){
-                    console.log(survey_code)
-                    // The key to the dictionary is the survey ID
-                    let number_forms = survey_dict[selected_schema][survey_code].length
-                    let display_name = survey_code
-                    if (number_forms > 1){
-                        display_name += " ("+number_forms+")"
-                    }
-                    $('#main_survey_dropdowns_content').append($("<option></option>").attr({"sid": survey_code, "index": survey_code}).text(display_name));
-                });
-                // Enable the dropdown
-                $('#main_survey_dropdowns_content').prop('disabled', false);
-
+              onSchemaChange(this.value)
             });
 
 
@@ -222,16 +222,17 @@ Manual page refresh is not required to reflect the changes.
                         //Populate the dropdown
                         $.each(extra_surveys, function(key,value){
                             // Attempt to fetch the instrument_id for this survey
-                            var instrument = key;
+                            var form_type = key;
                             try {
-                                instrument = value["collection"]["instrument_id"]
+                              // TODO maybe pass extraction logic from backend?
+                              form_type = value["survey_metadata"]["form_type"]
                             }
                             catch(err) {
                                 // If the instrument_id is not found, simply use a counter value
-                                console.log("Instrument ID could not be located")
+                                console.log("Form type could not be located")
                             }
                             // Add this form type to the dropdown on screen
-                            $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(instrument));
+                            $('#extra_surveys_content').append($("<option></option>").attr({"sid": sid, "index": key}).text(form_type));
                         });
 
                         // Enable the dropdown
@@ -300,5 +301,9 @@ Manual page refresh is not required to reflect the changes.
             socket.on('Cleanup status', function(msg){
                 alert("Status: " + msg.status);
             });
+
+            // Set defaults
+            $('#schema_versions').val("v2")
+            onSchemaChange("v2")
 </script>
 {% endblock %}

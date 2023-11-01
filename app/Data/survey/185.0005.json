@@ -1,0 +1,26 @@
+{
+    "version": "v2",
+    "survey_metadata": {
+        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+        "ref_p_start_date": "2020-01-01",
+        "ref_p_end_date": "2019-01-30",
+        "ru_ref": "49800108249D",
+        "user_id": "UNKNOWN",
+        "survey_id": "185",
+        "form_type": "0005",
+        "period_id": "2001"
+    },
+    "case_id": "20ca055e-f7d9-42f8-9f69-d29b31a7965d",
+    "schema_name": "vacancies185_0005",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "data_version": "0.0.1",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "c850b18a-9488-4ee3-9b6c-6a37acb19c18",
+    "flushed": false,
+    "started_at": "2020-01-05T10:54:11.548611+00:00",
+    "submitted_at": "2020-01-05T14:49:33.448608+00:00",
+    "data": {
+        "10": "60",
+        "146": "This is a comment"
+    }
+}

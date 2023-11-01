@@ -1,0 +1,30 @@
+{
+    "version": "v2",
+    "survey_metadata": {
+        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+        "ref_p_start_date": "2016-05-01",
+        "ref_p_end_date": "2016-05-31",
+        "ru_ref": "34650525171T",
+        "user_id": "UNKNOWN",
+        "survey_id": "009",
+        "form_type": "0201",
+        "period_id": "201605"
+    },
+    "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
+    "tx_id": "9db49fb8-4bcc-4615-b42c-b2ab80b234b8",
+    "schema_name": "mbs_0201",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "data_version": "0.0.1",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "478d806c-f7e2-4fc5-bcde-82148bab029a",
+    "flushed": false,
+    "started_at": "2018-08-08T11:41:07.910422+00:00",
+    "submitted_at": "2018-08-08T11:41:46.463875+00:00",
+    "data": {
+        "40": "1234500",
+        "49": "55",
+        "146": "Yes",
+        "d12": "Yes",
+        "d40": "Yes"
+    }
+}

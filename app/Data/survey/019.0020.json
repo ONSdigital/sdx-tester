@@ -1,0 +1,43 @@
+{
+    "version": "v2",
+    "survey_metadata": {
+        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+        "ref_p_start_date": "2018-07-01",
+        "ref_p_end_date": "2018-09-30",
+        "ru_ref": "03558883150A",
+        "user_id": "UNKNOWN",
+        "survey_id": "019",
+        "form_type": "0020",
+        "period_id": "201807"
+    },
+    "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
+    "tx_id": "ea31f745-5c5e-47b6-8086-09af0d9d6377",
+    "schema_name": "qcas_0020",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "data_version": "0.0.1",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "707e7391-33ad-4ecd-87b2-42422feb2987",
+    "flushed": false,
+    "started_at": "2018-08-20T12:01:11.844111+00:00",
+    "submitted_at": "2018-08-20T12:05:32.123922+00:00",
+    "data": {
+        "11": "03/07/2018",
+        "12": "01/10/2018",
+        "146": "A lot of changes.",
+        "681": "123456.78",
+        "688": "54.32",
+        "689": "12",
+        "695": "56999.1",
+        "696": "57999.9",
+        "697": "0",
+        "703": "700",
+        "704": "300",
+        "707": "100",
+        "708": "200",
+        "709": "321",
+        "710": "123",
+        "711": "987",
+        "712": "9.87",
+        "d681": "Yes"
+    }
+}

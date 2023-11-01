@@ -1,0 +1,30 @@
+{
+    "version": "v2",
+    "survey_metadata": {
+        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+        "ref_p_start_date": "2016-05-01",
+        "ref_p_end_date": "2016-05-31",
+        "user_id": "789473423",
+        "ru_ref": "12345678901A",
+        "survey_id": "139",
+        "form_type": "0001",
+        "period_id": "1604"
+    },
+    "case_id": "4c0bc9ec-06d4-4f66-88b6-2e42b79f17b3",
+    "schema_name": "2_0001",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "data_version": "0.0.1",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "0c77e89f-60fc-4613-a76f-f12e8ba851d5",
+    "flushed": false,
+    "started_at": "2019-03-23T14:00:24.224709",
+    "submitted_at": "2019-03-23T14:50:26.933601",
+    "data": {
+        "51": "84",
+        "52": "10",
+        "53": "73",
+        "54": "24",
+        "50": "205",
+        "146": "This is a comment field"
+    }
+}

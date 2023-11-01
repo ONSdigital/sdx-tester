@@ -1,0 +1,41 @@
+{
+    "version": "v2",
+    "survey_metadata": {
+        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+        "ref_p_start_date": "2016-05-01",
+        "ref_p_end_date": "2016-05-31",
+        "ru_ref": "10850316053M",
+        "user_id": "UNKNOWN",
+        "survey_id": "202",
+        "form_type": "1820",
+        "period_id": "16"
+    },
+    "case_id": "cd4e35e7-98a7-4705-a27e-8ba0802a1df4",
+    "tx_id": "7cd7606a-c5b0-4116-a3d4-e0a24ad855f6",
+    "schema_name": "abs_1820",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "data_version": "0.0.1",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "87a203c0-8b61-40dd-be10-f6063526873b",
+    "flushed": false,
+    "started_at": "2022-02-10T15:56:01.536843",
+    "submitted_at": "2022-02-10T15:58:55.977383",
+    "data": {
+        "11": "12/02/2021",
+        "12": "12/07/2021",
+        "146": "A fun survey to complete",
+        "15": "Yes",
+        "16": "Yes",
+        "163": "7433",
+        "164": "3678",
+        "399": "76000",
+        "400": "5748",
+        "450": "65432",
+        "499": "12345",
+        "600": "76300",
+        "699": "54800",
+        "80": "Yes",
+        "81": "75-100%",
+        "9": "Yes"
+    }
+}

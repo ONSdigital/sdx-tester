@@ -3,7 +3,7 @@ from app.store import OUTPUT_BUCKET_NAME, INPUT_SEFT_BUCKET, INPUT_SURVEY_BUCKET
 from app.survey_loader import SurveyLoader
 
 
-SEFT_DIR = "app/Data/v1/seft"
+SEFT_DIR = "app/Data/seft"
 EXPECTED_NUM_OF_OUTPUT_FILES = 5
 FAKE_SURVEYS = ('001', '002', '003', '004', '005')
 survey_loader_obj = SurveyLoader("app/Data")
