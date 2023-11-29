@@ -12,7 +12,7 @@
     },
     "case_id": "c81d352b-b936-4f03-b5b7-07c6d370050d",
     "tx_id": "0d21ffe7-dcb0-4d4e-b66e-095cd2e58d7a",
-    "schema_name": "",
+    "schema_name": "qfs_0002",
     "type": "uk.gov.ons.edc.eq:surveyresponse",
     "data_version": "0.0.1",
     "origin": "uk.gov.ons.edc.eq",
