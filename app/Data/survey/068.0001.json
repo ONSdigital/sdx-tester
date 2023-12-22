@@ -1,0 +1,226 @@
+{
+  "case_id": "55bee4b0-368c-496e-97fa-0fb80bf2e10e",
+  "tx_id": "b8796a28-ea79-4259-9cd9-e6e49db28e0d",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "v2",
+  "data_version": "0.0.3",
+  "origin": "uk.gov.ons.edc.eq",
+  "collection_exercise_sid": "f897387d-85c4-4c3c-868e-12341e89c9a5",
+  "flushed": false,
+  "submitted_at": "2023-12-18T11:21:31+00:00",
+  "launch_language_code": "en",
+  "survey_metadata": {
+    "survey_id": "068",
+    "form_type": "0001",
+    "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+    "trad_as": "ESSENTIAL ENTERPRISE LTD.",
+    "period_id": "201605",
+    "ref_p_start_date": "2016-05-01",
+    "ref_p_end_date": "2016-05-31",
+    "ru_ref": "12488649925A",
+    "user_id": "UNKNOWN",
+    "sds_dataset_id": "c067f6de-6d64-42b1-8b02-431a3486c178"
+  },
+  "schema_name": "qrt_0001",
+  "data": {
+    "answers": [
+      {
+        "answer_id": "answer08c4caae-6f34-4fb2-95e3-ab6a900fe3ef",
+        "value": 79000
+      },
+      {
+        "answer_id": "answerff221d94-2044-45fb-9cd7-e4677485483f",
+        "value": 46000
+      },
+      {
+        "answer_id": "answer47a97e99-a1ab-4f02-879a-23c7fba8fbe3",
+        "value": 23000
+      },
+      {
+        "answer_id": "answer0c4d8705-0c53-4778-b8d9-de0b41bc446f",
+        "value": "Some new works"
+      },
+      {
+        "answer_id": "answer276c7972-e158-44ab-8235-6549d3472a18",
+        "value": "Ceased production last Monday",
+        "list_item_id": "LQxWei"
+      },
+      {
+        "answer_id": "answer276c7972-e158-44ab-8235-6549d3472a18",
+        "value": "Changed address to Studio 5",
+        "list_item_id": "tTlamY"
+      },
+      {
+        "answer_id": "answer-driving-additional-new-sites",
+        "value": "Yes"
+      },
+      {
+        "answer_id": "answer27f27859-fc11-4577-b9bb-745407356498",
+        "value": "Exciting new unit",
+        "list_item_id": "Uvgjhp"
+      },
+      {
+        "answer_id": "answer6fd5d6f5-c9b0-4b69-8e62-435e4bc3db48",
+        "value": "Fake St, Fake Town, Fake County, FA12 KED",
+        "list_item_id": "Uvgjhp"
+      },
+      {
+        "answer_id": "answer77f7db4b-6e35-4696-9671-26a906ea4e7d",
+        "value": "Lots of exciting stuff!",
+        "list_item_id": "Uvgjhp"
+      },
+      {
+        "answer_id": "answer049445d3-9240-45fd-adb6-49fbc540de8a",
+        "value": 42,
+        "list_item_id": "Uvgjhp"
+      },
+      {
+        "answer_id": "answer3aa044a8-26dd-403f-8646-8a9c8874b3be",
+        "value": "2023-12-14",
+        "list_item_id": "Uvgjhp"
+      },
+      {
+        "answer_id": "answer27f27859-fc11-4577-b9bb-745407356498",
+        "value": "Boring Unit",
+        "list_item_id": "uaajIt"
+      },
+      {
+        "answer_id": "answer6fd5d6f5-c9b0-4b69-8e62-435e4bc3db48",
+        "value": "Garage 6, Made Up Drive, Atlantis, AT1 LAN",
+        "list_item_id": "uaajIt"
+      },
+      {
+        "answer_id": "answer77f7db4b-6e35-4696-9671-26a906ea4e7d",
+        "value": "To dull to mention",
+        "list_item_id": "uaajIt"
+      },
+      {
+        "answer_id": "answer049445d3-9240-45fd-adb6-49fbc540de8a",
+        "value": 3,
+        "list_item_id": "uaajIt"
+      },
+      {
+        "answer_id": "answer3aa044a8-26dd-403f-8646-8a9c8874b3be",
+        "value": "2023-11-25",
+        "list_item_id": "uaajIt"
+      },
+      {
+        "answer_id": "add-another-additional-new-sites",
+        "value": "No"
+      },
+      {
+        "answer_id": "answerbf11b2d4-3f36-4466-8e59-4f8bc3cce4c8",
+        "value": "My comment about tiles."
+      }
+    ],
+    "lists": [
+      {
+        "items": [
+          "LQxWei",
+          "tTlamY"
+        ],
+        "name": "local-units",
+        "supplementary_data_mappings": [
+          {
+            "identifier": "12558735",
+            "list_item_id": "LQxWei"
+          },
+          {
+            "identifier": "10839465",
+            "list_item_id": "tTlamY"
+          }
+        ]
+      },
+      {
+        "items": [
+          "Uvgjhp",
+          "uaajIt"
+        ],
+        "name": "additional_units"
+      }
+    ],
+    "supplementary_data": {
+      "identifier": "12488649925",
+      "schema_version": "v1",
+      "items": {
+        "local-units": [
+          {
+            "identifier": "12558735",
+            "name": "ROBINSON-TURNER",
+            "address": [
+              "FLAT 24N WINTER ROW",
+              "WEST CLAIRESTAD",
+              "STANLEYBERG",
+              "KILPORTH"
+            ]
+          },
+          {
+            "identifier": "10839465",
+            "name": "ROBINSON-TURNER",
+            "address": [
+              "STUDIO 4 JONES PORT",
+              "TURNERVILLE",
+              "KHANSTAD"
+            ]
+          }
+        ]
+      }
+    },
+    "answer_codes": [
+      {
+        "answer_id": "answer08c4caae-6f34-4fb2-95e3-ab6a900fe3ef",
+        "code": "9999"
+      },
+      {
+        "answer_id": "answerff221d94-2044-45fb-9cd7-e4677485483f",
+        "code": "9998"
+      },
+      {
+        "answer_id": "answer47a97e99-a1ab-4f02-879a-23c7fba8fbe3",
+        "code": "9997"
+      },
+      {
+        "answer_id": "answer0c4d8705-0c53-4778-b8d9-de0b41bc446f",
+        "code": "9996"
+      },
+      {
+        "answer_id": "answer276c7972-e158-44ab-8235-6549d3472a18",
+        "code": "9995"
+      },
+      {
+        "answer_id": "answer-driving-additional-new-sites",
+        "code": "9994"
+      },
+      {
+        "answer_id": "answer77f7db4b-6e35-4696-9671-26a906ea4e7d",
+        "code": "9993"
+      },
+      {
+        "answer_id": "answer049445d3-9240-45fd-adb6-49fbc540de8a",
+        "code": "9992"
+      },
+      {
+        "answer_id": "answer3aa044a8-26dd-403f-8646-8a9c8874b3be",
+        "code": "9991"
+      },
+      {
+        "answer_id": "add-another-additional-new-sites",
+        "code": "9990"
+      },
+      {
+        "answer_id": "answerbf11b2d4-3f36-4466-8e59-4f8bc3cce4c8",
+        "code": "147"
+      },
+      {
+        "answer_id": "answer27f27859-fc11-4577-b9bb-745407356498",
+        "code": "9989"
+      },
+      {
+        "answer_id": "answer6fd5d6f5-c9b0-4b69-8e62-435e4bc3db48",
+        "code": "9988"
+      }
+    ]
+  },
+  "started_at": "2023-12-18T11:16:24.843372+00:00",
+  "submission_language_code": "en"
+}
