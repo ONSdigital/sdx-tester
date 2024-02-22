@@ -1,40 +1,160 @@
 {
-    "version": "v2",
-    "survey_metadata": {
-        "ru_name": "ESSENTIAL ENTERPRISE LTD.",
-        "ref_p_start_date": "2016-05-01",
-        "ref_p_end_date": "2016-05-31",
-        "user_id": "UNKNOWN",
-        "ru_ref": "12346789012A",
-        "survey_id": "076",
-        "form_type": "0002",
-        "period_id": "201605"
+  "case_id": "3b9ab7c6-8926-4734-982d-23d61f9f8e82",
+  "tx_id": "e54439a0-b954-4991-83fe-85a721cb14f7",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "v2",
+  "data_version": "0.0.3",
+  "origin": "uk.gov.ons.edc.eq",
+  "collection_exercise_sid": "c11a33e5-330d-48a8-8253-4f928322fcfc",
+  "flushed": false,
+  "submitted_at": "2024-02-15T16:51:20+00:00",
+  "launch_language_code": "en",
+  "survey_metadata": {
+    "survey_id": "076",
+    "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+    "trad_as": "ESSENTIAL ENTERPRISE LTD.",
+    "period_id": "201605",
+    "ref_p_start_date": "2016-05-01",
+    "ref_p_end_date": "2016-05-31",
+    "user_id": "UNKNOWN",
+    "ru_ref": "12345678901A",
+    "sds_dataset_id": "c067f6de-6d64-42b1-8b02-431a3486c178",
+    "form_type": "0002"
+  },
+  "schema_name": "qsm_0002",
+  "data": {
+    "answers": [
+      {
+        "answer_id": "answer5a877663-44a0-4b44-afbe-0344bd430ae3",
+        "value": [
+          "Sand",
+          "Gravel, Pebbles, Shingle, Flint",
+          "Sand and gravel used for constructional fill"
+        ],
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answer98bc5bc5-b9af-4fae-aa4e-64e810357300",
+        "value": 1,
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answer2a6ee61e-c40e-4d26-a507-5cebb8bf7e0d",
+        "value": 1,
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answer1171dbc1-0882-451b-8437-6adebe9e349e",
+        "value": 1,
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answer62d1d1aa-af02-4c19-ba7d-25e8a5dd43f7",
+        "value": 1,
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answerc241e62b-71c3-47e1-9acd-44d3e2bc8987",
+        "value": 1,
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answer3b391445-02ec-4af2-8c71-410e74a7dac1",
+        "value": 1,
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answer74536de9-5a0d-47dc-85b1-a0c31186313d",
+        "value": 1,
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answer06c5b1a2-2234-4b16-a748-04ca46e7c0bc",
+        "value": "Item 1",
+        "list_item_id": "PLPrvP"
+      },
+      {
+        "answer_id": "answere19952c7-7974-4b6e-9d2f-9eced3e444ca",
+        "value": "Lorem ipsum"
+      }
+    ],
+    "lists": [
+      {
+        "items": [
+          "PLPrvP"
+        ],
+        "name": "local-units",
+        "supplementary_data_mappings": [
+          {
+            "identifier": "3340224",
+            "list_item_id": "PLPrvP"
+          }
+        ]
+      }
+    ],
+    "supplementary_data": {
+      "identifier": "12345678901",
+      "schema_version": "v1",
+      "items": {
+        "local-units": [
+          {
+            "identifier": "3340224",
+            "address": [
+              "WELLINGTON ROAD",
+              "LOCHMABEN",
+              "SWINDON",
+              "BEDS",
+              "GLOS",
+              "DE41 2WA"
+            ],
+            "name": "STUBBS BUILDING PRODUCTS LTD"
+          }
+        ]
+      }
     },
-    "case_id": "b8599839-4df4-4860-bee4-69805adf4718",
-    "tx_id": "608d2797-f40b-4374-b989-ef14d4b4d454",
-    "schema_name": "qsm_0002",
-    "type": "uk.gov.ons.edc.eq:surveyresponse",
-    "data_version": "0.0.1",
-    "origin": "uk.gov.ons.edc.eq",
-    "collection_exercise_sid": "754d8a8b-a039-458f-9570-20af429200fd",
-    "flushed": false,
-    "started_at": "2023-05-09T10:26:44.148156+00:00",
-    "submitted_at": "2023-05-09T10:27:45+00:00",
-    "submission_language_code": "en",
-    "launch_language_code": "en",
-    "data": {
-        "999": "Sand",
-        "998": "Gravel, Pebbles, Shingle, Flint",
-        "997": "Sand and gravel used for constructional fill",
-        "601": "10",
-        "602": "20",
-        "603": "30",
-        "604": "100",
-        "605": "200",
-        "606": "300",
-        "607": "1000",
-        "995": "portsmouth",
-        "148": "Here is a good comment",
-        "146": "Another good comment"
-    }
+    "answer_codes": [
+      {
+        "answer_id": "answer5a877663-44a0-4b44-afbe-0344bd430ae3",
+        "code": "999"
+      },
+      {
+        "answer_id": "answer98bc5bc5-b9af-4fae-aa4e-64e810357300",
+        "code": "601"
+      },
+      {
+        "answer_id": "answer2a6ee61e-c40e-4d26-a507-5cebb8bf7e0d",
+        "code": "602"
+      },
+      {
+        "answer_id": "answer1171dbc1-0882-451b-8437-6adebe9e349e",
+        "code": "603"
+      },
+      {
+        "answer_id": "answer62d1d1aa-af02-4c19-ba7d-25e8a5dd43f7",
+        "code": "604"
+      },
+      {
+        "answer_id": "answerc241e62b-71c3-47e1-9acd-44d3e2bc8987",
+        "code": "605"
+      },
+      {
+        "answer_id": "answer3b391445-02ec-4af2-8c71-410e74a7dac1",
+        "code": "606"
+      },
+      {
+        "answer_id": "answer74536de9-5a0d-47dc-85b1-a0c31186313d",
+        "code": "607"
+      },
+      {
+        "answer_id": "answer06c5b1a2-2234-4b16-a748-04ca46e7c0bc",
+        "code": "995"
+      },
+      {
+        "answer_id": "answere19952c7-7974-4b6e-9d2f-9eced3e444ca",
+        "code": "146"
+      }
+    ]
+  },
+  "started_at": "2024-02-15T16:50:09.693592+00:00",
+  "submission_language_code": "en"
 }

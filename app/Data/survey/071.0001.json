@@ -1,0 +1,322 @@
+{
+    "case_id": "399b3599-1f82-42fa-82d8-5739fa6bdb3e",
+    "tx_id": "f5528eba-f5c4-4bf4-bf54-942cf47cc46f",
+    "type": "uk.gov.ons.edc.eq:surveyresponse",
+    "version": "v2",
+    "data_version": "0.0.3",
+    "origin": "uk.gov.ons.edc.eq",
+    "collection_exercise_sid": "0ca91ce3-9ad8-4751-b470-6af50671eec6",
+    "flushed": false,
+    "submitted_at": "2024-02-22T14:53:30+00:00",
+    "launch_language_code": "en",
+    "survey_metadata": {
+      "survey_id": "071",
+      "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+      "trad_as": "ESSENTIAL ENTERPRISE LTD.",
+      "period_id": "201605",
+      "ref_p_start_date": "2016-05-01",
+      "ref_p_end_date": "2016-05-31",
+      "ru_ref": "12345678901A",
+      "user_id": "UNKNOWN",
+      "sds_dataset_id": "c067f6de-6d64-42b1-8b02-431a3486c178",
+      "form_type": "0001"
+    },
+    "schema_name": "qs_0001",
+    "data": {
+      "answers": [
+        {
+          "answer_id": "answer05b1c255-1eb1-4e83-bcb1-101f862b0290",
+          "value": [
+            "Slate for roofing",
+            "Slate for cladding and other decorative uses based on sawn slabs",
+            "Slate for powder and granules",
+            "Slate for crude blocks",
+            "Slate waste, for fill and other uses"
+          ]
+        },
+        {
+          "answer_id": "answer08c4caae-6f34-4fb2-95e3-ab6a900fe3ef",
+          "value": 1
+        },
+        {
+          "answer_id": "answer942461c1-d1a9-406b-81c3-3fde7b3d3bb2",
+          "value": 1
+        },
+        {
+          "answer_id": "answer9c1b8cf9-47b0-4ca5-bc5c-091bb72645ab",
+          "value": 1
+        },
+        {
+          "answer_id": "answer6ec92f01-866c-43af-8bf7-2b8446cf4ae8",
+          "value": 1
+        },
+        {
+          "answer_id": "answer1cd2cee7-6a39-4910-a4a6-e0ded1c50476",
+          "value": 1
+        },
+        {
+          "answer_id": "answerbfcaa1cc-986d-4820-968e-3d4b3a0fd71c",
+          "value": 1
+        },
+        {
+          "answer_id": "answer070fc34d-df85-48bc-b709-6915bc7fa212",
+          "value": 1
+        },
+        {
+          "answer_id": "answer6014b9ee-c0c8-4c44-be02-29eea997ae8f",
+          "value": 1
+        },
+        {
+          "answer_id": "answer74766a4b-6b6c-4bc8-98c5-338115307f57",
+          "value": 1
+        },
+        {
+          "answer_id": "answer34a1b6b4-7624-45fb-be44-b398712f5b76",
+          "value": 1
+        },
+        {
+          "answer_id": "answerc0a51304-b31c-4ddf-af97-ea0d4af430fd",
+          "value": 1
+        },
+        {
+          "answer_id": "answer584a19d8-b633-40ca-b46a-215239adb583",
+          "value": 1
+        },
+        {
+          "answer_id": "answer18dc8ebd-7c1e-4c0c-bbdf-e8880c244a80",
+          "value": 1
+        },
+        {
+          "answer_id": "answer0c4d8705-0c53-4778-b8d9-de0b41bc446f",
+          "value": "Item 1"
+        },
+        {
+          "answer_id": "answer1847ffdb-1216-456d-91e9-007931267748",
+          "value": "Item 1",
+          "list_item_id": "vjfwLF"
+        },
+        {
+          "answer_id": "answerabb1c25b-970d-4298-b132-93d1adf42f3d",
+          "value": "Yes"
+        },
+        {
+          "answer_id": "answerebb4269d-e0be-4491-882a-eb591b417a63",
+          "value": "Item 1",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answerf6e6b4ef-7765-4e58-98c9-c825b89ebae8",
+          "value": "Address Line 1 Item 1",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answer3d8541bf-c427-4776-aa76-b26b06a7a1ed",
+          "value": "Address Line 2 Item 1",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answere9cfe6d9-16d8-41ed-836c-5541e967e2f8",
+          "value": "Address Line 3 Item 1",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answerec1c4bba-13ad-4bf5-915c-a9953a747d1b",
+          "value": "Address Line 4 Item 1",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answer4665612b-1bdc-493f-9aeb-9f73a5a5b0f8",
+          "value": "Address Line 5 Item 1",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answer35f89d2c-bbad-4d4a-b196-01e333a93a67",
+          "value": "Postcode Item 1",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answerdfbbf643-c2f1-4df5-b659-c7fa7dd9b556",
+          "value": "New stufff",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answer38e39812-1535-454f-a6d5-8c70ddbc7680",
+          "value": 1,
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answer09c28594-f521-41e6-a25f-b86f6cb296ef",
+          "value": "2020-01-01",
+          "list_item_id": "eZXprQ"
+        },
+        {
+          "answer_id": "answera5aba7c9-5e14-481b-889b-bf5c6abc3767",
+          "value": "No"
+        },
+        {
+          "answer_id": "answerbf11b2d4-3f36-4466-8e59-4f8bc3cce4c8",
+          "value": "Lorem ipsum"
+        }
+      ],
+      "lists": [
+        {
+          "items": [
+            "vjfwLF"
+          ],
+          "name": "local-units",
+          "supplementary_data_mappings": [
+            {
+              "identifier": "3340224",
+              "list_item_id": "vjfwLF"
+            }
+          ]
+        },
+        {
+          "items": [
+            "eZXprQ"
+          ],
+          "name": "additional_units"
+        }
+      ],
+      "supplementary_data": {
+        "identifier": "12345678901",
+        "schema_version": "v1",
+        "items": {
+          "local-units": [
+            {
+              "identifier": "3340224",
+              "address": [
+                "WELLINGTON ROAD",
+                "LOCHMABEN",
+                "SWINDON",
+                "BEDS",
+                "GLOS",
+                "DE41 2WA"
+              ],
+              "name": "STUBBS BUILDING PRODUCTS LTD"
+            }
+          ]
+        }
+      },
+      "answer_codes": [
+        {
+          "answer_id": "answer05b1c255-1eb1-4e83-bcb1-101f862b0290",
+          "code": "9999"
+        },
+        {
+          "answer_id": "answer08c4caae-6f34-4fb2-95e3-ab6a900fe3ef",
+          "code": "9997"
+        },
+        {
+          "answer_id": "answer942461c1-d1a9-406b-81c3-3fde7b3d3bb2",
+          "code": "9996"
+        },
+        {
+          "answer_id": "answer9c1b8cf9-47b0-4ca5-bc5c-091bb72645ab",
+          "code": "9995"
+        },
+        {
+          "answer_id": "answer6ec92f01-866c-43af-8bf7-2b8446cf4ae8",
+          "code": "9994"
+        },
+        {
+          "answer_id": "answer1cd2cee7-6a39-4910-a4a6-e0ded1c50476",
+          "code": "9993"
+        },
+        {
+          "answer_id": "answerbfcaa1cc-986d-4820-968e-3d4b3a0fd71c",
+          "code": "9992"
+        },
+        {
+          "answer_id": "answer070fc34d-df85-48bc-b709-6915bc7fa212",
+          "code": "9991"
+        },
+        {
+          "answer_id": "answer6014b9ee-c0c8-4c44-be02-29eea997ae8f",
+          "code": "9990"
+        },
+        {
+          "answer_id": "answer74766a4b-6b6c-4bc8-98c5-338115307f57",
+          "code": "9989"
+        },
+        {
+          "answer_id": "answer34a1b6b4-7624-45fb-be44-b398712f5b76",
+          "code": "9988"
+        },
+        {
+          "answer_id": "answerc0a51304-b31c-4ddf-af97-ea0d4af430fd",
+          "code": "9987"
+        },
+        {
+          "answer_id": "answer584a19d8-b633-40ca-b46a-215239adb583",
+          "code": "9986"
+        },
+        {
+          "answer_id": "answer18dc8ebd-7c1e-4c0c-bbdf-e8880c244a80",
+          "code": "9985"
+        },
+        {
+          "answer_id": "answer0c4d8705-0c53-4778-b8d9-de0b41bc446f",
+          "code": "9984"
+        },
+        {
+          "answer_id": "answer1847ffdb-1216-456d-91e9-007931267748",
+          "code": "9983"
+        },
+        {
+          "answer_id": "answerabb1c25b-970d-4298-b132-93d1adf42f3d",
+          "code": "9982"
+        },
+        {
+          "answer_id": "answerdfbbf643-c2f1-4df5-b659-c7fa7dd9b556",
+          "code": "9981"
+        },
+        {
+          "answer_id": "answer38e39812-1535-454f-a6d5-8c70ddbc7680",
+          "code": "9980"
+        },
+        {
+          "answer_id": "answer09c28594-f521-41e6-a25f-b86f6cb296ef",
+          "code": "9979"
+        },
+        {
+          "answer_id": "answera5aba7c9-5e14-481b-889b-bf5c6abc3767",
+          "code": "9978"
+        },
+        {
+          "answer_id": "answerbf11b2d4-3f36-4466-8e59-4f8bc3cce4c8",
+          "code": "147"
+        },
+        {
+          "answer_id": "answerebb4269d-e0be-4491-882a-eb591b417a63",
+          "code": "9977"
+        },
+        {
+          "answer_id": "answerf6e6b4ef-7765-4e58-98c9-c825b89ebae8",
+          "code": "9976"
+        },
+        {
+          "answer_id": "answer3d8541bf-c427-4776-aa76-b26b06a7a1ed",
+          "code": "9975"
+        },
+        {
+          "answer_id": "answere9cfe6d9-16d8-41ed-836c-5541e967e2f8",
+          "code": "9974"
+        },
+        {
+          "answer_id": "answerec1c4bba-13ad-4bf5-915c-a9953a747d1b",
+          "code": "9973"
+        },
+        {
+          "answer_id": "answer4665612b-1bdc-493f-9aeb-9f73a5a5b0f8",
+          "code": "9972"
+        },
+        {
+          "answer_id": "answer35f89d2c-bbad-4d4a-b196-01e333a93a67",
+          "code": "9971"
+        }
+      ]
+    },
+    "started_at": "2024-02-22T14:51:56.100840+00:00",
+    "submission_language_code": "en"
+  }
