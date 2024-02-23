@@ -1,167 +1,149 @@
 {
-  "case_id": "55bee4b0-368c-496e-97fa-0fb80bf2e10e",
-  "tx_id": "b8796a28-ea79-4259-9cd9-e6e49db28e0d",
+  "case_id": "d2f350aa-f295-4719-8a95-75550fab539f",
+  "tx_id": "0071bfce-a9a7-48be-a69c-3df263154244",
   "type": "uk.gov.ons.edc.eq:surveyresponse",
   "version": "v2",
   "data_version": "0.0.3",
   "origin": "uk.gov.ons.edc.eq",
-  "collection_exercise_sid": "f897387d-85c4-4c3c-868e-12341e89c9a5",
+  "collection_exercise_sid": "b0578d9a-d200-425d-844b-10c50619533b",
   "flushed": false,
-  "submitted_at": "2023-12-18T11:21:31+00:00",
+  "submitted_at": "2024-02-21T15:21:12+00:00",
   "launch_language_code": "en",
   "survey_metadata": {
     "survey_id": "068",
-    "form_type": "0001",
     "ru_name": "ESSENTIAL ENTERPRISE LTD.",
     "trad_as": "ESSENTIAL ENTERPRISE LTD.",
     "period_id": "201605",
     "ref_p_start_date": "2016-05-01",
     "ref_p_end_date": "2016-05-31",
-    "ru_ref": "12488649925A",
+    "ru_ref": "12345678901A",
     "user_id": "UNKNOWN",
-    "sds_dataset_id": "c067f6de-6d64-42b1-8b02-431a3486c178"
+    "sds_dataset_id": "c067f6de-6d64-42b1-8b02-431a3486c178",
+    "form_type": "0001"
   },
   "schema_name": "qrt_0001",
   "data": {
     "answers": [
       {
         "answer_id": "answer08c4caae-6f34-4fb2-95e3-ab6a900fe3ef",
-        "value": 79000
+        "value": 1
       },
       {
         "answer_id": "answerff221d94-2044-45fb-9cd7-e4677485483f",
-        "value": 46000
+        "value": 1
       },
       {
         "answer_id": "answer47a97e99-a1ab-4f02-879a-23c7fba8fbe3",
-        "value": 23000
+        "value": 1
       },
       {
         "answer_id": "answer0c4d8705-0c53-4778-b8d9-de0b41bc446f",
-        "value": "Some new works"
+        "value": "Lorem ipsum"
       },
       {
-        "answer_id": "answer276c7972-e158-44ab-8235-6549d3472a18",
-        "value": "Ceased production last Monday",
-        "list_item_id": "LQxWei"
+        "answer_id": "answer893f36b2-6945-42c2-bfe4-4a11925344c0",
+        "value": "Lorem ipsum - changed",
+        "list_item_id": "qvVthS"
       },
       {
-        "answer_id": "answer276c7972-e158-44ab-8235-6549d3472a18",
-        "value": "Changed address to Studio 5",
-        "list_item_id": "tTlamY"
-      },
-      {
-        "answer_id": "answer-driving-additional-new-sites",
+        "answer_id": "answer947c0c3a-b69d-4397-ad26-0983343e8e12",
         "value": "Yes"
       },
       {
         "answer_id": "answer27f27859-fc11-4577-b9bb-745407356498",
-        "value": "Exciting new unit",
-        "list_item_id": "Uvgjhp"
+        "value": "Item 1",
+        "list_item_id": "JrRBEa"
       },
       {
         "answer_id": "answer6fd5d6f5-c9b0-4b69-8e62-435e4bc3db48",
-        "value": "Fake St, Fake Town, Fake County, FA12 KED",
-        "list_item_id": "Uvgjhp"
+        "value": "Address Line 1 Item 1",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer77f7db4b-6e35-4696-9671-26a906ea4e7d",
-        "value": "Lots of exciting stuff!",
-        "list_item_id": "Uvgjhp"
+        "answer_id": "answerbeb7e1bc-f883-46a2-80c0-ddafd0885473",
+        "value": "Address Line 2 Item 1",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer049445d3-9240-45fd-adb6-49fbc540de8a",
-        "value": 42,
-        "list_item_id": "Uvgjhp"
+        "answer_id": "answer857d08ed-2bbd-4839-af2b-aed01cc1c5df",
+        "value": "Address Line 3 Item 1",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer3aa044a8-26dd-403f-8646-8a9c8874b3be",
-        "value": "2023-12-14",
-        "list_item_id": "Uvgjhp"
+        "answer_id": "answer81ba7ea2-659a-47de-9d76-1ed868808dcf",
+        "value": "Address Line 4 Item 1",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer27f27859-fc11-4577-b9bb-745407356498",
-        "value": "Boring Unit",
-        "list_item_id": "uaajIt"
+        "answer_id": "answer3ea4cc1f-1d91-4707-9808-1334acace6d0",
+        "value": "Address Line 5 Item 1",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer6fd5d6f5-c9b0-4b69-8e62-435e4bc3db48",
-        "value": "Garage 6, Made Up Drive, Atlantis, AT1 LAN",
-        "list_item_id": "uaajIt"
+        "answer_id": "answerbe2aa915-90ec-4cb3-a6a7-c2674d240e52",
+        "value": "Postcode Item 1",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer77f7db4b-6e35-4696-9671-26a906ea4e7d",
-        "value": "To dull to mention",
-        "list_item_id": "uaajIt"
+        "answer_id": "answerdff8c7cb-4aef-46f8-953f-ce89024c6594",
+        "value": "New construction stuff",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer049445d3-9240-45fd-adb6-49fbc540de8a",
-        "value": 3,
-        "list_item_id": "uaajIt"
+        "answer_id": "answer6ad6664b-f5af-4d4f-b8af-4abf549c9b4d",
+        "value": 5,
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "answer3aa044a8-26dd-403f-8646-8a9c8874b3be",
-        "value": "2023-11-25",
-        "list_item_id": "uaajIt"
+        "answer_id": "answeraedcaf0f-1098-424e-8a1b-d5853f20572e",
+        "value": "2023-12-31",
+        "list_item_id": "JrRBEa"
       },
       {
-        "answer_id": "add-another-additional-new-sites",
+        "answer_id": "answerd88a4779-2421-43e6-9c6b-9ae111322d56",
         "value": "No"
       },
       {
         "answer_id": "answerbf11b2d4-3f36-4466-8e59-4f8bc3cce4c8",
-        "value": "My comment about tiles."
+        "value": "Item 1"
       }
     ],
     "lists": [
       {
         "items": [
-          "LQxWei",
-          "tTlamY"
+          "qvVthS"
         ],
         "name": "local-units",
         "supplementary_data_mappings": [
           {
-            "identifier": "12558735",
-            "list_item_id": "LQxWei"
-          },
-          {
-            "identifier": "10839465",
-            "list_item_id": "tTlamY"
+            "identifier": "3340224",
+            "list_item_id": "qvVthS"
           }
         ]
       },
       {
         "items": [
-          "Uvgjhp",
-          "uaajIt"
+          "JrRBEa"
         ],
         "name": "additional_units"
       }
     ],
     "supplementary_data": {
-      "identifier": "12488649925",
+      "identifier": "12345678901",
       "schema_version": "v1",
       "items": {
         "local-units": [
           {
-            "identifier": "12558735",
-            "name": "ROBINSON-TURNER",
+            "identifier": "3340224",
             "address": [
-              "FLAT 24N WINTER ROW",
-              "WEST CLAIRESTAD",
-              "STANLEYBERG",
-              "KILPORTH"
-            ]
-          },
-          {
-            "identifier": "10839465",
-            "name": "ROBINSON-TURNER",
-            "address": [
-              "STUDIO 4 JONES PORT",
-              "TURNERVILLE",
-              "KHANSTAD"
-            ]
+              "WELLINGTON ROAD",
+              "LOCHMABEN",
+              "SWINDON",
+              "BEDS",
+              "GLOS",
+              "DE41 2WA"
+            ],
+            "name": "STUBBS BUILDING PRODUCTS LTD"
           }
         ]
       }
@@ -184,27 +166,27 @@
         "code": "9996"
       },
       {
-        "answer_id": "answer276c7972-e158-44ab-8235-6549d3472a18",
+        "answer_id": "answer893f36b2-6945-42c2-bfe4-4a11925344c0",
         "code": "9995"
       },
       {
-        "answer_id": "answer-driving-additional-new-sites",
+        "answer_id": "answer947c0c3a-b69d-4397-ad26-0983343e8e12",
         "code": "9994"
       },
       {
-        "answer_id": "answer77f7db4b-6e35-4696-9671-26a906ea4e7d",
+        "answer_id": "answerdff8c7cb-4aef-46f8-953f-ce89024c6594",
         "code": "9993"
       },
       {
-        "answer_id": "answer049445d3-9240-45fd-adb6-49fbc540de8a",
+        "answer_id": "answer6ad6664b-f5af-4d4f-b8af-4abf549c9b4d",
         "code": "9992"
       },
       {
-        "answer_id": "answer3aa044a8-26dd-403f-8646-8a9c8874b3be",
+        "answer_id": "answeraedcaf0f-1098-424e-8a1b-d5853f20572e",
         "code": "9991"
       },
       {
-        "answer_id": "add-another-additional-new-sites",
+        "answer_id": "answerd88a4779-2421-43e6-9c6b-9ae111322d56",
         "code": "9990"
       },
       {
@@ -218,9 +200,29 @@
       {
         "answer_id": "answer6fd5d6f5-c9b0-4b69-8e62-435e4bc3db48",
         "code": "9988"
+      },
+      {
+        "answer_id": "answerbeb7e1bc-f883-46a2-80c0-ddafd0885473",
+        "code": "9987"
+      },
+      {
+        "answer_id": "answer857d08ed-2bbd-4839-af2b-aed01cc1c5df",
+        "code": "9986"
+      },
+      {
+        "answer_id": "answer81ba7ea2-659a-47de-9d76-1ed868808dcf",
+        "code": "9985"
+      },
+      {
+        "answer_id": "answer3ea4cc1f-1d91-4707-9808-1334acace6d0",
+        "code": "9984"
+      },
+      {
+        "answer_id": "answerbe2aa915-90ec-4cb3-a6a7-c2674d240e52",
+        "code": "9983"
       }
     ]
   },
-  "started_at": "2023-12-18T11:16:24.843372+00:00",
+  "started_at": "2024-02-21T15:17:54.725491+00:00",
   "submission_language_code": "en"
 }
