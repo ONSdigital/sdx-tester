@@ -1,0 +1,596 @@
+{
+  "case_id": "c56c6fa6-eef0-4c64-bedb-4389cd1ca46d",
+  "tx_id": "4ef9fbfc-a621-469e-9d66-0cd2dd050c28",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "v2",
+  "data_version": "0.0.3",
+  "origin": "uk.gov.ons.edc.eq",
+  "collection_exercise_sid": "2a2ba943-51e2-405a-af6e-da53dabb0879",
+  "flushed": false,
+  "submitted_at": "2024-07-24T10:12:36+00:00",
+  "launch_language_code": "en",
+  "started_at": "2024-07-24T09:41:11.209148+00:00",
+  "submission_language_code": "en",
+  "schema_name": "abres_0019",
+  "survey_metadata": {
+    "survey_id": "221",
+    "user_id": "UNKNOWN",
+    "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+    "trad_as": "ESSENTIAL ENTERPRISE LTD.",
+    "period_id": "201605",
+    "ref_p_start_date": "2016-05-01",
+    "ref_p_end_date": "2016-05-31",
+    "ru_ref": "12345678901A",
+    "form_type": "0019",
+    "sds_dataset_id": "60c948a0-8144-63e9-155c-ed13736ca6ac"
+  },
+  "data": {
+    "answers": [
+      {
+        "answer_id": "answerccd2c97c-28cb-460c-8f76-3d9f04aa98d6",
+        "value": "No, the business name is not correct"
+      },
+      {
+        "answer_id": "answerca3136ef-d9ef-4bb8-8496-840dc1ac46c6",
+        "value": "ESSENTIAL BUSINESS LTD."
+      },
+      {
+        "answer_id": "answera74a8052-0257-4dc4-83a0-598ce7bedb81",
+        "value": "No, the business address is not correct"
+      },
+      {
+        "answer_id": "answerfaf14e92-e81b-4759-801f-8c6a1623020f",
+        "value": "5 Fake St"
+      },
+      {
+        "answer_id": "answercdade785-1566-414c-be8c-c228bfa24e2d",
+        "value": "Fictionville"
+      },
+      {
+        "answer_id": "answer953b4c7b-720e-4568-8209-1012dfec7f8a",
+        "value": "Newport"
+      },
+      {
+        "answer_id": "answerbe073353-2972-4f21-8773-3a43decb6e34",
+        "value": "NP12 3AB"
+      },
+      {
+        "answer_id": "answerfab4de19-0360-49c0-b3e0-38d00c0ab785",
+        "value": "The business was active with all or part of the activity taking place within Great Britain (GB)"
+      },
+      {
+        "answer_id": "answer0322a3ba-1c99-45b4-a455-9869bbdd223b",
+        "value": "No, these numbers are not correct"
+      },
+      {
+        "answer_id": "answerf8197dc4-d625-4d94-a847-a17538c49179",
+        "value": 987654321
+      },
+      {
+        "answer_id": "answer6df5abbc-5b82-4905-be7c-12ce76db8c4c",
+        "value": 666
+      },
+      {
+        "answer_id": "answer4957b777-af80-411f-b853-650ba200a196",
+        "value": "No, these numbers are not correct"
+      },
+      {
+        "answer_id": "answer72bddf10-c99e-41e9-8341-e65d3f77d78c",
+        "value": 789
+      },
+      {
+        "answer_id": "answer946166c1-88cc-4b8b-bfce-3b31594dba4b",
+        "value": "EP123"
+      },
+      {
+        "answer_id": "answer96e49f43-2d77-449d-86bd-af741229462f",
+        "value": "Additional vat1: 6789\r\nAdditional vat2: 3456\r\nPAYE ref: qwerty123"
+      },
+      {
+        "answer_id": "answer92752bc4-18a5-4ede-8718-2b7fd03211f2",
+        "value": 7
+      },
+      {
+        "answer_id": "answer3780c447-6dfb-4013-a81a-0e765b438b77",
+        "value": "Yes, the business operated as a main contractor"
+      },
+      {
+        "answer_id": "answercb1e8018-22a9-4b14-873e-2804deb2bba3",
+        "value": 4
+      },
+      {
+        "answer_id": "answerd59b79ca-f2a5-491a-ae31-a0cb7178b3c9",
+        "value": 76
+      },
+      {
+        "answer_id": "answer0f267198-246c-4304-b8d6-80908ff72e8e",
+        "value": "Additional comments regarding changes to operational status."
+      },
+      {
+        "answer_id": "answer93d3bc36-7064-48b2-912c-4d7025bca3ed",
+        "value": "No, the name of this site is not correct",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer05e62ffa-c978-42a7-a812-d20397446a94",
+        "value": "STUBBIES BUILDING PRODUCTS",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answerb97e5146-412c-48fc-9e8b-7abfdd41a890",
+        "value": "No, the address of this site is not correct",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer543f7222-c26f-44de-8692-5cebdf62ed7c",
+        "value": "51 Happy Street",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answera5b0c8f1-5a52-47ba-8205-0fe96e607a9c",
+        "value": "Funtown",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answerc236fc05-5eec-49d7-8145-db43d285becf",
+        "value": "Swindon",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer45b080a8-65c7-472d-9f28-94750411bf38",
+        "value": "Glos",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answerfc608409-3823-4716-a12f-d7566422f386",
+        "value": "DE4 2WA",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer51690d7b-f008-4582-9687-9fed37078d00",
+        "value": "Yes",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answerdd79d8e6-e906-4f20-be7d-6c3fd0545f71",
+        "value": "The site was active and operated by this business",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer2af35091-bfbb-4315-8e51-48ca7b7620bd",
+        "value": 34,
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer3ffd548c-834e-4ef3-ae55-07d6d89cfab6",
+        "value": 22,
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer33bde7b9-516c-4239-bd31-aba73bbc1173",
+        "value": "Yes, the business activity is correct",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answerc43da4cd-1a19-46b4-9f2d-22a67395bac9",
+        "value": "Stubbies not Stubbs!",
+        "list_item_id": "QjjNIP"
+      },
+      {
+        "answer_id": "answer93d3bc36-7064-48b2-912c-4d7025bca3ed",
+        "value": "No, the name of this site is not correct",
+        "list_item_id": "ucosZB"
+      },
+      {
+        "answer_id": "answer05e62ffa-c978-42a7-a812-d20397446a94",
+        "value": "JONES ELECTRONICS",
+        "list_item_id": "ucosZB"
+      },
+      {
+        "answer_id": "answerb97e5146-412c-48fc-9e8b-7abfdd41a890",
+        "value": "Yes, the address of this site is correct",
+        "list_item_id": "ucosZB"
+      },
+      {
+        "answer_id": "answer51690d7b-f008-4582-9687-9fed37078d00",
+        "value": "Yes",
+        "list_item_id": "ucosZB"
+      },
+      {
+        "answer_id": "answerdd79d8e6-e906-4f20-be7d-6c3fd0545f71",
+        "value": "The site had ceased operating but is expecting to restart within two years",
+        "list_item_id": "ucosZB"
+      },
+      {
+        "answer_id": "answerb6748be3-e49c-43c1-8b9a-36a97262d7bb",
+        "value": "Yes"
+      },
+      {
+        "answer_id": "answer59486b3a-59cf-4f90-918e-bc17369a004c",
+        "value": "CRUMBS FOOD PRODUCTS",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answer93fc4c69-445e-4223-a156-070edaa57298",
+        "value": "CRUMBS FOODS",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answer9a6bddcf-9cdc-40ff-848f-cb12f7bcef54",
+        "value": "GRACE ROAD",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answer810a3500-e2bf-4446-8880-f3dddbb76f19",
+        "value": "DEVON",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answerc50ba3f9-1649-446f-9b6c-da29efb0c38c",
+        "value": "LANCASTER",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answeredd1b481-e964-4399-ae19-bde30a499df7",
+        "value": "D12 3PW",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answer59486b3a-59cf-4f90-918e-bc17369a004c",
+        "value": "Chips n Dips",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answer93fc4c69-445e-4223-a156-070edaa57298",
+        "value": "The Potato King",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answer9a6bddcf-9cdc-40ff-848f-cb12f7bcef54",
+        "value": "The Farm",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answer810a3500-e2bf-4446-8880-f3dddbb76f19",
+        "value": "Somewhere Quiet",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answerc50ba3f9-1649-446f-9b6c-da29efb0c38c",
+        "value": "Countryside",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answer881c9e79-6774-4941-9845-24c660b68a3a",
+        "value": "Devon",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answer0275d1ad-1b43-4055-b697-6160560045c2",
+        "value": "UK",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answeredd1b481-e964-4399-ae19-bde30a499df7",
+        "value": "SP12 4RT",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answerfee7b49a-d573-4ddb-8361-4b2b9ce14bcf",
+        "value": "No"
+      },
+      {
+        "answer_id": "answerda21dd84-2516-4e0f-8fcd-1ec7677d20d2",
+        "value": "2019-07",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answer521f495a-cf83-44f1-862a-01edf30e275d",
+        "value": "Baking bread!",
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answera6953286-acee-4c5b-9d43-4baf9aea24b9",
+        "value": 27,
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answer448e709d-3913-4a67-9a54-825578816c9d",
+        "value": 1,
+        "list_item_id": "JyoHOo"
+      },
+      {
+        "answer_id": "answerda21dd84-2516-4e0f-8fcd-1ec7677d20d2",
+        "value": "2020-08",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answer521f495a-cf83-44f1-862a-01edf30e275d",
+        "value": "Cooking the best chips around",
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answera6953286-acee-4c5b-9d43-4baf9aea24b9",
+        "value": 63,
+        "list_item_id": "kORkLZ"
+      },
+      {
+        "answer_id": "answer448e709d-3913-4a67-9a54-825578816c9d",
+        "value": 45,
+        "list_item_id": "kORkLZ"
+      }
+    ],
+    "lists": [
+      {
+        "items": [
+          "QjjNIP",
+          "ucosZB"
+        ],
+        "name": "local-units",
+        "supplementary_data_mappings": [
+          {
+            "identifier": "3340224",
+            "list_item_id": "QjjNIP"
+          },
+          {
+            "identifier": "5567890",
+            "list_item_id": "ucosZB"
+          }
+        ]
+      },
+      {
+        "items": [
+          "JyoHOo",
+          "kORkLZ"
+        ],
+        "name": "additional_sites_name"
+      }
+    ],
+    "supplementary_data": {
+      "identifier": "12345678901",
+      "schema_version": "v1",
+      "items": {
+        "local-units": [
+          {
+            "identifier": "3340224",
+            "business_description": "PROVIDER OF CONSTRUCTION MATERIALS AND SUPPLIES",
+            "trading_name": "STUBBS PRODUCTS",
+            "name": "STUBBS BUILDING PRODUCTS LTD",
+            "address": [
+              "WELLINGTON ROAD",
+              "LOCHMABEN",
+              "SWINDON",
+              "BEDS",
+              "GLOS",
+              "DE41 2WA"
+            ]
+          },
+          {
+            "identifier": "5567890",
+            "business_description": "ELECTRONICS MANUFACTURING",
+            "trading_name": "SMITH TECH",
+            "name": "SMITH ELECTRONICS",
+            "address": [
+              "ELECTRONIC AVENUE",
+              "TECHNO PARK",
+              "CIRCUIT CITY",
+              "ELECTROLAND",
+              "GADGETVILLE",
+              "EL34 5EC"
+            ]
+          }
+        ]
+      },
+      "vat": {
+        "registration_number": "123456789",
+        "subsidiary_identifier": "123"
+      },
+      "employer_paye": {
+        "tax_office_number": "123",
+        "reference": "AB456"
+      },
+      "address": [
+        "SOUTH CERNEY WORKS",
+        "SHAWELL LANE",
+        "BEENHAM",
+        "STAFFS",
+        "BEDFORDSHIRE",
+        "GL4 5YU"
+      ]
+    },
+    "answer_codes": [
+      {
+        "answer_id": "answerccd2c97c-28cb-460c-8f76-3d9f04aa98d6",
+        "code": "9955"
+      },
+      {
+        "answer_id": "answerca3136ef-d9ef-4bb8-8496-840dc1ac46c6",
+        "code": "9954"
+      },
+      {
+        "answer_id": "answera74a8052-0257-4dc4-83a0-598ce7bedb81",
+        "code": "9953"
+      },
+      {
+        "answer_id": "answerfaf14e92-e81b-4759-801f-8c6a1623020f",
+        "code": "9982"
+      },
+      {
+        "answer_id": "answercdade785-1566-414c-be8c-c228bfa24e2d",
+        "code": "9981"
+      },
+      {
+        "answer_id": "answer953b4c7b-720e-4568-8209-1012dfec7f8a",
+        "code": "9980"
+      },
+      {
+        "answer_id": "answerbe073353-2972-4f21-8773-3a43decb6e34",
+        "code": "9977"
+      },
+      {
+        "answer_id": "answerfab4de19-0360-49c0-b3e0-38d00c0ab785",
+        "code": "9999"
+      },
+      {
+        "answer_id": "answer0322a3ba-1c99-45b4-a455-9869bbdd223b",
+        "code": "9998"
+      },
+      {
+        "answer_id": "answerf8197dc4-d625-4d94-a847-a17538c49179",
+        "code": "9972"
+      },
+      {
+        "answer_id": "answer6df5abbc-5b82-4905-be7c-12ce76db8c4c",
+        "code": "9971"
+      },
+      {
+        "answer_id": "answer4957b777-af80-411f-b853-650ba200a196",
+        "code": "9997"
+      },
+      {
+        "answer_id": "answer72bddf10-c99e-41e9-8341-e65d3f77d78c",
+        "code": "9970"
+      },
+      {
+        "answer_id": "answer946166c1-88cc-4b8b-bfce-3b31594dba4b",
+        "code": "9969"
+      },
+      {
+        "answer_id": "answer96e49f43-2d77-449d-86bd-af741229462f",
+        "code": "033"
+      },
+      {
+        "answer_id": "answer92752bc4-18a5-4ede-8718-2b7fd03211f2",
+        "code": "051"
+      },
+      {
+        "answer_id": "answer3780c447-6dfb-4013-a81a-0e765b438b77",
+        "code": "9940"
+      },
+      {
+        "answer_id": "answercb1e8018-22a9-4b14-873e-2804deb2bba3",
+        "code": "090"
+      },
+      {
+        "answer_id": "answerd59b79ca-f2a5-491a-ae31-a0cb7178b3c9",
+        "code": "150"
+      },
+      {
+        "answer_id": "answer0f267198-246c-4304-b8d6-80908ff72e8e",
+        "code": "a081"
+      },
+      {
+        "answer_id": "answer93d3bc36-7064-48b2-912c-4d7025bca3ed",
+        "code": "9951"
+      },
+      {
+        "answer_id": "answer05e62ffa-c978-42a7-a812-d20397446a94",
+        "code": "9950"
+      },
+      {
+        "answer_id": "answerb97e5146-412c-48fc-9e8b-7abfdd41a890",
+        "code": "9949"
+      },
+      {
+        "answer_id": "answer543f7222-c26f-44de-8692-5cebdf62ed7c",
+        "code": "9962"
+      },
+      {
+        "answer_id": "answera5b0c8f1-5a52-47ba-8205-0fe96e607a9c",
+        "code": "9961"
+      },
+      {
+        "answer_id": "answerc236fc05-5eec-49d7-8145-db43d285becf",
+        "code": "9960"
+      },
+      {
+        "answer_id": "answer45b080a8-65c7-472d-9f28-94750411bf38",
+        "code": "9959"
+      },
+      {
+        "answer_id": "answerfc608409-3823-4716-a12f-d7566422f386",
+        "code": "9957"
+      },
+      {
+        "answer_id": "answer51690d7b-f008-4582-9687-9fed37078d00",
+        "code": "9956"
+      },
+      {
+        "answer_id": "answerdd79d8e6-e906-4f20-be7d-6c3fd0545f71",
+        "code": "9952"
+      },
+      {
+        "answer_id": "answer2af35091-bfbb-4315-8e51-48ca7b7620bd",
+        "code": "b155"
+      },
+      {
+        "answer_id": "answer3ffd548c-834e-4ef3-ae55-07d6d89cfab6",
+        "code": "b156"
+      },
+      {
+        "answer_id": "answer33bde7b9-516c-4239-bd31-aba73bbc1173",
+        "code": "9948"
+      },
+      {
+        "answer_id": "answerc43da4cd-1a19-46b4-9f2d-22a67395bac9",
+        "code": "b081"
+      },
+      {
+        "answer_id": "answerb6748be3-e49c-43c1-8b9a-36a97262d7bb",
+        "code": "9947"
+      },
+      {
+        "answer_id": "answerfee7b49a-d573-4ddb-8361-4b2b9ce14bcf",
+        "code": "9963"
+      },
+      {
+        "answer_id": "answerda21dd84-2516-4e0f-8fcd-1ec7677d20d2",
+        "code": "240"
+      },
+      {
+        "answer_id": "answer521f495a-cf83-44f1-862a-01edf30e275d",
+        "code": "c110"
+      },
+      {
+        "answer_id": "answera6953286-acee-4c5b-9d43-4baf9aea24b9",
+        "code": "c155"
+      },
+      {
+        "answer_id": "answer448e709d-3913-4a67-9a54-825578816c9d",
+        "code": "156c"
+      },
+      {
+        "answer_id": "answer59486b3a-59cf-4f90-918e-bc17369a004c",
+        "code": "200"
+      },
+      {
+        "answer_id": "answer93fc4c69-445e-4223-a156-070edaa57298",
+        "code": "210"
+      },
+      {
+        "answer_id": "answer9a6bddcf-9cdc-40ff-848f-cb12f7bcef54",
+        "code": "9946"
+      },
+      {
+        "answer_id": "answer810a3500-e2bf-4446-8880-f3dddbb76f19",
+        "code": "9945"
+      },
+      {
+        "answer_id": "answerc50ba3f9-1649-446f-9b6c-da29efb0c38c",
+        "code": "9944"
+      },
+      {
+        "answer_id": "answer881c9e79-6774-4941-9845-24c660b68a3a",
+        "code": "9943"
+      },
+      {
+        "answer_id": "answer0275d1ad-1b43-4055-b697-6160560045c2",
+        "code": "9942"
+      },
+      {
+        "answer_id": "answeredd1b481-e964-4399-ae19-bde30a499df7",
+        "code": "9941"
+      }
+    ]
+  }
+}
