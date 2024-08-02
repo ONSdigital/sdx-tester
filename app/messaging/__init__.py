@@ -21,7 +21,7 @@ RECEIPT_SUBSCRIPTION = "receipt-subscription"
 DAP_RECEIPT_TOPIC = "dap-receipt-topic"
 
 # Time until listener times out listening for a submission
-MAX_WAIT_TIME_SECS = 200
+MAX_WAIT_TIME_SECS = 300
 
 from app.messaging.manager import MessageManager, SubmitManager
 
