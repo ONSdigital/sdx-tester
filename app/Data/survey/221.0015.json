@@ -1,0 +1,445 @@
+{
+  "case_id": "0ae2f8df-caa2-4f5e-b95a-2dfd35891205",
+  "tx_id": "25fab138-5c47-423f-b836-16682b616ee8",
+  "type": "uk.gov.ons.edc.eq:surveyresponse",
+  "version": "v2",
+  "data_version": "0.0.3",
+  "origin": "uk.gov.ons.edc.eq",
+  "collection_exercise_sid": "3364a061-5b82-459c-95f2-0d71ccb7b073",
+  "flushed": false,
+  "submitted_at": "2024-07-29T10:04:18+00:00",
+  "launch_language_code": "en",
+  "survey_metadata": {
+    "survey_id": "221",
+    "user_id": "UNKNOWN",
+    "ru_name": "ESSENTIAL ENTERPRISE LTD.",
+    "trad_as": "ESSENTIAL ENTERPRISE LTD.",
+    "period_id": "201605",
+    "ref_p_start_date": "2016-05-01",
+    "ref_p_end_date": "2016-05-31",
+    "ru_ref": "12345678901A",
+    "sds_dataset_id": "60c948a0-8144-63e9-155c-ed13736ca6ac",
+    "form_type": "0015"
+  },
+  "schema_name": "abres_0015",
+  "data": {
+    "answers": [
+      {
+        "answer_id": "answer150fb2c2-17c6-491b-b000-fb4256ef2d41",
+        "value": "Yes, the business name is correct"
+      },
+      {
+        "answer_id": "answera74a8052-0257-4dc4-83a0-598ce7bedb81",
+        "value": "Yes, the business address is correct"
+      },
+      {
+        "answer_id": "answerfab4de19-0360-49c0-b3e0-38d00c0ab785",
+        "value": "The business was active with all or part of the activity taking place within Great Britain (GB)"
+      },
+      {
+        "answer_id": "answer0322a3ba-1c99-45b4-a455-9869bbdd223b",
+        "value": "Yes, these numbers are correct"
+      },
+      {
+        "answer_id": "answer4957b777-af80-411f-b853-650ba200a196",
+        "value": "Yes, these numbers are correct"
+      },
+      {
+        "answer_id": "answere81c2d01-dedd-490f-857f-9ea89eeb4d53",
+        "value": "Comment about aditional VAT/PAYE"
+      },
+      {
+        "answer_id": "answer92752bc4-18a5-4ede-8718-2b7fd03211f2",
+        "value": 2
+      },
+      {
+        "answer_id": "answercb1e8018-22a9-4b14-873e-2804deb2bba3",
+        "value": 2
+      },
+      {
+        "answer_id": "answerd59b79ca-f2a5-491a-ae31-a0cb7178b3c9",
+        "value": 10
+      },
+      {
+        "answer_id": "answere5ba3443-7645-41f2-b752-18b2322e1bdd",
+        "value": "Comment regarding changes"
+      },
+      {
+        "answer_id": "answerb97e5146-412c-48fc-9e8b-7abfdd41a890",
+        "value": "Yes, the name of this site is correct",
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answerb091daac-db74-40b7-94c3-829a78da123f",
+        "value": "Yes, the address of this site is correct",
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answer4803bf95-d05c-4fb4-ad02-277444e0f3c1",
+        "value": "Yes",
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answerdd79d8e6-e906-4f20-be7d-6c3fd0545f71",
+        "value": "The site was active and operated by this business",
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answer2af35091-bfbb-4315-8e51-48ca7b7620bd",
+        "value": 20,
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answerdf516143-8d4c-4912-affa-c9220aa9d0a1",
+        "value": 25,
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answer33bde7b9-516c-4239-bd31-aba73bbc1173",
+        "value": "Yes, the business activity is correct",
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answerc43da4cd-1a19-46b4-9f2d-22a67395bac9",
+        "value": "Additional comments about site",
+        "list_item_id": "EfZPMy"
+      },
+      {
+        "answer_id": "answerb97e5146-412c-48fc-9e8b-7abfdd41a890",
+        "value": "Yes, the name of this site is correct",
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answerb091daac-db74-40b7-94c3-829a78da123f",
+        "value": "Yes, the address of this site is correct",
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answer4803bf95-d05c-4fb4-ad02-277444e0f3c1",
+        "value": "Yes",
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answerdd79d8e6-e906-4f20-be7d-6c3fd0545f71",
+        "value": "The site was active and operated by this business",
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answer2af35091-bfbb-4315-8e51-48ca7b7620bd",
+        "value": 30,
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answerdf516143-8d4c-4912-affa-c9220aa9d0a1",
+        "value": 35,
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answer33bde7b9-516c-4239-bd31-aba73bbc1173",
+        "value": "Yes, the business activity is correct",
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answerc43da4cd-1a19-46b4-9f2d-22a67395bac9",
+        "value": "Additional comment about site",
+        "list_item_id": "kkKUsH"
+      },
+      {
+        "answer_id": "answerb6748be3-e49c-43c1-8b9a-36a97262d7bb",
+        "value": "Yes"
+      },
+      {
+        "answer_id": "answer59486b3a-59cf-4f90-918e-bc17369a004c",
+        "value": "Little business",
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answer93fc4c69-445e-4223-a156-070edaa57298",
+        "value": "Small org",
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answer000ad6ba-e994-49c5-93f3-81f5cd537c06",
+        "value": "medium town",
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answer6ffe086b-08cd-4e00-a236-832dc96e328c",
+        "value": "happy house",
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answerc1d0ffff-be17-484e-9571-020b19a74405",
+        "value": "H4P PYZ",
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answer59486b3a-59cf-4f90-918e-bc17369a004c",
+        "value": "Medium business",
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answer93fc4c69-445e-4223-a156-070edaa57298",
+        "value": "little trad",
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answer000ad6ba-e994-49c5-93f3-81f5cd537c06",
+        "value": "small road",
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answer6ffe086b-08cd-4e00-a236-832dc96e328c",
+        "value": "sad house",
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answerc1d0ffff-be17-484e-9571-020b19a74405",
+        "value": "PR2 SJN",
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answerfee7b49a-d573-4ddb-8361-4b2b9ce14bcf",
+        "value": "No"
+      },
+      {
+        "answer_id": "answerda21dd84-2516-4e0f-8fcd-1ec7677d20d2",
+        "value": "2023-02",
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answer521f495a-cf83-44f1-862a-01edf30e275d",
+        "value": "Selling stuff",
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answera6953286-acee-4c5b-9d43-4baf9aea24b9",
+        "value": 40,
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answer25ca2927-c031-4b35-b6c8-7e870733aa0a",
+        "value": 45,
+        "list_item_id": "vQnHGj"
+      },
+      {
+        "answer_id": "answerda21dd84-2516-4e0f-8fcd-1ec7677d20d2",
+        "value": "2023-03",
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answer521f495a-cf83-44f1-862a-01edf30e275d",
+        "value": "Selling other stuff",
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answera6953286-acee-4c5b-9d43-4baf9aea24b9",
+        "value": 50,
+        "list_item_id": "nUmICn"
+      },
+      {
+        "answer_id": "answer25ca2927-c031-4b35-b6c8-7e870733aa0a",
+        "value": 55,
+        "list_item_id": "nUmICn"
+      }
+    ],
+    "lists": [
+      {
+        "items": [
+          "EfZPMy",
+          "kkKUsH"
+        ],
+        "name": "local-units",
+        "supplementary_data_mappings": [
+          {
+            "identifier": "3340224",
+            "list_item_id": "EfZPMy"
+          },
+          {
+            "identifier": "5567890",
+            "list_item_id": "kkKUsH"
+          }
+        ]
+      },
+      {
+        "items": [
+          "vQnHGj",
+          "nUmICn"
+        ],
+        "name": "additional_sites_name"
+      }
+    ],
+    "supplementary_data": {
+      "identifier": "12345678901",
+      "schema_version": "v1",
+      "items": {
+        "local-units": [
+          {
+            "identifier": "3340224",
+            "trading_name": "STUBBS PRODUCTS",
+            "name": "STUBBS BUILDING PRODUCTS LTD",
+            "business_description": "PROVIDER OF CONSTRUCTION MATERIALS AND SUPPLIES",
+            "address": [
+              "WELLINGTON ROAD",
+              "LOCHMABEN",
+              "SWINDON",
+              "BEDS",
+              "GLOS",
+              "DE41 2WA"
+            ]
+          },
+          {
+            "identifier": "5567890",
+            "trading_name": "SMITH TECH",
+            "name": "SMITH ELECTRONICS",
+            "business_description": "ELECTRONICS MANUFACTURING",
+            "address": [
+              "ELECTRONIC AVENUE",
+              "TECHNO PARK",
+              "CIRCUIT CITY",
+              "ELECTROLAND",
+              "GADGETVILLE",
+              "EL34 5EC"
+            ]
+          }
+        ]
+      },
+      "employer_paye": {
+        "tax_office_number": "123",
+        "reference": "AB456"
+      },
+      "vat": {
+        "registration_number": "123456789",
+        "subsidiary_identifier": "123"
+      },
+      "address": [
+        "SOUTH CERNEY WORKS",
+        "SHAWELL LANE",
+        "BEENHAM",
+        "STAFFS",
+        "BEDFORDSHIRE",
+        "GL4 5YU"
+      ]
+    },
+    "answer_codes": [
+      {
+        "answer_id": "answer150fb2c2-17c6-491b-b000-fb4256ef2d41",
+        "code": "9955"
+      },
+      {
+        "answer_id": "answera74a8052-0257-4dc4-83a0-598ce7bedb81",
+        "code": "9953"
+      },
+      {
+        "answer_id": "answerfab4de19-0360-49c0-b3e0-38d00c0ab785",
+        "code": "9999"
+      },
+      {
+        "answer_id": "answer0322a3ba-1c99-45b4-a455-9869bbdd223b",
+        "code": "9998"
+      },
+      {
+        "answer_id": "answer4957b777-af80-411f-b853-650ba200a196",
+        "code": "9997"
+      },
+      {
+        "answer_id": "answere81c2d01-dedd-490f-857f-9ea89eeb4d53",
+        "code": "033"
+      },
+      {
+        "answer_id": "answer92752bc4-18a5-4ede-8718-2b7fd03211f2",
+        "code": "051"
+      },
+      {
+        "answer_id": "answercb1e8018-22a9-4b14-873e-2804deb2bba3",
+        "code": "090"
+      },
+      {
+        "answer_id": "answerd59b79ca-f2a5-491a-ae31-a0cb7178b3c9",
+        "code": "150"
+      },
+      {
+        "answer_id": "answere5ba3443-7645-41f2-b752-18b2322e1bdd",
+        "code": "a081"
+      },
+      {
+        "answer_id": "answerb97e5146-412c-48fc-9e8b-7abfdd41a890",
+        "code": "9951"
+      },
+      {
+        "answer_id": "answerb091daac-db74-40b7-94c3-829a78da123f",
+        "code": "9949"
+      },
+      {
+        "answer_id": "answer4803bf95-d05c-4fb4-ad02-277444e0f3c1",
+        "code": "9956"
+      },
+      {
+        "answer_id": "answerdd79d8e6-e906-4f20-be7d-6c3fd0545f71",
+        "code": "9952"
+      },
+      {
+        "answer_id": "answer2af35091-bfbb-4315-8e51-48ca7b7620bd",
+        "code": "b155"
+      },
+      {
+        "answer_id": "answerdf516143-8d4c-4912-affa-c9220aa9d0a1",
+        "code": "b156"
+      },
+      {
+        "answer_id": "answer33bde7b9-516c-4239-bd31-aba73bbc1173",
+        "code": "9948"
+      },
+      {
+        "answer_id": "answerc43da4cd-1a19-46b4-9f2d-22a67395bac9",
+        "code": "b081"
+      },
+      {
+        "answer_id": "answerb6748be3-e49c-43c1-8b9a-36a97262d7bb",
+        "code": "9947"
+      },
+      {
+        "answer_id": "answerfee7b49a-d573-4ddb-8361-4b2b9ce14bcf",
+        "code": "9963"
+      },
+      {
+        "answer_id": "answerda21dd84-2516-4e0f-8fcd-1ec7677d20d2",
+        "code": "240"
+      },
+      {
+        "answer_id": "answer521f495a-cf83-44f1-862a-01edf30e275d",
+        "code": "c110"
+      },
+      {
+        "answer_id": "answera6953286-acee-4c5b-9d43-4baf9aea24b9",
+        "code": "c155"
+      },
+      {
+        "answer_id": "answer25ca2927-c031-4b35-b6c8-7e870733aa0a",
+        "code": "c156"
+      },
+      {
+        "answer_id": "answer59486b3a-59cf-4f90-918e-bc17369a004c",
+        "code": "200"
+      },
+      {
+        "answer_id": "answer93fc4c69-445e-4223-a156-070edaa57298",
+        "code": "210"
+      },
+      {
+        "answer_id": "answer000ad6ba-e994-49c5-93f3-81f5cd537c06",
+        "code": "9946"
+      },
+      {
+        "answer_id": "answer6ffe086b-08cd-4e00-a236-832dc96e328c",
+        "code": "9945"
+      },
+      {
+        "answer_id": "answerc1d0ffff-be17-484e-9571-020b19a74405",
+        "code": "9941"
+      }
+    ]
+  },
+  "started_at": "2024-07-29T09:59:43.865843+00:00",
+  "submission_language_code": "en"
+}
