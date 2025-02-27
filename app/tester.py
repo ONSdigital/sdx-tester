@@ -37,9 +37,13 @@ def run_survey(messenger: MessageManager, survey_dict: dict) -> Result:
     result = messenger.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=False)
 
     if result.dap_message:
-        file_path = result.dap_message.attributes.get('gcs.key')
-        # Changes to file path as Nifi can't handle the earlier form
-        file_path = file_path.replace("|", "/")
+        if result.dap_message.data.schema_version == "2":
+            file_path = f"{result.dap_message.data.source.path}/{result.dap_message.data.source.filename}"
+        else:
+            file_path = result.dap_message.attributes.get('gcs.key')
+            # Changes to file path as Nifi can't handle the earlier form
+            file_path = file_path.replace("|", "/")
+            
         file_list = reader.get_files(file_path)
         result.set_files(file_list)
     return result
