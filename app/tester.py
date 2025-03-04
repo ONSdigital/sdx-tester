@@ -7,6 +7,8 @@ and classes in this file are used in routes.py
 import json
 import threading
 from datetime import datetime
+from typing import Any
+
 import structlog
 import base64
 from app import message_manager, socketio
@@ -37,9 +39,16 @@ def run_survey(messenger: MessageManager, survey_dict: dict) -> Result:
     result = messenger.submit(result, encrypted_survey, requires_receipt=requires_receipt, requires_publish=False)
 
     if result.dap_message:
-        file_path = result.dap_message.attributes.get('gcs.key')
-        # Changes to file path as Nifi can't handle the earlier form
-        file_path = file_path.replace("|", "/")
+        message = result.dap_message
+        data_bytes: bytes = message.data
+        data: dict[str, Any] = json.loads(data_bytes.decode())
+        if data.get("schema_version"):
+            file_path = f'{data["source"]["path"]}/{data["source"]["filename"]}'
+        else:
+            file_path = result.dap_message.attributes.get('gcs.key')
+            # Changes to file path as Nifi can't handle the earlier form
+            file_path = file_path.replace("|", "/")
+
         file_list = reader.get_files(file_path)
         result.set_files(file_list)
     return result
