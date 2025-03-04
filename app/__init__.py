@@ -5,7 +5,8 @@ from flask_socketio import SocketIO
 from app.config import Config
 
 
-PROJECT_ID = os.getenv('PROJECT_ID')
+# PROJECT_ID = os.getenv('PROJECT_ID')
+PROJECT_ID = "ons-sdx-nifi"
 
 # Create a config object to store settings etc
 CONFIG = Config(PROJECT_ID)
