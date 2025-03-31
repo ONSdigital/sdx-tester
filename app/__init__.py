@@ -31,4 +31,5 @@ from app import routes
 
 
 def start():
-    message_manager.start()
+    pass
+    # message_manager.start()

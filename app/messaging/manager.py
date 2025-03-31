@@ -38,17 +38,18 @@ class MessageManager(SubmitManager):
     """
 
     def __init__(self) -> None:
-        self.dap_listener = PubsubListener(DAP_SUBSCRIPTION)
-        self.t = None
-
-        self.receipt_listener = PubsubListener(RECEIPT_SUBSCRIPTION)
-        self.r = None
-
-        self.quarantine_listener = DatastoreListener()
-        self.q = None
-
-        self.seft_quarantine_listener = PubsubListener(SEFT_QUARANTINE_SUBSCRIPTION)
-        self.sq = None
+        pass
+        # self.dap_listener = PubsubListener(DAP_SUBSCRIPTION)
+        # self.t = None
+        #
+        # self.receipt_listener = PubsubListener(RECEIPT_SUBSCRIPTION)
+        # self.r = None
+        #
+        # self.quarantine_listener = DatastoreListener()
+        # self.q = None
+        #
+        # self.seft_quarantine_listener = PubsubListener(SEFT_QUARANTINE_SUBSCRIPTION)
+        # self.sq = None
 
     def start(self):
         logger.info("Starting Message Manager")
